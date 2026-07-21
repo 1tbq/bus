@@ -1,701 +1,88 @@
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Startup Sprint — Entrepreneur Trait Challenge</title>
-<meta name="description" content="A trait-matching game for Year 10 Business: match founder scenarios to the entrepreneurial characteristic they demonstrate." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Year 10 Business - Interactive Activities</title>
 <style>
-  :root{
-    --navy:#0F2C4C;
-    --navy-dk:#0A1E33;
-    --gold:#E8A33D;
-    --teal:#2A9D8F;
-    --bg:#F2F4F7;
-    --ink:#1C2530;
-    --slate:#5B6B7A;
-    --card:#FFFFFF;
-    --good:#2FB380;
-    --bad:#E4572E;
-    --line:#E1E6EC;
-    --radius:18px;
-    --font-display:'Space Grotesk', sans-serif;
-    --font-body:'Inter', sans-serif;
-    --font-mono:'IBM Plex Mono', monospace;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f1e8;
+    color: #1a2a3a;
+    padding: 40px 20px;
   }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    font-family:var(--font-body);
-    background:
-      radial-gradient(circle at 90% -10%, #16385c 0%, transparent 45%),
-      radial-gradient(circle at -10% 110%, #123049 0%, transparent 40%),
-      var(--bg);
-    background-color:var(--bg);
-    color:var(--ink);
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px 14px;
+  .container { max-width: 800px; margin: 0 auto; }
+  header {
+    background: linear-gradient(135deg, #0f2540, #1a3a5c);
+    color: #f5f1e8;
+    padding: 32px;
+    border-radius: 10px;
+    margin-bottom: 32px;
+    border-bottom: 4px solid #c9a24b;
   }
-  .app{
-    width:100%;
-    max-width:720px;
+  header h1 { font-size: 1.8rem; margin-bottom: 6px; }
+  header p { color: #d8c896; font-size: 0.95rem; }
+  .week {
+    margin-bottom: 28px;
   }
-  .brand{
-    display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    margin-bottom:14px;
-    padding:0 4px;
+  .week h2 {
+    font-size: 1.1rem;
+    color: #0f2540;
+    border-left: 4px solid #c9a24b;
+    padding-left: 10px;
+    margin-bottom: 12px;
   }
-  .brand h1{
-    font-family:var(--font-display);
-    font-size:clamp(22px,4.5vw,30px);
-    color:var(--navy);
-    margin:0;
-    font-weight:700;
-    letter-spacing:-0.01em;
+  .lesson-list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
   }
-  .brand h1 span{color:var(--teal);}
-  .brand .tag{
-    font-family:var(--font-mono);
-    font-size:11px;
-    color:var(--slate);
-    text-transform:uppercase;
-    letter-spacing:0.08em;
+  .lesson-list a {
+    display: block;
+    background: #fff;
+    border: 1px solid #ddd4bd;
+    border-radius: 8px;
+    padding: 14px 18px;
+    text-decoration: none;
+    color: #1a2a3a;
+    font-weight: 500;
+    transition: border-color 0.15s, transform 0.15s;
   }
-
-  .panel{
-    background:var(--card);
-    border-radius:var(--radius);
-    box-shadow:0 18px 40px -20px rgba(10,30,51,0.35);
-    overflow:hidden;
-    position:relative;
+  .lesson-list a:hover {
+    border-color: #c9a24b;
+    transform: translateX(4px);
   }
-
-  /* ---- HUD ---- */
-  .hud{
-    background:var(--navy);
-    padding:16px 22px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:14px;
-    flex-wrap:wrap;
+  .lesson-list a span.tag {
+    display: block;
+    font-size: 0.78rem;
+    color: #8a7a4a;
+    font-weight: 400;
+    margin-top: 2px;
   }
-  .hud-block{display:flex;flex-direction:column;gap:2px;}
-  .hud-label{
-    font-family:var(--font-mono);
-    font-size:10px;
-    letter-spacing:0.1em;
-    color:#8CA3B8;
-    text-transform:uppercase;
-  }
-  .hud-value{
-    font-family:var(--font-mono);
-    font-size:19px;
-    font-weight:600;
-    color:#fff;
-    font-variant-numeric:tabular-nums;
-  }
-  .hud-value.ticker{color:var(--gold);}
-  .streak-flame{color:var(--gold); font-family:var(--font-mono); font-size:19px; font-weight:600;}
-
-  .funding-track{
-    display:flex;
-    gap:4px;
-    padding:12px 22px;
-    background:var(--navy-dk);
-  }
-  .funding-dot{
-    flex:1;
-    height:6px;
-    border-radius:4px;
-    background:#1E3A56;
-    position:relative;
-  }
-  .funding-dot.done{background:var(--gold);}
-  .funding-dot.current{background:var(--teal);}
-
-  .stage-label{
-    font-family:var(--font-mono);
-    font-size:11px;
-    color:#8CA3B8;
-    padding:8px 22px 0;
-    letter-spacing:0.04em;
-  }
-
-  /* ---- timer ---- */
-  .timer-track{
-    height:6px;
-    background:var(--line);
-    width:100%;
-  }
-  .timer-fill{
-    height:100%;
-    background:var(--teal);
-    width:100%;
-    transform-origin:left;
-  }
-  .timer-fill.warn{background:var(--gold);}
-  .timer-fill.danger{background:var(--bad);}
-
-  /* ---- scenario ---- */
-  .scenario-wrap{padding:30px 26px 10px;}
-  .round-label{
-    font-family:var(--font-mono);
-    font-size:12px;
-    color:var(--teal);
-    font-weight:600;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    margin-bottom:10px;
-  }
-  .scenario-card{
-    background:var(--bg);
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:20px 20px 22px;
-    font-size:18px;
-    line-height:1.5;
-    color:var(--ink);
-    min-height:108px;
-    display:flex;
-    align-items:center;
-  }
-  .prompt{
-    margin:18px 0 4px;
-    font-size:14.5px;
-    color:var(--slate);
-    font-weight:600;
-  }
-
-  /* ---- options ---- */
-  .options{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    padding:14px 26px 26px;
-  }
-  @media (max-width:520px){
-    .options{grid-template-columns:1fr;}
-  }
-  .opt{
-    font-family:var(--font-body);
-    font-size:15.5px;
-    font-weight:600;
-    color:var(--navy);
-    background:#fff;
-    border:2px solid var(--line);
-    border-radius:12px;
-    padding:14px 16px;
-    text-align:left;
-    cursor:pointer;
-    transition:transform .12s ease, border-color .12s ease, background .12s ease;
-  }
-  .opt:hover{border-color:var(--teal);}
-  .opt:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
-  .opt:active{transform:scale(0.98);}
-  .opt.correct{
-    background:var(--good);
-    border-color:var(--good);
-    color:#fff;
-  }
-  .opt.incorrect{
-    background:var(--bad);
-    border-color:var(--bad);
-    color:#fff;
-  }
-  .opt.reveal-correct{
-    border-color:var(--good);
-    box-shadow:inset 0 0 0 2px var(--good);
-  }
-  .opt[disabled]{cursor:default;}
-
-  .feedback{
-    margin:0 26px 26px;
-    padding:16px 18px;
-    border-radius:12px;
-    font-size:14.5px;
-    line-height:1.55;
-    display:none;
-  }
-  .feedback.show{display:block;}
-  .feedback.good{background:#E6F6EF; color:#166A4C; border:1px solid #BEE7D3;}
-  .feedback.bad{background:#FCEAE3; color:#9C3413; border:1px solid #F5C7B4;}
-  .feedback b{display:block; margin-bottom:4px; font-size:13px; text-transform:uppercase; letter-spacing:0.04em; font-family:var(--font-mono);}
-
-  .next-btn{
-    display:block;
-    margin:0 26px 28px;
-    width:calc(100% - 52px);
-    background:var(--navy);
-    color:#fff;
-    border:none;
-    border-radius:12px;
-    padding:14px;
-    font-family:var(--font-body);
-    font-size:15.5px;
-    font-weight:700;
-    cursor:pointer;
-    display:none;
-  }
-  .next-btn.show{display:block;}
-  .next-btn:hover{background:var(--navy-dk);}
-
-  /* ---- start / end screens ---- */
-  .screen{padding:40px 30px 34px; text-align:center;}
-  .screen h2{
-    font-family:var(--font-display);
-    font-size:26px;
-    color:var(--navy);
-    margin:6px 0 10px;
-  }
-  .screen p{color:var(--slate); font-size:15px; line-height:1.6; max-width:460px; margin:0 auto 22px;}
-  .rocket{font-size:44px; display:block; margin-bottom:6px;}
-  .trait-chips{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    justify-content:center;
-    margin:18px 0 26px;
-  }
-  .chip{
-    font-family:var(--font-mono);
-    font-size:12px;
-    padding:6px 12px;
-    border-radius:20px;
-    background:var(--bg);
-    border:1px solid var(--line);
-    color:var(--navy);
-  }
-  .primary-btn{
-    background:var(--gold);
-    color:var(--navy-dk);
-    border:none;
-    font-family:var(--font-body);
-    font-weight:700;
-    font-size:16px;
-    padding:14px 30px;
-    border-radius:12px;
-    cursor:pointer;
-  }
-  .primary-btn:hover{filter:brightness(1.05);}
-  .ghost-btn{
-    background:transparent;
-    border:2px solid var(--line);
-    color:var(--navy);
-    font-family:var(--font-body);
-    font-weight:600;
-    font-size:14.5px;
-    padding:11px 22px;
-    border-radius:12px;
-    cursor:pointer;
-    margin-top:12px;
-  }
-
-  .badge-display{
-    font-size:56px;
-    margin:10px 0;
-  }
-  .valuation{
-    font-family:var(--font-mono);
-    font-size:30px;
-    font-weight:600;
-    color:var(--gold);
-    background:var(--navy);
-    display:inline-block;
-    padding:14px 26px;
-    border-radius:14px;
-    margin:6px 0 6px;
-  }
-  .valuation-note{font-size:11.5px; color:var(--slate); margin-bottom:22px;}
-  .score-row{
-    display:flex;
-    justify-content:center;
-    gap:26px;
-    margin:4px 0 22px;
-    flex-wrap:wrap;
-  }
-  .score-item .num{font-family:var(--font-mono); font-size:22px; font-weight:600; color:var(--navy);}
-  .score-item .lbl{font-size:11.5px; color:var(--slate); text-transform:uppercase; letter-spacing:0.05em;}
-
-  .hidden{display:none !important;}
-
-  footer.credit{
-    text-align:center;
-    font-size:11.5px;
-    color:var(--slate);
-    margin-top:14px;
-    font-family:var(--font-mono);
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    *{transition:none !important; animation:none !important;}
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    color: #8a8a8a;
+    font-size: 0.85rem;
   }
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="brand">
-    <h1>Startup <span>Sprint</span></h1>
-    <div class="tag">Entrepreneur Trait Challenge</div>
+<div class="container">
+  <header>
+    <h1>Year 10 Business - Interactive Activities</h1>
+    <p>Term 3 classroom games and interactive resources</p>
+  </header>
+
+  <div class="week">
+    <h2>Week 2</h2>
+    <ul class="lesson-list">
+      <li><a href="T3-W2-L7/">Lesson 7 - Startup Sprint <span class="tag">Characteristics of Successful Entrepreneurs · VCEBB015 / VCEBN027</span></a></li>
+    </ul>
   </div>
 
-  <div class="panel">
-
-    <!-- START SCREEN -->
-    <div class="screen" id="screen-start">
-      <span class="rocket">🚀</span>
-      <h2>Pitch it. Match it. Score it.</h2>
-      <p>Twelve founder scenarios are about to land in your inbox. For each one, pick the entrepreneurial trait it best demonstrates before the clock runs out. Build a streak to multiply your score.</p>
-      <div class="trait-chips">
-        <span class="chip">Risk-taking</span>
-        <span class="chip">Resilience</span>
-        <span class="chip">Opportunity Recognition</span>
-        <span class="chip">Innovative Thinking</span>
-        <span class="chip">Initiative</span>
-        <span class="chip">Vision &amp; Self-belief</span>
-        <span class="chip">Adaptability</span>
-      </div>
-      <button class="primary-btn" id="btn-start">Start the sprint</button>
-    </div>
-
-    <!-- GAME SCREEN -->
-    <div id="screen-game" class="hidden">
-      <div class="hud">
-        <div class="hud-block">
-          <span class="hud-label">Score</span>
-          <span class="hud-value" id="hud-score">0</span>
-        </div>
-        <div class="hud-block">
-          <span class="hud-label">Streak</span>
-          <span class="streak-flame" id="hud-streak">0×</span>
-        </div>
-        <div class="hud-block">
-          <span class="hud-label">Valuation</span>
-          <span class="hud-value ticker" id="hud-valuation">$0</span>
-        </div>
-      </div>
-      <div class="funding-track" id="funding-track"></div>
-      <div class="stage-label" id="stage-label">Pitch round 1 of 12</div>
-
-      <div class="timer-track"><div class="timer-fill" id="timer-fill"></div></div>
-
-      <div class="scenario-wrap">
-        <div class="round-label" id="round-label">Founder scenario</div>
-        <div class="scenario-card" id="scenario-text">Loading...</div>
-        <div class="prompt">Which trait does this best demonstrate?</div>
-      </div>
-
-      <div class="options" id="options"></div>
-
-      <div class="feedback" id="feedback"></div>
-      <button class="next-btn" id="btn-next">Next round →</button>
-    </div>
-
-    <!-- END SCREEN -->
-    <div class="screen hidden" id="screen-end">
-      <div class="badge-display" id="badge-icon">🥉</div>
-      <h2 id="badge-title">Bronze Founder</h2>
-      <p id="badge-desc">Solid first pitch. A bit more practice and you'll be raising your next round in no time.</p>
-
-      <div class="valuation" id="final-valuation">$0</div>
-      <div class="valuation-note">(a made-up "startup valuation" for fun — not real investment maths!)</div>
-
-      <div class="score-row">
-        <div class="score-item"><div class="num" id="final-score">0</div><div class="lbl">Points</div></div>
-        <div class="score-item"><div class="num" id="final-accuracy">0%</div><div class="lbl">Accuracy</div></div>
-        <div class="score-item"><div class="num" id="final-best-streak">0</div><div class="lbl">Best streak</div></div>
-      </div>
-
-      <button class="primary-btn" id="btn-restart">Play again</button>
-    </div>
-
-  </div>
-  <footer class="credit">Year 10 Business · Characteristics of Successful Entrepreneurs</footer>
+  <footer>More activities added as the term progresses.</footer>
 </div>
-
-<script>
-(function(){
-  const TRAITS = [
-    "Risk-taking",
-    "Resilience",
-    "Opportunity Recognition",
-    "Innovative Thinking",
-    "Initiative",
-    "Vision & Self-belief",
-    "Adaptability"
-  ];
-
-  const ROUNDS = [
-    {
-      text: "Aisha spends her entire savings manufacturing 500 units of a new eco-friendly water bottle, even though no retailer has agreed to stock it yet.",
-      trait: "Risk-taking",
-      why: "She's committing real money to an uncertain outcome because she believes the potential reward is worth it — the definition of risk-taking."
-    },
-    {
-      text: "Marcus notices every café near his school runs out of gluten-free food by 10am, and starts a delivery run supplying them each morning.",
-      trait: "Opportunity Recognition",
-      why: "He spotted a gap in the market before anyone else acted on it — classic opportunity recognition."
-    },
-    {
-      text: "After her first two clothing designs are rejected by every stockist she approaches, Priya reworks the range and starts pitching again the following month.",
-      trait: "Resilience",
-      why: "She's bouncing back from rejection and continuing rather than giving up — that's resilience."
-    },
-    {
-      text: "Instead of copying competitors' delivery apps, Tom builds a feature that lets neighbours split a single delivery fee between them.",
-      trait: "Innovative Thinking",
-      why: "He's creating a genuinely new way of doing things rather than imitating what already exists — innovative thinking."
-    },
-    {
-      text: "Without waiting for anyone's approval, Jordan books a stall at the weekend market to test a new product idea himself.",
-      trait: "Initiative",
-      why: "He's acting on the idea unprompted, before conditions are perfect — that's initiative."
-    },
-    {
-      text: "Even though most people told her home-compost bins would never sell in the city, Leila kept building the business because she could see where the market was heading.",
-      trait: "Vision & Self-belief",
-      why: "She has a clear picture of the end goal and the confidence to pursue it despite the doubters — vision and self-belief."
-    },
-    {
-      text: "When lockdowns closed his gym, Sam moved his entire personal training business online within a week.",
-      trait: "Adaptability",
-      why: "He changed his business model quickly when circumstances shifted — adaptability."
-    },
-    {
-      text: "A supplier offers Chloe a bulk discount, but only if she orders three times her normal stock with no guarantee it will sell. She takes the deal.",
-      trait: "Risk-taking",
-      why: "Again, she's accepting a real chance of loss for a potential reward — risk-taking."
-    },
-    {
-      text: "After the local council rejects his food truck permit twice, Ben adjusts his application and resubmits it a third time.",
-      trait: "Resilience",
-      why: "Repeated setbacks, but he keeps adapting the plan and trying again — resilience."
-    },
-    {
-      text: "Noticing that international students in her city struggled to find affordable furniture, Mei launches a rent-to-own furniture service aimed at them.",
-      trait: "Opportunity Recognition",
-      why: "She identified an unmet need in a specific market before building a business around it — opportunity recognition."
-    },
-    {
-      text: "Rather than selling plain t-shirts, Kai builds an app that lets customers design their own print in real time before ordering.",
-      trait: "Innovative Thinking",
-      why: "A genuinely new product experience, not a copy of an existing one — innovative thinking."
-    },
-    {
-      text: "Before she's even finished her portfolio, Zara reaches out to five local businesses to offer her graphic design services.",
-      trait: "Initiative",
-      why: "She's acting before everything is ready or she's been asked to — initiative."
-    }
-  ];
-
-  const FOUNDER_BADGES = [
-    { min: 0,  icon: "🌱", title: "First Pitch",     desc: "Everyone starts somewhere. Have another go and see how much of today's lesson you can lock in." },
-    { min: 50, icon: "🥉", title: "Bronze Founder",   desc: "Solid first pitch. A bit more practice and you'll be raising your next round in no time." },
-    { min: 70, icon: "🥈", title: "Silver Founder",   desc: "Strong grasp of the traits — investors would be taking your calls." },
-    { min: 85, icon: "🥇", title: "Gold Founder",     desc: "Excellent trait recognition. You clearly know what makes a founder tick." },
-    { min: 100,icon: "🦄", title: "Unicorn Founder",  desc: "Perfect score. You've nailed every trait in the deck — true unicorn status." }
-  ];
-
-  const TIME_PER_ROUND = 15; // seconds
-  const BASE_POINTS = 100;
-
-  let order = [];
-  let current = 0;
-  let score = 0;
-  let streak = 0;
-  let bestStreak = 0;
-  let correctCount = 0;
-  let timer = null;
-  let timeLeft = TIME_PER_ROUND;
-  let answered = false;
-
-  const el = (id) => document.getElementById(id);
-
-  function shuffle(arr){
-    const a = arr.slice();
-    for(let i=a.length-1;i>0;i--){
-      const j = Math.floor(Math.random()*(i+1));
-      [a[i],a[j]]=[a[j],a[i]];
-    }
-    return a;
-  }
-
-  function buildFundingTrack(){
-    const track = el('funding-track');
-    track.innerHTML = '';
-    ROUNDS.forEach((_, i)=>{
-      const d = document.createElement('div');
-      d.className = 'funding-dot';
-      d.id = 'fdot-' + i;
-      track.appendChild(d);
-    });
-  }
-
-  function updateFundingTrack(){
-    ROUNDS.forEach((_, i)=>{
-      const d = el('fdot-' + i);
-      d.className = 'funding-dot' + (i < current ? ' done' : i === current ? ' current' : '');
-    });
-  }
-
-  function formatValuation(points){
-    const val = points * 8500;
-    if (val >= 1000000) return '$' + (val/1000000).toFixed(2) + 'M';
-    return '$' + val.toLocaleString();
-  }
-
-  function updateHud(){
-    el('hud-score').textContent = score;
-    el('hud-streak').textContent = streak + '×';
-    el('hud-valuation').textContent = formatValuation(score);
-  }
-
-  function startGame(){
-    order = shuffle(ROUNDS.map((_, i) => i));
-    current = 0;
-    score = 0;
-    streak = 0;
-    bestStreak = 0;
-    correctCount = 0;
-    el('screen-start').classList.add('hidden');
-    el('screen-end').classList.add('hidden');
-    el('screen-game').classList.remove('hidden');
-    buildFundingTrack();
-    updateHud();
-    loadRound();
-  }
-
-  function loadRound(){
-    answered = false;
-    clearInterval(timer);
-    timeLeft = TIME_PER_ROUND;
-    updateFundingTrack();
-
-    const roundData = ROUNDS[order[current]];
-    el('stage-label').textContent = 'Pitch round ' + (current+1) + ' of ' + ROUNDS.length;
-    el('scenario-text').textContent = roundData.text;
-    el('feedback').className = 'feedback';
-    el('feedback').textContent = '';
-    el('btn-next').classList.remove('show');
-
-    const distractors = shuffle(TRAITS.filter(t => t !== roundData.trait)).slice(0,3);
-    const options = shuffle([roundData.trait, ...distractors]);
-
-    const optWrap = el('options');
-    optWrap.innerHTML = '';
-    options.forEach(opt => {
-      const btn = document.createElement('button');
-      btn.className = 'opt';
-      btn.textContent = opt;
-      btn.addEventListener('click', () => selectOption(btn, opt, roundData));
-      optWrap.appendChild(btn);
-    });
-
-    const fill = el('timer-fill');
-    fill.style.transition = 'none';
-    fill.style.width = '100%';
-    fill.className = 'timer-fill';
-    // force reflow so transition re-applies
-    void fill.offsetWidth;
-    fill.style.transition = 'width 1s linear, background 0.3s ease';
-
-    timer = setInterval(() => {
-      timeLeft -= 1;
-      const pct = Math.max(0, (timeLeft/TIME_PER_ROUND) * 100);
-      fill.style.width = pct + '%';
-      if (timeLeft <= 5) fill.classList.add('danger');
-      else if (timeLeft <= 9) fill.classList.add('warn');
-      if (timeLeft <= 0){
-        clearInterval(timer);
-        if(!answered) timeExpired(roundData);
-      }
-    }, 1000);
-  }
-
-  function timeExpired(roundData){
-    answered = true;
-    streak = 0;
-    updateHud();
-    document.querySelectorAll('.opt').forEach(b => {
-      b.disabled = true;
-      if (b.textContent === roundData.trait) b.classList.add('reveal-correct');
-    });
-    showFeedback(false, roundData, true);
-  }
-
-  function selectOption(btn, chosen, roundData){
-    if (answered) return;
-    answered = true;
-    clearInterval(timer);
-
-    const correct = chosen === roundData.trait;
-    document.querySelectorAll('.opt').forEach(b => {
-      b.disabled = true;
-      if (b === btn) b.classList.add(correct ? 'correct' : 'incorrect');
-      if (!correct && b.textContent === roundData.trait) b.classList.add('reveal-correct');
-    });
-
-    if (correct){
-      correctCount += 1;
-      streak += 1;
-      bestStreak = Math.max(bestStreak, streak);
-      const multiplier = streak >= 5 ? 2 : streak >= 3 ? 1.5 : 1;
-      const speedBonus = Math.round((timeLeft/TIME_PER_ROUND) * 40);
-      score += Math.round(BASE_POINTS * multiplier) + speedBonus;
-    } else {
-      streak = 0;
-    }
-    updateHud();
-    showFeedback(correct, roundData, false);
-  }
-
-  function showFeedback(correct, roundData, expired){
-    const fb = el('feedback');
-    fb.className = 'feedback show ' + (correct ? 'good' : 'bad');
-    const label = expired ? "Time's up!" : (correct ? 'Correct!' : 'Not quite');
-    fb.innerHTML = '<b>' + label + ' — ' + roundData.trait + '</b>' + roundData.why;
-    el('btn-next').classList.add('show');
-  }
-
-  function nextRound(){
-    current += 1;
-    if (current >= order.length){
-      endGame();
-    } else {
-      loadRound();
-    }
-  }
-
-  function endGame(){
-    updateFundingTrack();
-    el('screen-game').classList.add('hidden');
-    el('screen-end').classList.remove('hidden');
-
-    const accuracy = Math.round((correctCount / ROUNDS.length) * 100);
-    let badge = FOUNDER_BADGES[0];
-    FOUNDER_BADGES.forEach(b => { if (accuracy >= b.min) badge = b; });
-
-    el('badge-icon').textContent = badge.icon;
-    el('badge-title').textContent = badge.title;
-    el('badge-desc').textContent = badge.desc;
-    el('final-valuation').textContent = formatValuation(score);
-    el('final-score').textContent = score;
-    el('final-accuracy').textContent = accuracy + '%';
-    el('final-best-streak').textContent = bestStreak + '×';
-  }
-
-  el('btn-start').addEventListener('click', startGame);
-  el('btn-next').addEventListener('click', nextRound);
-  el('btn-restart').addEventListener('click', startGame);
-})();
-</script>
 </body>
 </html>
