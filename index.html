@@ -3,86 +3,616 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Year 10 Business - Interactive Activities</title>
+<title>Web of Life — Human Dependence on Natural Systems</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f5f1e8;
-    color: #1a2a3a;
-    padding: 40px 20px;
+  :root{
+    --forest:#1F4D2E;
+    --forest-dk:#163A22;
+    --slate:#3A6B71;
+    --gold:#C99A2E;
+    --cream:#F4F1EA;
+    --white:#FFFFFF;
+    --ink:#23301F;
+    --grey:#5C6B5E;
+    --red:#B3402C;
+    --green:#2E7D4F;
   }
-  .container { max-width: 800px; margin: 0 auto; }
-  header {
-    background: linear-gradient(135deg, #0f2540, #1a3a5c);
-    color: #f5f1e8;
-    padding: 32px;
-    border-radius: 10px;
-    margin-bottom: 32px;
-    border-bottom: 4px solid #c9a24b;
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,Segoe UI,Calibri,Arial,sans-serif;
+    background:linear-gradient(160deg,var(--forest-dk),var(--forest) 60%);
+    min-height:100vh;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
   }
-  header h1 { font-size: 1.8rem; margin-bottom: 6px; }
-  header p { color: #d8c896; font-size: 0.95rem; }
-  .week {
-    margin-bottom: 28px;
+  .app{
+    width:100%;
+    max-width:720px;
+    background:var(--cream);
+    border-radius:20px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    overflow:hidden;
   }
-  .week h2 {
-    font-size: 1.1rem;
-    color: #0f2540;
-    border-left: 4px solid #c9a24b;
-    padding-left: 10px;
-    margin-bottom: 12px;
+  .topbar{
+    background:var(--forest-dk);
+    color:var(--white);
+    padding:16px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
   }
-  .lesson-list {
-    list-style: none;
-    display: grid;
-    gap: 10px;
+  .topbar .brand{
+    font-weight:700;
+    letter-spacing:0.5px;
+    font-size:15px;
   }
-  .lesson-list a {
-    display: block;
-    background: #fff;
-    border: 1px solid #ddd4bd;
-    border-radius: 8px;
-    padding: 14px 18px;
-    text-decoration: none;
-    color: #1a2a3a;
-    font-weight: 500;
-    transition: border-color 0.15s, transform 0.15s;
+  .topbar .brand span{color:var(--gold);}
+  .score-pill{
+    background:var(--forest);
+    border-radius:999px;
+    padding:6px 14px;
+    font-weight:700;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:6px;
   }
-  .lesson-list a:hover {
-    border-color: #c9a24b;
-    transform: translateX(4px);
+  .streak{
+    font-size:13px;
+    color:var(--gold);
+    font-weight:700;
   }
-  .lesson-list a span.tag {
-    display: block;
-    font-size: 0.78rem;
-    color: #8a7a4a;
-    font-weight: 400;
-    margin-top: 2px;
+  .progress-wrap{
+    height:6px;
+    background:#DCD6C4;
   }
-  footer {
-    text-align: center;
-    margin-top: 40px;
-    color: #8a8a8a;
-    font-size: 0.85rem;
+  .progress-bar{
+    height:100%;
+    background:var(--gold);
+    width:0%;
+    transition:width 0.35s ease;
+  }
+  .screen{
+    padding:32px 28px 28px;
+    min-height:420px;
+    display:flex;
+    flex-direction:column;
+  }
+  .hidden{display:none !important;}
+
+  h1{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:30px;
+    margin:0 0 8px;
+    color:var(--forest);
+  }
+  h2{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:22px;
+    margin:0 0 10px;
+    color:var(--forest);
+  }
+  p.lead{font-size:15.5px;color:var(--grey);line-height:1.5;margin:0 0 18px;}
+
+  .instructions{
+    background:var(--white);
+    border:1px solid #E1DBC7;
+    border-radius:14px;
+    padding:18px 20px;
+    margin-bottom:20px;
+  }
+  .instructions li{margin-bottom:8px;font-size:14.5px;line-height:1.4;}
+
+  .btn{
+    border:none;
+    border-radius:12px;
+    padding:14px 22px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{
+    background:var(--gold);
+    color:var(--forest-dk);
+  }
+  .btn-primary:hover{box-shadow:0 6px 16px rgba(201,154,46,0.45);}
+  .btn-outline{
+    background:transparent;
+    border:2px solid var(--forest);
+    color:var(--forest);
+  }
+
+  .round-label{
+    display:inline-block;
+    background:var(--forest);
+    color:var(--white);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.5px;
+    padding:5px 12px;
+    border-radius:999px;
+    margin-bottom:14px;
+    width:fit-content;
+  }
+
+  .item-card{
+    background:var(--white);
+    border-radius:16px;
+    padding:26px 22px;
+    text-align:center;
+    font-size:19px;
+    font-weight:600;
+    color:var(--ink);
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+    margin-bottom:22px;
+    min-height:80px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .cat-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+  }
+  @media (max-width:480px){
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  .cat-btn{
+    background:var(--white);
+    border:2px solid #E1DBC7;
+    border-radius:12px;
+    padding:14px 8px;
+    font-size:14px;
+    font-weight:700;
+    color:var(--forest);
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    transition:all 0.15s ease;
+  }
+  .cat-btn:hover{border-color:var(--forest);background:#FBFAF6;}
+  .cat-btn .emoji{font-size:26px;}
+  .cat-btn.correct{background:var(--green);border-color:var(--green);color:var(--white);}
+  .cat-btn.wrong{background:var(--red);border-color:var(--red);color:var(--white);}
+  .cat-btn:disabled{cursor:default;opacity:0.55;}
+  .cat-btn.correct:disabled,.cat-btn.wrong:disabled{opacity:1;}
+
+  .scenario-card{
+    background:var(--white);
+    border-radius:16px;
+    padding:22px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+    margin-bottom:18px;
+  }
+  .scenario-card .quote{
+    font-family:Georgia,'Times New Roman',serif;
+    font-style:italic;
+    font-size:18px;
+    color:var(--ink);
+    margin:0 0 6px;
+  }
+  .scenario-card .ask{
+    font-size:13.5px;
+    color:var(--grey);
+    font-weight:600;
+  }
+
+  .option-list{display:flex;flex-direction:column;gap:10px;}
+  .option-btn{
+    background:var(--white);
+    border:2px solid #E1DBC7;
+    border-radius:12px;
+    padding:13px 16px;
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--ink);
+    text-align:left;
+    cursor:pointer;
+  }
+  .option-btn:hover{border-color:var(--forest);}
+  .option-btn.correct{background:var(--green);border-color:var(--green);color:var(--white);}
+  .option-btn.wrong{background:var(--red);border-color:var(--red);color:var(--white);}
+  .option-btn:disabled{cursor:default;}
+
+  .feedback{
+    margin-top:16px;
+    padding:14px 16px;
+    border-radius:12px;
+    font-size:14px;
+    line-height:1.5;
+    display:none;
+  }
+  .feedback.show{display:block;}
+  .feedback.ok{background:#E4F2E9;color:var(--green);border:1px solid #BFE1CC;}
+  .feedback.bad{background:#F7E6E1;color:var(--red);border:1px solid #EAC3B7;}
+
+  .next-row{margin-top:18px;display:flex;justify-content:flex-end;}
+
+  .spacer{flex:1;}
+
+  .end-badge{
+    text-align:center;
+    padding:10px 0 4px;
+  }
+  .end-badge .medal{font-size:56px;}
+  .end-badge h2{font-size:26px;margin-top:6px;}
+  .end-score{
+    font-size:44px;
+    font-weight:800;
+    color:var(--forest);
+    text-align:center;
+    margin:6px 0 2px;
+  }
+  .end-score span{font-size:18px;color:var(--grey);font-weight:600;}
+  .best{text-align:center;font-size:13px;color:var(--gold);font-weight:700;margin-bottom:18px;}
+  .end-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .reflect{
+    margin-top:20px;
+    background:var(--white);
+    border:1px solid #E1DBC7;
+    border-radius:14px;
+    padding:16px 18px;
+    font-size:13.5px;
+    color:var(--grey);
+    line-height:1.5;
+  }
+  .reflect strong{color:var(--forest);}
+
+  footer.credit{
+    text-align:center;
+    font-size:11.5px;
+    color:#9AA79C;
+    padding:10px 0 0;
   }
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>Year 10 Business - Interactive Activities</h1>
-    <p>Term 3 classroom games and interactive resources</p>
-  </header>
 
-  <div class="week">
-    <h2>Week 2</h2>
-    <ul class="lesson-list">
-      <li><a href="T3-W2-L7/">Lesson 7 - Startup Sprint <span class="tag">Characteristics of Successful Entrepreneurs · VCEBB015 / VCEBN027</span></a></li>
-    </ul>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">WEB OF LIFE <span>· Year 10 Geography</span></div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="streak" id="streakDisplay"></div>
+      <div class="score-pill">⭐ <span id="scoreDisplay">0</span> pts</div>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+  <!-- START SCREEN -->
+  <div class="screen" id="screen-start">
+    <h1>How much do you depend on nature?</h1>
+    <p class="lead">Play through two quick rounds. Sort daily moments, then predict what breaks when a natural system is disrupted. Beat your score, then bring your total to class.</p>
+    <div class="instructions">
+      <ul>
+        <li><strong>Round 1 — Daily Dependence Sort:</strong> 10 everyday moments. Sort each into Food, Water, Air, Materials or Wellbeing. Build a streak for bonus points.</li>
+        <li><strong>Round 2 — Vulnerability Challenge:</strong> 5 real Australian scenarios. Choose what's most affected when a natural system is disrupted.</li>
+        <li>Read the feedback after each answer — it explains the reasoning, not just right or wrong.</li>
+      </ul>
+    </div>
+    <button class="btn btn-primary" onclick="startGame()">Start playing</button>
   </div>
 
-  <footer>More activities added as the term progresses.</footer>
+  <!-- ROUND 1 -->
+  <div class="screen hidden" id="screen-round1">
+    <div class="round-label" id="r1Label">ROUND 1 · ITEM 1 OF 10</div>
+    <div class="item-card" id="r1ItemText"></div>
+    <div class="cat-grid" id="r1CatGrid"></div>
+    <div class="feedback" id="r1Feedback"></div>
+    <div class="spacer"></div>
+    <div class="next-row"><button class="btn btn-primary hidden" id="r1NextBtn" onclick="nextRound1()">Next →</button></div>
+  </div>
+
+  <!-- ROUND 1 TO 2 TRANSITION -->
+  <div class="screen hidden" id="screen-transition">
+    <h2>Round 1 complete</h2>
+    <p class="lead">Nice work. Now let's see what happens when one of these systems is disrupted.</p>
+    <div class="instructions">
+      <ul>
+        <li>Read each real Australian scenario carefully.</li>
+        <li>Pick the option that is <strong>most directly and immediately</strong> affected.</li>
+        <li>Each correct answer is worth 20 points — no streak bonus this round, so take your time.</li>
+      </ul>
+    </div>
+    <button class="btn btn-primary" onclick="startRound2()">Start Round 2</button>
+  </div>
+
+  <!-- ROUND 2 -->
+  <div class="screen hidden" id="screen-round2">
+    <div class="round-label" id="r2Label">ROUND 2 · SCENARIO 1 OF 5</div>
+    <div class="scenario-card">
+      <p class="quote" id="r2Quote"></p>
+      <p class="ask">Which is most directly and immediately affected?</p>
+    </div>
+    <div class="option-list" id="r2Options"></div>
+    <div class="feedback" id="r2Feedback"></div>
+    <div class="spacer"></div>
+    <div class="next-row"><button class="btn btn-primary hidden" id="r2NextBtn" onclick="nextRound2()">Next →</button></div>
+  </div>
+
+  <!-- END SCREEN -->
+  <div class="screen hidden" id="screen-end">
+    <div class="end-badge">
+      <div class="medal" id="endMedal">🌱</div>
+      <h2 id="endTitle">Nature Novice</h2>
+    </div>
+    <div class="end-score" id="endScore">0<span> / 200 pts</span></div>
+    <div class="best" id="endBest"></div>
+    <div class="end-actions">
+      <button class="btn btn-outline" onclick="resetGame()">Play again</button>
+    </div>
+    <div class="reflect">
+      <strong>Before you close this tab:</strong> write your score on your exit ticket, and think about which category (food, water, air, materials or wellbeing) would be hardest for your household to live without.
+    </div>
+  </div>
+
+  <footer class="credit">Year 10 Geography · Environmental Change and Management · Lesson 8</footer>
 </div>
+
+<script>
+const CATS = [
+  {key:"food", label:"Food", emoji:"🍎"},
+  {key:"water", label:"Water", emoji:"💧"},
+  {key:"air", label:"Air", emoji:"🌬️"},
+  {key:"materials", label:"Materials", emoji:"🧰"},
+  {key:"wellbeing", label:"Wellbeing", emoji:"❤️"}
+];
+
+const ROUND1 = [
+  {text:"Cereal and milk for breakfast", cat:"food", why:"Milk and grain both come from farmed land and livestock — a food system."},
+  {text:"A hot shower before school", cat:"water", why:"Showering draws directly on a town or catchment water supply."},
+  {text:"Stepping outside for a deep breath of fresh air", cat:"air", why:"Clean air is produced and filtered by natural systems like forests and oceans."},
+  {text:"Your cotton school jumper", cat:"materials", why:"Cotton is a natural fibre grown as a crop — a raw material from nature."},
+  {text:"Sitting under a tree at lunch to relax", cat:"wellbeing", why:"Time in green space supports mental health — a wellbeing benefit of nature."},
+  {text:"Tap water for a cup of tea", cat:"water", why:"Tap water is sourced from rivers, dams or groundwater systems."},
+  {text:"Vegetables from the backyard garden", cat:"food", why:"Home-grown vegetables still depend on soil, sunlight and water — natural systems."},
+  {text:"A wooden desk in your classroom", cat:"materials", why:"Timber is harvested from forests — a material resource from nature."},
+  {text:"A walk along the beach on the weekend", cat:"wellbeing", why:"Coastal environments support recreation and wellbeing, not just resources."},
+  {text:"Opening the window for a cool breeze", cat:"air", why:"Natural air movement and quality depend on healthy atmospheric systems."}
+];
+
+const ROUND2 = [
+  {
+    quote:"A prolonged drought severely reduces water flow into the Murray-Darling Basin.",
+    options:[
+      {label:"Water supply for towns and farms along the river", correct:true},
+      {label:"Air quality in capital cities", correct:false},
+      {label:"Timber supply from plantation forests", correct:false},
+      {label:"Weekend recreation at the beach", correct:false}
+    ],
+    why:"Reduced river flow hits water supply first and most directly — for drinking, irrigation and stock. Food production is a flow-on effect, but water is the immediate system disrupted."
+  },
+  {
+    quote:"Bushfire smoke blankets a major Australian city for weeks, pushing air quality to hazardous levels.",
+    options:[
+      {label:"Air quality and outdoor activity", correct:true},
+      {label:"Timber and material supply", correct:false},
+      {label:"River fishing catches", correct:false},
+      {label:"Backyard vegetable gardens", correct:false}
+    ],
+    why:"Smoke directly disrupts the air system people breathe — schools, sport and outdoor work are affected immediately, as seen in the 2019-20 Black Summer fires."
+  },
+  {
+    quote:"Overfishing collapses a coastal fish population.",
+    options:[
+      {label:"Food supply from fishing", correct:true},
+      {label:"Housing construction", correct:false},
+      {label:"Drinking water supply", correct:false},
+      {label:"Air quality", correct:false}
+    ],
+    why:"A collapsed fish stock is a direct hit to a food system — both commercial catches and local food security are affected."
+  },
+  {
+    quote:"A regional national park closes indefinitely after major storm damage.",
+    options:[
+      {label:"Wellbeing, recreation and tourism", correct:true},
+      {label:"Food supply", correct:false},
+      {label:"Drinking water treatment", correct:false},
+      {label:"Building material supply", correct:false}
+    ],
+    why:"National parks are a key wellbeing resource — recreation, mental health and tourism income all rely on access to them."
+  },
+  {
+    quote:"An extended heatwave dries out plantation forests earmarked for timber harvest.",
+    options:[
+      {label:"Timber and material supply", correct:true},
+      {label:"Air quality", correct:false},
+      {label:"Fishing industry catches", correct:false},
+      {label:"Drinking water supply", correct:false}
+    ],
+    why:"Dried-out, heat-stressed plantations reduce usable timber yield — a direct hit to the materials system, before any other flow-on effects."
+  }
+];
+
+let score = 0;
+let streak = 0;
+let r1Index = 0;
+let r2Index = 0;
+let r1Answered = false;
+let r2Answered = false;
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function updateScoreDisplay(){
+  document.getElementById('scoreDisplay').textContent = score;
+  document.getElementById('streakDisplay').textContent = streak >= 3 ? "🔥 streak x2" : "";
+}
+
+function updateProgress(pct){
+  document.getElementById('progressBar').style.width = pct + "%";
+}
+
+function startGame(){
+  score = 0; streak = 0; r1Index = 0; r2Index = 0;
+  updateScoreDisplay();
+  show('screen-round1');
+  renderRound1();
+}
+
+function renderRound1(){
+  r1Answered = false;
+  const item = ROUND1[r1Index];
+  document.getElementById('r1Label').textContent = `ROUND 1 · ITEM ${r1Index+1} OF ${ROUND1.length}`;
+  document.getElementById('r1ItemText').textContent = item.text;
+  document.getElementById('r1Feedback').className = 'feedback';
+  document.getElementById('r1Feedback').textContent = '';
+  document.getElementById('r1NextBtn').classList.add('hidden');
+  updateProgress((r1Index / (ROUND1.length + ROUND2.length)) * 100);
+
+  const grid = document.getElementById('r1CatGrid');
+  grid.innerHTML = '';
+  CATS.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn';
+    btn.innerHTML = `<span class="emoji">${c.emoji}</span>${c.label}`;
+    btn.onclick = () => answerRound1(c.key, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function answerRound1(chosenKey, btnEl){
+  if(r1Answered) return;
+  r1Answered = true;
+  const item = ROUND1[r1Index];
+  const correct = chosenKey === item.cat;
+  const buttons = document.querySelectorAll('#r1CatGrid .cat-btn');
+  buttons.forEach(b => b.disabled = true);
+  btnEl.classList.add(correct ? 'correct' : 'wrong');
+
+  if(correct){
+    streak++;
+    const pts = streak >= 3 ? 20 : 10;
+    score += pts;
+    const fb = document.getElementById('r1Feedback');
+    fb.className = 'feedback ok show';
+    fb.textContent = (streak >= 3 ? `🔥 Streak bonus! +${pts} points. ` : `Correct! +${pts} points. `) + item.why;
+  } else {
+    streak = 0;
+    buttons.forEach(b => {
+      if(b.textContent.includes(CATS.find(c=>c.key===item.cat).label)) b.classList.add('correct');
+    });
+    const fb = document.getElementById('r1Feedback');
+    fb.className = 'feedback bad show';
+    fb.textContent = `Not quite — this one is ${CATS.find(c=>c.key===item.cat).label}. ${item.why}`;
+  }
+  updateScoreDisplay();
+  document.getElementById('r1NextBtn').classList.remove('hidden');
+}
+
+function nextRound1(){
+  r1Index++;
+  if(r1Index >= ROUND1.length){
+    show('screen-transition');
+  } else {
+    renderRound1();
+  }
+}
+
+function startRound2(){
+  show('screen-round2');
+  renderRound2();
+}
+
+function renderRound2(){
+  r2Answered = false;
+  const s = ROUND2[r2Index];
+  document.getElementById('r2Label').textContent = `ROUND 2 · SCENARIO ${r2Index+1} OF ${ROUND2.length}`;
+  document.getElementById('r2Quote').textContent = `“${s.quote}”`;
+  document.getElementById('r2Feedback').className = 'feedback';
+  document.getElementById('r2Feedback').textContent = '';
+  document.getElementById('r2NextBtn').classList.add('hidden');
+  updateProgress(((ROUND1.length + r2Index) / (ROUND1.length + ROUND2.length)) * 100);
+
+  const list = document.getElementById('r2Options');
+  list.innerHTML = '';
+  s.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt.label;
+    btn.onclick = () => answerRound2(opt, btn);
+    list.appendChild(btn);
+  });
+}
+
+function answerRound2(opt, btnEl){
+  if(r2Answered) return;
+  r2Answered = true;
+  const s = ROUND2[r2Index];
+  const buttons = document.querySelectorAll('#r2Options .option-btn');
+  buttons.forEach(b => b.disabled = true);
+
+  if(opt.correct){
+    score += 20;
+    btnEl.classList.add('correct');
+    const fb = document.getElementById('r2Feedback');
+    fb.className = 'feedback ok show';
+    fb.textContent = `Correct! +20 points. ${s.why}`;
+  } else {
+    btnEl.classList.add('wrong');
+    buttons.forEach((b,i) => { if(s.options[i].correct) b.classList.add('correct'); });
+    const fb = document.getElementById('r2Feedback');
+    fb.className = 'feedback bad show';
+    fb.textContent = `Not quite. ${s.why}`;
+  }
+  updateScoreDisplay();
+  document.getElementById('r2NextBtn').classList.remove('hidden');
+}
+
+function nextRound2(){
+  r2Index++;
+  if(r2Index >= ROUND2.length){
+    endGame();
+  } else {
+    renderRound2();
+  }
+}
+
+function endGame(){
+  updateProgress(100);
+  const maxScore = 200;
+  document.getElementById('endScore').innerHTML = `${score}<span> / ${maxScore} pts</span>`;
+
+  let title = "Nature Novice", medal = "🌱";
+  if(score >= 160){ title = "Sustainability Champion"; medal = "🏆"; }
+  else if(score >= 100){ title = "Systems Thinker"; medal = "🌿"; }
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMedal').textContent = medal;
+
+  let best = 0;
+  try{
+    best = parseInt(localStorage.getItem('webOfLifeHighScore') || '0', 10);
+    if(score > best){
+      localStorage.setItem('webOfLifeHighScore', String(score));
+      document.getElementById('endBest').textContent = best > 0 ? `🎉 New personal best! (Previous: ${best})` : `🎉 First run recorded as your personal best.`;
+    } else {
+      document.getElementById('endBest').textContent = `Personal best: ${best}`;
+    }
+  } catch(e){
+    document.getElementById('endBest').textContent = '';
+  }
+
+  show('screen-end');
+}
+
+function resetGame(){
+  streak = 0;
+  updateScoreDisplay();
+  show('screen-start');
+  updateProgress(0);
+}
+</script>
+
 </body>
 </html>
