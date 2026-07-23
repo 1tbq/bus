@@ -3,616 +3,325 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Web of Life — Human Dependence on Natural Systems</title>
+<title>Market Edge — Cost Leadership or Differentiation?</title>
 <style>
   :root{
-    --forest:#1F4D2E;
-    --forest-dk:#163A22;
-    --slate:#3A6B71;
-    --gold:#C99A2E;
-    --cream:#F4F1EA;
-    --white:#FFFFFF;
-    --ink:#23301F;
-    --grey:#5C6B5E;
-    --red:#B3402C;
-    --green:#2E7D4F;
+    --navy:#13293D; --teal:#3A6B67; --gold:#C99A2E;
+    --gold-light:#FBF2DD; --teal-light:#E4EDEC; --card:#F2F3F4;
+    --white:#FFFFFF; --red:#8C1D18; --text:#13293D;
   }
   *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
   body{
-    margin:0;
-    font-family:-apple-system,Segoe UI,Calibri,Arial,sans-serif;
-    background:linear-gradient(160deg,var(--forest-dk),var(--forest) 60%);
+    font-family:'Segoe UI', 'Trebuchet MS', Arial, sans-serif;
+    background: linear-gradient(160deg, var(--navy) 0%, #1E3A52 55%, var(--navy) 100%);
     min-height:100vh;
-    color:var(--ink);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+    color:var(--text);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
   }
   .app{
-    width:100%;
-    max-width:720px;
-    background:var(--cream);
-    border-radius:20px;
-    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    width:100%; max-width:760px;
+    background:var(--white);
+    border-radius:18px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.35);
     overflow:hidden;
   }
-  .topbar{
-    background:var(--forest-dk);
+  header{
+    background:var(--navy);
     color:var(--white);
-    padding:16px 24px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+    padding:22px 28px 18px;
+    position:relative;
   }
-  .topbar .brand{
-    font-weight:700;
-    letter-spacing:0.5px;
-    font-size:15px;
+  header .eyebrow{
+    color:var(--gold); font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
   }
-  .topbar .brand span{color:var(--gold);}
-  .score-pill{
-    background:var(--forest);
-    border-radius:999px;
-    padding:6px 14px;
-    font-weight:700;
+  header h1{
+    margin:6px 0 4px; font-size:26px; letter-spacing:0.2px;
+  }
+  header p{ margin:0; color:#CBD8DE; font-size:14px; }
+
+  .statbar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 28px; background:var(--gold-light); border-bottom:1px solid #ECDFB8;
     font-size:14px;
-    display:flex;
-    align-items:center;
-    gap:6px;
   }
-  .streak{
-    font-size:13px;
-    color:var(--gold);
-    font-weight:700;
-  }
-  .progress-wrap{
-    height:6px;
-    background:#DCD6C4;
-  }
-  .progress-bar{
-    height:100%;
-    background:var(--gold);
-    width:0%;
-    transition:width 0.35s ease;
-  }
-  .screen{
-    padding:32px 28px 28px;
-    min-height:420px;
-    display:flex;
-    flex-direction:column;
-  }
-  .hidden{display:none !important;}
+  .statbar .stat{ text-align:center; }
+  .statbar .stat .n{ font-size:20px; font-weight:800; color:var(--navy); display:block; }
+  .statbar .stat .l{ font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--teal); }
 
-  h1{
-    font-family:Georgia,'Times New Roman',serif;
-    font-size:30px;
-    margin:0 0 8px;
-    color:var(--forest);
-  }
-  h2{
-    font-family:Georgia,'Times New Roman',serif;
-    font-size:22px;
-    margin:0 0 10px;
-    color:var(--forest);
-  }
-  p.lead{font-size:15.5px;color:var(--grey);line-height:1.5;margin:0 0 18px;}
+  .progress-track{ height:6px; background:var(--card); }
+  .progress-fill{ height:100%; background:var(--gold); width:0%; transition:width .35s ease; }
 
-  .instructions{
-    background:var(--white);
-    border:1px solid #E1DBC7;
+  main{ padding:30px 28px 26px; min-height:340px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+
+  .card{
+    width:100%; max-width:440px;
+    background:var(--card);
     border-radius:14px;
-    padding:18px 20px;
-    margin-bottom:20px;
-  }
-  .instructions li{margin-bottom:8px;font-size:14.5px;line-height:1.4;}
-
-  .btn{
-    border:none;
-    border-radius:12px;
-    padding:14px 22px;
-    font-size:16px;
-    font-weight:700;
-    cursor:pointer;
-    transition:transform 0.12s ease, box-shadow 0.12s ease;
-  }
-  .btn:active{transform:scale(0.97);}
-  .btn-primary{
-    background:var(--gold);
-    color:var(--forest-dk);
-  }
-  .btn-primary:hover{box-shadow:0 6px 16px rgba(201,154,46,0.45);}
-  .btn-outline{
-    background:transparent;
-    border:2px solid var(--forest);
-    color:var(--forest);
-  }
-
-  .round-label{
-    display:inline-block;
-    background:var(--forest);
-    color:var(--white);
-    font-size:12px;
-    font-weight:700;
-    letter-spacing:0.5px;
-    padding:5px 12px;
-    border-radius:999px;
-    margin-bottom:14px;
-    width:fit-content;
-  }
-
-  .item-card{
-    background:var(--white);
-    border-radius:16px;
-    padding:26px 22px;
+    padding:34px 26px;
     text-align:center;
-    font-size:19px;
-    font-weight:600;
-    color:var(--ink);
-    box-shadow:0 4px 14px rgba(0,0,0,0.08);
-    margin-bottom:22px;
-    min-height:80px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    border:2px solid transparent;
+    transition:transform .25s ease;
   }
+  .card .biz-icon{ font-size:40px; margin-bottom:10px; }
+  .card h2{ margin:0 0 6px; font-size:28px; color:var(--navy); }
+  .card .hint{ font-size:13px; color:var(--teal); font-style:italic; }
 
-  .cat-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
+  .choices{ display:flex; gap:16px; margin-top:26px; width:100%; max-width:440px; }
+  .choice-btn{
+    flex:1; padding:16px 10px; border-radius:12px; border:none; cursor:pointer;
+    font-size:15px; font-weight:700; letter-spacing:0.3px;
+    transition:transform .12s ease, box-shadow .12s ease;
   }
-  @media (max-width:480px){
-    .cat-grid{grid-template-columns:repeat(2,1fr);}
-  }
-  .cat-btn{
-    background:var(--white);
-    border:2px solid #E1DBC7;
-    border-radius:12px;
-    padding:14px 8px;
-    font-size:14px;
-    font-weight:700;
-    color:var(--forest);
-    cursor:pointer;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:6px;
-    transition:all 0.15s ease;
-  }
-  .cat-btn:hover{border-color:var(--forest);background:#FBFAF6;}
-  .cat-btn .emoji{font-size:26px;}
-  .cat-btn.correct{background:var(--green);border-color:var(--green);color:var(--white);}
-  .cat-btn.wrong{background:var(--red);border-color:var(--red);color:var(--white);}
-  .cat-btn:disabled{cursor:default;opacity:0.55;}
-  .cat-btn.correct:disabled,.cat-btn.wrong:disabled{opacity:1;}
-
-  .scenario-card{
-    background:var(--white);
-    border-radius:16px;
-    padding:22px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.08);
-    margin-bottom:18px;
-  }
-  .scenario-card .quote{
-    font-family:Georgia,'Times New Roman',serif;
-    font-style:italic;
-    font-size:18px;
-    color:var(--ink);
-    margin:0 0 6px;
-  }
-  .scenario-card .ask{
-    font-size:13.5px;
-    color:var(--grey);
-    font-weight:600;
-  }
-
-  .option-list{display:flex;flex-direction:column;gap:10px;}
-  .option-btn{
-    background:var(--white);
-    border:2px solid #E1DBC7;
-    border-radius:12px;
-    padding:13px 16px;
-    font-size:14.5px;
-    font-weight:600;
-    color:var(--ink);
-    text-align:left;
-    cursor:pointer;
-  }
-  .option-btn:hover{border-color:var(--forest);}
-  .option-btn.correct{background:var(--green);border-color:var(--green);color:var(--white);}
-  .option-btn.wrong{background:var(--red);border-color:var(--red);color:var(--white);}
-  .option-btn:disabled{cursor:default;}
+  .choice-btn:hover{ transform:translateY(-2px); }
+  .choice-btn:active{ transform:translateY(0); }
+  .choice-btn.cost{ background:var(--navy); color:var(--white); }
+  .choice-btn.diff{ background:var(--teal); color:var(--white); }
+  .choice-btn small{ display:block; font-weight:400; font-size:11px; opacity:0.85; margin-top:3px; }
 
   .feedback{
-    margin-top:16px;
-    padding:14px 16px;
-    border-radius:12px;
-    font-size:14px;
-    line-height:1.5;
-    display:none;
+    width:100%; max-width:440px; margin-top:18px; padding:16px 18px; border-radius:12px;
+    font-size:14px; line-height:1.5; display:none;
   }
-  .feedback.show{display:block;}
-  .feedback.ok{background:#E4F2E9;color:var(--green);border:1px solid #BFE1CC;}
-  .feedback.bad{background:#F7E6E1;color:var(--red);border:1px solid #EAC3B7;}
+  .feedback.correct{ background:var(--teal-light); border:1px solid var(--teal); display:block; }
+  .feedback.wrong{ background:#FBE7E5; border:1px solid var(--red); display:block; }
+  .feedback strong{ display:block; margin-bottom:4px; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; }
+  .feedback.correct strong{ color:var(--teal); }
+  .feedback.wrong strong{ color:var(--red); }
 
-  .next-row{margin-top:18px;display:flex;justify-content:flex-end;}
-
-  .spacer{flex:1;}
-
-  .end-badge{
-    text-align:center;
-    padding:10px 0 4px;
+  .next-btn{
+    margin-top:16px; background:var(--gold); color:var(--navy); border:none;
+    padding:12px 28px; border-radius:30px; font-weight:800; font-size:14px; cursor:pointer;
+    letter-spacing:0.3px;
   }
-  .end-badge .medal{font-size:56px;}
-  .end-badge h2{font-size:26px;margin-top:6px;}
-  .end-score{
-    font-size:44px;
-    font-weight:800;
-    color:var(--forest);
-    text-align:center;
-    margin:6px 0 2px;
-  }
-  .end-score span{font-size:18px;color:var(--grey);font-weight:600;}
-  .best{text-align:center;font-size:13px;color:var(--gold);font-weight:700;margin-bottom:18px;}
-  .end-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-  .reflect{
-    margin-top:20px;
-    background:var(--white);
-    border:1px solid #E1DBC7;
-    border-radius:14px;
-    padding:16px 18px;
-    font-size:13.5px;
-    color:var(--grey);
-    line-height:1.5;
-  }
-  .reflect strong{color:var(--forest);}
+  .next-btn:hover{ filter:brightness(1.05); }
 
-  footer.credit{
-    text-align:center;
-    font-size:11.5px;
-    color:#9AA79C;
-    padding:10px 0 0;
+  .streak-pill{
+    position:absolute; top:22px; right:28px; background:var(--gold); color:var(--navy);
+    padding:6px 14px; border-radius:20px; font-size:12px; font-weight:800; letter-spacing:0.5px;
+    opacity:0; transform:scale(0.8); transition:all .25s ease;
+  }
+  .streak-pill.show{ opacity:1; transform:scale(1); }
+
+  .end-screen{ text-align:center; padding:10px 8px; }
+  .end-screen .trophy{ font-size:54px; margin-bottom:6px; }
+  .end-screen h2{ color:var(--navy); margin:4px 0 2px; font-size:24px; }
+  .end-screen .score-big{ font-size:44px; font-weight:900; color:var(--gold); margin:8px 0 2px; }
+  .end-screen .score-sub{ color:var(--teal); font-size:13px; margin-bottom:18px; }
+
+  .badges{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:18px 0 22px; }
+  .badge{
+    background:var(--card); border-radius:12px; padding:12px 14px; width:120px;
+    opacity:0.35; filter:grayscale(1);
+  }
+  .badge.earned{ opacity:1; filter:none; background:var(--gold-light); border:1px solid var(--gold); }
+  .badge .icon{ font-size:26px; }
+  .badge .name{ font-size:11px; font-weight:700; color:var(--navy); margin-top:4px; }
+
+  .restart-btn{
+    background:var(--navy); color:var(--white); border:none; padding:13px 30px;
+    border-radius:30px; font-weight:700; font-size:14px; cursor:pointer;
+  }
+  .restart-btn:hover{ background:#1E3A52; }
+
+  footer{
+    text-align:center; padding:12px; font-size:11px; color:#9AA7AF; background:var(--card);
+  }
+
+  @media (max-width:480px){
+    .choices{ flex-direction:column; }
+    header h1{ font-size:22px; }
+    .statbar{ padding:12px 16px; }
+    main{ padding:24px 18px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; }
   }
 </style>
 </head>
 <body>
-
 <div class="app">
-  <div class="topbar">
-    <div class="brand">WEB OF LIFE <span>· Year 10 Geography</span></div>
-    <div style="display:flex;align-items:center;gap:14px;">
-      <div class="streak" id="streakDisplay"></div>
-      <div class="score-pill">⭐ <span id="scoreDisplay">0</span> pts</div>
-    </div>
-  </div>
-  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <header>
+    <div class="streak-pill" id="streakPill">🔥 0 streak</div>
+    <div class="eyebrow">Year 10 Business · Competitive Advantage -- Prepared By: Tariq Bashir </div>
+    <h1>Market Edge</h1>
+    <p>Sort each Australian business by how it really wins its market.</p>
+  </header>
 
-  <!-- START SCREEN -->
-  <div class="screen" id="screen-start">
-    <h1>How much do you depend on nature?</h1>
-    <p class="lead">Play through two quick rounds. Sort daily moments, then predict what breaks when a natural system is disrupted. Beat your score, then bring your total to class.</p>
-    <div class="instructions">
-      <ul>
-        <li><strong>Round 1 — Daily Dependence Sort:</strong> 10 everyday moments. Sort each into Food, Water, Air, Materials or Wellbeing. Build a streak for bonus points.</li>
-        <li><strong>Round 2 — Vulnerability Challenge:</strong> 5 real Australian scenarios. Choose what's most affected when a natural system is disrupted.</li>
-        <li>Read the feedback after each answer — it explains the reasoning, not just right or wrong.</li>
-      </ul>
-    </div>
-    <button class="btn btn-primary" onclick="startGame()">Start playing</button>
+  <div class="statbar" id="statbar">
+    <div class="stat"><span class="n" id="scoreStat">0</span><span class="l">Score</span></div>
+    <div class="stat"><span class="n" id="roundStat">1 / 12</span><span class="l">Business</span></div>
+    <div class="stat"><span class="n" id="bestStreakStat">0</span><span class="l">Best Streak</span></div>
   </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
 
-  <!-- ROUND 1 -->
-  <div class="screen hidden" id="screen-round1">
-    <div class="round-label" id="r1Label">ROUND 1 · ITEM 1 OF 10</div>
-    <div class="item-card" id="r1ItemText"></div>
-    <div class="cat-grid" id="r1CatGrid"></div>
-    <div class="feedback" id="r1Feedback"></div>
-    <div class="spacer"></div>
-    <div class="next-row"><button class="btn btn-primary hidden" id="r1NextBtn" onclick="nextRound1()">Next →</button></div>
-  </div>
+  <main id="main"></main>
 
-  <!-- ROUND 1 TO 2 TRANSITION -->
-  <div class="screen hidden" id="screen-transition">
-    <h2>Round 1 complete</h2>
-    <p class="lead">Nice work. Now let's see what happens when one of these systems is disrupted.</p>
-    <div class="instructions">
-      <ul>
-        <li>Read each real Australian scenario carefully.</li>
-        <li>Pick the option that is <strong>most directly and immediately</strong> affected.</li>
-        <li>Each correct answer is worth 20 points — no streak bonus this round, so take your time.</li>
-      </ul>
-    </div>
-    <button class="btn btn-primary" onclick="startRound2()">Start Round 2</button>
-  </div>
-
-  <!-- ROUND 2 -->
-  <div class="screen hidden" id="screen-round2">
-    <div class="round-label" id="r2Label">ROUND 2 · SCENARIO 1 OF 5</div>
-    <div class="scenario-card">
-      <p class="quote" id="r2Quote"></p>
-      <p class="ask">Which is most directly and immediately affected?</p>
-    </div>
-    <div class="option-list" id="r2Options"></div>
-    <div class="feedback" id="r2Feedback"></div>
-    <div class="spacer"></div>
-    <div class="next-row"><button class="btn btn-primary hidden" id="r2NextBtn" onclick="nextRound2()">Next →</button></div>
-  </div>
-
-  <!-- END SCREEN -->
-  <div class="screen hidden" id="screen-end">
-    <div class="end-badge">
-      <div class="medal" id="endMedal">🌱</div>
-      <h2 id="endTitle">Nature Novice</h2>
-    </div>
-    <div class="end-score" id="endScore">0<span> / 200 pts</span></div>
-    <div class="best" id="endBest"></div>
-    <div class="end-actions">
-      <button class="btn btn-outline" onclick="resetGame()">Play again</button>
-    </div>
-    <div class="reflect">
-      <strong>Before you close this tab:</strong> write your score on your exit ticket, and think about which category (food, water, air, materials or wellbeing) would be hardest for your household to live without.
-    </div>
-  </div>
-
-  <footer class="credit">Year 10 Geography · Environmental Change and Management · Lesson 8</footer>
+  <footer>Manor Lakes College &middot; Year 10 Economics &amp; Business &middot; Lesson 10, Week 2</footer>
 </div>
 
 <script>
-const CATS = [
-  {key:"food", label:"Food", emoji:"🍎"},
-  {key:"water", label:"Water", emoji:"💧"},
-  {key:"air", label:"Air", emoji:"🌬️"},
-  {key:"materials", label:"Materials", emoji:"🧰"},
-  {key:"wellbeing", label:"Wellbeing", emoji:"❤️"}
+const DATA = [
+  { name:"Kmart", icon:"🏬", answer:"cost", evidence:"Lean warehouse-style stores and its Anko private label keep prices low, not the range or the fit-out." },
+  { name:"Bunnings", icon:"🔨", answer:"cost", evidence:"A Price Match Guarantee and huge buying power let it out-price independent hardware stores." },
+  { name:"ALDI", icon:"🛒", answer:"cost", evidence:"Stocking far fewer product lines than a full supermarket keeps operating costs down." },
+  { name:"Jetstar", icon:"✈️", answer:"cost", evidence:"A no-frills base fare, with everything else (bags, seats, meals) sold as an extra." },
+  { name:"Chemist Warehouse", icon:"💊", answer:"cost", evidence:"Built its whole brand identity around \"everyday low prices\" at high volume." },
+  { name:"The Reject Shop", icon:"🏷️", answer:"cost", evidence:"A variety-discount format designed purely around low shelf prices." },
+  { name:"Aesop", icon:"💎", answer:"diff", evidence:"Distinctive packaging and a carefully designed in-store experience, at a premium price." },
+  { name:"Qantas", icon:"🦘", answer:"diff", evidence:"Lounges, loyalty points and a safety reputation, a full-service experience beyond just a seat." },
+  { name:"Apple", icon:"📱", answer:"diff", evidence:"Design and an ecosystem across devices build loyalty that price alone can't buy." },
+  { name:"Canva", icon:"🎨", answer:"diff", evidence:"Wins globally through radical ease of use for people who aren't trained designers." },
+  { name:"Adairs", icon:"🛋️", answer:"diff", evidence:"Curated, styled homewares ranges rather than the cheapest sheets on the shelf." },
+  { name:"Koala", icon:"🐨", answer:"diff", evidence:"A direct-to-consumer convenience and sustainability story sets it apart from other mattress sellers." }
 ];
 
-const ROUND1 = [
-  {text:"Cereal and milk for breakfast", cat:"food", why:"Milk and grain both come from farmed land and livestock — a food system."},
-  {text:"A hot shower before school", cat:"water", why:"Showering draws directly on a town or catchment water supply."},
-  {text:"Stepping outside for a deep breath of fresh air", cat:"air", why:"Clean air is produced and filtered by natural systems like forests and oceans."},
-  {text:"Your cotton school jumper", cat:"materials", why:"Cotton is a natural fibre grown as a crop — a raw material from nature."},
-  {text:"Sitting under a tree at lunch to relax", cat:"wellbeing", why:"Time in green space supports mental health — a wellbeing benefit of nature."},
-  {text:"Tap water for a cup of tea", cat:"water", why:"Tap water is sourced from rivers, dams or groundwater systems."},
-  {text:"Vegetables from the backyard garden", cat:"food", why:"Home-grown vegetables still depend on soil, sunlight and water — natural systems."},
-  {text:"A wooden desk in your classroom", cat:"materials", why:"Timber is harvested from forests — a material resource from nature."},
-  {text:"A walk along the beach on the weekend", cat:"wellbeing", why:"Coastal environments support recreation and wellbeing, not just resources."},
-  {text:"Opening the window for a cool breeze", cat:"air", why:"Natural air movement and quality depend on healthy atmospheric systems."}
+const BADGES = [
+  { id:"sharp", threshold:3, icon:"👁️", name:"Sharp Eye", desc:"3-streak" },
+  { id:"pro", threshold:6, icon:"📈", name:"Strategy Pro", desc:"6-streak" },
+  { id:"master", threshold:12, icon:"🏆", name:"Market Master", desc:"12 in a row, first try" }
 ];
 
-const ROUND2 = [
-  {
-    quote:"A prolonged drought severely reduces water flow into the Murray-Darling Basin.",
-    options:[
-      {label:"Water supply for towns and farms along the river", correct:true},
-      {label:"Air quality in capital cities", correct:false},
-      {label:"Timber supply from plantation forests", correct:false},
-      {label:"Weekend recreation at the beach", correct:false}
-    ],
-    why:"Reduced river flow hits water supply first and most directly — for drinking, irrigation and stock. Food production is a flow-on effect, but water is the immediate system disrupted."
-  },
-  {
-    quote:"Bushfire smoke blankets a major Australian city for weeks, pushing air quality to hazardous levels.",
-    options:[
-      {label:"Air quality and outdoor activity", correct:true},
-      {label:"Timber and material supply", correct:false},
-      {label:"River fishing catches", correct:false},
-      {label:"Backyard vegetable gardens", correct:false}
-    ],
-    why:"Smoke directly disrupts the air system people breathe — schools, sport and outdoor work are affected immediately, as seen in the 2019-20 Black Summer fires."
-  },
-  {
-    quote:"Overfishing collapses a coastal fish population.",
-    options:[
-      {label:"Food supply from fishing", correct:true},
-      {label:"Housing construction", correct:false},
-      {label:"Drinking water supply", correct:false},
-      {label:"Air quality", correct:false}
-    ],
-    why:"A collapsed fish stock is a direct hit to a food system — both commercial catches and local food security are affected."
-  },
-  {
-    quote:"A regional national park closes indefinitely after major storm damage.",
-    options:[
-      {label:"Wellbeing, recreation and tourism", correct:true},
-      {label:"Food supply", correct:false},
-      {label:"Drinking water treatment", correct:false},
-      {label:"Building material supply", correct:false}
-    ],
-    why:"National parks are a key wellbeing resource — recreation, mental health and tourism income all rely on access to them."
-  },
-  {
-    quote:"An extended heatwave dries out plantation forests earmarked for timber harvest.",
-    options:[
-      {label:"Timber and material supply", correct:true},
-      {label:"Air quality", correct:false},
-      {label:"Fishing industry catches", correct:false},
-      {label:"Drinking water supply", correct:false}
-    ],
-    why:"Dried-out, heat-stressed plantations reduce usable timber yield — a direct hit to the materials system, before any other flow-on effects."
-  }
-];
-
+let order = [];
+let idx = 0;
 let score = 0;
 let streak = 0;
-let r1Index = 0;
-let r2Index = 0;
-let r1Answered = false;
-let r2Answered = false;
+let bestStreak = 0;
+let mistakesMade = false;
+let earnedBadges = new Set();
 
-function show(id){
-  document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
-}
-
-function updateScoreDisplay(){
-  document.getElementById('scoreDisplay').textContent = score;
-  document.getElementById('streakDisplay').textContent = streak >= 3 ? "🔥 streak x2" : "";
-}
-
-function updateProgress(pct){
-  document.getElementById('progressBar').style.width = pct + "%";
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
 }
 
 function startGame(){
-  score = 0; streak = 0; r1Index = 0; r2Index = 0;
-  updateScoreDisplay();
-  show('screen-round1');
-  renderRound1();
+  order = shuffle(DATA);
+  idx = 0; score = 0; streak = 0; bestStreak = 0; mistakesMade = false; earnedBadges = new Set();
+  document.getElementById("statbar").style.display = "flex";
+  document.querySelector(".progress-track").style.display = "block";
+  updateStats();
+  renderCard();
 }
 
-function renderRound1(){
-  r1Answered = false;
-  const item = ROUND1[r1Index];
-  document.getElementById('r1Label').textContent = `ROUND 1 · ITEM ${r1Index+1} OF ${ROUND1.length}`;
-  document.getElementById('r1ItemText').textContent = item.text;
-  document.getElementById('r1Feedback').className = 'feedback';
-  document.getElementById('r1Feedback').textContent = '';
-  document.getElementById('r1NextBtn').classList.add('hidden');
-  updateProgress((r1Index / (ROUND1.length + ROUND2.length)) * 100);
-
-  const grid = document.getElementById('r1CatGrid');
-  grid.innerHTML = '';
-  CATS.forEach(c => {
-    const btn = document.createElement('button');
-    btn.className = 'cat-btn';
-    btn.innerHTML = `<span class="emoji">${c.emoji}</span>${c.label}`;
-    btn.onclick = () => answerRound1(c.key, btn);
-    grid.appendChild(btn);
-  });
+function updateStats(){
+  document.getElementById("scoreStat").textContent = score;
+  document.getElementById("roundStat").textContent = Math.min(idx+1, DATA.length) + " / " + DATA.length;
+  document.getElementById("bestStreakStat").textContent = bestStreak;
+  document.getElementById("progressFill").style.width = ((idx)/DATA.length*100) + "%";
 }
 
-function answerRound1(chosenKey, btnEl){
-  if(r1Answered) return;
-  r1Answered = true;
-  const item = ROUND1[r1Index];
-  const correct = chosenKey === item.cat;
-  const buttons = document.querySelectorAll('#r1CatGrid .cat-btn');
-  buttons.forEach(b => b.disabled = true);
-  btnEl.classList.add(correct ? 'correct' : 'wrong');
+function showStreakPill(){
+  const pill = document.getElementById("streakPill");
+  if(streak >= 2){
+    pill.textContent = "🔥 " + streak + " streak";
+    pill.classList.add("show");
+  } else {
+    pill.classList.remove("show");
+  }
+}
+
+function renderCard(){
+  const main = document.getElementById("main");
+  if(idx >= order.length){
+    renderEnd();
+    return;
+  }
+  const item = order[idx];
+  main.innerHTML = `
+    <div class="card" id="cardEl">
+      <div class="biz-icon">${item.icon}</div>
+      <h2>${item.name}</h2>
+      <div class="hint">How does this business mainly win its market?</div>
+    </div>
+    <div class="choices">
+      <button class="choice-btn cost" id="btnCost">Cost Leadership<small>Compete on price</small></button>
+      <button class="choice-btn diff" id="btnDiff">Differentiation<small>Compete on being different</small></button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="nextBtn" style="display:none;">Next business →</button>
+  `;
+  document.getElementById("btnCost").onclick = () => handleAnswer("cost");
+  document.getElementById("btnDiff").onclick = () => handleAnswer("diff");
+  updateStats();
+  showStreakPill();
+}
+
+function handleAnswer(choice){
+  const item = order[idx];
+  const correct = choice === item.answer;
+  document.getElementById("btnCost").disabled = true;
+  document.getElementById("btnDiff").disabled = true;
+
+  const fb = document.getElementById("feedback");
+  const correctLabel = item.answer === "cost" ? "Cost Leadership" : "Differentiation";
 
   if(correct){
-    streak++;
-    const pts = streak >= 3 ? 20 : 10;
-    score += pts;
-    const fb = document.getElementById('r1Feedback');
-    fb.className = 'feedback ok show';
-    fb.textContent = (streak >= 3 ? `🔥 Streak bonus! +${pts} points. ` : `Correct! +${pts} points. `) + item.why;
+    streak += 1;
+    bestStreak = Math.max(bestStreak, streak);
+    const bonus = Math.min(streak, 5) * 2;
+    score += 10 + bonus;
+    fb.className = "feedback correct";
+    fb.innerHTML = `<strong>Correct ${correctLabel}</strong>${item.evidence}`;
   } else {
     streak = 0;
-    buttons.forEach(b => {
-      if(b.textContent.includes(CATS.find(c=>c.key===item.cat).label)) b.classList.add('correct');
-    });
-    const fb = document.getElementById('r1Feedback');
-    fb.className = 'feedback bad show';
-    fb.textContent = `Not quite — this one is ${CATS.find(c=>c.key===item.cat).label}. ${item.why}`;
+    mistakesMade = true;
+    fb.className = "feedback wrong";
+    fb.innerHTML = `<strong>Not quite it's ${correctLabel}</strong>${item.evidence}`;
   }
-  updateScoreDisplay();
-  document.getElementById('r1NextBtn').classList.remove('hidden');
+
+  checkBadges();
+  updateStats();
+  showStreakPill();
+  document.getElementById("nextBtn").style.display = "inline-block";
+  document.getElementById("nextBtn").onclick = () => { idx += 1; renderCard(); };
 }
 
-function nextRound1(){
-  r1Index++;
-  if(r1Index >= ROUND1.length){
-    show('screen-transition');
-  } else {
-    renderRound1();
-  }
-}
-
-function startRound2(){
-  show('screen-round2');
-  renderRound2();
-}
-
-function renderRound2(){
-  r2Answered = false;
-  const s = ROUND2[r2Index];
-  document.getElementById('r2Label').textContent = `ROUND 2 · SCENARIO ${r2Index+1} OF ${ROUND2.length}`;
-  document.getElementById('r2Quote').textContent = `“${s.quote}”`;
-  document.getElementById('r2Feedback').className = 'feedback';
-  document.getElementById('r2Feedback').textContent = '';
-  document.getElementById('r2NextBtn').classList.add('hidden');
-  updateProgress(((ROUND1.length + r2Index) / (ROUND1.length + ROUND2.length)) * 100);
-
-  const list = document.getElementById('r2Options');
-  list.innerHTML = '';
-  s.options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.textContent = opt.label;
-    btn.onclick = () => answerRound2(opt, btn);
-    list.appendChild(btn);
+function checkBadges(){
+  BADGES.forEach(b => {
+    if(b.id === "master") return; // evaluated at the end
+    if(streak >= b.threshold && !earnedBadges.has(b.id)){
+      earnedBadges.add(b.id);
+    }
   });
 }
 
-function answerRound2(opt, btnEl){
-  if(r2Answered) return;
-  r2Answered = true;
-  const s = ROUND2[r2Index];
-  const buttons = document.querySelectorAll('#r2Options .option-btn');
-  buttons.forEach(b => b.disabled = true);
+function renderEnd(){
+  if(!mistakesMade){ earnedBadges.add("master"); }
+  updateStats();
+  document.getElementById("statbar").style.display = "none";
+  document.querySelector(".progress-track").style.display = "none";
+  document.getElementById("streakPill").classList.remove("show");
 
-  if(opt.correct){
-    score += 20;
-    btnEl.classList.add('correct');
-    const fb = document.getElementById('r2Feedback');
-    fb.className = 'feedback ok show';
-    fb.textContent = `Correct! +20 points. ${s.why}`;
-  } else {
-    btnEl.classList.add('wrong');
-    buttons.forEach((b,i) => { if(s.options[i].correct) b.classList.add('correct'); });
-    const fb = document.getElementById('r2Feedback');
-    fb.className = 'feedback bad show';
-    fb.textContent = `Not quite. ${s.why}`;
-  }
-  updateScoreDisplay();
-  document.getElementById('r2NextBtn').classList.remove('hidden');
+  const pct = Math.round((score / (DATA.length * 20)) * 100);
+  const main = document.getElementById("main");
+  main.innerHTML = `
+    <div class="end-screen">
+      <div class="trophy">${earnedBadges.size >= 2 ? "🏆" : "📊"}</div>
+      <h2>Round complete</h2>
+      <div class="score-big">${score}</div>
+      <div class="score-sub">points earned · best streak ${bestStreak}</div>
+      <div class="badges">
+        ${BADGES.map(b => `
+          <div class="badge ${earnedBadges.has(b.id) ? "earned" : ""}">
+            <div class="icon">${b.icon}</div>
+            <div class="name">${b.name}</div>
+          </div>
+        `).join("")}
+      </div>
+      <button class="restart-btn" id="restartBtn">Play again</button>
+    </div>
+  `;
+  document.getElementById("restartBtn").onclick = startGame;
 }
 
-function nextRound2(){
-  r2Index++;
-  if(r2Index >= ROUND2.length){
-    endGame();
-  } else {
-    renderRound2();
-  }
-}
-
-function endGame(){
-  updateProgress(100);
-  const maxScore = 200;
-  document.getElementById('endScore').innerHTML = `${score}<span> / ${maxScore} pts</span>`;
-
-  let title = "Nature Novice", medal = "🌱";
-  if(score >= 160){ title = "Sustainability Champion"; medal = "🏆"; }
-  else if(score >= 100){ title = "Systems Thinker"; medal = "🌿"; }
-  document.getElementById('endTitle').textContent = title;
-  document.getElementById('endMedal').textContent = medal;
-
-  let best = 0;
-  try{
-    best = parseInt(localStorage.getItem('webOfLifeHighScore') || '0', 10);
-    if(score > best){
-      localStorage.setItem('webOfLifeHighScore', String(score));
-      document.getElementById('endBest').textContent = best > 0 ? `🎉 New personal best! (Previous: ${best})` : `🎉 First run recorded as your personal best.`;
-    } else {
-      document.getElementById('endBest').textContent = `Personal best: ${best}`;
-    }
-  } catch(e){
-    document.getElementById('endBest').textContent = '';
-  }
-
-  show('screen-end');
-}
-
-function resetGame(){
-  streak = 0;
-  updateScoreDisplay();
-  show('screen-start');
-  updateProgress(0);
-}
+startGame();
 </script>
-
 </body>
 </html>
