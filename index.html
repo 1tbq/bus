@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marketing Mission | Year 10 Business</title>
+<title>Marketing Mix Master | Year 10 Business</title>
 <style>
   :root{
     --navy:#2F3C7E;
@@ -36,149 +36,80 @@
     padding:24px 14px 60px;
   }
   h1,h2,h3{font-family:'Georgia', 'Cambria', serif; margin:0;}
-  .app{
-    width:100%;
-    max-width:760px;
-  }
-  .topbar{
-    display:flex; align-items:center; justify-content:space-between;
-    color:var(--cream); margin-bottom:14px; flex-wrap:wrap; gap:8px;
-  }
+  .app{width:100%; max-width:760px;}
+  .topbar{display:flex; align-items:center; justify-content:space-between; color:var(--cream); margin-bottom:14px; flex-wrap:wrap; gap:8px;}
   .brand{display:flex; align-items:center; gap:10px;}
-  .brand .rings{
-    width:34px; height:34px; border-radius:50%;
-    background: radial-gradient(circle, #fff 0 14%, transparent 15% 30%, var(--coral) 31% 55%, transparent 56% 72%, var(--gold) 73% 100%);
+  .brand .grid4{
+    width:34px; height:34px; border-radius:9px; overflow:hidden;
+    display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr;
   }
+  .brand .grid4 span:nth-child(1){background:var(--navy);}
+  .brand .grid4 span:nth-child(2){background:var(--coral);}
+  .brand .grid4 span:nth-child(3){background:var(--coral-dark);}
+  .brand .grid4 span:nth-child(4){background:var(--gold);}
   .brand-text .title{font-size:19px; font-weight:700; letter-spacing:0.3px;}
   .brand-text .sub{font-size:11px; letter-spacing:1.5px; color:var(--gold); text-transform:uppercase;}
-  .scorepill{
-    background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.25);
-    padding:7px 14px; border-radius:999px; font-size:14px; font-weight:600;
-  }
+  .scorepill{background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.25); padding:7px 14px; border-radius:999px; font-size:14px; font-weight:600;}
   .progresswrap{margin-bottom:18px;}
-  .progressbar{
-    height:8px; background:rgba(255,255,255,0.15); border-radius:6px; overflow:hidden;
-  }
-  .progressfill{
-    height:100%; background:linear-gradient(90deg, var(--coral), var(--gold));
-    width:0%; transition:width 0.4s ease;
-  }
-  .roundlabel{
-    color:var(--gold); font-size:12px; letter-spacing:1.5px; text-transform:uppercase;
-    margin-top:6px; font-weight:700;
-  }
-  .card{
-    background:var(--cream);
-    border-radius:var(--radius);
-    padding:28px 26px;
-    box-shadow:0 18px 40px rgba(0,0,0,0.28);
-  }
-  /* ---- Screens: intro / round-intro / results ---- */
+  .progressbar{height:8px; background:rgba(255,255,255,0.15); border-radius:6px; overflow:hidden;}
+  .progressfill{height:100%; background:linear-gradient(90deg, var(--coral), var(--gold)); width:0%; transition:width 0.4s ease;}
+  .roundlabel{color:var(--gold); font-size:12px; letter-spacing:1.5px; text-transform:uppercase; margin-top:6px; font-weight:700;}
+  .card{background:var(--cream); border-radius:var(--radius); padding:28px 26px; box-shadow:0 18px 40px rgba(0,0,0,0.28);}
   .screen-title{font-size:26px; color:var(--navy); margin-bottom:8px;}
   .screen-body{font-size:15px; color:var(--charcoal); line-height:1.55; margin-bottom:18px;}
-  .btn{
-    display:inline-block; border:none; cursor:pointer; font-weight:700; font-size:15px;
-    padding:13px 26px; border-radius:999px; transition:transform 0.12s ease, box-shadow 0.12s ease;
-    font-family:inherit;
-  }
+  .btn{display:inline-block; border:none; cursor:pointer; font-weight:700; font-size:15px; padding:13px 26px; border-radius:999px; transition:transform 0.12s ease, box-shadow 0.12s ease; font-family:inherit;}
   .btn:active{transform:scale(0.97);}
   .btn-primary{background:var(--coral); color:#fff; box-shadow:0 8px 18px rgba(249,97,103,0.35);}
   .btn-primary:hover{background:var(--coral-dark);}
   .btn-ghost{background:transparent; color:var(--navy); border:2px solid var(--navy);}
   .btn-ghost:hover{background:var(--navy); color:#fff;}
   .btn:disabled{opacity:0.5; cursor:not-allowed;}
-
   .rules{list-style:none; padding:0; margin:0 0 20px;}
-  .rules li{
-    display:flex; gap:12px; align-items:flex-start; margin-bottom:12px; font-size:14px;
-  }
-  .rules .num{
-    flex:0 0 auto; width:26px; height:26px; border-radius:50%; background:var(--navy); color:#fff;
-    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;
-  }
-
-  .stage-badge{
-    display:inline-flex; align-items:center; gap:8px; background:var(--navy); color:var(--gold);
-    padding:6px 14px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:1px;
-    text-transform:uppercase; margin-bottom:14px;
-  }
-
-  /* ---- Question card ---- */
+  .rules li{display:flex; gap:12px; align-items:flex-start; margin-bottom:12px; font-size:14px;}
+  .rules .num{flex:0 0 auto; width:26px; height:26px; border-radius:50%; background:var(--navy); color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;}
+  .stage-badge{display:inline-flex; align-items:center; gap:8px; background:var(--navy); color:var(--gold); padding:6px 14px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;}
   .qcounter{font-size:12px; color:var(--grey); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;}
   .qtext{font-size:19px; color:var(--charcoal); line-height:1.4; margin-bottom:20px; font-weight:600;}
   .options{display:flex; flex-direction:column; gap:10px;}
-  .options.two-col{flex-direction:row; gap:12px;}
-  .opt{
-    text-align:left; background:#fff; border:2px solid #E3DCD0; border-radius:12px;
-    padding:14px 16px; font-size:14.5px; cursor:pointer; font-family:inherit; color:var(--charcoal);
-    transition:all 0.15s ease; flex:1;
-  }
+  .options.two-col{flex-direction:row; gap:12px; flex-wrap:wrap;}
+  .options.two-col .opt{flex:1 1 45%;}
+  .opt{text-align:left; background:#fff; border:2px solid #E3DCD0; border-radius:12px; padding:14px 16px; font-size:14.5px; cursor:pointer; font-family:inherit; color:var(--charcoal); transition:all 0.15s ease; flex:1;}
   .opt:hover:not(:disabled){border-color:var(--coral); transform:translateY(-1px);}
   .opt.correct{background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700;}
   .opt.incorrect{background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700;}
   .opt.dim{opacity:0.55;}
   .opt:disabled{cursor:default;}
-
-  .feedback{
-    margin-top:16px; padding:14px 16px; border-radius:12px; font-size:14px; line-height:1.5;
-    display:none;
-  }
+  .feedback{margin-top:16px; padding:14px 16px; border-radius:12px; font-size:14px; line-height:1.5; display:none;}
   .feedback.show{display:block;}
   .feedback.good{background:var(--green-bg); color:var(--green);}
   .feedback.bad{background:var(--red-bg); color:var(--red);}
   .feedback strong{display:block; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;}
-
   .nextrow{margin-top:20px; text-align:right;}
-
-  /* ---- Term match (round 2) ---- */
   .matchgrid{display:grid; grid-template-columns:1fr 1fr; gap:10px 16px;}
   .matchcol h4{font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--grey); margin-bottom:10px;}
-  .chip{
-    background:#fff; border:2px solid #E3DCD0; border-radius:10px; padding:12px 12px; font-size:13.5px;
-    margin-bottom:10px; cursor:pointer; transition:all 0.15s ease; min-height:44px; display:flex; align-items:center;
-  }
+  .chip{background:#fff; border:2px solid #E3DCD0; border-radius:10px; padding:12px 12px; font-size:13.5px; margin-bottom:10px; cursor:pointer; transition:all 0.15s ease; min-height:44px; display:flex; align-items:center;}
   .chip.term{font-weight:700; color:var(--navy);}
   .chip:hover:not(.locked):not(.disabled){border-color:var(--coral);}
   .chip.selected{border-color:var(--coral); background:#FFF1F1;}
   .chip.locked{background:var(--green-bg); border-color:var(--green); color:var(--green); cursor:default;}
   .chip.wrongflash{background:var(--red-bg); border-color:var(--red); color:var(--red);}
-  .chip.disabled{opacity:0.4; cursor:default;}
   .matchstatus{margin-top:14px; font-size:13px; color:var(--grey); text-align:center;}
-
-  /* ---- streak toast ---- */
-  .toast{
-    position:fixed; top:18px; left:50%; transform:translateX(-50%) translateY(-20px);
-    background:var(--navy); color:var(--gold); padding:10px 22px; border-radius:999px;
-    font-weight:700; font-size:13.5px; opacity:0; transition:all 0.35s ease; z-index:50;
-    box-shadow:0 10px 24px rgba(0,0,0,0.3); pointer-events:none; white-space:nowrap;
-  }
+  .toast{position:fixed; top:18px; left:50%; transform:translateX(-50%) translateY(-20px); background:var(--navy); color:var(--gold); padding:10px 22px; border-radius:999px; font-weight:700; font-size:13.5px; opacity:0; transition:all 0.35s ease; z-index:50; box-shadow:0 10px 24px rgba(0,0,0,0.3); pointer-events:none; white-space:nowrap;}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
-
-  /* ---- results ---- */
   .resultstop{text-align:center; margin-bottom:20px;}
-  .badgecircle{
-    width:110px; height:110px; border-radius:50%; margin:0 auto 14px;
-    display:flex; align-items:center; justify-content:center; font-size:44px;
-    box-shadow:0 12px 24px rgba(0,0,0,0.15);
-  }
+  .badgecircle{width:110px; height:110px; border-radius:50%; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; font-size:44px; box-shadow:0 12px 24px rgba(0,0,0,0.15);}
   .scorebig{font-size:44px; font-weight:800; color:var(--navy); font-family:'Georgia',serif;}
   .scoresub{font-size:13px; color:var(--grey); letter-spacing:0.5px;}
   .breakdown{margin:22px 0; border-top:1px solid #E3DCD0; padding-top:16px;}
   .brow{display:flex; justify-content:space-between; font-size:13.5px; padding:8px 0; border-bottom:1px dashed #E3DCD0;}
   .brow:last-child{border-bottom:none;}
-  .nameinput{
-    width:100%; padding:12px 14px; border-radius:10px; border:2px solid #E3DCD0; font-size:14px;
-    font-family:inherit; margin-bottom:16px;
-  }
-  .certline{
-    text-align:center; font-size:13px; color:var(--grey); margin-top:6px; font-style:italic;
-  }
+  .nameinput{width:100%; padding:12px 14px; border-radius:10px; border:2px solid #E3DCD0; font-size:14px; font-family:inherit; margin-bottom:16px;}
+  .certline{text-align:center; font-size:13px; color:var(--grey); margin-top:6px; font-style:italic;}
   .actionrow{display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap;}
-
   @media (max-width:520px){
     .card{padding:20px 16px;}
     .matchgrid{grid-template-columns:1fr;}
-    .options.two-col{flex-direction:column;}
+    .options.two-col .opt{flex:1 1 100%;}
     .screen-title{font-size:22px;}
     .qtext{font-size:17px;}
   }
@@ -189,10 +120,10 @@
 <div class="app">
   <div class="topbar">
     <div class="brand">
-      <div class="rings"></div>
+      <div class="grid4"><span></span><span></span><span></span><span></span></div>
       <div class="brand-text">
-        <div class="title">Marketing Mission</div>
-        <div class="sub">Year 10 Business · Marketing Basics</div>
+        <div class="title">Marketing Mix Master</div>
+        <div class="sub">Year 10 Business · The 4 Ps</div>
       </div>
     </div>
     <div class="scorepill" id="scorepill">Score: 0</div>
@@ -210,101 +141,93 @@
 
 <script>
 /* ============================================================
-   MARKETING MISSION
-   A four-stage marketing-basics game for Year 10 Business
+   MARKETING MIX MASTER
+   A four-stage Product / Price / Place / Promotion game
+   for Year 10 Business
    ============================================================ */
 
-// ---------- DATA ----------
-
-const ROUND1 = { // Marketing or Selling?
-  name: "Stage 1 · Marketing or Selling?",
-  intro: "Read each business moment. Decide: is it MARKETING (the long-term process of understanding and reaching customers) or SELLING (persuading one customer to buy, right now)?",
+const ROUND1 = { // Which P Is It?
+  name: "Stage 1 · Which P Is It?",
+  intro: "Read each business decision. Decide which part of the marketing mix it belongs to: Product, Price, Place or Promotion.",
   items: [
-    { q: "A company surveys 500 customers about what flavour of chips they want, before making anything.", a: "Marketing", why: "Researching customer wants happens before a product exists — that's marketing." },
-    { q: "A car salesperson offers a discount to close today's sale.", a: "Selling", why: "Persuading one customer to buy right now, in a single transaction, is selling." },
-    { q: "A brand designs eco-friendly packaging aimed at younger, sustainability-minded shoppers.", a: "Marketing", why: "Designing a product around a target market's values is a marketing decision." },
-    { q: "A telemarketer calls to convince you to upgrade your phone plan tonight.", a: "Selling", why: "One call aimed at converting one customer, immediately, is selling." },
-    { q: "A business researches which suburb to open its next store in.", a: "Marketing", why: "Deciding where to reach customers (place) is part of the marketing process." },
-    { q: "A checkout assistant offers to add a $2 chocolate bar to your order.", a: "Selling", why: "An upsell at the point of purchase is a selling technique." },
-    { q: "A business builds a loyalty app to keep customers coming back over time.", a: "Marketing", why: "Building a long-term relationship with customers is marketing, not a single sale." },
-    { q: "A real estate agent negotiates the final price with a buyer.", a: "Selling", why: "Negotiating one deal with one buyer is selling." }
+    { q: "A shoe company adds a lighter, more breathable fabric to its running shoe.", a: "Product", why: "Changing the features of the item itself is a Product decision." },
+    { q: "A drink brand releases a sugar-free version of its most popular flavour.", a: "Product", why: "A new variation of the item is a Product decision." },
+    { q: "A telco prices its new plan $5 below its biggest competitor.", a: "Price", why: "Setting what customers pay, relative to rivals, is a Price decision." },
+    { q: "A furniture store prices its own-brand sofas well below name-brand rivals.", a: "Price", why: "Choosing where to sit on cost is a Price decision." },
+    { q: "A skincare brand chooses to sell only in pharmacies, not supermarkets.", a: "Place", why: "Choosing the channel customers buy through is a Place decision." },
+    { q: "A clothing label opens its first physical store in a major shopping centre.", a: "Place", why: "Choosing where and how customers can access the product is Place." },
+    { q: "A fast food chain sponsors a local junior sports league's jerseys.", a: "Promotion", why: "Building awareness and goodwill is a Promotion decision." },
+    { q: "A drink brand partners with an influencer to post an unboxing video.", a: "Promotion", why: "Communicating with customers to create demand is Promotion." }
   ]
 };
 
 const ROUND2 = { // Term Match
   name: "Stage 2 · Term Match",
-  intro: "Click a term on the left, then click the definition on the right that matches it. Match all six to move on.",
+  intro: "Click a term on the left, then click the definition on the right that matches it. Match all five to move on.",
   pairs: [
-    { term: "Marketing", def: "Everything a business does to identify, anticipate and satisfy customer needs, profitably." },
-    { term: "Market", def: "A group of customers who share similar wants and needs for a product or service." },
-    { term: "Target market", def: "The specific group of customers a business focuses its marketing efforts on." },
-    { term: "Brand", def: "The name, image and reputation that makes a business recognisable and different from competitors." },
-    { term: "Promotion", def: "The tools a business uses to communicate and advertise its product to customers." },
-    { term: "Competitive advantage", def: "An edge that lets a business outperform its rivals, often through cost or differentiation." }
+    { term: "Marketing mix", def: "The set of controllable decisions a business makes to market its product effectively." },
+    { term: "Product", def: "What the business offers, its features, quality, design, branding and packaging." },
+    { term: "Price", def: "What the customer pays, and the strategy behind that price point." },
+    { term: "Place", def: "How and where the product reaches the customer." },
+    { term: "Promotion", def: "How the business communicates and creates demand for the product." }
   ]
 };
 
 const ROUND3 = { // Myth Buster True/False
   name: "Stage 3 · Myth Buster",
-  intro: "Marketing is full of myths. Decide TRUE or FALSE for each statement, then check the explanation.",
+  intro: "The 4 Ps are full of myths too. Decide TRUE or FALSE for each statement, then check the explanation.",
   items: [
-    { q: "Marketing is just another word for advertising.", a: "False", why: "Advertising is only one tool inside marketing — research, product design, pricing and place all come first." },
-    { q: "Marketing research usually happens before a product is even made.", a: "True", why: "Understanding what customers want normally comes before a business builds or launches a product." },
-    { q: "Every business should use the exact same marketing approach.", a: "False", why: "Marketing should match the target market, product and situation — one size does not fit all." },
-    { q: "A strong, trusted brand can be a competitive advantage.", a: "True", why: "Customers often choose brands they recognise and trust over unfamiliar competitors." },
-    { q: "Marketing's only goal is to make one quick sale.", a: "False", why: "Marketing aims for long-term relationships and loyalty, not just a single transaction." },
-    { q: "Small businesses can market effectively without a big advertising budget.", a: "True", why: "Word of mouth, social media and a great customer experience are all forms of marketing too." }
+    { q: "Price only reflects how much something costs to make.", a: "False", why: "Price also signals quality and positioning, and reflects how a business wants to compete, not just its costs." },
+    { q: "Place is only about which physical shop a product is sold in.", a: "False", why: "Place covers every channel a product reaches customers through, including online and direct delivery." },
+    { q: "Promotion always means paid advertising.", a: "False", why: "Promotion includes free tools too, like organic social media, sponsorships and word of mouth." },
+    { q: "Product includes packaging and branding, not just the physical item.", a: "True", why: "Product covers the whole offer: features, quality, design, packaging and brand." },
+    { q: "A business can usually change just one P without affecting the others.", a: "False", why: "The four Ps usually need to work together, changing one often means the others need to change too." },
+    { q: "Two businesses selling a similar product can have completely different marketing mixes.", a: "True", why: "Different target markets and strategies lead to very different Product, Price, Place and Promotion choices." }
   ]
 };
 
-const ROUND4 = { // Brand Detective
-  name: "Stage 4 · Brand Detective",
-  intro: "Four real Australian businesses. Read each scenario and identify the marketing concept it best demonstrates.",
+const ROUND4 = { // Brand Mix Detective
+  name: "Stage 4 · Brand Mix Detective",
+  intro: "Four real Australian businesses. Read each scenario and identify which P it most clearly demonstrates.",
   items: [
     {
-      q: "Frank Green sells reusable bottles and cups in bold, customisable colours. Its marketing speaks directly to design-conscious, sustainability-minded teens and young adults, not to everyone.",
-      options: ["Target market", "Selling", "Advertising only", "Profit"],
-      a: "Target market",
-      why: "Frank Green focuses its marketing on a specific group of customers, that's a target market decision."
+      q: "ALDI keeps its prices consistently lower than Coles and Woolworths across almost its entire range. Budget shoppers know exactly what to expect.",
+      options: ["Product", "Price", "Place", "Promotion"],
+      a: "Price",
+      why: "Consistently low prices, relative to competitors, is a Price strategy."
     },
     {
-      q: "Bunnings' green-and-red colours, warehouse layout and sausage sizzles are instantly recognisable across Australia, even before you see the store name.",
-      options: ["Brand", "Selling", "Research", "Place only"],
-      a: "Brand",
-      why: "A recognisable name, image and reputation like Bunnings' is exactly what defines a brand."
+      q: "Bunnings operates large warehouse-style stores in almost every Australian suburb, easy to drive to and park at.",
+      options: ["Product", "Price", "Place", "Promotion"],
+      a: "Place",
+      why: "Where and how customers can physically access the business is a Place decision."
     },
     {
-      q: "Aesop's minimalist stores and apothecary-style packaging make it hard for other skincare brands to copy its position in the market.",
-      options: ["Competitive advantage", "Discounting", "Personal selling", "Market research"],
-      a: "Competitive advantage",
-      why: "A distinctive position that's hard for rivals to copy is a competitive advantage through differentiation."
+      q: "Kmart's products regularly go viral through customer-made \u201cKmart hacks\u201d videos on social media, free publicity the brand didn't pay for.",
+      options: ["Product", "Price", "Place", "Promotion"],
+      a: "Promotion",
+      why: "Generating buzz and awareness, even unpaid, is a Promotion outcome." 
     },
     {
-      q: "Woolworths noticed time-poor families wanted faster meal solutions, so it expanded its ready-made meal range in response.",
-      options: ["Customer need", "Branding", "Cost leadership", "Promotion"],
-      a: "Customer need",
-      why: "Identifying and responding to what customers want (fast meals) is about meeting a customer need."
+      q: "Cotton On constantly refreshes its clothing ranges with new, on-trend styles to keep customers coming back.",
+      options: ["Product", "Price", "Place", "Promotion"],
+      a: "Product",
+      why: "Refreshing the range and styles on offer is a Product decision."
     }
   ]
 };
 
-// ---------- STATE ----------
 let state = {
-  score: 0,
-  correctCount: 0,
+  score: 0, correctCount: 0,
   totalQuestions: ROUND1.items.length + ROUND2.pairs.length + ROUND3.items.length + ROUND4.items.length,
-  streak: 0,
-  bonusAwarded: 0,
-  roundIndex: 0, // 0 = intro, 1..4 = rounds, 5 = results
-  qIndex: 0,
-  matchedPairs: 0
+  streak: 0, bonusAwarded: 0, roundIndex: 0, qIndex: 0, matchedPairs: 0
 };
 
 const ROUNDS_META = [
-  { key: 1, total: ROUND1.items.length, weight: 10 },
-  { key: 2, total: ROUND2.pairs.length, weight: 10 },
-  { key: 3, total: ROUND3.items.length, weight: 10 },
-  { key: 4, total: ROUND4.items.length, weight: 10 }
+  { key: 1, total: ROUND1.items.length },
+  { key: 2, total: ROUND2.pairs.length },
+  { key: 3, total: ROUND3.items.length },
+  { key: 4, total: ROUND4.items.length }
 ];
 
 const cardEl = document.getElementById('card');
@@ -314,9 +237,7 @@ const progressfillEl = document.getElementById('progressfill');
 const roundlabelEl = document.getElementById('roundlabel');
 const toastEl = document.getElementById('toast');
 
-function updateScorePill(){
-  scorepillEl.textContent = "Score: " + state.score;
-}
+function updateScorePill(){ scorepillEl.textContent = "Score: " + state.score; }
 
 function showToast(msg){
   toastEl.textContent = msg;
@@ -332,7 +253,7 @@ function registerAnswer(correct, points){
     if(state.streak > 0 && state.streak % 3 === 0){
       state.score += 5;
       state.bonusAwarded += 5;
-      showToast("🔥 Streak bonus! +5 points (" + state.streak + " in a row)");
+      showToast("\uD83D\uDD25 Streak bonus! +5 points (" + state.streak + " in a row)");
     }
   } else {
     state.streak = 0;
@@ -352,29 +273,27 @@ function updateProgress(roundName){
   const done = overallQuestionNumber();
   const pct = Math.round((done / state.totalQuestions) * 100);
   progressfillEl.style.width = pct + "%";
-  roundlabelEl.textContent = roundName + " — question " + (state.qIndex+1) + " of " + ROUNDS_META[state.roundIndex-1].total;
+  roundlabelEl.textContent = roundName + " \u2014 question " + (state.qIndex+1) + " of " + ROUNDS_META[state.roundIndex-1].total;
 }
-
-// ---------- SCREENS ----------
 
 function renderIntro(){
   progresswrapEl.style.display = 'none';
   cardEl.innerHTML = `
     <div class="stage-badge">Mission briefing</div>
-    <div class="screen-title">Can you think like a marketer?</div>
+    <div class="screen-title">Can you master the marketing mix?</div>
     <div class="screen-body">
-      You're about to run four challenges built around today's lesson: Marketing Basics.
-      Every business, big or small, has to work out how to reach the right customer with the right message.
-      Prove you've got what it takes.
+      Every business plans its marketing around four decisions: Product, Price, Place and Promotion.
+      Get the mix wrong and even a great product can flop. Get it right, and a business builds a real edge.
+      Four challenges stand between you and mastery.
     </div>
     <ul class="rules">
-      <li><div class="num">1</div><div><strong>Marketing or Selling?</strong> — sort 8 real business moments.</div></li>
-      <li><div class="num">2</div><div><strong>Term Match</strong> — pair 6 key vocabulary words with their definitions.</div></li>
-      <li><div class="num">3</div><div><strong>Myth Buster</strong> — bust 6 common marketing myths, true or false.</div></li>
-      <li><div class="num">4</div><div><strong>Brand Detective</strong> — decode the marketing behind 4 real Australian brands.</div></li>
+      <li><div class="num">1</div><div><strong>Which P Is It?</strong> \u2014 sort 8 real business decisions into the right P.</div></li>
+      <li><div class="num">2</div><div><strong>Term Match</strong> \u2014 pair 5 key vocabulary words with their definitions.</div></li>
+      <li><div class="num">3</div><div><strong>Myth Buster</strong> \u2014 bust 6 common myths about the 4 Ps, true or false.</div></li>
+      <li><div class="num">4</div><div><strong>Brand Mix Detective</strong> \u2014 decode the marketing mix behind 4 real Australian brands.</div></li>
     </ul>
-    <div class="screen-body" style="margin-bottom:24px;"><strong>24 questions total.</strong> Score points, build streaks, and earn your marketing rank at the end.</div>
-    <button class="btn btn-primary" id="startBtn">Start the mission →</button>
+    <div class="screen-body" style="margin-bottom:24px;"><strong>23 questions total.</strong> Score points, build streaks, and earn your marketing mix rank at the end.</div>
+    <button class="btn btn-primary" id="startBtn">Start the mission \u2192</button>
   `;
   document.getElementById('startBtn').onclick = () => {
     state.roundIndex = 1; state.qIndex = 0;
@@ -393,7 +312,7 @@ function renderRoundIntro(){
     <div class="stage-badge">${r.name}</div>
     <div class="screen-title">Ready?</div>
     <div class="screen-body">${r.intro}</div>
-    <button class="btn btn-primary" id="goBtn">Begin stage ${state.roundIndex} →</button>
+    <button class="btn btn-primary" id="goBtn">Begin stage ${state.roundIndex} \u2192</button>
   `;
   document.getElementById('goBtn').onclick = () => {
     state.qIndex = 0;
@@ -402,7 +321,6 @@ function renderRoundIntro(){
   };
 }
 
-// Generic two-option / four-option question renderer (Rounds 1, 3, 4)
 function renderQuestion(){
   const r = currentRoundData();
   const roundKey = state.roundIndex;
@@ -410,18 +328,18 @@ function renderQuestion(){
   updateProgress(r.name);
 
   let options;
-  if(roundKey === 1) options = ["Marketing", "Selling"];
+  if(roundKey === 1) options = ["Product", "Price", "Place", "Promotion"];
   else if(roundKey === 3) options = ["True", "False"];
   else options = item.options;
 
-  const twoCol = options.length === 2;
+  const twoCol = options.length > 2;
 
   cardEl.innerHTML = `
-    <div class="qcounter">${r.name} · Question ${state.qIndex+1} of ${r.items.length}</div>
+    <div class="qcounter">${r.name} \u00B7 Question ${state.qIndex+1} of ${r.items.length}</div>
     <div class="qtext">${item.q}</div>
     <div class="options ${twoCol ? 'two-col' : ''}" id="optionsWrap"></div>
     <div class="feedback" id="feedback"></div>
-    <div class="nextrow"><button class="btn btn-primary" id="nextBtn" style="display:none;">Next →</button></div>
+    <div class="nextrow"><button class="btn btn-primary" id="nextBtn" style="display:none;">Next \u2192</button></div>
   `;
 
   const wrap = document.getElementById('optionsWrap');
@@ -467,33 +385,24 @@ function advance(){
   }
 }
 
-// ---------- Round 2: Term Match ----------
 let matchSelection = { term: null, def: null };
 
 function renderMatchRound(){
   const r = ROUND2;
   updateProgress(r.name);
-  progresswrapEl.querySelector ? null : null;
 
-  // shuffle definitions display order
   const defs = r.pairs.map(p => p.def);
   const shuffled = [...defs].sort(() => Math.random() - 0.5);
 
   cardEl.innerHTML = `
-    <div class="qcounter">${r.name} · Match all six</div>
+    <div class="qcounter">${r.name} \u00B7 Match all five</div>
     <div class="qtext" style="font-size:15px; font-weight:400;">Click a term, then click its matching definition.</div>
     <div class="matchgrid">
-      <div class="matchcol">
-        <h4>Terms</h4>
-        <div id="termCol"></div>
-      </div>
-      <div class="matchcol">
-        <h4>Definitions</h4>
-        <div id="defCol"></div>
-      </div>
+      <div class="matchcol"><h4>Terms</h4><div id="termCol"></div></div>
+      <div class="matchcol"><h4>Definitions</h4><div id="defCol"></div></div>
     </div>
-    <div class="matchstatus" id="matchStatus">Matched 0 of 6</div>
-    <div class="nextrow"><button class="btn btn-primary" id="matchNextBtn" style="display:none;">Next stage →</button></div>
+    <div class="matchstatus" id="matchStatus">Matched 0 of 5</div>
+    <div class="nextrow"><button class="btn btn-primary" id="matchNextBtn" style="display:none;">Next stage \u2192</button></div>
   `;
 
   const termCol = document.getElementById('termCol');
@@ -503,7 +412,6 @@ function renderMatchRound(){
     const c = document.createElement('div');
     c.className = 'chip term';
     c.textContent = p.term;
-    c.dataset.term = p.term;
     c.onclick = () => selectTerm(c, p.term);
     termCol.appendChild(c);
   });
@@ -512,7 +420,6 @@ function renderMatchRound(){
     const c = document.createElement('div');
     c.className = 'chip def';
     c.textContent = d;
-    c.dataset.def = d;
     c.onclick = () => selectDef(c, d);
     defCol.appendChild(c);
   });
@@ -547,8 +454,8 @@ function tryMatch(){
     matchSelection.def.el.classList.add('locked');
     registerAnswer(true, 10);
     state.matchedPairs += 1;
-    document.getElementById('matchStatus').textContent = "Matched " + state.matchedPairs + " of 6";
-    if(state.matchedPairs === 6){
+    document.getElementById('matchStatus').textContent = "Matched " + state.matchedPairs + " of 5";
+    if(state.matchedPairs === 5){
       document.getElementById('matchStatus').textContent = "All matched! Nicely done.";
       document.getElementById('matchNextBtn').style.display = 'inline-block';
       document.getElementById('matchNextBtn').onclick = () => {
@@ -570,12 +477,11 @@ function tryMatch(){
   matchSelection = { term: null, def: null };
 }
 
-// ---------- Results ----------
 function getRank(pct){
-  if(pct >= 90) return { label: "Marketing Guru", emoji: "🏆", color: "#F9E795", ring:"#E0C542" };
-  if(pct >= 75) return { label: "Brand Strategist", emoji: "🥇", color: "#DDEFE0", ring:"#1E7A3B" };
-  if(pct >= 50) return { label: "Marketing Trainee", emoji: "🎯", color: "#CADCFC", ring:"#2F3C7E" };
-  return { label: "Keep Practising", emoji: "📈", color: "#FBE0E0", ring:"#B23A3A" };
+  if(pct >= 90) return { label: "4Ps Virtuoso", emoji: "\uD83C\uDFC6", color: "#F9E795", ring:"#E0C542" };
+  if(pct >= 75) return { label: "Mix Strategist", emoji: "\uD83E\uDD47", color: "#DDEFE0", ring:"#1E7A3B" };
+  if(pct >= 50) return { label: "Mix Apprentice", emoji: "\uD83C\uDFAF", color: "#CADCFC", ring:"#2F3C7E" };
+  return { label: "Keep Mixing", emoji: "\uD83D\uDCC8", color: "#FBE0E0", ring:"#B23A3A" };
 }
 
 function renderResults(){
@@ -587,16 +493,16 @@ function renderResults(){
     <div class="resultstop">
       <div class="badgecircle" style="background:${rank.color}; border:3px solid ${rank.ring};">${rank.emoji}</div>
       <div class="scorebig">${state.score} pts</div>
-      <div class="scoresub">${state.correctCount} of ${state.totalQuestions} correct · ${pct}% accuracy</div>
+      <div class="scoresub">${state.correctCount} of ${state.totalQuestions} correct \u00B7 ${pct}% accuracy</div>
     </div>
     <div style="text-align:center; margin-bottom:10px;">
       <span class="stage-badge" style="background:${rank.ring}; color:#fff;">${rank.label}</span>
     </div>
     <div class="breakdown">
-      <div class="brow"><span>Stage 1 · Marketing or Selling</span><span>${ROUND1.items.length} questions</span></div>
-      <div class="brow"><span>Stage 2 · Term Match</span><span>${ROUND2.pairs.length} pairs</span></div>
-      <div class="brow"><span>Stage 3 · Myth Buster</span><span>${ROUND3.items.length} questions</span></div>
-      <div class="brow"><span>Stage 4 · Brand Detective</span><span>${ROUND4.items.length} questions</span></div>
+      <div class="brow"><span>Stage 1 \u00B7 Which P Is It?</span><span>${ROUND1.items.length} questions</span></div>
+      <div class="brow"><span>Stage 2 \u00B7 Term Match</span><span>${ROUND2.pairs.length} pairs</span></div>
+      <div class="brow"><span>Stage 3 \u00B7 Myth Buster</span><span>${ROUND3.items.length} questions</span></div>
+      <div class="brow"><span>Stage 4 \u00B7 Brand Mix Detective</span><span>${ROUND4.items.length} questions</span></div>
       <div class="brow"><span>Streak bonuses earned</span><span>+${state.bonusAwarded} pts</span></div>
     </div>
     <input type="text" class="nameinput" id="nameInput" placeholder="Type your name for your certificate (optional)">
@@ -613,7 +519,7 @@ function renderResults(){
     document.getElementById('certOut').innerHTML = `
       <div class="certline">This certifies that</div>
       <div style="text-align:center; font-family:Georgia,serif; font-size:22px; color:var(--navy); font-weight:700; margin:4px 0;">${escapeHtml(name)}</div>
-      <div class="certline">has earned the rank of <strong>${rank.label}</strong> in Marketing Mission — ${pct}% accuracy, ${state.score} points.</div>
+      <div class="certline">has earned the rank of <strong>${rank.label}</strong> in Marketing Mix Master \u2014 ${pct}% accuracy, ${state.score} points.</div>
     `;
   };
 }
@@ -634,7 +540,6 @@ function resetGame(){
   renderIntro();
 }
 
-// ---------- INIT ----------
 updateScorePill();
 renderIntro();
 </script>
