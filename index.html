@@ -3,562 +3,583 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nudge Detective | Year 10 Business, Lesson 15</title>
-<meta name="description" content="A four-round consumer behaviour activity for Year 10 Economics and Business: sort influences, order the decision process, spot business tactics and judge what is misleading.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<title>The Ethics Bench | Year 10 Business, Lesson 16</title>
 <style>
 :root{
-  --ink:#141B3D;
-  --ink-2:#1E2A5A;
-  --ink-3:#2A3872;
-  --coral:#F96167;
-  --coral-dk:#C4353C;
-  --gold:#F9E795;
-  --gold-dk:#C99A16;
-  --paper:#FBF7EF;
-  --paper-2:#EFE8DA;
-  --good:#4CC38A;
-  --bad:#FF7A85;
-  --mist:#AEB8DC;
-  --display:'Space Grotesk',"Trebuchet MS",system-ui,sans-serif;
-  --mono:'IBM Plex Mono',ui-monospace,"Courier New",monospace;
+  --ink:#16281F; --ink-3:#2B4A38;
+  --kraft:#E9E0CC; --kraft-2:#DCD0B4; --kraft-3:#C9B994;
+  --paper:#FCFAF4;
+  --green:#2D6A4F; --red:#A33223; --gold:#C08F16; --sage:#8FBFA3;
+  --rule:rgba(22,40,31,.18);
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --mono:ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
   background:var(--ink);
-  color:#fff;
-  font-family:var(--display);
-  font-size:17px;
-  line-height:1.5;
+  background-image:radial-gradient(ellipse at 50% -10%, #24402F 0%, var(--ink) 62%);
+  color:var(--kraft);
+  font-family:var(--sans);
   -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  padding:18px 14px 56px;
 }
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(900px 500px at 88% -10%, rgba(249,97,103,.20), transparent 65%),
-    radial-gradient(700px 420px at 5% 105%, rgba(249,231,149,.12), transparent 65%);
-}
-.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:26px 20px 60px}
+.wrap{max-width:880px;margin:0 auto}
 
-/* ---------------- header ---------------- */
-.eyebrow{
-  font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--gold);margin:0 0 6px
-}
-h1{
-  font-size:clamp(34px,7vw,58px);line-height:.98;margin:0;font-weight:700;letter-spacing:-.02em
-}
-h1 em{font-style:normal;color:var(--coral)}
-.tagline{color:var(--mist);margin:10px 0 0;max-width:52ch}
+/* ---------- masthead ---------- */
+.masthead{border-bottom:1px solid rgba(233,224,204,.22);padding-bottom:14px;margin-bottom:20px}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 6px}
+h1{font-family:var(--serif);font-size:clamp(28px,6vw,42px);line-height:1.02;margin:0;color:var(--paper);font-weight:700}
+.sub{margin:8px 0 0;font-size:14.5px;color:var(--sage);max-width:56ch;line-height:1.5}
 
-/* ---------------- layout ---------------- */
-.grid{display:grid;grid-template-columns:1fr 300px;gap:26px;margin-top:26px;align-items:start}
-@media (max-width:860px){.grid{grid-template-columns:1fr}}
+/* ---------- status bar ---------- */
+.status{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 18px}
+.pips{display:flex;gap:6px;margin-right:auto}
+.pip{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;padding:5px 9px;border:1px solid rgba(233,224,204,.28);border-radius:2px;color:rgba(233,224,204,.6)}
+.pip.on{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:700}
+.pip.done{border-color:var(--sage);color:var(--sage)}
+.meter{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--kraft);border:1px solid rgba(233,224,204,.28);border-radius:2px;padding:5px 10px}
+.meter b{color:var(--paper);font-size:13.5px}
+.meter.hot{border-color:var(--gold);color:var(--gold)}
 
-.panel{
-  background:var(--ink-2);border-radius:14px;padding:24px;
-  box-shadow:0 14px 34px rgba(0,0,0,.28)
-}
+/* ---------- folder / case card ---------- */
+.folder{position:relative;background:var(--kraft);color:var(--ink);border-radius:3px 10px 3px 3px;
+  box-shadow:0 14px 34px rgba(0,0,0,.34), 0 1px 0 rgba(255,255,255,.35) inset;padding:0;overflow:hidden}
+.folder::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--kraft-3)}
+.filehead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;
+  padding:16px 20px 12px;border-bottom:1px dashed var(--rule);background:var(--kraft-2)}
+.fileno{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5B5233}
+.filetitle{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:700}
+.body{padding:20px 20px 6px}
+.prompt{font-family:var(--serif);font-size:clamp(17px,2.7vw,21px);line-height:1.42;margin:0 0 4px;color:var(--ink)}
+.hint{font-size:13px;color:#5B5233;margin:12px 0 0;font-style:italic}
 
-/* ---------------- receipt (signature element) ---------------- */
-.receipt{
-  background:var(--paper);color:#20223A;border-radius:5px 5px 0 0;
-  font-family:var(--mono);padding:18px 18px 8px;position:relative;
-  box-shadow:0 14px 34px rgba(0,0,0,.30)
-}
-.receipt::after{
-  content:"";position:absolute;left:0;right:0;bottom:-11px;height:12px;
-  background:
-    linear-gradient(-45deg,transparent 50%,var(--paper) 50%) 0 0/12px 12px repeat-x,
-    linear-gradient(45deg,transparent 50%,var(--paper) 50%) 6px 0/12px 12px repeat-x;
-}
-.receipt h2{
-  font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 2px;font-weight:600
-}
-.receipt .sub{font-size:11px;color:#6C6F86;margin:0 0 12px}
-.rule{border-top:1px dashed #B9B4A6;margin:10px 0}
-.line{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:2px 0}
-.line span:first-child{color:#4A4D63}
-.line b{font-weight:600}
-.total{font-size:15px;font-weight:600}
-.total b{color:var(--coral-dk);font-size:22px}
-.streak{font-size:12.5px;color:#4A4D63}
-.streak b{color:var(--gold-dk)}
-.badges{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 4px}
-.badge{
-  font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
-  background:#20223A;color:var(--gold);padding:4px 7px;border-radius:3px
-}
-.badge.pending{background:transparent;color:#B9B4A6;border:1px dashed #C8C2B2}
-
-/* ---------------- rounds ---------------- */
-.roundbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px}
-.chip{
-  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-  background:var(--ink-3);color:var(--gold);padding:5px 9px;border-radius:4px
-}
-.dots{display:flex;gap:5px;margin-left:auto}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--ink-3)}
-.dot.done{background:var(--good)}
-.dot.miss{background:var(--bad)}
-.dot.now{background:var(--gold);transform:scale(1.25)}
-h3.q{font-size:clamp(20px,3.2vw,27px);line-height:1.25;margin:14px 0 4px;font-weight:700}
-.qhint{color:var(--mist);font-size:14.5px;margin:0 0 18px}
-
-.opts{display:grid;gap:10px}
+/* ---------- options ---------- */
+.opts{display:grid;gap:9px;padding:16px 20px 20px}
 .opts.two{grid-template-columns:1fr 1fr}
-.opts.four{grid-template-columns:1fr 1fr}
-@media (max-width:620px){.opts.two,.opts.four{grid-template-columns:1fr}}
-button.opt{
-  font-family:var(--display);font-size:16px;font-weight:500;text-align:left;
-  background:var(--ink-3);color:#fff;border:2px solid transparent;border-radius:10px;
-  padding:15px 16px;cursor:pointer;transition:transform .12s,background .12s,border-color .12s
-}
-button.opt:hover:not(:disabled){background:#35458A;transform:translateY(-2px)}
-button.opt:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-button.opt:disabled{cursor:default;opacity:.75}
-button.opt.right{background:rgba(76,195,138,.18);border-color:var(--good);opacity:1}
-button.opt.wrong{background:rgba(255,122,133,.16);border-color:var(--bad);opacity:1}
-button.opt .k{
-  font-family:var(--mono);font-size:11px;color:var(--gold);display:block;margin-bottom:3px;
-  letter-spacing:.1em;text-transform:uppercase
-}
+@media(max-width:560px){.opts.two{grid-template-columns:1fr}}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;
+  font-family:var(--sans);font-size:15px;line-height:1.35;color:var(--ink);
+  background:var(--paper);border:1px solid var(--kraft-3);border-radius:3px;
+  padding:13px 14px;cursor:pointer;transition:transform .12s ease,border-color .12s ease,background .12s ease}
+.opt:hover:not(:disabled){border-color:var(--green);transform:translateY(-1px)}
+.opt:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.opt:disabled{cursor:default}
+.key{flex:0 0 auto;font-family:var(--mono);font-size:11.5px;font-weight:700;color:#5B5233;
+  border:1px solid var(--kraft-3);border-radius:2px;padding:2px 6px;background:var(--kraft)}
+.opt.right{background:#E4F0E7;border-color:var(--green)}
+.opt.right .key{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{background:#F6E2DE;border-color:var(--red)}
+.opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+.opt.muted{opacity:.5}
 
-/* order round */
-.slots{display:grid;gap:8px;margin-bottom:16px}
-.slot{
-  display:flex;gap:12px;align-items:center;border:2px dashed var(--ink-3);border-radius:10px;
-  padding:12px 14px;font-size:15.5px;color:var(--mist);min-height:52px
-}
-.slot .n{font-family:var(--mono);font-size:13px;color:var(--gold);min-width:18px}
-.slot.filled{border-style:solid;border-color:var(--good);background:rgba(76,195,138,.14);color:#fff}
+/* ---------- stamp ---------- */
+.stamp{position:absolute;top:64px;right:16px;font-family:var(--mono);font-weight:700;
+  font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:8px 12px;
+  border:3px double currentColor;border-radius:3px;transform:rotate(-9deg);pointer-events:none;opacity:0}
+.stamp.show{animation:press .34s cubic-bezier(.2,1.5,.4,1) forwards}
+.stamp.ok{color:var(--green)}
+.stamp.no{color:var(--red)}
+@keyframes press{0%{opacity:0;transform:rotate(-9deg) scale(1.7)}60%{opacity:1;transform:rotate(-9deg) scale(.96)}100%{opacity:.92;transform:rotate(-9deg) scale(1)}}
 
-.fb{margin-top:16px;border-radius:10px;padding:14px 16px;font-size:15.5px;display:none}
-.fb.show{display:block}
-.fb.ok{background:rgba(76,195,138,.14);border-left:4px solid var(--good)}
-.fb.no{background:rgba(255,122,133,.14);border-left:4px solid var(--bad)}
-.fb b{display:block;margin-bottom:3px}
+/* ---------- feedback ---------- */
+.fb{margin:0;padding:16px 20px 20px;border-top:1px dashed var(--rule);background:var(--kraft-2)}
+.fb h3{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 7px;color:#5B5233}
+.fb p{margin:0;font-size:14.5px;line-height:1.5;color:var(--ink)}
+.fb .pts{font-family:var(--mono);font-size:12px;color:var(--green);margin-top:9px;letter-spacing:.05em}
+.fb .pts.zero{color:var(--red)}
 
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-button.cta{
-  font-family:var(--display);font-size:16px;font-weight:700;background:var(--coral);color:#fff;
-  border:0;border-radius:9px;padding:14px 22px;cursor:pointer;transition:transform .12s,filter .12s
-}
-button.cta:hover{filter:brightness(1.07);transform:translateY(-2px)}
-button.cta:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-button.ghost{background:transparent;color:var(--gold);border:2px solid var(--ink-3)}
+/* ---------- buttons ---------- */
+.bar{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0}
+.btn{font-family:var(--sans);font-size:15px;font-weight:600;padding:12px 20px;border-radius:3px;cursor:pointer;
+  border:1px solid var(--gold);background:var(--gold);color:var(--ink);transition:filter .12s ease}
+.btn:hover{filter:brightness(1.08)}
+.btn:focus-visible{outline:3px solid var(--sage);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--kraft);border-color:rgba(233,224,204,.4)}
+.btn.ghost:hover{border-color:var(--kraft)}
 
-/* ---------------- start + end ---------------- */
-.how{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0 6px}
-@media (max-width:760px){.how{grid-template-columns:1fr 1fr}}
-.how div{background:var(--ink-3);border-radius:10px;padding:14px}
-.how .num{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.1em}
-.how b{display:block;font-size:16px;margin:4px 0 3px}
-.how p{margin:0;font-size:13.5px;color:var(--mist)}
-label.nm{display:block;font-size:14px;color:var(--mist);margin:20px 0 6px}
-input#name{
-  font-family:var(--display);font-size:17px;padding:13px 14px;border-radius:9px;border:2px solid var(--ink-3);
-  background:var(--ink);color:#fff;width:min(340px,100%)
-}
-input#name:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+/* ---------- panels ---------- */
+.panel{background:var(--kraft);color:var(--ink);border-radius:3px;padding:24px 22px;box-shadow:0 14px 34px rgba(0,0,0,.34)}
+.panel h2{font-family:var(--serif);font-size:clamp(22px,4.6vw,30px);margin:0 0 8px;line-height:1.1}
+.panel p{font-size:15px;line-height:1.55;margin:0 0 12px}
+.rules{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:9px}
+.rules li{display:flex;gap:11px;font-size:14.5px;line-height:1.45;align-items:flex-start}
+.rules .n{font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;background:var(--ink-3);
+  border-radius:2px;padding:3px 7px;flex:0 0 auto;margin-top:1px}
 
-.cert{
-  background:var(--paper);color:#20223A;border-radius:10px;padding:30px;text-align:center;
-  border:3px double var(--gold-dk)
-}
-.cert .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--coral-dk)}
-.cert h2{font-size:clamp(24px,5vw,36px);margin:6px 0 2px}
-.cert .who{font-size:22px;font-weight:700;margin:14px 0 2px}
-.cert .score{font-family:var(--mono);font-size:44px;font-weight:600;color:var(--coral-dk);margin:12px 0 0}
-.cert .meta{font-family:var(--mono);font-size:12.5px;color:#5A5D74}
-.cert .badges{justify-content:center}
-.cert .badge{background:#20223A}
+.bigscore{display:flex;flex-wrap:wrap;gap:22px;align-items:baseline;border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);padding:16px 0;margin:16px 0}
+.bigscore .num{font-family:var(--serif);font-size:52px;line-height:.9;color:var(--ink)}
+.bigscore .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#5B5233;display:block;margin-top:6px}
 
-.review{margin-top:22px}
-.review h4{font-size:15px;letter-spacing:.1em;text-transform:uppercase;font-family:var(--mono);color:var(--gold);margin:0 0 10px}
-.review ul{list-style:none;padding:0;margin:0;display:grid;gap:9px}
-.review li{background:var(--ink-3);border-radius:9px;padding:12px 14px;font-size:14.5px}
-.review li b{color:var(--bad)}
-.review .clean{color:var(--good);font-size:15.5px}
+.badges{display:grid;gap:9px;margin:0 0 18px}
+.badge{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border:1px solid var(--kraft-3);
+  border-left:4px solid var(--gold);border-radius:2px;padding:11px 13px}
+.badge .bt{font-weight:700;font-size:14.5px;display:block}
+.badge .bd{font-size:13px;color:#4A4633;line-height:1.4}
 
-footer{margin-top:36px;color:#7C87B4;font-size:12.5px;font-family:var(--mono);line-height:1.7}
+.review{display:grid;gap:10px;margin:0}
+.review .item{background:var(--paper);border:1px solid var(--kraft-3);border-radius:2px;padding:12px 13px}
+.review .q{font-family:var(--serif);font-size:15px;line-height:1.4;margin:0 0 7px}
+.review .a{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;margin:0 0 4px}
+.review .a.you{color:var(--red)}
+.review .a.corr{color:var(--green)}
+.review .why{font-size:13.5px;line-height:1.45;color:#4A4633;margin:6px 0 0}
+h3.sec{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5B5233;margin:22px 0 10px}
+
+/* ---------- certificate ---------- */
+.cert{background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-radius:2px;padding:26px 24px;margin-top:14px;text-align:center}
+.cert .ct{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5B5233}
+.cert .cn{font-family:var(--serif);font-size:clamp(22px,5vw,32px);margin:12px 0 6px;border-bottom:1px solid var(--rule);display:inline-block;padding:0 14px 6px;min-width:60%}
+.cert .cl{font-family:var(--serif);font-size:17px;margin:12px 0 4px}
+.cert .cm{font-size:13.5px;color:#4A4633;margin:6px 0 0;line-height:1.5}
+.cert .cs{display:flex;justify-content:center;gap:34px;margin-top:20px;flex-wrap:wrap}
+.cert .cs div{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#5B5233;border-top:1px solid var(--ink);padding-top:6px;min-width:150px}
+input[type=text]{font-family:var(--serif);font-size:17px;padding:9px 12px;border:1px solid var(--kraft-3);
+  border-radius:2px;background:#fff;color:var(--ink);width:100%;max-width:340px}
+input[type=text]:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+.namerow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0 0}
+label.nl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5B5233}
+
+footer{margin:26px 0 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:rgba(233,224,204,.45);text-align:center;line-height:1.7}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001s!important;transition-duration:.001s!important}
+  .stamp.show{opacity:.92}
+}
 @media print{
-  body{background:#fff;color:#000}
-  body::before,.noprint,footer{display:none!important}
-  .wrap{max-width:none;padding:0}
-  .cert{border-color:#000;box-shadow:none}
+  body{background:#fff;color:#000;padding:0}
+  .noprint{display:none!important}
+  .cert{border:2px solid #000;box-shadow:none}
+  .panel{box-shadow:none;background:#fff}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <header class="noprint">
-    <p class="eyebrow">Year 10 Economics and Business &middot; Week 3, Lesson 15 &middot; VCEBC013</p>
-    <h1>Nudge <em>Detective</em></h1>
-    <p class="tagline">Four rounds on consumer behaviour. Work out what influences a shopper, when it happens, what businesses do about it, and where the law draws the line.</p>
+  <header class="masthead">
+    <p class="tag">Year 10 Business &middot; Lesson 16 &middot; VCEBC013</p>
+    <h1>The Ethics Bench</h1>
+    <p class="sub">Thirty case files across four rounds. Read the decision, deliver the verdict, and see whether the bench agrees with you.</p>
   </header>
 
-  <div class="grid">
-    <main>
-      <!-- START -->
-      <section class="panel" id="start">
-        <p class="eyebrow">Before you begin</p>
-        <h3 class="q" style="margin-top:6px">Thirty calls to make. One score.</h3>
-        <div class="how">
-          <div><span class="num">ROUND 1</span><b>Sort the influence</b><p>Personal, social, economic or marketing.</p></div>
-          <div><span class="num">ROUND 2</span><b>Order the process</b><p>Put the five decision stages in order.</p></div>
-          <div><span class="num">ROUND 3</span><b>Name the tactic</b><p>Six lines from advertisements.</p></div>
-          <div><span class="num">ROUND 4</span><b>Legal or misleading</b><p>Judge it against consumer law.</p></div>
-        </div>
-        <p class="qhint" style="margin-top:16px">Every correct call is worth 100 points. Three in a row starts a streak bonus of 50 per answer, and a wrong call resets it. Answers are explained as you go, so read the feedback even when you get it right.</p>
-        <label class="nm" for="name">Your name for the certificate (optional)</label>
-        <input id="name" type="text" maxlength="40" placeholder="e.g. A. Nguyen" autocomplete="off">
-        <div class="actions"><button class="cta" id="begin">Start round 1</button></div>
-      </section>
+  <div id="app"></div>
 
-      <!-- GAME -->
-      <section class="panel" id="game" hidden>
-        <div class="roundbar">
-          <span class="chip" id="roundChip">Round 1 of 4</span>
-          <span class="chip" id="roundName">Sort the influence</span>
-          <div class="dots" id="dots" aria-hidden="true"></div>
-        </div>
-        <h3 class="q" id="qText">&nbsp;</h3>
-        <p class="qhint" id="qHint"></p>
-        <div class="slots" id="slots" hidden></div>
-        <div class="opts" id="opts"></div>
-        <div class="fb" id="fb" role="status" aria-live="polite"></div>
-        <div class="actions"><button class="cta" id="next" hidden>Next</button></div>
-      </section>
-
-      <!-- END -->
-      <section id="end" hidden>
-        <div class="cert" id="cert">
-          <p class="k">Year 10 Economics and Business &middot; Consumer Behaviour</p>
-          <h2>Nudge Detective</h2>
-          <p class="meta">Certificate of completion</p>
-          <p class="who" id="cName">Student</p>
-          <p class="score" id="cScore">0</p>
-          <p class="meta" id="cMeta">0 of 30 correct</p>
-          <div class="badges" id="cBadges"></div>
-          <p class="meta" id="cDate" style="margin-top:14px"></p>
-        </div>
-        <div class="panel review noprint" style="margin-top:22px">
-          <h4>Worth another look</h4>
-          <div id="reviewBox"></div>
-          <div class="actions">
-            <button class="cta" onclick="window.print()">Print or save the certificate</button>
-            <button class="cta ghost" id="again">Play again</button>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- RECEIPT -->
-    <aside class="receipt noprint" aria-label="Your score">
-      <h2>Nudge Detective</h2>
-      <p class="sub">Consumer behaviour &middot; Lesson 15</p>
-      <div class="line"><span>Round 1 Influences</span><b id="r0">0</b></div>
-      <div class="line"><span>Round 2 Process</span><b id="r1">0</b></div>
-      <div class="line"><span>Round 3 Tactics</span><b id="r2">0</b></div>
-      <div class="line"><span>Round 4 The law</span><b id="r3">0</b></div>
-      <div class="line"><span>Streak bonus</span><b id="rb">0</b></div>
-      <div class="rule"></div>
-      <div class="line total"><span>TOTAL</span><b id="rt">0</b></div>
-      <p class="streak">Streak: <b id="rs">0</b> &nbsp;|&nbsp; Best: <b id="rbest">0</b></p>
-      <div class="rule"></div>
-      <p class="sub" style="margin:0 0 4px">Badges</p>
-      <div class="badges" id="badgeBox"></div>
-    </aside>
-  </div>
-
-  <footer>
-    Built for Year 10 Economics and Business, Manor Lakes College. Brands used in the tactic round are fictional.
-    Round 4 reflects general principles of the Australian Consumer Law and is for classroom discussion, not legal advice.
+  <footer class="noprint">
+    Business Ethics &middot; Week 4, Monday &middot; Victorian Curriculum 2.0<br>
+    Scenarios are composites written for teaching. Any resemblance to a named business is illustrative only.
   </footer>
 </div>
 
 <script>
-(function(){
 "use strict";
 
-/* ---------------------------------------------------------------- content */
-const CATS = ["Personal","Social","Economic","Marketing"];
+/* ============================== CONTENT ============================== */
 
-const R1 = [
-  ["Your friend shows off her new phone case at lunch and you want one.","Social","An unpaid friend shaping your choice is a social influence. If she were paid to promote it, it would be marketing."],
-  ["Interest rates rise, so your family's loan repayments go up.","Economic","Interest rates sit outside the household and change what it can afford, so this is economic."],
-  ["The chocolate bars are stacked right beside the checkout queue.","Marketing","Placement is a marketing decision the business controls."],
-  ["You have always tried to buy second-hand where you can.","Personal","Your own values and beliefs are personal influences."],
-  ["A creator you follow is paid to promote an energy drink.","Marketing","Paid promotion is marketing, even when it arrives through a person you like. That is the trap here."],
-  ["You have had a flat week, so you buy takeaway instead of cooking.","Personal","Mood is personal. It is also why late-night delivery advertising works."],
-  ["Your family has bought the same brand of tomato sauce for years.","Social","Family habit and culture are social influences, and they are how brand loyalty often starts."],
-  ["Unemployment rises in your suburb and households cut back.","Economic","Employment conditions are economic influences on spending."],
-  ["The tag reads 'or 4 payments of $19.75' instead of $79.","Marketing","Payment framing is a pricing and promotion choice, so it is marketing."],
-  ["You compete in athletics, so running shoes matter more to you than boots.","Personal","Your interests and lifestyle are personal influences on what you value."],
-  ["Nearly everyone in your year level wears the same brand of socks.","Social","Peer group pressure is a social influence."],
-  ["The Australian dollar falls, so imported headphones cost more.","Economic","Exchange rates change import prices, so this is economic."]
+const VERDICTS = [
+  "Legal and ethical",
+  "Legal but unethical",
+  "Illegal but arguably ethical",
+  "Illegal and unethical"
 ];
 
-const STAGES = [
-  ["Need or want recognised","Something triggers the feeling that there is a gap."],
-  ["Information search","Reviews, socials, friends, shelves."],
-  ["Compare the options","Weigh price, quality, features and brand."],
-  ["Purchase","Choose, pay, decide where to buy."],
-  ["After the purchase","Judge it: satisfied, disappointed, or in between."]
-];
-
-const TACTICS = ["Charm pricing","Reference pricing","Scarcity and urgency","Loyalty program","Placement","Payment framing"];
-const R3 = [
-  ["\u201c$4.99 a kilo\u201d","Charm pricing","We read left to right, so the first digit does most of the work. $4.99 reads as 'four something'."],
-  ["\u201cWas $249. Now $149.\u201d","Reference pricing","The higher first number anchors your judgement so the second one feels like a win."],
-  ["\u201cOnly 4 seats left at this price\u201d","Scarcity and urgency","Pressure shortens the compare stage, which is the stage that protects you."],
-  ["\u201cMembers save 20 per cent this week\u201d","Loyalty program","Member pricing buys repeat visits, and collects data about what you buy."],
-  ["The soft drink fridge sits right beside the register","Placement","Position drives unplanned purchases. Almost nobody notices this one."],
-  ["\u201cOr 4 interest-free payments of $37.25\u201d","Payment framing","Breaking the price into instalments makes $149 feel smaller than it is."]
-];
-
-const LAWOPT = ["Legal marketing","Likely misleading"];
-const R4 = [
-  ["A shop advertises 'was $120, now $79' for an item it has never sold at $120.","Likely misleading","A discount claim measured against a price that never existed is a misleading claim about price."],
-  ["A cafe gives you a free coffee after nine stamps on a card.","Legal marketing","A loyalty offer that delivers what it promises is ordinary marketing."],
-  ["An ad says the sale ends Sunday, and the sale genuinely ends Sunday.","Legal marketing","Urgency is legal when the deadline is real. It is the false deadline that is the problem."],
-  ["A store advertises '50 per cent off everything' while 30 lines are quietly excluded.","Likely misleading","'Everything' has to mean everything, or the exclusions have to be made clear."],
-  ["A supermarket puts its own brand at the same eye level as the branded product.","Legal marketing","Shelf placement is a business decision, and it is not a claim about anything."],
-  ["A paid influencer review never mentions that it was paid for.","Likely misleading","Undisclosed paid endorsement misleads the audience about why the review exists."],
-  ["A retailer refuses to repair a 14-month-old laptop fault, saying the 12-month warranty has expired so you have no rights.","Likely misleading","Consumer guarantees apply on top of any warranty, and can last longer depending on what is reasonable for the product."]
-];
-
-const BADGES = [
-  ["first","First call","one correct answer"],
-  ["streak5","Hot streak","five in a row"],
-  ["r1","Category cracker","all of round 1"],
-  ["r2","Process pro","the order first go"],
-  ["r3","Tactic spotter","all of round 3"],
-  ["r4","Law caller","all of round 4"],
-  ["perfect","Clean sweep","all 30 correct"]
-];
-
-/* ---------------------------------------------------------------- state */
 const ROUNDS = [
-  {name:"Sort the influence", hint:"Which group does this influence belong to?", n:R1.length},
-  {name:"Order the process",  hint:"Tap the five stages in the order a consumer moves through them.", n:1},
-  {name:"Name the tactic",    hint:"Which tactic is this advertisement using?", n:R3.length},
-  {name:"Legal or misleading",hint:"Judge it against the Australian Consumer Law.", n:R4.length}
+  {
+    id: 1,
+    name: "Verdict sort",
+    lead: "Round 1 of 4",
+    intro: "Ten decisions. For each one, decide where it sits on the two axes you learned today: legal or illegal, ethical or unethical. Remember that legal is a floor, not a standard.",
+    kind: "shared",
+    options: VERDICTS,
+    items: [
+      { q: "A cafe pays every staff member the correct award rate, including Sunday penalty rates.",
+        a: 0, why: "It meets the legal minimum and treats staff fairly, so it sits in the top left box. Most business decisions are this ordinary." },
+      { q: "A clothing brand advertises a jacket as 'made with recycled materials'. It is 4% recycled polyester and 96% new polyester.",
+        a: 1, why: "The claim is technically defensible, so it is not clearly unlawful as written. It still misleads in spirit, which is exactly the legal but unethical box." },
+      { q: "A convenience store pays a casual worker for 20 hours when they worked 40, then alters the roster to match the payslip.",
+        a: 3, why: "Underpayment breaches workplace law and falsifying records compounds it. Illegal and unethical, with no argument available." },
+      { q: "A warehouse worker photographs an unsafe loading dock and sends it to a journalist, breaching a confidentiality clause in their contract.",
+        a: 2, why: "The breach is real, so it is unlawful. Many people would defend it on safety grounds, which is why this box exists and why it is contested." },
+      { q: "A supermarket triples the price of bottled water in a town cut off by flooding.",
+        a: 1, why: "Australia has no general law against price gouging, so this is usually lawful. Charging desperate customers three times the price fails every fairness test." },
+      { q: "A phone retailer tells a customer their six-month-old faulty phone has 'no warranty left' and refuses to repair or replace it.",
+        a: 3, why: "Consumer guarantees under Australian Consumer Law apply regardless of any warranty period, so refusing a remedy is unlawful as well as unfair." },
+      { q: "A manufacturer pays its overseas factory workers the legal local minimum wage, which is well below a living wage in that country.",
+        a: 1, why: "It complies with the law where it operates. Whether complying with a very low minimum is enough is the hardest ethical question in the topic." },
+      { q: "A construction firm installs the safety railings that building regulations require.",
+        a: 0, why: "Legal and ethical, but note this is compliance rather than anything extra. Meeting a legal duty is the floor, not a good deed." },
+      { q: "A gym contract discloses a monthly administration fee, but only in eight point type on the back page.",
+        a: 1, why: "Disclosure happened, so the business can argue it met its obligations. Designing disclosure so nobody reads it is the unethical part." },
+      { q: "A fast food chain promotes a high-sugar drink using a cartoon character aimed at eight-year-olds.",
+        a: 1, why: "Advertising to children is regulated by codes rather than prohibited outright, so it is generally lawful. The ethical objection is that the audience cannot evaluate the claim." }
+    ]
+  },
+  {
+    id: 2,
+    name: "Who gets hurt",
+    lead: "Round 2 of 4",
+    intro: "A judgement is only as good as its stakeholder analysis. For each decision, choose the stakeholder harmed most directly. Not the one you feel sorriest for, the one the decision lands on first.",
+    kind: "per-item",
+    items: [
+      { q: "A supermarket chain extends its payment terms to small produce growers from 30 days to 90 days.",
+        options: ["Customers", "Suppliers", "Shareholders", "Government"], a: 1,
+        why: "The growers now fund three months of the supermarket's trading out of their own cash. Small suppliers rarely have the reserves to absorb that." },
+      { q: "A factory discharges warm water into a local creek. It stays within the limits of its environmental licence.",
+        options: ["Employees", "The local community and environment", "Suppliers", "Owners"], a: 1,
+        why: "Nobody inside the business is harmed, which is the point. The cost falls on people and ecosystems outside it who never agreed to it." },
+      { q: "A business cuts its apprentice and staff training budget to lift this year's reported profit.",
+        options: ["Employees", "Customers", "Regulators", "Suppliers"], a: 0,
+        why: "Staff lose the skills and progression they were promised. Customers feel it later through service quality, but the first hit is internal." },
+      { q: "A retailer keeps selling a kettle it knows fails after four months, and makes the returns process deliberately slow.",
+        options: ["Suppliers", "Employees", "Customers", "Owners"], a: 2,
+        why: "Customers pay for a product the business knows will fail, then pay again in time and frustration. Staff are affected too, but as messengers." },
+      { q: "The directors of a listed company approve large executive bonuses in a year the business made a loss.",
+        options: ["Shareholders", "Customers", "Suppliers", "The environment"], a: 0,
+        why: "The owners fund the bonuses out of a loss-making year. This is why executive pay is voted on at annual general meetings." },
+      { q: "A mining business closes a regional site with two weeks' notice.",
+        options: ["Shareholders", "The local community", "Customers", "Competitors"], a: 1,
+        why: "Workers lose jobs and the town loses the businesses that depended on those wages. Two weeks gives nobody time to adjust." }
+    ]
+  },
+  {
+    id: 3,
+    name: "Myth or fact",
+    lead: "Round 3 of 4",
+    intro: "Eight statements about business ethics. Some are true, some are the exact misconceptions that cost marks in a written response. Call each one.",
+    kind: "shared",
+    options: ["Myth", "Fact"],
+    items: [
+      { q: "If a business action is legal, then it must be ethical.", a: 0,
+        why: "This is the misconception the whole lesson exists to break. Legal and ethical are two separate tests, which is why the legal but unethical box is the busiest one." },
+      { q: "Behaving ethically can cost a business money in the short term.", a: 1,
+        why: "Fact, and saying so makes an answer stronger. Auditing suppliers, paying above the minimum and refusing profitable shortcuts all cost real money." },
+      { q: "Only large corporations are capable of behaving unethically.", a: 0,
+        why: "Myth. A single franchise store, a sole trader or a local cafe can underpay staff or mislead customers. Scale changes the number affected, not the ethics." },
+      { q: "A code of conduct is a written document setting out the standards of behaviour a business expects of its people.", a: 1,
+        why: "Fact, and the written part matters. Putting it in writing removes the defence that nobody knew what was expected." },
+      { q: "Stakeholders are only the people who own shares in a business.", a: 0,
+        why: "Myth. Owners are one group. Employees, customers, suppliers, the local community, government and the environment are all stakeholders." },
+      { q: "Something can be unlawful without being unethical, and unethical without being unlawful.", a: 1,
+        why: "Fact. That is precisely what the two axes show, and it is why four boxes exist rather than two." },
+      { q: "If every business in an industry does something, that makes it ethical.", a: 0,
+        why: "Myth. Widespread practice explains behaviour but does not justify it. Industry-wide practice is often exactly what regulation eventually targets." },
+      { q: "Poor ethics can raise a business's costs through staff turnover, lost customers and regulator penalties.", a: 1,
+        why: "Fact, and this is the sentence that turns a moral answer into a business answer. Ethics shows up in costs and revenue." }
+    ]
+  },
+  {
+    id: 4,
+    name: "Apply the test",
+    lead: "Round 4 of 4",
+    intro: "You are running the four-question ethics test. For each decision, choose the question that exposes the problem. If it clears all four, say so.",
+    kind: "shared",
+    options: [
+      "Q1 Is it legal?",
+      "Q3 Is it fair to everyone affected?",
+      "Q4 Would it survive the front page test?",
+      "It passes all four"
+    ],
+    items: [
+      { q: "A business decides to pay its contractors 45 days late to improve its own cash flow, breaching the payment terms it signed.",
+        a: 0, why: "Question one closes the case. Breaching the contract makes it unlawful, so there is no need to argue about fairness." },
+      { q: "A cafe chain switches to a cheaper coffee supplier that refuses to say where the beans are grown or how growers are paid.",
+        a: 1, why: "It is lawful and the stakeholders are identifiable, but fairness cannot be established for the growers. Refusing to disclose is itself information." },
+      { q: "A retailer's 'conscious' range is 3% of what it sells and receives the entire national advertising campaign.",
+        a: 2, why: "Nothing here is unlawful and the range genuinely exists. The problem is the gap between the change and the promotion, which is what a front page story would seize on." },
+      { q: "A business pays award wages or better, labels products accurately and publishes its full supplier list.",
+        a: 3, why: "Legal, stakeholders identified, fair to all of them, and it would read well anywhere. Some decisions really do clear the test." },
+      { q: "A labour hire firm classifies its workers as independent contractors so it does not have to pay leave entitlements.",
+        a: 0, why: "Question one again. Treating employees as contractors to avoid entitlements is sham contracting, which is unlawful under Australian workplace law." },
+      { q: "A snack manufacturer reduces the pack size by 15%, keeps the price and packaging identical, and prints the new weight on the back.",
+        a: 2, why: "The weight is disclosed, so it is lawful, and customers can technically check. It fails the front page test because the whole design relies on them not checking." }
+    ]
+  }
 ];
 
-let S;
-function reset(){
-  S={round:0,i:0,scores:[0,0,0,0],bonus:0,streak:0,best:0,correct:0,total:R1.length+STAGES.length+R3.length+R4.length,
-     badges:new Set(),wrong:[],orderPos:0,orderClean:true,r1c:0,r3c:0,r4c:0,name:""};
-}
-reset();
+/* ============================== STATE ============================== */
 
-const el = id => document.getElementById(id);
-const startS=el("start"), gameS=el("game"), endS=el("end");
+const state = {
+  screen: "intro",
+  round: 0,
+  index: 0,
+  answered: false,
+  picked: -1,
+  score: 0,
+  correct: 0,
+  attempted: 0,
+  streak: 0,
+  bestStreak: 0,
+  roundCorrect: [0, 0, 0, 0],
+  mistakes: [],
+  name: ""
+};
 
-/* ---------------------------------------------------------------- receipt */
-function paint(){
-  for(let i=0;i<4;i++) el("r"+i).textContent=S.scores[i];
-  el("rb").textContent=S.bonus;
-  el("rt").textContent=S.scores.reduce((a,b)=>a+b,0)+S.bonus;
-  el("rs").textContent=S.streak;
-  el("rbest").textContent=S.best;
-  el("badgeBox").innerHTML = BADGES.map(b=>
-    S.badges.has(b[0])
-      ? '<span class="badge">'+b[1]+'</span>'
-      : '<span class="badge pending" title="'+b[2]+'">'+b[1]+'</span>'
-  ).join("");
-}
+const BASE = 10, BONUS = 5, BONUS_AT = 3;
+const totalItems = ROUNDS.reduce((n, r) => n + r.items.length, 0);
 
-function award(id){ if(!S.badges.has(id)){ S.badges.add(id); } }
+/* ============================== HELPERS ============================== */
 
-function score(ok){
-  if(ok){
-    S.correct++; S.streak++; if(S.streak>S.best) S.best=S.streak;
-    S.scores[S.round]+=100;
-    if(S.streak>=3) S.bonus+=50;
-    award("first");
-    if(S.streak>=5) award("streak5");
-  } else {
-    S.streak=0;
-  }
-  paint();
-}
+const app = document.getElementById("app");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const round = () => ROUNDS[state.round];
+const item = () => round().items[state.index];
+const opts = () => round().kind === "shared" ? round().options : item().options;
+const pct = () => state.attempted ? Math.round(state.correct / state.attempted * 100) : 0;
 
-function dots(n,marks){
-  el("dots").innerHTML = Array.from({length:n},(_,k)=>{
-    const c = marks[k]===true?"done":marks[k]===false?"miss":k===S.i?"now":"";
-    return '<span class="dot '+c+'"></span>';
+function statusBar() {
+  const pips = ROUNDS.map((r, i) => {
+    const cls = i === state.round ? "pip on" : (i < state.round ? "pip done" : "pip");
+    return `<span class="${cls}">R${r.id}</span>`;
   }).join("");
-}
-let marks=[[],[],[],[]];
-
-/* ---------------------------------------------------------------- render */
-function showRoundBar(){
-  el("roundChip").textContent="Round "+(S.round+1)+" of 4";
-  el("roundName").textContent=ROUNDS[S.round].name;
-}
-
-function feedback(ok,title,body){
-  const f=el("fb");
-  f.className="fb show "+(ok?"ok":"no");
-  f.innerHTML="<b>"+title+"</b>"+body;
+  const hot = state.streak >= BONUS_AT ? " hot" : "";
+  return `<div class="status">
+    <div class="pips">${pips}</div>
+    <div class="meter"><b>${state.score}</b> pts</div>
+    <div class="meter${hot}">Streak <b>${state.streak}</b></div>
+    <div class="meter">${state.attempted}/${totalItems}</div>
+  </div>`;
 }
 
-function clearFb(){ el("fb").className="fb"; el("fb").innerHTML=""; el("next").hidden=true; }
+/* ============================== SCREENS ============================== */
 
-function render(){
-  clearFb();
-  showRoundBar();
-  el("slots").hidden=true;
-  el("opts").innerHTML="";
-  el("qHint").textContent=ROUNDS[S.round].hint;
-
-  if(S.round===1){ renderOrder(); return; }
-
-  const data = S.round===0?R1[S.i] : S.round===2?R3[S.i] : R4[S.i];
-  const opts = S.round===0?CATS : S.round===2?TACTICS : LAWOPT;
-  const cls  = S.round===0?"four": S.round===2?"four":"two";
-  dots(ROUNDS[S.round].n, marks[S.round]);
-  el("qText").textContent=data[0];
-  const box=el("opts");
-  box.className="opts "+cls;
-  opts.forEach(o=>{
-    const b=document.createElement("button");
-    b.className="opt"; b.type="button"; b.textContent=o;
-    b.addEventListener("click",()=>answer(b,o,data));
-    box.appendChild(b);
-  });
+function drawIntro() {
+  app.innerHTML = `<div class="panel">
+    <h2>Before you start</h2>
+    <p>This is the same reasoning you used in Four Corners, but you have to commit to one answer and the bench keeps score. Work through it honestly rather than guessing; the explanation after each verdict is the part that helps on Wednesday.</p>
+    <ul class="rules">
+      <li><span class="n">1</span><span>Four rounds, ${totalItems} case files: sort the verdict, find the stakeholder, call myth or fact, then apply the four-question test.</span></li>
+      <li><span class="n">2</span><span>${BASE} points for a correct verdict. Answer ${BONUS_AT} or more in a row and each one after that is worth ${BASE + BONUS}.</span></li>
+      <li><span class="n">3</span><span>One attempt per case. Read the explanation before you move on, even when you were right.</span></li>
+      <li><span class="n">4</span><span>At the end you get an accuracy figure, any badges earned, every case you missed, and a certificate you can print.</span></li>
+    </ul>
+    <div class="bar"><button class="btn" id="go">Open the first case file</button></div>
+  </div>`;
+  document.getElementById("go").onclick = () => { state.screen = "round-intro"; draw(); };
 }
 
-function answer(btn,choice,data){
-  const ok = choice===data[1];
-  [...el("opts").children].forEach(b=>{
-    b.disabled=true;
-    if(b.textContent===data[1]) b.classList.add("right");
-  });
-  if(!ok){
-    btn.classList.add("wrong");
-    S.wrong.push([ROUNDS[S.round].name, data[0], data[1], data[2]]);
-  } else {
-    if(S.round===0) S.r1c++;
-    if(S.round===2) S.r3c++;
-    if(S.round===3) S.r4c++;
-  }
-  marks[S.round][S.i]=ok;
-  score(ok);
-  feedback(ok, ok?"Correct.":("Not quite. The answer is "+data[1]+"."), data[2]);
-  dots(ROUNDS[S.round].n, marks[S.round]);
-  el("next").hidden=false;
-  el("next").textContent = (S.i+1<ROUNDS[S.round].n) ? "Next" : (S.round<3?"Start round "+(S.round+2):"See your result");
-  el("next").focus();
+function drawRoundIntro() {
+  const r = round();
+  app.innerHTML = statusBar() + `<div class="panel">
+    <p class="tag" style="color:#5B5233">${esc(r.lead)}</p>
+    <h2>${esc(r.name)}</h2>
+    <p>${esc(r.intro)}</p>
+    <div class="bar"><button class="btn" id="go">Begin round ${r.id}</button></div>
+  </div>`;
+  document.getElementById("go").onclick = () => { state.screen = "play"; draw(); };
 }
 
-/* -------- round 2: order the stages -------- */
-let shuffled=[];
-function renderOrder(){
-  dots(5, marks[1]);
-  el("qText").textContent="Put the consumer decision-making process in order.";
-  const slots=el("slots"); slots.hidden=false;
-  slots.innerHTML=STAGES.map((_,k)=>
-    '<div class="slot" id="slot'+k+'"><span class="n">'+(k+1)+'</span><span>waiting</span></div>').join("");
-  shuffled = STAGES.map((s,idx)=>({label:s[0],hint:s[1],idx})).sort(()=>Math.random()-0.5);
-  const box=el("opts"); box.className="opts two"; box.innerHTML="";
-  shuffled.forEach(s=>{
-    const b=document.createElement("button");
-    b.className="opt"; b.type="button";
-    b.innerHTML='<span class="k">stage?</span>'+s.label;
-    b.dataset.idx=s.idx;
-    b.addEventListener("click",()=>orderTap(b,s));
-    box.appendChild(b);
-  });
-}
+function drawPlay() {
+  const r = round(), it = item(), o = opts();
+  const two = o.length === 2 ? " two" : "";
+  const letters = "ABCD";
 
-function orderTap(btn,s){
-  const want=S.orderPos;
-  if(s.idx===want){
-    btn.disabled=true; btn.classList.add("right");
-    const slot=el("slot"+want);
-    slot.classList.add("filled");
-    slot.innerHTML='<span class="n">'+(want+1)+'</span><span>'+s.label+'</span>';
-    marks[1][want]=true;
-    score(true);
-    S.orderPos++;
-    if(S.orderPos===5){
-      if(S.orderClean) award("r2");
-      feedback(true,"Process complete.","Need or want, then information search, then compare the options, then purchase, then judging it afterwards. Stage 5 is the one businesses care about most, because it drives repeat purchase and reviews.");
-      el("next").hidden=false; el("next").textContent="Start round 3"; el("next").focus();
-    } else {
-      feedback(true,"Correct.","Next: what happens after \u201c"+s.label+"\u201d?");
+  const optHtml = o.map((t, i) => {
+    let cls = "opt";
+    if (state.answered) {
+      if (i === it.a) cls += " right";
+      else if (i === state.picked) cls += " wrong";
+      else cls += " muted";
     }
-  } else {
-    btn.classList.add("wrong");
-    setTimeout(()=>btn.classList.remove("wrong"),700);
-    S.orderClean=false;
-    marks[1][want]=false;
-    score(false);
-    S.wrong.push(["Order the process","Placing \u201c"+s.label+"\u201d at position "+(want+1),STAGES[want][0],STAGES[want][1]]);
-    feedback(false,"Not that one yet.","Position "+(want+1)+" is something else. Ask yourself what a shopper does immediately before \u201c"+s.label+"\u201d.");
+    return `<button class="${cls}" data-i="${i}" ${state.answered ? "disabled" : ""}>
+      <span class="key">${letters[i]}</span><span>${esc(t)}</span></button>`;
+  }).join("");
+
+  let stamp = "", fb = "";
+  if (state.answered) {
+    const ok = state.picked === it.a;
+    stamp = `<div class="stamp show ${ok ? "ok" : "no"}">${ok ? "Verdict upheld" : "Overruled"}</div>`;
+    const earned = ok ? (state.streak > BONUS_AT ? BASE + BONUS : BASE) : 0;
+    fb = `<div class="fb">
+      <h3>${ok ? "Reasoning" : "Why the bench disagrees"}</h3>
+      <p>${esc(it.why)}</p>
+      <p class="pts ${earned ? "" : "zero"}">${earned ? "+" + earned + " points" : "No points"}${ok && state.streak > BONUS_AT ? " (streak bonus)" : ""}</p>
+    </div>`;
   }
-  dots(5,marks[1]);
+
+  app.innerHTML = statusBar() + `<div class="folder">
+    ${stamp}
+    <div class="filehead">
+      <span class="filetitle">${esc(r.name)}</span>
+      <span class="fileno">Case ${state.index + 1} of ${r.items.length}</span>
+    </div>
+    <div class="body">
+      <p class="prompt">${esc(it.q)}</p>
+      ${state.answered ? "" : `<p class="hint">${r.kind === "shared" && r.id === 3 ? "Myth or fact?" : "Choose one. Press A to D or click."}</p>`}
+    </div>
+    <div class="opts${two}">${optHtml}</div>
+    ${fb}
+  </div>
+  ${state.answered ? `<div class="bar"><button class="btn" id="next">${nextLabel()}</button></div>` : ""}`;
+
+  app.querySelectorAll(".opt").forEach(b => { b.onclick = () => answer(+b.dataset.i); });
+  const nx = document.getElementById("next");
+  if (nx) { nx.onclick = advance; nx.focus(); }
 }
 
-/* ---------------------------------------------------------------- flow */
-el("begin").addEventListener("click",()=>{
-  S.name=el("name").value.trim();
-  startS.hidden=true; gameS.hidden=false;
-  render(); paint();
-  el("qText").focus?.();
-});
-
-el("next").addEventListener("click",()=>{
-  if(S.round===1 || S.i+1>=ROUNDS[S.round].n){
-    if(S.round===0 && S.r1c===R1.length) award("r1");
-    if(S.round===2 && S.r3c===R3.length) award("r3");
-    if(S.round===3 && S.r4c===R4.length) award("r4");
-    if(S.round===3){ finish(); return; }
-    S.round++; S.i=0; render(); return;
-  }
-  S.i++; render();
-});
-
-function finish(){
-  if(S.correct===S.total) award("perfect");
-  paint();
-  gameS.hidden=true; endS.hidden=false;
-  const total=S.scores.reduce((a,b)=>a+b,0)+S.bonus;
-  el("cName").textContent = S.name || "Year 10 Business student";
-  el("cScore").textContent = total.toLocaleString("en-AU");
-  el("cMeta").textContent = S.correct+" of "+S.total+" correct  \u00b7  longest streak "+S.best;
-  el("cBadges").innerHTML = [...S.badges].map(id=>{
-    const b=BADGES.find(x=>x[0]===id); return '<span class="badge">'+b[1]+'</span>';
-  }).join("") || '<span class="badge pending">no badges yet</span>';
-  el("cDate").textContent = new Date().toLocaleDateString("en-AU",{day:"numeric",month:"long",year:"numeric"});
-
-  const box=el("reviewBox");
-  if(S.wrong.length===0){
-    box.innerHTML='<p class="clean">Nothing missed. Try the challenge on the exit ticket: as a cafe owner, which tactic would you use, and which would you refuse?</p>';
-  } else {
-    box.innerHTML='<ul>'+S.wrong.map(w=>
-      '<li><b>'+w[0]+'</b><br>'+w[1]+'<br>Answer: <b style="color:#4CC38A">'+w[2]+'</b>. '+w[3]+'</li>').join("")+'</ul>';
-  }
-  window.scrollTo({top:0,behavior:"smooth"});
+function nextLabel() {
+  const r = round();
+  if (state.index + 1 < r.items.length) return "Next case";
+  return state.round + 1 < ROUNDS.length ? "Finish round " + r.id : "See your results";
 }
 
-el("again").addEventListener("click",()=>{
-  const nm=S.name; reset(); S.name=nm; marks=[[],[],[],[]];
-  endS.hidden=true; gameS.hidden=false; render(); paint();
+function answer(i) {
+  if (state.answered) return;
+  const it = item(), ok = i === it.a;
+  state.picked = i;
+  state.answered = true;
+  state.attempted++;
+  if (ok) {
+    state.streak++;
+    if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+    state.score += state.streak > BONUS_AT ? BASE + BONUS : BASE;
+    state.correct++;
+    state.roundCorrect[state.round]++;
+  } else {
+    state.streak = 0;
+    state.mistakes.push({
+      round: round().name,
+      q: it.q,
+      you: opts()[i],
+      corr: opts()[it.a],
+      why: it.why
+    });
+  }
+  draw();
+}
+
+function advance() {
+  const r = round();
+  state.answered = false;
+  state.picked = -1;
+  if (state.index + 1 < r.items.length) {
+    state.index++;
+    state.screen = "play";
+  } else if (state.round + 1 < ROUNDS.length) {
+    state.round++;
+    state.index = 0;
+    state.screen = "round-intro";
+  } else {
+    state.screen = "done";
+  }
+  draw();
+}
+
+/* ============================== BADGES ============================== */
+
+function badges() {
+  const out = [];
+  const a = pct();
+  if (a === 100) out.push(["Unanimous bench", "Every case correct across all four rounds. That is the whole lesson, held."]);
+  else if (a >= 85) out.push(["Sound judgement", a + "% accuracy. You can separate legal from ethical under pressure."]);
+  else if (a >= 70) out.push(["Working knowledge", a + "% accuracy. The distinction is there; the harder cases need another pass."]);
+  if (state.bestStreak >= 8) out.push(["Eight in a row", "A run of " + state.bestStreak + " correct verdicts without a miss."]);
+  else if (state.bestStreak >= 5) out.push(["On a run", "Your best streak was " + state.bestStreak + " correct in a row."]);
+  if (state.roundCorrect[0] === ROUNDS[0].items.length) out.push(["Quadrant master", "All ten verdicts sorted correctly, including the legal but unethical cases."]);
+  if (state.roundCorrect[1] === ROUNDS[1].items.length) out.push(["Stakeholder eye", "Every affected stakeholder identified correctly."]);
+  if (state.roundCorrect[2] === ROUNDS[2].items.length) out.push(["Myth buster", "Not one misconception got past you in round three."]);
+  if (state.roundCorrect[3] === ROUNDS[3].items.length) out.push(["Test applied", "You used the four-question test correctly on every decision."]);
+  if (!out.length) out.push(["Bench time served", "You finished all " + totalItems + " cases. Read the missed ones below, then run it again."]);
+  return out;
+}
+
+function drawDone() {
+  const b = badges();
+  const grade = pct() >= 85 ? "Green" : pct() >= 65 ? "Amber" : "Red";
+
+  const rev = state.mistakes.length
+    ? state.mistakes.map(m => `<div class="item">
+        <p class="q">${esc(m.q)}</p>
+        <p class="a you">Your verdict: ${esc(m.you)}</p>
+        <p class="a corr">Correct: ${esc(m.corr)}</p>
+        <p class="why">${esc(m.why)}</p>
+      </div>`).join("")
+    : `<div class="item"><p class="q" style="margin:0">Nothing to review. You did not miss a single case.</p></div>`;
+
+  app.innerHTML = `<div class="panel">
+    <p class="tag" style="color:#5B5233">Bench closed</p>
+    <h2>Results</h2>
+    <div class="bigscore">
+      <div><span class="num">${state.score}</span><span class="lab">Points</span></div>
+      <div><span class="num">${pct()}%</span><span class="lab">Accuracy</span></div>
+      <div><span class="num">${state.correct}/${totalItems}</span><span class="lab">Correct</span></div>
+      <div><span class="num">${state.bestStreak}</span><span class="lab">Best streak</span></div>
+    </div>
+    <p>Round by round: ${ROUNDS.map((r, i) => esc(r.name) + " " + state.roundCorrect[i] + "/" + r.items.length).join(" &middot; ")}.</p>
+    <p><strong>Self-assessment:</strong> on today's exit ticket scale that puts you at <strong>${grade}</strong>. Use it honestly, since it decides how much scaffolding you get for Wednesday's written task.</p>
+
+    <h3 class="sec">Badges earned</h3>
+    <div class="badges">${b.map(x => `<div class="badge"><div><span class="bt">${esc(x[0])}</span><span class="bd">${esc(x[1])}</span></div></div>`).join("")}</div>
+
+    <h3 class="sec">Cases to review (${state.mistakes.length})</h3>
+    <div class="review">${rev}</div>
+
+    <h3 class="sec noprint">Certificate</h3>
+    <div class="namerow noprint">
+      <label class="nl" for="nm">Your name</label>
+      <input type="text" id="nm" placeholder="Type your name" value="${esc(state.name)}" autocomplete="off">
+    </div>
+
+    <div class="cert" id="cert">
+      <p class="ct">Year 10 Economics and Business &middot; The Ethics Bench</p>
+      <div class="cn" id="cn">${esc(state.name) || "&nbsp;"}</div>
+      <p class="cl">completed all four rounds of Lesson 16, Business Ethics</p>
+      <p class="cm">Score ${state.score} points &middot; ${state.correct} of ${totalItems} correct &middot; ${pct()}% accuracy &middot; best streak ${state.bestStreak}<br>
+      Demonstrated the difference between legal and ethical conduct, identified affected stakeholders, and applied a four-question ethical test to Australian business decisions.</p>
+      <div class="cs"><div>Student</div><div>Teacher</div><div>Date</div></div>
+    </div>
+
+    <div class="bar noprint">
+      <button class="btn" id="print">Print certificate</button>
+      <button class="btn ghost" id="again">Run it again</button>
+    </div>
+  </div>`;
+
+  const nm = document.getElementById("nm");
+  nm.oninput = () => {
+    state.name = nm.value;
+    document.getElementById("cn").innerHTML = esc(state.name) || "&nbsp;";
+  };
+  document.getElementById("print").onclick = () => window.print();
+  document.getElementById("again").onclick = () => {
+    Object.assign(state, {
+      screen: "intro", round: 0, index: 0, answered: false, picked: -1,
+      score: 0, correct: 0, attempted: 0, streak: 0, bestStreak: 0,
+      roundCorrect: [0, 0, 0, 0], mistakes: []
+    });
+    draw();
+    window.scrollTo(0, 0);
+  };
+}
+
+/* ============================== DRAW / KEYS ============================== */
+
+function draw() {
+  if (state.screen === "intro") drawIntro();
+  else if (state.screen === "round-intro") drawRoundIntro();
+  else if (state.screen === "play") drawPlay();
+  else drawDone();
+}
+
+document.addEventListener("keydown", e => {
+  if (state.screen !== "play") return;
+  const tag = (e.target.tagName || "").toLowerCase();
+  if (tag === "input") return;
+  if (state.answered) {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); advance(); }
+    return;
+  }
+  const k = e.key.toUpperCase();
+  const i = "ABCD".indexOf(k);
+  const n = parseInt(e.key, 10);
+  const pick = i > -1 ? i : (n >= 1 && n <= 4 ? n - 1 : -1);
+  if (pick > -1 && pick < opts().length) { e.preventDefault(); answer(pick); }
 });
 
-paint();
-})();
+draw();
 </script>
 </body>
 </html>
