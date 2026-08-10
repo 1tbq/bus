@@ -3,503 +3,553 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Global Trade Desk | Lesson 21 Globalisation</title>
+<title>The Outsourcing Desk | Year 10 Business, Lesson 22</title>
 <style>
-:root{
-  --navy:#0B3C5D; --navy-2:#14496B; --teal:#1C7293; --amber:#E8A33D;
-  --light:#F4F7F9; --card:#E8EFF3; --ink:#16242C; --muted:#5C7280;
-  --good:#2E7D5B; --bad:#B3352E; --white:#fff;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
-  background:var(--navy); color:var(--ink); line-height:1.5;
-  -webkit-text-size-adjust:100%;
-}
-.wrap{max-width:940px;margin:0 auto;padding:18px 16px 60px}
+  :root{
+    --navy:#0B3C5D;
+    --navy-2:#0E4E76;
+    --teal:#1C7293;
+    --amber:#E8A33D;
+    --amber-d:#9C6B12;
+    --ink:#12242F;
+    --paper:#F4F8FB;
+    --line:#D5E2EC;
+    --good:#1F7A5A;
+    --bad:#B4432B;
+    --shadow:0 2px 10px rgba(11,60,93,.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.5;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:940px;margin:0 auto;padding:16px 16px 64px;}
 
-/* ---------- header ---------- */
-header{background:var(--navy);padding:6px 0 18px}
-.badge{display:inline-block;background:var(--amber);color:var(--navy);font-size:.72rem;
-  font-weight:700;letter-spacing:.12em;padding:6px 14px;border-radius:6px}
-h1{font-family:Cambria,Georgia,serif;color:#fff;font-size:2.3rem;margin:12px 0 4px;line-height:1.1}
-.sub{color:#BCD3E0;font-size:1rem}
-.meta{color:#7FA3B8;font-size:.8rem;margin-top:10px}
+  /* ---------- header ---------- */
+  header{
+    background:var(--navy);
+    color:#fff;
+    border-radius:14px;
+    padding:20px 22px;
+    box-shadow:var(--shadow);
+  }
+  .eyebrow{
+    font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--amber);font-weight:700;margin:0 0 6px;
+  }
+  header h1{margin:0;font-size:1.85rem;line-height:1.15;}
+  header p{margin:8px 0 0;color:#C9DCE8;font-size:.95rem;max-width:60ch;}
 
-/* ---------- manifest scoreboard ---------- */
-.desk{background:var(--white);border-radius:12px;padding:14px 16px;margin-top:18px;
-  box-shadow:0 6px 18px rgba(0,0,0,.22)}
-.desk-top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
-.stat{flex:1 1 90px;min-width:86px;text-align:center;background:var(--light);
-  border-radius:8px;padding:8px 6px}
-.stat b{display:block;font-family:Cambria,Georgia,serif;font-size:1.5rem;color:var(--navy);line-height:1.1}
-.stat span{display:block;font-size:.66rem;letter-spacing:.08em;color:var(--muted);
-  text-transform:uppercase;margin-top:2px}
-.stat.hot b{color:var(--amber)}
-.bar{height:8px;background:var(--card);border-radius:99px;margin-top:12px;overflow:hidden}
-.bar>i{display:block;height:100%;width:0;background:var(--teal);
-  transition:width .35s ease;border-radius:99px}
+  /* ---------- scoreboard ---------- */
+  .board{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+    margin-top:14px;
+  }
+  .tile{
+    background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:10px 12px;text-align:center;box-shadow:var(--shadow);
+  }
+  .tile .label{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:#5D7688;font-weight:700;}
+  .tile .value{font-size:1.5rem;font-weight:800;color:var(--navy);line-height:1.2;}
+  .tile.hot .value{color:var(--amber-d);}
 
-/* ---------- panels ---------- */
-.panel{background:var(--white);border-radius:12px;padding:20px;margin-top:16px;
-  box-shadow:0 6px 18px rgba(0,0,0,.22)}
-.round-tag{display:inline-block;background:var(--navy);color:var(--amber);font-size:.68rem;
-  font-weight:700;letter-spacing:.12em;padding:5px 12px;border-radius:5px}
-h2{font-family:Cambria,Georgia,serif;color:var(--navy);font-size:1.5rem;margin:10px 0 4px}
-.instr{color:var(--muted);font-size:.92rem;margin-bottom:14px}
+  .progress{
+    height:9px;background:#E2EBF2;border-radius:99px;margin-top:12px;overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .progress > span{display:block;height:100%;width:0;background:var(--teal);transition:width .35s ease;}
 
-.prompt{background:var(--light);border-radius:10px;padding:18px 16px;text-align:center;margin-bottom:14px}
-.prompt .q{font-size:1.18rem;font-weight:600;color:var(--ink)}
-.prompt .hintline{font-size:.8rem;color:var(--muted);margin-top:6px}
+  /* ---------- panels ---------- */
+  .panel{
+    background:#fff;border:1px solid var(--line);border-radius:14px;
+    padding:20px;margin-top:16px;box-shadow:var(--shadow);
+  }
+  .round-tag{
+    display:inline-block;background:var(--navy);color:#fff;border-radius:99px;
+    padding:4px 12px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;
+  }
+  h2{font-size:1.3rem;margin:12px 0 4px;color:var(--navy);}
+  .brief{color:#4A6274;font-size:.95rem;margin:0 0 4px;}
 
-.opts{display:grid;gap:10px}
-.opts.two{grid-template-columns:1fr 1fr}
-.opts.four{grid-template-columns:1fr 1fr}
-button.opt{
-  font:inherit;font-size:.95rem;font-weight:600;cursor:pointer;text-align:left;
-  background:var(--white);color:var(--navy);border:2px solid var(--card);
-  border-radius:9px;padding:13px 14px;transition:.15s;
-}
-button.opt:hover:not(:disabled){border-color:var(--teal);transform:translateY(-1px)}
-button.opt:disabled{cursor:default}
-button.opt.correct{background:var(--good);border-color:var(--good);color:#fff}
-button.opt.wrong{background:var(--bad);border-color:var(--bad);color:#fff}
-button.opt.faded{opacity:.45}
+  .prompt{
+    background:var(--paper);border:1px solid var(--line);border-left:none;
+    border-radius:12px;padding:18px;margin:16px 0;
+    font-size:1.12rem;font-weight:600;color:var(--ink);
+  }
+  .prompt .tagline{
+    display:block;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--teal);font-weight:700;margin-bottom:6px;
+  }
 
-.feedback{margin-top:12px;border-radius:9px;padding:12px 14px;font-size:.9rem;display:none}
-.feedback.show{display:block}
-.feedback.ok{background:#E7F3EE;border-left:5px solid var(--good);color:#1D4F3A}
-.feedback.no{background:#FBECEA;border-left:5px solid var(--bad);color:#7A231D}
-.feedback b{display:block;margin-bottom:3px}
+  .choices{display:grid;gap:10px;}
+  .choices.two{grid-template-columns:1fr 1fr;}
+  .choices.four{grid-template-columns:1fr 1fr;}
+  button.choice{
+    font:inherit;font-weight:600;cursor:pointer;
+    background:#fff;color:var(--navy);
+    border:2px solid var(--navy);border-radius:12px;
+    padding:14px 12px;text-align:center;transition:transform .08s ease, background .15s ease;
+  }
+  button.choice:hover:not(:disabled){background:var(--navy);color:#fff;}
+  button.choice:active:not(:disabled){transform:translateY(1px);}
+  button.choice:disabled{cursor:default;opacity:.55;}
+  button.choice.correct{background:var(--good);border-color:var(--good);color:#fff;opacity:1;}
+  button.choice.wrong{background:var(--bad);border-color:var(--bad);color:#fff;opacity:1;}
+  button.choice:focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
 
-.btn{font:inherit;font-weight:700;cursor:pointer;border:none;border-radius:8px;
-  padding:12px 22px;background:var(--amber);color:var(--navy);font-size:.95rem}
-.btn:hover{filter:brightness(1.06)}
-.btn.ghost{background:var(--navy);color:#fff}
-.btn.line{background:transparent;color:var(--navy);border:2px solid var(--card)}
-.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  .feedback{
+    margin-top:14px;border-radius:12px;padding:14px 16px;font-size:.95rem;display:none;
+    border:1px solid var(--line);background:var(--paper);
+  }
+  .feedback.show{display:block;}
+  .feedback .verdict{font-weight:800;display:block;margin-bottom:4px;}
+  .feedback.right .verdict{color:var(--good);}
+  .feedback.wrong .verdict{color:var(--bad);}
+  .streak-note{color:var(--amber-d);font-weight:700;}
 
-/* ---------- ledger ---------- */
-.ledger{margin-top:16px;background:var(--white);border-radius:12px;padding:16px 18px;
-  box-shadow:0 6px 18px rgba(0,0,0,.22)}
-.ledger h3{font-family:Cambria,Georgia,serif;color:var(--navy);font-size:1.05rem;margin-bottom:8px}
-table{width:100%;border-collapse:collapse;font-size:.84rem}
-th{text-align:left;color:var(--muted);font-size:.68rem;letter-spacing:.08em;
-  text-transform:uppercase;border-bottom:2px solid var(--card);padding:6px 4px}
-td{padding:7px 4px;border-bottom:1px solid var(--card);vertical-align:top}
-td.mark{font-weight:700;white-space:nowrap}
-td.mark.y{color:var(--good)} td.mark.n{color:var(--bad)}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+  button.primary{
+    font:inherit;font-weight:700;cursor:pointer;border:none;border-radius:12px;
+    background:var(--amber);color:var(--navy);padding:13px 22px;
+  }
+  button.primary:hover{background:#d8942f;}
+  button.ghost{
+    font:inherit;font-weight:700;cursor:pointer;border:2px solid var(--navy);
+    border-radius:12px;background:#fff;color:var(--navy);padding:11px 20px;
+  }
+  button.ghost:hover{background:var(--navy);color:#fff;}
+  button:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
 
-/* ---------- badges ---------- */
-.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.bg{font-size:.74rem;font-weight:700;padding:6px 11px;border-radius:99px;
-  background:var(--card);color:var(--muted)}
-.bg.on{background:var(--amber);color:var(--navy)}
+  /* ---------- ledger ---------- */
+  .ledger{margin-top:16px;}
+  .ledger h3{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#5D7688;margin:0 0 8px;}
+  table{width:100%;border-collapse:collapse;font-size:.88rem;background:#fff;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#5D7688;}
+  td.mark{font-weight:800;width:34px;}
+  td.mark.y{color:var(--good);}
+  td.mark.n{color:var(--bad);}
 
-/* ---------- results ---------- */
-.big{font-family:Cambria,Georgia,serif;font-size:3.4rem;color:var(--navy);line-height:1}
-.band{display:inline-block;background:var(--navy);color:var(--amber);font-weight:700;
-  padding:7px 16px;border-radius:6px;font-size:.85rem;letter-spacing:.06em;margin-top:8px}
-.rounds{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
-.rbox{background:var(--light);border-radius:9px;padding:10px 8px;text-align:center}
-.rbox b{display:block;font-family:Cambria,Georgia,serif;font-size:1.25rem;color:var(--navy)}
-.rbox span{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  /* ---------- badges ---------- */
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .badge{
+    border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:.8rem;
+    background:#fff;color:#8AA1B1;font-weight:700;
+  }
+  .badge.on{background:var(--amber);border-color:var(--amber);color:var(--navy);}
 
-/* ---------- certificate ---------- */
-#cert{display:none;background:#fff;border:3px double var(--navy);border-radius:6px;
-  padding:26px;margin-top:16px;text-align:center}
-#cert h3{font-family:Cambria,Georgia,serif;font-size:1.7rem;color:var(--navy);margin-bottom:4px}
-#cert .rule{height:2px;background:var(--amber);width:120px;margin:10px auto}
-#cert .nm{font-family:Cambria,Georgia,serif;font-size:1.4rem;border-bottom:1px solid var(--muted);
-  display:inline-block;min-width:260px;padding:0 10px 3px;margin:8px 0}
-#cert p{font-size:.88rem;color:var(--muted);margin-top:6px}
-.hide{display:none !important}
+  /* ---------- results ---------- */
+  .bigscore{font-size:3.2rem;font-weight:800;color:var(--navy);line-height:1;}
+  .band{font-size:1.05rem;font-weight:700;color:var(--teal);margin-top:4px;}
+  .review-item{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px;background:var(--paper);}
+  .review-item .q{font-weight:700;}
+  .review-item .a{font-size:.9rem;margin-top:4px;}
+  .review-item .a b{color:var(--bad);}
+  .review-item .a i{color:var(--good);font-style:normal;font-weight:700;}
 
-@media(max-width:620px){
-  h1{font-size:1.75rem}
-  .opts.two,.opts.four{grid-template-columns:1fr}
-  .rounds{grid-template-columns:1fr 1fr}
-  .stat b{font-size:1.25rem}
-}
-@media print{
-  body{background:#fff}
-  header,.desk,.panel,.ledger,.actions,.badges{display:none !important}
-  #cert{display:block !important;box-shadow:none}
-}
+  /* ---------- certificate ---------- */
+  .cert{border:3px double var(--navy);border-radius:10px;padding:26px;text-align:center;margin-top:16px;background:#fff;}
+  .cert h3{margin:0 0 4px;font-size:1.4rem;color:var(--navy);letter-spacing:.02em;}
+  .cert .who{font-size:1.15rem;font-weight:700;margin:10px 0;border-bottom:1px solid var(--line);display:inline-block;padding:0 24px 4px;min-width:240px;}
+  .cert input{
+    font:inherit;font-weight:700;text-align:center;border:none;border-bottom:1px solid var(--line);
+    padding:4px 8px;min-width:220px;background:transparent;color:var(--ink);
+  }
+  .cert input:focus{outline:none;border-bottom:2px solid var(--amber);}
+  .cert .meta{font-size:.85rem;color:#5D7688;margin-top:10px;}
+
+  .hidden{display:none;}
+  footer.note{margin-top:22px;font-size:.8rem;color:#7A93A4;text-align:center;}
+
+  @media (max-width:620px){
+    header h1{font-size:1.45rem;}
+    .board{grid-template-columns:repeat(2,1fr);}
+    .choices.two,.choices.four{grid-template-columns:1fr;}
+    .prompt{font-size:1.02rem;}
+    .wrap{padding:12px 12px 48px;}
+  }
+
+  @media print{
+    body{background:#fff;}
+    header,.board,.progress,.panel:not(#results),.actions,footer.note,.ledger{display:none !important;}
+    #results{border:none;box-shadow:none;padding:0;}
+    #results .no-print{display:none !important;}
+    .cert{page-break-inside:avoid;}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<header>
-  <span class="badge">WEEK 5 &nbsp;|&nbsp; LESSON 21</span>
-  <h1>Global Trade Desk</h1>
-  <p class="sub">Four rounds on globalisation and Australia's place in world trade.</p>
-  <p class="meta">Year 10 Economics &amp; Business &nbsp;·&nbsp; VCEBR020 &nbsp;·&nbsp; Victorian Curriculum 2.0</p>
-</header>
+  <header>
+    <p class="eyebrow">Year 10 Economics and Business &nbsp;|&nbsp; Lesson 22 &nbsp;|&nbsp; VCEBR020 and VCEBW025</p>
+    <h1>The Outsourcing Desk</h1>
+    <p>You are running the operations desk. Every job that lands on it has to be sorted, named, judged or weighed up. Four rounds, 32 decisions. Build a streak and the bonuses start stacking.</p>
+  </header>
 
-<!-- scoreboard -->
-<div class="desk" id="desk">
-  <div class="desk-top">
-    <div class="stat"><b id="sScore">0</b><span>Score</span></div>
-    <div class="stat"><b id="sCorrect">0</b><span>Correct</span></div>
-    <div class="stat hot"><b id="sStreak">0</b><span>Streak</span></div>
-    <div class="stat"><b id="sRound">1/4</b><span>Round</span></div>
-    <div class="stat"><b id="sProg">0/34</b><span>Items</span></div>
+  <div class="board">
+    <div class="tile"><div class="label">Score</div><div class="value" id="scoreVal">0</div></div>
+    <div class="tile"><div class="label">Correct</div><div class="value" id="correctVal">0 / 32</div></div>
+    <div class="tile hot"><div class="label">Streak</div><div class="value" id="streakVal">0</div></div>
+    <div class="tile"><div class="label">Best streak</div><div class="value" id="bestVal">0</div></div>
   </div>
-  <div class="bar"><i id="progBar"></i></div>
-  <div class="badges" id="badges"></div>
-</div>
+  <div class="progress" aria-hidden="true"><span id="progBar"></span></div>
 
-<!-- intro -->
-<div class="panel" id="intro">
-  <span class="round-tag">BEFORE YOU START</span>
-  <h2>How this works</h2>
-  <p class="instr">
-    You are running the trade desk. Thirty-four calls to make across four rounds.
-    Each correct answer is worth 10 points. Three in a row and every answer after that
-    is worth 15 until you break the streak. You get feedback on every single one, so read it,
-    that is where the learning is.
-  </p>
-  <div class="rounds">
-    <div class="rbox"><b>1</b><span>Import or export</span></div>
-    <div class="rbox"><b>2</b><span>Spot the driver</span></div>
-    <div class="rbox"><b>3</b><span>Myth or fact</span></div>
-    <div class="rbox"><b>4</b><span>Benefit or drawback</span></div>
-  </div>
-  <div class="actions"><button class="btn" id="startBtn">Open the desk</button></div>
-</div>
+  <!-- ===== start ===== -->
+  <section class="panel" id="startPanel">
+    <span class="round-tag">Before you start</span>
+    <h2>Four rounds on the desk</h2>
+    <ol style="margin:10px 0 0;padding-left:20px;color:#4A6274;">
+      <li><b>Round 1 &ndash; In or out.</b> Would a business usually keep this job in-house, or hand it to another business?</li>
+      <li><b>Round 2 &ndash; Name the move.</b> In-house, onshore outsourcing, offshoring, or offshore outsourcing?</li>
+      <li><b>Round 3 &ndash; Myth or fact.</b> Sort the claims people make about outsourcing.</li>
+      <li><b>Round 4 &ndash; Benefit or drawback.</b> Read who it affects, then call it.</li>
+    </ol>
+    <p class="brief" style="margin-top:12px;">10 points a correct answer. Three in a row adds 5, five in a row adds 10. A wrong answer resets the streak but never takes points away.</p>
+    <div class="actions"><button class="primary" id="startBtn">Open the desk</button></div>
+  </section>
 
-<!-- game -->
-<div class="panel hide" id="game">
-  <span class="round-tag" id="roundTag">ROUND 1</span>
-  <h2 id="roundTitle"></h2>
-  <p class="instr" id="roundInstr"></p>
-  <div class="prompt">
-    <div class="q" id="qText"></div>
-    <div class="hintline" id="qHint"></div>
-  </div>
-  <div class="opts" id="opts"></div>
-  <div class="feedback" id="fb"></div>
-  <div class="actions"><button class="btn hide" id="nextBtn">Next</button></div>
-</div>
+  <!-- ===== quiz ===== -->
+  <section class="panel hidden" id="quizPanel">
+    <span class="round-tag" id="roundTag">Round 1</span>
+    <h2 id="roundTitle"></h2>
+    <p class="brief" id="roundBrief"></p>
 
-<!-- ledger -->
-<div class="ledger hide" id="ledgerWrap">
-  <h3>Trade ledger</h3>
-  <table>
-    <thead><tr><th style="width:64px">Round</th><th>Call</th><th style="width:78px">Result</th></tr></thead>
-    <tbody id="ledger"></tbody>
-  </table>
-</div>
+    <div class="prompt"><span class="tagline" id="promptTag">Job on the desk</span><span id="promptText"></span></div>
 
-<!-- results -->
-<div class="panel hide" id="results">
-  <span class="round-tag">DESK CLOSED</span>
-  <h2>Your final figures</h2>
-  <div class="big" id="finalScore">0</div>
-  <div class="band" id="bandTxt"></div>
-  <p class="instr" id="finalLine" style="margin-top:12px"></p>
-  <div class="rounds" id="roundBreak"></div>
-  <div id="reviewWrap"></div>
-  <div class="actions">
-    <button class="btn" id="certBtn">Show certificate</button>
-    <button class="btn ghost" id="printBtn">Print certificate</button>
-    <button class="btn line" id="againBtn">Play again</button>
-  </div>
-  <div id="cert">
-    <h3>Global Trade Desk</h3>
-    <div class="rule"></div>
-    <p style="font-size:.8rem;letter-spacing:.1em;color:#5C7280;text-transform:uppercase">Certificate of completion</p>
-    <div class="nm">&nbsp;</div>
-    <p style="font-size:1rem;color:#16242C">scored <b id="certScore">0</b> of <b id="certMax">0</b>
-       (<b id="certPct">0</b>%) and earned the rank of <b id="certBand">Trainee</b>.</p>
-    <p>Year 10 Economics &amp; Business &nbsp;·&nbsp; Lesson 21 Globalisation &nbsp;·&nbsp; VCEBR020</p>
-    <p style="margin-top:18px">Teacher signature: ______________________ &nbsp;&nbsp; Date: ____________</p>
-  </div>
-</div>
+    <div class="choices" id="choices"></div>
 
+    <div class="feedback" id="feedback" role="status" aria-live="polite">
+      <span class="verdict" id="verdict"></span>
+      <span id="explain"></span>
+      <div id="streakNote" class="streak-note" style="margin-top:6px;"></div>
+    </div>
+
+    <div class="actions">
+      <button class="primary hidden" id="nextBtn">Next job</button>
+    </div>
+
+    <div class="ledger">
+      <h3>Decisions log</h3>
+      <table>
+        <thead><tr><th></th><th>Item</th><th>Your call</th></tr></thead>
+        <tbody id="ledgerBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== results ===== -->
+  <section class="panel hidden" id="results">
+    <div class="no-print">
+      <span class="round-tag">Desk closed</span>
+      <h2>Shift report</h2>
+      <div class="bigscore" id="finalScore">0</div>
+      <div class="band" id="finalBand"></div>
+      <p class="brief" id="finalLine"></p>
+
+      <div class="badges" id="badgeRow"></div>
+
+      <h3 style="margin-top:22px;font-size:1.05rem;color:var(--navy);" id="reviewHead">Worth another look</h3>
+      <div id="reviewList"></div>
+    </div>
+
+    <div class="cert">
+      <h3>The Outsourcing Desk</h3>
+      <div style="font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#5D7688;font-weight:700;">Certificate of completion</div>
+      <div class="who"><input id="nameInput" type="text" placeholder="Write your name" aria-label="Your name"></div>
+      <div style="font-size:1.05rem;">scored <b id="certScore">0</b> points, <b id="certCorrect">0 / 32</b> correct, best streak <b id="certStreak">0</b></div>
+      <div class="meta">Year 10 Economics and Business &nbsp;|&nbsp; Lesson 22, Outsourcing &nbsp;|&nbsp; VCEBR020 and VCEBW025</div>
+      <div class="meta" id="certDate"></div>
+    </div>
+
+    <div class="actions no-print">
+      <button class="primary" onclick="window.print()">Print certificate</button>
+      <button class="ghost" id="againBtn">Run the shift again</button>
+    </div>
+  </section>
+
+  <footer class="note">Made for the Year 10 Business classroom. All businesses named are used as real-world examples for study; Barwon Bay Skincare is fictional.</footer>
 </div>
 
 <script>
-"use strict";
+(function(){
+  "use strict";
 
-/* ============ DATA ============ */
-const ROUNDS = [
-  {
-    title: "Import or export?",
-    instr: "Each item below is a real flow of goods or services. Decide whether it counts as an Australian export or an Australian import. Remember: exports EXIT the country.",
-    hint: "From Australia's point of view",
-    options: ["Export", "Import"],
-    items: [
-      ["Iron ore shipped from Port Hedland to a steel mill in China", 0,
-       "Iron ore is our single largest export earner. It leaves Australia, so it is an export."],
-      ["A Japanese-built Toyota sold at a dealership in Werribee", 1,
-       "The car was made overseas and brought in for sale here, so it is an import."],
-      ["A student from India paying fees to study at a Melbourne university", 0,
-       "International education is a service export. The student pays money into Australia for a service delivered here."],
-      ["Petrol refined in Singapore and unloaded at an Australian terminal", 1,
-       "Australia refines very little of its own fuel, so refined petroleum is one of our largest imports."],
-      ["Australian beef sold to a supermarket chain in South Korea", 0,
-       "Agricultural goods leaving the country for an overseas buyer are exports."],
-      ["A pair of shoes stitched in Vietnam and sold at Highpoint", 1,
-       "Clothing and footwear are mostly manufactured overseas and imported."],
-      ["A tourist from Singapore paying for a Great Ocean Road tour", 0,
-       "Tourism counts as a service export. Foreign money comes in for a service we provide."],
-      ["Medicines produced in Germany and stocked by an Australian pharmacy", 1,
-       "Pharmaceuticals are a significant Australian import."],
-      ["Liquefied natural gas loaded onto a tanker bound for Japan", 0,
-       "Natural gas is one of our top three goods exports."],
-      ["An Australian family booking a holiday in Bali", 1,
-       "Overseas travel by Australians is a service import. Money leaves Australia to pay for a service delivered elsewhere."]
-    ]
-  },
-  {
-    title: "Spot the driver",
-    instr: "Globalisation was driven by four forces. Read each scenario and decide which driver is doing most of the work.",
-    hint: "Choose the single strongest driver",
-    options: ["Transport", "Technology", "Trade agreements", "Consumer demand"],
-    items: [
-      ["A Melbourne retailer ships 20,000 units from Shanghai in one steel container for a few cents per item", 0,
-       "Standardised shipping containers cut the cost of moving goods dramatically. This is transport."],
-      ["A Geelong candle maker takes an order from a customer in Berlin through an online store at 2am", 1,
-       "The internet lets a small business trade globally without an office overseas. This is technology."],
-      ["Tariffs on Australian beef entering South Korea are reduced under a signed agreement", 2,
-       "Governments lowering tariffs is a trade agreement at work."],
-      ["Australian shoppers expect mangoes in July and berries all year round", 3,
-       "Customers wanting products out of season pushes businesses to source globally. This is consumer demand."],
-      ["A business in Ballarat pays a supplier in Shenzhen instantly and tracks the shipment on a phone", 1,
-       "Digital payments and tracking software are technology, not transport. The goods have not moved yet."],
-      ["Air freight lets Tasmanian seafood reach a restaurant in Hong Kong within 24 hours", 0,
-       "Fast, affordable air freight is a transport driver."],
-      ["Australian fashion buyers want the same brands their friends overseas are wearing", 3,
-       "Global tastes spreading is consumer demand."],
-      ["Australia signs a regional deal with ASEAN countries to reduce trade barriers", 2,
-       "A negotiated reduction in barriers between governments is a trade agreement."]
-    ]
-  },
-  {
-    title: "Myth or fact",
-    instr: "Some of these statements about Australian trade are true. Some are the ones people get wrong most often.",
-    hint: "Read carefully before calling it",
-    options: ["Fact", "Myth"],
-    items: [
-      ["China is Australia's largest trading partner.", 0,
-       "Fact. China has been our largest two-way trading partner for over a decade, at roughly a quarter of all our trade."],
-      ["Australia produces everything it needs and does not rely on other countries.", 1,
-       "Myth. We import most of our refined fuel, vehicles, medicines, electronics and clothing."],
-      ["Education is one of Australia's largest exports.", 0,
-       "Fact. International education is consistently one of our biggest export earners, and it is a service, not a good."],
-      ["Globalisation only involves trade in physical goods.", 1,
-       "Myth. Services, money, people, technology and ideas all move across borders too."],
-      ["Roughly two thirds of Australia's goods exports go to economies in Asia.", 0,
-       "Fact. Our geography puts us close to the fastest growing markets in the world, and that shapes where we sell."],
-      ["A tariff is a payment the government makes to help local businesses.", 1,
-       "Myth. A tariff is a tax charged on goods coming into a country. The payment described is a subsidy."],
-      ["Globalisation is a completely new phenomenon from the last twenty years.", 1,
-       "Myth. Trade between distant regions is centuries old. What changed is the speed, the volume and the cost."],
-      ["Trade in goods and services is worth a large share of the size of Australia's economy.", 0,
-       "Fact. It is worth roughly 40 per cent, which is why Australia is described as a trading nation."]
-    ]
-  },
-  {
-    title: "Benefit or drawback",
-    instr: "Same force, different outcomes. For an Australian business, is each of these mainly a benefit or mainly a drawback?",
-    hint: "Judge it from the Australian business's point of view",
-    options: ["Benefit", "Drawback"],
-    items: [
-      ["A Bendigo skincare brand can now sell to customers in fifteen countries from one warehouse", 0,
-       "Benefit. Access to a market far larger than 27 million people is one of the biggest gains from globalisation."],
-      ["An Australian furniture maker loses customers to imported flat-pack furniture at half the price", 1,
-       "Drawback. Local producers now compete against much cheaper overseas manufacturing."],
-      ["A cafe chain sources cheaper cups, machines and beans from three different countries", 0,
-       "Benefit. Cheaper inputs from the best supplier anywhere lower a business's costs."],
-      ["A port closure overseas leaves an Australian retailer with empty shelves for six weeks", 1,
-       "Drawback. Long supply chains are efficient but fragile, and a business cannot control every link."],
-      ["An Australian farm adopts irrigation technology developed in Israel", 0,
-       "Benefit. Access to overseas technology, skills and ideas raises what a business can do."],
-      ["Profits from an Australian mine flow to shareholders based overseas", 1,
-       "Drawback. Money earned here can leave the country rather than being reinvested locally."],
-      ["Pressure to cut costs leads a clothing brand to a supplier with poor pay and unsafe conditions", 1,
-       "Drawback. This is exactly the ethical risk we covered last week, and it damages reputation as well as people."],
-      ["Australia's last local car manufacturing plants closed, unable to compete on cost", 1,
-       "Drawback. Australian vehicle manufacturing ended in 2017, a direct result of competing against cheaper global producers."]
-    ]
-  }
-];
+  var ROUNDS = [
+    {
+      tag:"Round 1",
+      title:"In or out?",
+      brief:"For a typical Australian business, is this job usually kept in-house, or handed to another business?",
+      promptTag:"Job on the desk",
+      options:["Keep in-house","Hand it out"],
+      items:[
+        {q:"Developing the secret recipe for a sauce brand", a:0, why:"This is core business. It is the thing competitors cannot copy, so it stays inside."},
+        {q:"Cleaning a supermarket after closing", a:1, why:"Cleaning is classic non-core work. Cleaning companies do it cheaper and it is easy to contract out."},
+        {q:"Deciding next year's prices", a:0, why:"Pricing is a senior decision that shapes profit and brand. Businesses keep that themselves."},
+        {q:"Running the payroll for 40 staff", a:1, why:"Payroll is specialised, rule-heavy and repetitive, so accounting firms and payroll providers commonly handle it."},
+        {q:"Designing the brand logo and packaging", a:1, why:"Design is usually bought in from an agency or freelancer. The business keeps control through the brief."},
+        {q:"Choosing which new store to open next", a:0, why:"Strategy stays with the owners and managers. Outsourcing it would hand over the future of the business."},
+        {q:"Answering customer support calls overnight", a:1, why:"Contact centre work is one of the most outsourced jobs in Australia, often to providers in other time zones."},
+        {q:"Deciding what the business stands for", a:0, why:"Brand values and purpose are core business. Consultants can advise, but the call stays in-house."}
+      ]
+    },
+    {
+      tag:"Round 2",
+      title:"Name the move",
+      brief:"Two questions every time. Who does the work, and where are they?",
+      promptTag:"Case on the desk",
+      options:["In-house","Onshore outsourcing","Offshoring","Offshore outsourcing"],
+      items:[
+        {q:"Bunnings staff serve customers in a Bunnings store in Geelong.", a:0, why:"Own staff, in Australia. That is in-house, no outsourcing at all."},
+        {q:"A Melbourne school signs a contract with an Australian cleaning company.", a:1, why:"Another business does the work and they are in Australia, so it is onshore outsourcing."},
+        {q:"An Australian bank opens its own technology office in Bangalore and employs the staff directly.", a:2, why:"The staff still work for the bank, so it is offshoring, not outsourcing."},
+        {q:"A telco pays a contact centre firm in Manila to answer its calls.", a:3, why:"Another business, based overseas. That is offshore outsourcing, both moves at once."},
+        {q:"An Australian clothing label pays a factory in Vietnam to sew its garments.", a:3, why:"The factory is a separate business and it is overseas, so offshore outsourcing."},
+        {q:"A mining company hires an Australian labour hire firm to supply drill operators.", a:1, why:"A third-party provider supplies the workers, and they are here, so onshore outsourcing."},
+        {q:"A software company sets up its own development team in Poland on its own payroll.", a:2, why:"Own employees overseas is offshoring. Nothing has been contracted out."},
+        {q:"A cafe owner employs her own casual barista.", a:0, why:"The barista is an employee of the cafe, so the work stays in-house."}
+      ]
+    },
+    {
+      tag:"Round 3",
+      title:"Myth or fact",
+      brief:"People say a lot about outsourcing. Sort what is true from what is not.",
+      promptTag:"Claim on the desk",
+      options:["Myth","Fact"],
+      items:[
+        {q:"Outsourcing always means sending jobs overseas.", a:0, why:"Plenty of outsourcing stays onshore, like a school paying an Australian cleaning company."},
+        {q:"Outsourcing is legal in Australia, but how a business does it is regulated.", a:1, why:"Correct. Qantas outsourced lawfully permitted work, but the Federal Court found its 2020 decision breached the Fair Work Act."},
+        {q:"Cost is the most common reason businesses outsource.", a:1, why:"Cost leads the list, though expertise, flexibility, focus and time zones also drive the decision."},
+        {q:"Once a job is outsourced, it can never come back to Australia.", a:0, why:"Work can be onshored again. Telstra moved consumer call handling back and hired about 2,000 Australian agents in 2022."},
+        {q:"A business that outsources gives up some control over quality.", a:1, why:"Control is the standard trade-off. The provider runs the work, so the business manages it through the contract."},
+        {q:"Only low-skilled work gets sent offshore.", a:0, why:"Reports in 2026 describe higher paid technology, analytics, cyber security and finance roles moving offshore too."},
+        {q:"Outsourcing creates no new jobs in Australia at all.", a:0, why:"It creates roles that manage it: contract managers, logistics coordinators and quality auditors."},
+        {q:"Outsourcing usually reduces a business's fixed costs like wages and equipment.", a:1, why:"That is the main appeal. The business pays a contract price instead of carrying staff and equipment."}
+      ]
+    },
+    {
+      tag:"Round 4",
+      title:"Benefit or drawback",
+      brief:"Read who is affected, then call it. The same decision can be a win for one group and a loss for another.",
+      promptTag:"Outcome on the desk",
+      options:["Benefit","Drawback"],
+      items:[
+        {q:"For the business: the provider already has the equipment and expertise.", a:0, why:"Buying expertise you do not have is one of the strongest reasons to outsource."},
+        {q:"For the business: a delay at the provider stops your orders and you cannot fix it yourself.", a:1, why:"Dependency is the hidden cost. You lose the ability to solve the problem directly."},
+        {q:"For Australian workers: new roles appear managing contracts and logistics.", a:0, why:"Outsourcing shifts the type of work rather than removing it entirely."},
+        {q:"For Australian workers: 1,820 Qantas ground handling jobs were cut in 2020.", a:1, why:"Job losses are the clearest drawback, and here the court later found the decision unlawful."},
+        {q:"For customers: goods and services become cheaper.", a:0, why:"Lower production costs often flow through to lower prices."},
+        {q:"For customers: service quality drops and complaints climb.", a:1, why:"This is what pushed Telstra to bring its consumer call handling back to Australia."},
+        {q:"For Australia: businesses stay competitive against cheaper overseas rivals.", a:0, why:"Staying competitive protects the jobs that remain in the business."},
+        {q:"For Australia: skills and tax revenue move offshore with the work.", a:1, why:"When capability leaves, it is expensive and slow to rebuild later."}
+      ]
+    }
+  ];
 
-const BADGES = [
-  ["fastStart", "First call correct"],
-  ["streak3",   "Streak of 3"],
-  ["streak6",   "Streak of 6"],
-  ["perfect1",  "Perfect round"],
-  ["perfect2",  "Two perfect rounds"],
-  ["clean",     "80% or better"]
-];
+  var BADGES = [
+    {id:"first",  label:"Desk opened",     test:function(s){ return s.answered >= 1; }},
+    {id:"streak3",label:"Three in a row",  test:function(s){ return s.best >= 3; }},
+    {id:"streak5",label:"Five in a row",   test:function(s){ return s.best >= 5; }},
+    {id:"half",   label:"Halfway",         test:function(s){ return s.answered >= 16; }},
+    {id:"sorter", label:"Clean sorter",    test:function(s){ return s.correct >= 24; }},
+    {id:"perfect",label:"Full marks",      test:function(s){ return s.correct === 32; }}
+  ];
 
-/* ============ STATE ============ */
-let r=0, i=0, score=0, correct=0, streak=0, best=0, answered=false;
-let roundScore=[0,0,0,0], roundTotal=ROUNDS.map(x=>x.items.length);
-let earned={}, missed=[], TOTAL=ROUNDS.reduce((s,x)=>s+x.items.length,0);
-let done=0;
-
-const $=id=>document.getElementById(id);
-
-function renderBadges(){
-  $("badges").innerHTML = BADGES.map(([k,l])=>
-    `<span class="bg ${earned[k]?"on":""}">${earned[k]?"★ ":""}${l}</span>`).join("");
-}
-function updateDesk(){
-  $("sScore").textContent=score;
-  $("sCorrect").textContent=correct;
-  $("sStreak").textContent=streak;
-  $("sRound").textContent=(r+1)+"/4";
-  $("sProg").textContent=done+"/"+TOTAL;
-  $("progBar").style.width=(done/TOTAL*100)+"%";
-  renderBadges();
-}
-function addLedger(roundNum, text, ok){
-  const tr=document.createElement("tr");
-  tr.innerHTML=`<td>${roundNum}</td><td>${text}</td>
-    <td class="mark ${ok?"y":"n"}">${ok?"✓ correct":"✗ wrong"}</td>`;
-  $("ledger").prepend(tr);
-}
-
-function loadItem(){
-  answered=false;
-  const R=ROUNDS[r], it=R.items[i];
-  $("roundTag").textContent="ROUND "+(r+1);
-  $("roundTitle").textContent=R.title;
-  $("roundInstr").textContent=R.instr;
-  $("qText").textContent=it[0];
-  $("qHint").textContent=R.hint+" · item "+(i+1)+" of "+R.items.length;
-  const box=$("opts");
-  box.className="opts "+(R.options.length>2?"four":"two");
-  box.innerHTML="";
-  R.options.forEach((o,idx)=>{
-    const b=document.createElement("button");
-    b.className="opt"; b.textContent=o;
-    b.onclick=()=>choose(idx,b);
-    box.appendChild(b);
+  // flatten
+  var QUEUE = [];
+  ROUNDS.forEach(function(r, ri){
+    r.items.forEach(function(it){
+      QUEUE.push({round:ri, q:it.q, a:it.a, why:it.why});
+    });
   });
-  $("fb").className="feedback";
-  $("fb").innerHTML="";
-  $("nextBtn").classList.add("hide");
-  updateDesk();
-}
+  var TOTAL = QUEUE.length;
 
-function choose(idx, btn){
-  if(answered) return;
-  answered=true; done++;
-  const R=ROUNDS[r], it=R.items[i], right=(idx===it[1]);
-  const btns=[...document.querySelectorAll("#opts .opt")];
-  btns.forEach((b,k)=>{
-    b.disabled=true;
-    if(k===it[1]) b.classList.add("correct");
-    else if(k===idx) b.classList.add("wrong");
-    else b.classList.add("faded");
+  var state = {i:0, score:0, correct:0, streak:0, best:0, answered:0, misses:[], locked:false};
+
+  var el = function(id){ return document.getElementById(id); };
+
+  function setBoard(){
+    el("scoreVal").textContent = state.score;
+    el("correctVal").textContent = state.correct + " / " + TOTAL;
+    el("streakVal").textContent = state.streak;
+    el("bestVal").textContent = state.best;
+    el("progBar").style.width = (state.answered / TOTAL * 100) + "%";
+  }
+
+  function render(){
+    var item = QUEUE[state.i];
+    var r = ROUNDS[item.round];
+
+    el("roundTag").textContent = r.tag + " of 4";
+    el("roundTitle").textContent = r.title;
+    el("roundBrief").textContent = r.brief;
+    el("promptTag").textContent = r.promptTag + " " + (state.i + 1) + " of " + TOTAL;
+    el("promptText").textContent = item.q;
+
+    var box = el("choices");
+    box.innerHTML = "";
+    box.className = "choices " + (r.options.length > 2 ? "four" : "two");
+    r.options.forEach(function(opt, idx){
+      var b = document.createElement("button");
+      b.className = "choice";
+      b.type = "button";
+      b.textContent = opt;
+      b.addEventListener("click", function(){ answer(idx, b); });
+      box.appendChild(b);
+    });
+
+    el("feedback").className = "feedback";
+    el("streakNote").textContent = "";
+    el("nextBtn").classList.add("hidden");
+    state.locked = false;
+  }
+
+  function answer(idx, btn){
+    if (state.locked) return;
+    state.locked = true;
+
+    var item = QUEUE[state.i];
+    var r = ROUNDS[item.round];
+    var right = (idx === item.a);
+    var gained = 0;
+    var bonusText = "";
+
+    var buttons = el("choices").querySelectorAll("button");
+    for (var k = 0; k < buttons.length; k++){
+      buttons[k].disabled = true;
+      if (k === item.a) buttons[k].classList.add("correct");
+    }
+    if (!right) btn.classList.add("wrong");
+
+    if (right){
+      state.correct++;
+      state.streak++;
+      if (state.streak > state.best) state.best = state.streak;
+      gained = 10;
+      if (state.streak >= 5){ gained += 10; bonusText = "Streak of " + state.streak + ", plus 10 bonus."; }
+      else if (state.streak >= 3){ gained += 5; bonusText = "Streak of " + state.streak + ", plus 5 bonus."; }
+      state.score += gained;
+    } else {
+      state.streak = 0;
+      state.misses.push({q:item.q, chose:r.options[idx], right:r.options[item.a], why:item.why});
+    }
+    state.answered++;
+
+    var fb = el("feedback");
+    fb.className = "feedback show " + (right ? "right" : "wrong");
+    el("verdict").textContent = right ? ("Correct, plus " + gained + " points.") : ("Not this time. The answer is " + r.options[item.a] + ".");
+    el("explain").textContent = item.why;
+    el("streakNote").textContent = bonusText;
+
+    addLedgerRow(right, item.q, r.options[idx]);
+    setBoard();
+
+    el("nextBtn").textContent = (state.i === TOTAL - 1) ? "Close the desk" : "Next job";
+    el("nextBtn").classList.remove("hidden");
+    el("nextBtn").focus();
+  }
+
+  function addLedgerRow(right, q, chose){
+    var tr = document.createElement("tr");
+    var short = q.length > 78 ? q.slice(0, 78) + "..." : q;
+    tr.innerHTML = '<td class="mark ' + (right ? "y" : "n") + '">' + (right ? "&#10003;" : "&#10007;") + '</td>' +
+                   '<td></td><td></td>';
+    tr.children[1].textContent = short;
+    tr.children[2].textContent = chose;
+    var body = el("ledgerBody");
+    body.insertBefore(tr, body.firstChild);
+  }
+
+  function next(){
+    if (state.i === TOTAL - 1){ finish(); return; }
+    state.i++;
+    render();
+    el("quizPanel").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  function bandFor(pct){
+    if (pct === 100) return "Flawless shift. Nothing came back to the desk.";
+    if (pct >= 88) return "Excellent. You can name the move and justify it.";
+    if (pct >= 75) return "Solid. Check the ones you missed and you are set for Wednesday.";
+    if (pct >= 60) return "Getting there. Go back over the two by two grid in your notes.";
+    return "Worth another run. Reread the definitions first, then try again.";
+  }
+
+  function finish(){
+    el("quizPanel").classList.add("hidden");
+    el("results").classList.remove("hidden");
+
+    var pct = Math.round(state.correct / TOTAL * 100);
+    el("finalScore").textContent = state.score + " points";
+    el("finalBand").textContent = state.correct + " of " + TOTAL + " correct, " + pct + " per cent";
+    el("finalLine").textContent = bandFor(pct) + " Best streak: " + state.best + ".";
+
+    var row = el("badgeRow");
+    row.innerHTML = "";
+    BADGES.forEach(function(b){
+      var d = document.createElement("span");
+      d.className = "badge" + (b.test(state) ? " on" : "");
+      d.textContent = b.label;
+      row.appendChild(d);
+    });
+
+    var list = el("reviewList");
+    list.innerHTML = "";
+    if (state.misses.length === 0){
+      el("reviewHead").textContent = "Nothing to review";
+      var p = document.createElement("p");
+      p.className = "brief";
+      p.textContent = "Every decision on the desk was correct. Take the challenge question on the board.";
+      list.appendChild(p);
+    } else {
+      el("reviewHead").textContent = "Worth another look (" + state.misses.length + ")";
+      state.misses.forEach(function(m){
+        var d = document.createElement("div");
+        d.className = "review-item";
+        var q = document.createElement("div"); q.className = "q"; q.textContent = m.q;
+        var a = document.createElement("div"); a.className = "a";
+        a.innerHTML = "You said <b></b>. The answer is <i></i>. ";
+        a.querySelector("b").textContent = m.chose;
+        a.querySelector("i").textContent = m.right;
+        a.appendChild(document.createTextNode(m.why));
+        d.appendChild(q); d.appendChild(a);
+        list.appendChild(d);
+      });
+    }
+
+    el("certScore").textContent = state.score;
+    el("certCorrect").textContent = state.correct + " / " + TOTAL;
+    el("certStreak").textContent = state.best;
+    el("certDate").textContent = new Date().toLocaleDateString("en-AU", {day:"numeric", month:"long", year:"numeric"});
+
+    el("results").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  function reset(){
+    state = {i:0, score:0, correct:0, streak:0, best:0, answered:0, misses:[], locked:false};
+    el("ledgerBody").innerHTML = "";
+    el("results").classList.add("hidden");
+    el("quizPanel").classList.remove("hidden");
+    setBoard();
+    render();
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  el("startBtn").addEventListener("click", function(){
+    el("startPanel").classList.add("hidden");
+    el("quizPanel").classList.remove("hidden");
+    setBoard();
+    render();
   });
+  el("nextBtn").addEventListener("click", next);
+  el("againBtn").addEventListener("click", reset);
 
-  const fb=$("fb");
-  if(right){
-    correct++; streak++; best=Math.max(best,streak);
-    const pts = streak>=3 ? 15 : 10;
-    score+=pts; roundScore[r]++;
-    fb.className="feedback show ok";
-    fb.innerHTML=`<b>Correct · +${pts}${streak>=3?" (streak bonus)":""}</b>${it[2]}`;
-    if(correct===1) earned.fastStart=true;
-    if(streak>=3) earned.streak3=true;
-    if(streak>=6) earned.streak6=true;
-  } else {
-    streak=0;
-    missed.push({q:it[0], a:R.options[it[1]], why:it[2], round:r+1});
-    fb.className="feedback show no";
-    fb.innerHTML=`<b>Not quite · the answer is "${R.options[it[1]]}"</b>${it[2]}`;
-  }
-  addLedger(r+1, it[0], right);
-  $("nextBtn").textContent = (i===R.items.length-1)
-    ? (r===ROUNDS.length-1 ? "See final figures" : "Start round "+(r+2))
-    : "Next";
-  $("nextBtn").classList.remove("hide");
-  updateDesk();
-}
-
-function next(){
-  const R=ROUNDS[r];
-  if(i < R.items.length-1){ i++; loadItem(); return; }
-  if(roundScore[r]===R.items.length){
-    const perfect = roundScore.filter((v,k)=>v===roundTotal[k]).length;
-    if(perfect>=1) earned.perfect1=true;
-    if(perfect>=2) earned.perfect2=true;
-  }
-  if(r < ROUNDS.length-1){ r++; i=0; loadItem(); return; }
-  finish();
-}
-
-function bandFor(pct){
-  if(pct>=90) return "Chief Trade Analyst";
-  if(pct>=75) return "Senior Trade Officer";
-  if(pct>=60) return "Trade Officer";
-  if(pct>=40) return "Trade Assistant";
-  return "Trainee";
-}
-
-function finish(){
-  const pct=Math.round(correct/TOTAL*100);
-  if(pct>=80) earned.clean=true;
-  const maxScore=TOTAL*10;
-  $("game").classList.add("hide");
-  $("results").classList.remove("hide");
-  $("finalScore").textContent=score;
-  $("bandTxt").textContent=bandFor(pct).toUpperCase();
-  $("finalLine").textContent =
-    `You made ${correct} correct calls out of ${TOTAL} (${pct}%). Longest streak: ${best}. `+
-    `Write your score and your weakest round in your workbook.`;
-  $("roundBreak").innerHTML = ROUNDS.map((R,k)=>
-    `<div class="rbox"><b>${roundScore[k]}/${roundTotal[k]}</b><span>${R.title}</span></div>`).join("");
-
-  if(missed.length){
-    $("reviewWrap").innerHTML =
-      `<h2 style="margin-top:20px;font-size:1.15rem">Worth another look (${missed.length})</h2>`+
-      missed.map(m=>`<div class="feedback show no" style="margin-top:8px">
-        <b>Round ${m.round} · answer: ${m.a}</b>${m.q}<br><span style="opacity:.85">${m.why}</span></div>`).join("");
-  } else {
-    $("reviewWrap").innerHTML =
-      `<div class="feedback show ok" style="margin-top:16px"><b>Nothing missed</b>
-      Every call correct. Try the challenge question on the exit ticket slide.</div>`;
-  }
-  $("certScore").textContent=score;
-  $("certMax").textContent=maxScore;
-  $("certPct").textContent=pct;
-  $("certBand").textContent=bandFor(pct);
-  updateDesk();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function reset(){
-  r=0;i=0;score=0;correct=0;streak=0;best=0;done=0;
-  roundScore=[0,0,0,0]; earned={}; missed=[];
-  $("ledger").innerHTML="";
-  $("results").classList.add("hide");
-  $("cert").style.display="none";
-  $("game").classList.remove("hide");
-  loadItem();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-$("startBtn").onclick=()=>{
-  $("intro").classList.add("hide");
-  $("game").classList.remove("hide");
-  $("ledgerWrap").classList.remove("hide");
-  loadItem();
-};
-$("nextBtn").onclick=next;
-$("againBtn").onclick=reset;
-$("certBtn").onclick=()=>{ $("cert").style.display="block";
-  $("cert").scrollIntoView({behavior:"smooth"}); };
-$("printBtn").onclick=()=>{ $("cert").style.display="block"; window.print(); };
-
-updateDesk();
+  setBoard();
+})();
 </script>
 </body>
 </html>
