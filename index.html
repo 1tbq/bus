@@ -3,507 +3,442 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Staff Room Wall | Lesson 27 Employee Rights</title>
+<title>The Balance Desk | Year 10 Business</title>
 <style>
-:root{
-  --ink:#2F2A2E; --ink2:#463D42; --clay:#B4472C; --olive:#6B7A4F;
-  --sand:#EDE3D4; --sand2:#F7F2E9; --muted:#6E6469; --paper:#FBF7F1;
-  --cork:#B98B57; --cork2:#A87A47;
-  --serif:Georgia,'Iowan Old Style','Times New Roman',serif;
-  --sans:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
-  --mono:ui-monospace,'Courier New',Courier,monospace;
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
-body{background:var(--ink);color:var(--ink);font-family:var(--sans);line-height:1.5;
-  -webkit-font-smoothing:antialiased;padding:16px}
-.wrap{max-width:1020px;margin:0 auto}
-.card{background:var(--paper);border-radius:6px;padding:22px}
-h1{font-family:var(--serif);font-size:2.1rem;margin:.2em 0 .1em;letter-spacing:-.01em}
-h2{font-family:var(--serif);font-size:1.3rem;margin:0 0 .4em}
-.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);font-weight:700}
-.lede{color:var(--muted);max-width:60ch}
+  :root{
+    --violet:#5B2C8D;
+    --violet-light:#F3EDFA;
+    --violet-rule:#D9C9EE;
+    --ink:#1A1A1A;
+    --grey:#5F5F5F;
+    --line:#E3E3E3;
+    --yellow:#FFF3B0;
+    --yellow-edge:#E8C33A;
+    --green:#1B7F4B;
+    --green-bg:#EAF6EF;
+    --red:#B3261E;
+    --red-bg:#FCEDEC;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:#FFFFFF; color:var(--ink);
+    font-family:"Segoe UI",Calibri,system-ui,-apple-system,sans-serif;
+    line-height:1.45;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:20px 18px 60px;}
 
-.rounds{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:20px 0}
-.round-tile{border:1px solid var(--sand);background:var(--sand2);border-radius:5px;padding:14px}
-.round-tile .n{font-family:var(--mono);font-size:.7rem;color:var(--clay);letter-spacing:.14em;font-weight:700}
-.round-tile h3{margin:.3em 0 .2em;font-size:1rem;font-family:var(--serif)}
-.round-tile p{margin:0;font-size:.85rem;color:var(--muted)}
+  header{border-bottom:2px solid var(--violet-rule);padding-bottom:14px;margin-bottom:18px;}
+  h1{margin:0;font-size:30px;color:var(--violet);letter-spacing:-0.3px;}
+  .sub{margin:4px 0 0;color:var(--grey);font-size:15px;}
 
-button{font-family:inherit;font-size:1rem;cursor:pointer}
-.btn{background:var(--clay);color:#fff;border:0;border-radius:5px;padding:13px 26px;font-weight:600}
-.btn:hover{background:#9E3B22}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--muted)}
-.btn.ghost:hover{background:var(--sand)}
-.btn:focus-visible,.opt:focus-visible,input:focus-visible{outline:3px solid var(--olive);outline-offset:2px}
+  .bar{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 20px;}
+  .chip{border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-width:96px;background:#FAFAFA;}
+  .chip .lab{font-size:11px;letter-spacing:1px;color:var(--grey);text-transform:uppercase;}
+  .chip .val{font-size:20px;font-weight:700;color:var(--violet);}
 
-.grid{display:grid;grid-template-columns:1fr 290px;gap:16px;align-items:start}
-@media(max-width:820px){.grid{grid-template-columns:1fr}}
+  .progress{height:8px;background:#EFEFEF;border-radius:4px;overflow:hidden;margin-bottom:18px;}
+  .progress span{display:block;height:100%;background:var(--violet);width:0;transition:width .25s;}
 
-.hud{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
-  background:var(--ink2);color:var(--sand);border-radius:6px;padding:10px 14px;margin-bottom:14px}
-.hud .pill{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em}
-.hud .score{font-family:var(--serif);font-size:1.4rem;color:#fff;font-weight:700}
-.streak{color:#E9C46A;font-family:var(--mono);font-size:.78rem}
+  .card{border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px;}
+  .roundlab{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--violet);font-weight:700;margin-bottom:6px;}
+  .roundname{font-size:19px;font-weight:700;margin:0 0 4px;}
+  .roundq{color:var(--grey);font-size:14px;margin:0;}
 
-.bar{height:5px;background:var(--sand);border-radius:3px;overflow:hidden;margin:14px 0 18px}
-.bar>i{display:block;height:100%;background:var(--olive);width:0;transition:width .3s}
-@media(prefers-reduced-motion:reduce){.bar>i{transition:none}}
+  .item{font-size:21px;font-weight:600;margin:22px 0 20px;line-height:1.4;}
 
-.qnum{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
-.qtext{font-family:var(--serif);font-size:1.32rem;line-height:1.4;margin:.35em 0 1em;outline:none}
-@media(max-width:520px){.qtext{font-size:1.12rem}}
+  .btns{display:flex;flex-wrap:wrap;gap:12px;}
+  button{
+    font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;
+    border:1.5px solid var(--violet);background:#FFFFFF;color:var(--violet);
+    border-radius:8px;padding:14px 18px;flex:1 1 200px;transition:background .12s;
+  }
+  button:hover:enabled{background:var(--violet-light);}
+  button:disabled{cursor:default;opacity:.55;}
+  button.primary{background:var(--violet);color:#fff;}
+  button.primary:hover:enabled{background:#4A2374;}
+  button.small{flex:0 0 auto;font-size:14px;padding:10px 14px;}
 
-.opts{display:grid;gap:9px}
-.opts.two{grid-template-columns:1fr 1fr}
-.opts.multi{grid-template-columns:1fr 1fr}
-@media(max-width:520px){.opts.multi{grid-template-columns:1fr}}
-.opt{text-align:left;background:var(--sand2);border:1px solid var(--sand);border-radius:5px;
-  padding:13px 15px;font-size:.98rem;color:var(--ink);transition:background .15s,border-color .15s}
-.opt:hover:not(:disabled){background:var(--sand);border-color:var(--muted)}
-.opt:disabled{cursor:default}
-.opt.right{background:#E7EDDD;border-color:var(--olive);font-weight:600}
-.opt.wrong{background:#F6E2DB;border-color:var(--clay)}
-.opt.dim{opacity:.5}
+  .fb{margin-top:18px;padding:14px 16px;border-radius:8px;border:1px solid var(--line);display:none;}
+  .fb.right{background:var(--green-bg);border-color:#BFE3CE;}
+  .fb.wrong{background:var(--red-bg);border-color:#F2C9C6;}
+  .fb .verdict{font-weight:700;font-size:16px;margin-bottom:4px;}
+  .fb.right .verdict{color:var(--green);}
+  .fb.wrong .verdict{color:var(--red);}
+  .fb p{margin:0;font-size:15px;}
 
-.feedback{margin-top:16px;border-left:4px solid var(--olive);background:var(--sand2);padding:13px 15px;border-radius:0 5px 5px 0}
-.feedback.no{border-left-color:var(--clay)}
-.feedback .verdict{font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;font-weight:700;text-transform:uppercase;color:var(--olive)}
-.feedback.no .verdict{color:var(--clay)}
-.feedback p{margin:.4em 0 0;font-size:.94rem}
-.actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+  .streakmsg{background:var(--yellow);border:1px solid var(--yellow-edge);border-left:6px solid var(--yellow-edge);
+    border-radius:6px;padding:10px 14px;margin-top:12px;font-size:14px;font-weight:600;display:none;}
 
-/* signature: the corkboard */
-.board{background:var(--cork);border:8px solid #7A5730;border-radius:6px;padding:12px}
-.board h4{margin:0 0 10px;font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;
-  text-transform:uppercase;color:#4A3316;text-align:center}
-.notes{display:grid;grid-template-columns:repeat(8,1fr);gap:5px}
-.note{aspect-ratio:1;border-radius:2px;background:var(--cork2);position:relative}
-.note.ok{background:#F2E9A8;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.note.no{background:#E8B4A0;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.note.ok::after,.note.no::after{content:"";position:absolute;top:2px;left:50%;width:4px;height:4px;
-  margin-left:-2px;border-radius:50%;background:#8A2B14}
-.poster{background:#FFFDF5;border-radius:3px;padding:9px 11px;margin-top:10px;
-  box-shadow:0 2px 5px rgba(0,0,0,.28);font-size:.78rem;line-height:1.35}
-.poster b{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--clay);margin-bottom:2px}
-.board .waiting{font-family:var(--mono);font-size:.68rem;color:#4A3316;text-align:center;margin:10px 0 2px}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+  .badge{border:1px solid var(--yellow-edge);background:var(--yellow);border-radius:20px;
+    padding:5px 12px;font-size:13px;font-weight:600;}
+  .badge.locked{background:#FAFAFA;border-color:var(--line);color:#B5B5B5;}
 
-.badge{display:inline-block;background:var(--ink);color:var(--sand);border-radius:5px;padding:10px 18px;
-  font-family:var(--mono);font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
-.statrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:18px 0}
-.stat{background:var(--sand2);border:1px solid var(--sand);border-radius:5px;padding:12px}
-.stat b{display:block;font-family:var(--serif);font-size:1.7rem;color:var(--clay)}
-.stat span{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.review{margin-top:8px}
-.review .item{border-left:3px solid var(--clay);background:var(--sand2);padding:11px 14px;margin-bottom:9px;border-radius:0 4px 4px 0}
-.review .q{font-weight:600;font-size:.95rem}
-.review .a{font-size:.88rem;color:var(--muted);margin-top:4px}
-.review .a b{color:var(--olive)}
+  table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px;}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+  th{background:#FAFAFA;font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--grey);}
 
-.cert{border:3px double var(--ink);padding:26px;text-align:center;margin-top:18px;background:#fff;border-radius:4px}
-.cert .eyebrow{color:var(--muted)}
-.cert h3{font-family:var(--serif);font-size:1.7rem;margin:.3em 0}
-.cert .name{font-family:var(--serif);font-size:1.5rem;border-bottom:1px solid var(--ink);
-  display:inline-block;min-width:260px;padding:2px 10px;margin:6px 0}
-input[type=text]{font-family:var(--serif);font-size:1.1rem;padding:8px 10px;border:1px solid var(--muted);
-  border-radius:4px;width:min(320px,100%)}
-.foot{color:var(--sand);font-family:var(--mono);font-size:.7rem;text-align:center;margin-top:16px;opacity:.65}
-[hidden]{display:none !important}
+  .cert{border:2px solid var(--violet);border-radius:10px;padding:26px;text-align:center;margin-top:18px;}
+  .cert h2{color:var(--violet);margin:0 0 6px;font-size:24px;}
+  .cert .name{border-bottom:1.5px solid var(--ink);display:inline-block;min-width:280px;margin:14px 0 6px;height:28px;}
+  .cert .big{font-size:40px;font-weight:700;color:var(--violet);margin:10px 0 0;}
+  .cert .small{color:var(--grey);font-size:13px;}
 
-@media print{
-  body{background:#fff;padding:0}
-  .noprint{display:none !important}
-  .cert{border-color:#000}
-}
+  .hidden{display:none;}
+  footer{margin-top:26px;color:#9A9A9A;font-size:12px;text-align:center;}
+
+  @media print{
+    button,.progress,.bar{display:none !important;}
+    .card{page-break-inside:avoid;}
+  }
+  @media (max-width:520px){
+    h1{font-size:24px;}
+    .item{font-size:18px;}
+    button{flex:1 1 100%;}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<!-- ============ START ============ -->
-<section id="start" class="card">
-  <p class="eyebrow">Lesson 27 &middot; Year 10 Economics and Business</p>
-  <h1>The Staff Room Wall</h1>
-  <p class="lede">Every workplace has a wall where the rules are meant to be pinned up. Yours is empty. Get a decision right and a note goes on the board. Finish a round and the poster goes up. Four rounds, 32 decisions.</p>
+  <header>
+    <h1>The Balance Desk</h1>
+    <p class="sub">Year 10 Business and Accounting &nbsp;|&nbsp; Lesson 30: Work-Life Balance &nbsp;|&nbsp; 4 rounds, 32 decisions</p>
+  </header>
 
-  <div class="rounds">
-    <div class="round-tile"><p class="n">Round 1</p><h3>Lawful or breach</h3><p>Ten situations. Some are perfectly legal.</p></div>
-    <div class="round-tile"><p class="n">Round 2</p><h3>Name the right</h3><p>Eight cases. Which right is in play?</p></div>
-    <div class="round-tile"><p class="n">Round 3</p><h3>Myth or fact</h3><p>Eight claims people make about work.</p></div>
-    <div class="round-tile"><p class="n">Round 4</p><h3>Who do you call</h3><p>Six problems. Pick the right body.</p></div>
-  </div>
+  <!-- START -->
+  <section id="start" class="card">
+    <p class="roundlab">How this works</p>
+    <p class="roundname" style="margin-bottom:10px;">Four rounds, one decision at a time</p>
+    <table>
+      <tr><th>Round 1</th><td>Right or not a right. Is this something Australian law actually guarantees an employee?</td></tr>
+      <tr><th>Round 2</th><td>Business move or personal move. Who is making the change?</td></tr>
+      <tr><th>Round 3</th><td>Myth or fact. Sort what people say about work-life balance.</td></tr>
+      <tr><th>Round 4</th><td>Balanced or burnout risk. Judge the workplace in front of you.</td></tr>
+    </table>
+    <p style="font-size:15px;color:var(--grey);margin-top:14px;">
+      Every correct answer is 10 points. Three in a row and the streak bonus starts. There is no timer, so read properly before you tap.
+    </p>
+    <div class="btns" style="margin-top:14px;">
+      <button class="primary" onclick="startGame()">Start Round 1</button>
+    </div>
+  </section>
 
-  <p class="lede" style="font-size:.9rem">Correct answers are worth 10 points. Three or more in a row adds a streak bonus. Careful in round 1: guessing breach every time will cost you.</p>
-  <p><button class="btn" id="go">Start the shift</button></p>
-</section>
+  <!-- GAME -->
+  <section id="game" class="hidden">
+    <div class="bar">
+      <div class="chip"><div class="lab">Score</div><div class="val" id="score">0</div></div>
+      <div class="chip"><div class="lab">Correct</div><div class="val" id="correct">0</div></div>
+      <div class="chip"><div class="lab">Streak</div><div class="val" id="streak">0</div></div>
+      <div class="chip"><div class="lab">Question</div><div class="val" id="counter">1 / 32</div></div>
+    </div>
+    <div class="progress"><span id="pbar"></span></div>
 
-<!-- ============ PLAY ============ -->
-<section id="play" hidden>
-  <div class="hud">
-    <span class="pill" id="hudRound">Round 1 of 4</span>
-    <span class="streak" id="hudStreak">&nbsp;</span>
-    <span class="score" id="hudScore">0</span>
-  </div>
-
-  <div class="grid">
     <div class="card">
-      <p class="qnum" id="qnum">Question 1 of 10</p>
-      <div class="bar"><i id="bar"></i></div>
-      <p class="qtext" id="qtext" tabindex="-1"></p>
-      <div class="opts" id="opts"></div>
-      <div id="fb"></div>
-      <div class="actions noprint">
-        <button class="btn" id="next" hidden>Next</button>
+      <p class="roundlab" id="roundlab">Round 1</p>
+      <p class="roundname" id="roundname">Right or not a right</p>
+      <p class="roundq" id="roundq"></p>
+      <p class="item" id="itemtext"></p>
+      <div class="btns" id="btns"></div>
+      <div class="streakmsg" id="streakmsg"></div>
+      <div class="fb" id="fb"><div class="verdict" id="verdict"></div><p id="explain"></p></div>
+      <div class="btns" style="margin-top:16px;">
+        <button class="primary hidden" id="next" onclick="nextItem()">Next</button>
       </div>
     </div>
 
-    <div class="board">
-      <h4>Staff room wall</h4>
-      <div class="notes" id="notes"></div>
-      <div id="posters"><p class="waiting">Nothing pinned up yet.</p></div>
+    <div class="card">
+      <p class="roundlab">Badges</p>
+      <div class="badges" id="badges"></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ END ============ -->
-<section id="end" hidden class="card">
-  <p class="eyebrow">Shift over</p>
-  <h1 id="endTitle">Wall complete</h1>
-  <p><span class="badge" id="badge"></span></p>
+  <!-- END -->
+  <section id="end" class="hidden">
+    <div class="card">
+      <p class="roundlab">Finished</p>
+      <p class="roundname" id="endline"></p>
+      <div class="bar" style="margin-bottom:0;">
+        <div class="chip"><div class="lab">Final score</div><div class="val" id="fscore">0</div></div>
+        <div class="chip"><div class="lab">Correct</div><div class="val" id="fcorrect">0 / 32</div></div>
+        <div class="chip"><div class="lab">Best streak</div><div class="val" id="fstreak">0</div></div>
+      </div>
+      <div class="badges" id="fbadges" style="margin-top:16px;"></div>
+    </div>
 
-  <div class="statrow">
-    <div class="stat"><b id="sScore">0</b><span>Points</span></div>
-    <div class="stat"><b id="sCorrect">0</b><span>Correct</span></div>
-    <div class="stat"><b id="sPct">0%</b><span>Accuracy</span></div>
-    <div class="stat"><b id="sStreak">0</b><span>Best streak</span></div>
-  </div>
+    <div class="card" id="reviewcard">
+      <p class="roundlab">Review</p>
+      <p class="roundname" style="margin-bottom:2px;">The ones you got wrong</p>
+      <p class="roundq">Copy any two of these into your book with the correct answer.</p>
+      <div id="review"></div>
+    </div>
 
-  <div id="reviewWrap" hidden>
-    <h2>Worth a second look</h2>
-    <div class="review" id="review"></div>
-  </div>
+    <div class="cert" id="cert">
+      <p class="roundlab" style="text-align:center;">Certificate of completion</p>
+      <h2>The Balance Desk</h2>
+      <p class="small">Year 10 Business and Accounting &nbsp;|&nbsp; Work-Life Balance</p>
+      <div class="name"></div>
+      <p class="small">Student name</p>
+      <p class="big" id="certscore">0%</p>
+      <p class="small" id="certband"></p>
+    </div>
 
-  <div class="noprint">
-    <h2>Certificate</h2>
-    <p class="lede" style="font-size:.9rem">Type your name, then print or save as PDF.</p>
-    <p><input type="text" id="nameIn" placeholder="Your name" autocomplete="name"></p>
-  </div>
+    <div class="btns" style="margin-top:16px;">
+      <button class="primary small" onclick="window.print()">Print or save certificate</button>
+      <button class="small" onclick="location.reload()">Play again</button>
+    </div>
+  </section>
 
-  <div class="cert">
-    <p class="eyebrow">The Staff Room Wall</p>
-    <h3>Employee rights at work</h3>
-    <p class="name" id="certName">&nbsp;</p>
-    <p style="margin:.4em 0"><span id="certLine"></span></p>
-    <p class="eyebrow" id="certDate"></p>
-  </div>
-
-  <div class="actions noprint">
-    <button class="btn" onclick="window.print()">Print certificate</button>
-    <button class="btn ghost" id="again">Play again</button>
-  </div>
-</section>
-
-<p class="foot">Lesson 27 &middot; Employee rights &middot; VCEBW026</p>
+  <footer>Manor Lakes College &nbsp;|&nbsp; Lesson 30 &nbsp;|&nbsp; VCEBW016</footer>
 </div>
 
 <script>
-(function(){
-"use strict";
-
-var ROUNDS = [
+/* ---------------- DATA ---------------- */
+const ROUNDS = [
   {
-    name:"Lawful or breach",
-    style:"two",
-    options:["Lawful","Breach"],
-    poster:{t:"The floor", b:"Minimum pay, super, paid time, safety, fair treatment. A contract can go above it, never below."},
-    items:[
-      {q:"A 16-year-old works 8 hours a week at a bakery and receives no superannuation.",a:0,
-       why:"Lawful. Under 18, super is only owed if you work more than 30 hours in a week for that employer."},
-      {q:"An employer pays in cash and never provides a payslip.",a:1,
-       why:"Breach. A payslip is required within one working day of being paid, however you are paid."},
-      {q:"A worker asks her manager about her pay rate, and her shifts are cut the following week.",a:1,
-       why:"Breach. That is adverse action for using a workplace right, under the general protections."},
-      {q:"A cafe asks an applicant to make coffees for 30 supervised minutes, unpaid, before offering the job.",a:0,
-       why:"Lawful. A short supervised demonstration of skills can be unpaid. Two full shifts could not."},
-      {q:"An employee is told he cannot join a union if he wants to keep his hours.",a:1,
-       why:"Breach. Joining or not joining a union is a protected choice."},
-      {q:"A retail worker is told to stay 20 minutes after close to cash up, unpaid.",a:1,
-       why:"Breach. All time worked must be paid, including before opening and after closing."},
-      {q:"A manager texts a casual at 9pm asking if he can swap tomorrow's shift.",a:0,
-       why:"Lawful. The contact itself is allowed. Watch what happens next."},
-      {q:"That casual does not reply until morning and is disciplined for ignoring the text.",a:1,
-       why:"Breach of the right to disconnect. You cannot be punished for not answering outside your hours."},
-      {q:"An employer refuses to let a new worker use the slicer until she has been trained on it.",a:0,
-       why:"Lawful, and required. Training before use is part of providing a safe workplace."},
-      {q:"An employee's contract says he gets no sick leave, and he signed it willingly.",a:1,
-       why:"Breach. You cannot sign away the National Employment Standards. That term simply does not count."}
+    name: "Right or not a right",
+    question: "Is this something Australian workplace law actually guarantees an employee?",
+    options: ["It is a right", "Not a right"],
+    items: [
+      { t: "Four weeks of paid annual leave each year for a full-time employee.", a: 0,
+        e: "The National Employment Standards give full-time employees four weeks of paid annual leave a year." },
+      { t: "Refusing to answer an unreasonable work message at 10pm on a Saturday.", a: 0,
+        e: "That is the right to disconnect. It started in August 2024 for larger employers and August 2025 for small business." },
+      { t: "Being paid extra every time your manager sends you a text after hours.", a: 1,
+        e: "There is no automatic payment for after-hours contact. The right to disconnect lets you refuse to respond, it does not create a bonus." },
+      { t: "Requesting flexible hours after 12 months if you are a parent of a young child.", a: 0,
+        e: "Parents, carers, employees aged 55 or over, employees with a disability and those escaping family violence can request flexible arrangements after 12 months." },
+      { t: "Choosing your own start and finish times in any job you like.", a: 1,
+        e: "You can request flexibility if you are eligible, but the employer can refuse on reasonable business grounds. There is no general right to pick your hours." },
+      { t: "A standard full-time week of 38 ordinary hours.", a: 0,
+        e: "The NES set 38 ordinary hours as the full-time week, plus additional hours only where they are reasonable." },
+      { t: "A casual employee receiving four weeks of paid annual leave.", a: 1,
+        e: "Casuals are paid a higher hourly rate, called casual loading, instead of paid annual and sick leave." },
+      { t: "Paid sick and carer's leave for a permanent part-time employee.", a: 0,
+        e: "Permanent part-time employees get sick and carer's leave, worked out in proportion to the hours they work." }
     ]
   },
   {
-    name:"Name the right",
-    style:"multi",
-    options:["Minimum pay","Paid for all time worked","Superannuation","Safe workplace","Fair treatment","Right to disconnect","Protection from payback"],
-    poster:{t:"Six rights", b:"Pay, super, all time worked, safety, fair treatment, disconnect. Plus the one that protects the rest."},
-    items:[
-      {q:"You must be paid at least the rate in your award, not just whatever was offered to you.",a:0,
-       why:"Minimum pay. The award usually sets a higher floor than the national minimum wage."},
-      {q:"Opening up before your rostered start time counts, and has to be paid.",a:1,
-       why:"Paid for all time worked. If they ask you to be there doing something, that is work."},
-      {q:"12% of your ordinary earnings goes into your fund on top of your wages.",a:2,
-       why:"Superannuation. It is paid on top, never taken out of your wages."},
-      {q:"You can refuse a task you reasonably believe is dangerous.",a:3,
-       why:"Safe workplace. The duty runs both ways, but you can always refuse unsafe work."},
-      {q:"You cannot be given worse shifts because you are pregnant.",a:4,
-       why:"Fair treatment. Pregnancy is a protected attribute under discrimination law."},
-      {q:"You do not have to answer work messages after hours unless refusing would be unreasonable.",a:5,
-       why:"The right to disconnect, which now covers small businesses too."},
-      {q:"Your hours cannot be cut because you made a complaint about safety.",a:6,
-       why:"Protection from payback, known as adverse action. It is what makes the other rights usable."},
-      {q:"You cannot be sacked in a way that is harsh, unjust or unreasonable.",a:4,
-       why:"Fair treatment. This is the unfair dismissal protection, heard by the Fair Work Commission."}
+    name: "Business move or personal move",
+    question: "Who is making this change, the business or the individual worker?",
+    options: ["Business move", "Personal move"],
+    items: [
+      { t: "A firm trials a four-day week on full pay for all staff.", a: 0,
+        e: "The employer is changing the working arrangement across the organisation." },
+      { t: "A worker turns off email notifications on their phone after 6pm.", a: 1,
+        e: "This is an individual boundary, not a change to how the business operates." },
+      { t: "An employee blocks out Wednesday nights for football training.", a: 1,
+        e: "Protecting personal time in your own calendar is an individual strategy." },
+      { t: "A company hires three more staff so shifts stop running short.", a: 0,
+        e: "Workload design is a business strategy. Staffing the job properly is the employer's decision." },
+      { t: "A business writes a policy saying nobody is expected to reply after 7pm.", a: 0,
+        e: "An after-hours contact policy is a business-level strategy." },
+      { t: "A worker uses their annual leave instead of letting it build up unused.", a: 1,
+        e: "Taking the leave you have earned is an individual choice." },
+      { t: "An employer offers two wellbeing days a year on top of sick leave.", a: 0,
+        e: "Extra leave entitlements are offered by the business." },
+      { t: "A student worker says no to a Sunday shift during exam week.", a: 1,
+        e: "Setting a limit on your own availability is a personal strategy." }
     ]
   },
   {
-    name:"Myth or fact",
-    style:"two",
-    options:["Myth","Fact"],
-    poster:{t:"Two rules to remember", b:"You cannot sign your rights away, and they apply from your very first shift."},
-    items:[
-      {q:"If you sign a contract agreeing to less than the minimum wage, it is legal.",a:0,
-       why:"Myth. The floor holds no matter what you signed."},
-      {q:"Your rights only start once you pass probation.",a:0,
-       why:"Myth. They apply from day one. There is no period where the rules switch off."},
-      {q:"The national minimum wage is $26.44 an hour from 1 July 2026.",a:1,
-       why:"Fact. That is $1,004.90 a week, the first time it has passed $1,000."},
-      {q:"Most Australian workers are paid the national minimum wage rather than an award rate.",a:0,
-       why:"Myth. Most are covered by an award, which usually sets a higher rate."},
-      {q:"Deliberately underpaying staff can now be a criminal offence.",a:1,
-       why:"Fact. Since 1 January 2025, intentional underpayment is a crime, not just a debt."},
-      {q:"Your boss is not allowed to contact you outside working hours at all.",a:0,
-       why:"Myth. They can contact you. You just cannot be punished for not responding."},
-      {q:"Superannuation is taken out of your wages.",a:0,
-       why:"Myth. It is paid by the employer on top of your wages."},
-      {q:"Workers under 18 only get super if they work more than 30 hours in a week.",a:1,
-       why:"Fact. About half a million young Australians miss out because of that rule."}
+    name: "Myth or fact",
+    question: "People say a lot of things about work and balance. Which is this?",
+    options: ["Myth", "Fact"],
+    items: [
+      { t: "Cutting hours always causes productivity to fall.", a: 0,
+        e: "In the Australian four-day week study, none of the 15 companies reported a drop. Six reported a rise and nine said it stayed about the same." },
+      { t: "Australians work longer hours than the OECD average.", a: 1,
+        e: "About 13 per cent of Australians work 50 or more hours a week, above the OECD average of around 10 per cent." },
+      { t: "Unpaid overtime is a small problem worth only a few dollars a year.", a: 0,
+        e: "The average worker gives up around 3.5 hours a week, worth roughly $8,000 a year, and about $95.8 billion across the workforce." },
+      { t: "Work-life balance means working as little as possible.", a: 0,
+        e: "Balance is about the trade-off being worth it. Work still provides income, purpose, structure and connection." },
+      { t: "Burnout affects roughly one in two Australian workers according to a 2025 survey.", a: 1,
+        e: "A 2025 Beyond Blue survey found about half of Australian workers report burnout, with young people and parents most at risk." },
+      { t: "Improving work-life balance is purely a cost to a business with no return.", a: 0,
+        e: "Businesses report lower staff turnover, fewer sick days and easier recruitment, which all save money." },
+      { t: "A four-day week is possible in every single industry.", a: 0,
+        e: "Coverage-heavy work like hospitals, emergency services and retail is much harder to reduce without hiring more staff." },
+      { t: "Some Australian businesses adopted a shorter week mainly to reduce burnout, not to raise output.", a: 1,
+        e: "Six of the 15 companies studied said reducing burnout was their main motivation." }
     ]
   },
   {
-    name:"Who do you call",
-    style:"multi",
-    options:["Fair Work Ombudsman","Fair Work Commission","WorkSafe Victoria"],
-    poster:{t:"Where to go", b:"Ombudsman advises and investigates. Commission is the tribunal. WorkSafe handles safety."},
-    items:[
-      {q:"You think you have been underpaid for the last six months.",a:0,
-       why:"Fair Work Ombudsman. They give free advice and can investigate and recover wages."},
-      {q:"You have been sacked and you believe it was unfair.",a:1,
-       why:"Fair Work Commission. Unfair dismissal claims go to the tribunal."},
-      {q:"A guard is missing from a machine and someone is going to get hurt.",a:2,
-       why:"WorkSafe Victoria is the state safety regulator."},
-      {q:"You want to check the correct minimum rate for your age and award.",a:0,
-       why:"Fair Work Ombudsman. Their pay calculator is the tool for this."},
-      {q:"You want to know who decides the minimum wage increase each July.",a:1,
-       why:"Fair Work Commission. It runs the annual wage review and writes the awards."},
-      {q:"You were injured at work and the business has not reported it.",a:2,
-       why:"WorkSafe Victoria. Serious workplace injuries must be reported to the regulator."}
+    name: "Balanced or burnout risk",
+    question: "Read the workplace. Is this a healthy arrangement or a warning sign?",
+    options: ["Balanced", "Burnout risk"],
+    items: [
+      { t: "Rosters for the week are posted at 10pm on Sunday night.", a: 1,
+        e: "Late rosters make it impossible to plan a life around work, which is a common reason staff leave hospitality jobs." },
+      { t: "Staff finish at 5pm and messages sent after that are answered the next morning.", a: 0,
+        e: "Clear after-hours expectations let people actually switch off." },
+      { t: "One employee is doing the work of two because a role was never refilled.", a: 1,
+        e: "The workload no longer fits the paid hours, so unpaid overtime becomes the only way to finish." },
+      { t: "A worker has 45 days of annual leave saved up and has not taken a break in two years.", a: 1,
+        e: "Unused leave building up is a classic early warning sign of burnout." },
+      { t: "A business runs a nine-day fortnight and output has stayed the same.", a: 0,
+        e: "Fewer hours with the same output means the arrangement is working for both sides." },
+      { t: "Staff are praised publicly for answering emails on their days off.", a: 1,
+        e: "Rewarding after-hours work makes it the unofficial expectation for everyone." },
+      { t: "A cafe owner asks staff each term which nights they are unavailable.", a: 0,
+        e: "Planning rosters around known commitments is good workload design." },
+      { t: "A team of five has had three people resign in six months.", a: 1,
+        e: "High turnover in a small team is a strong signal that the workload or hours are unsustainable." }
     ]
   }
 ];
 
-var el = function(id){return document.getElementById(id);};
-var state = null;
+const BADGES = [
+  { id: "first",   label: "First blood",       test: s => s.correct >= 1 },
+  { id: "streak3", label: "Three in a row",    test: s => s.best >= 3 },
+  { id: "streak6", label: "Six in a row",      test: s => s.best >= 6 },
+  { id: "law",     label: "Knows the law",     test: s => s.roundScore[0] >= 7 },
+  { id: "sorter",  label: "Clean sorter",      test: s => s.roundScore[1] >= 7 },
+  { id: "buster",  label: "Myth buster",       test: s => s.roundScore[2] >= 7 },
+  { id: "reader",  label: "Reads the room",    test: s => s.roundScore[3] >= 7 },
+  { id: "ace",     label: "Balance Desk ace",  test: s => s.correct >= 29 }
+];
 
-function reset(){
-  state = {r:0,i:0,score:0,streak:0,best:0,correct:0,total:0,wrong:[],answered:false,idx:0};
-  ROUNDS.forEach(function(r){state.total += r.items.length;});
-  var n = el("notes");
-  n.innerHTML = "";
-  for(var k=0;k<32;k++){
-    var d = document.createElement("div");
-    d.className = "note";
-    n.appendChild(d);
-  }
-  el("posters").innerHTML = '<p class="waiting">Nothing pinned up yet.</p>';
+/* ---------------- STATE ---------------- */
+let flat = [];
+ROUNDS.forEach((r, ri) => r.items.forEach(it => flat.push({ ...it, r: ri })));
+
+const state = { i: 0, score: 0, correct: 0, streak: 0, best: 0, roundScore: [0,0,0,0], wrong: [], earned: [] };
+let answered = false;
+
+/* ---------------- FLOW ---------------- */
+function startGame(){
+  document.getElementById("start").classList.add("hidden");
+  document.getElementById("game").classList.remove("hidden");
+  renderBadges("badges");
+  render();
 }
 
-function current(){return ROUNDS[state.r].items[state.i];}
-
 function render(){
-  var R = ROUNDS[state.r], it = current();
-  state.answered = false;
+  answered = false;
+  const item = flat[state.i];
+  const round = ROUNDS[item.r];
 
-  el("hudRound").textContent = "Round " + (state.r+1) + " of " + ROUNDS.length + ": " + R.name;
-  el("hudScore").textContent = state.score;
-  el("hudStreak").textContent = state.streak >= 3 ? ("streak " + state.streak + " \u00d7") : "\u00a0";
-  el("qnum").textContent = "Question " + (state.i+1) + " of " + R.items.length;
-  el("bar").style.width = (state.i / R.items.length * 100) + "%";
-  el("qtext").textContent = it.q;
-  el("fb").innerHTML = "";
-  el("next").hidden = true;
+  document.getElementById("roundlab").textContent = "Round " + (item.r + 1);
+  document.getElementById("roundname").textContent = round.name;
+  document.getElementById("roundq").textContent = round.question;
+  document.getElementById("itemtext").textContent = item.t;
+  document.getElementById("counter").textContent = (state.i + 1) + " / " + flat.length;
+  document.getElementById("pbar").style.width = ((state.i) / flat.length * 100) + "%";
 
-  var box = el("opts");
-  box.className = "opts " + (R.style === "two" ? "two" : "multi");
-  box.innerHTML = "";
-  R.options.forEach(function(label, idx){
-    var b = document.createElement("button");
-    b.className = "opt";
-    b.type = "button";
-    b.textContent = label;
-    b.addEventListener("click", function(){ answer(idx); });
-    box.appendChild(b);
+  const btns = document.getElementById("btns");
+  btns.innerHTML = "";
+  round.options.forEach((opt, oi) => {
+    const b = document.createElement("button");
+    b.textContent = opt;
+    b.onclick = () => answer(oi);
+    btns.appendChild(b);
   });
+
+  document.getElementById("fb").style.display = "none";
+  document.getElementById("streakmsg").style.display = "none";
+  document.getElementById("next").classList.add("hidden");
 }
 
 function answer(choice){
-  if(state.answered) return;
-  state.answered = true;
+  if (answered) return;
+  answered = true;
+  const item = flat[state.i];
+  const right = choice === item.a;
 
-  var R = ROUNDS[state.r], it = current();
-  var right = (choice === it.a);
-  var btns = el("opts").querySelectorAll(".opt");
+  Array.from(document.getElementById("btns").children).forEach(b => b.disabled = true);
 
-  for(var k=0;k<btns.length;k++){
-    btns[k].disabled = true;
-    if(k === it.a) btns[k].classList.add("right");
-    else if(k === choice) btns[k].classList.add("wrong");
-    else btns[k].classList.add("dim");
-  }
+  const fb = document.getElementById("fb");
+  fb.style.display = "block";
+  fb.className = "fb " + (right ? "right" : "wrong");
 
-  var gained = 0;
-  if(right){
+  if (right){
     state.correct++;
     state.streak++;
-    if(state.streak > state.best) state.best = state.streak;
-    gained = 10 + (state.streak >= 3 ? 5 : 0);
-    state.score += gained;
+    state.roundScore[item.r]++;
+    if (state.streak > state.best) state.best = state.streak;
+    let points = 10;
+    if (state.streak >= 3) points += 5;
+    if (state.streak >= 6) points += 5;
+    state.score += points;
+    document.getElementById("verdict").textContent = "Correct. +" + points + " points";
+    if (state.streak >= 3){
+      const sm = document.getElementById("streakmsg");
+      sm.textContent = "Streak of " + state.streak + ". Bonus points added.";
+      sm.style.display = "block";
+    }
   } else {
     state.streak = 0;
-    state.wrong.push({q:it.q, correct:R.options[it.a], why:it.why});
+    document.getElementById("verdict").textContent =
+      "Not quite. The answer is: " + ROUNDS[item.r].options[item.a];
+    state.wrong.push({ round: item.r, t: item.t, a: ROUNDS[item.r].options[item.a], e: item.e });
   }
+  document.getElementById("explain").textContent = item.e;
 
-  pin(right);
-
-  var fb = document.createElement("div");
-  fb.className = "feedback" + (right ? "" : " no");
-  var v = document.createElement("p");
-  v.className = "verdict";
-  v.textContent = right
-    ? (state.streak >= 3 ? "Correct, +" + gained + " with streak bonus" : "Correct, +10")
-    : "Not this time. Answer: " + R.options[it.a];
-  var p = document.createElement("p");
-  p.textContent = it.why;
-  fb.appendChild(v); fb.appendChild(p);
-  el("fb").appendChild(fb);
-
-  el("hudScore").textContent = state.score;
-  el("hudStreak").textContent = state.streak >= 3 ? ("streak " + state.streak + " \u00d7") : "\u00a0";
-  el("bar").style.width = ((state.i+1) / R.items.length * 100) + "%";
-
-  if(state.i === R.items.length - 1) addPoster(R.poster);
-
-  var n = el("next");
-  n.hidden = false;
-  n.textContent = last() ? "See your results" : "Next";
-  n.focus();
+  document.getElementById("score").textContent = state.score;
+  document.getElementById("correct").textContent = state.correct;
+  document.getElementById("streak").textContent = state.streak;
+  renderBadges("badges");
+  document.getElementById("next").classList.remove("hidden");
+  document.getElementById("next").textContent = (state.i === flat.length - 1) ? "See your result" : "Next";
 }
 
-function pin(right){
-  var notes = el("notes").children;
-  if(state.idx < notes.length){
-    notes[state.idx].className = "note " + (right ? "ok" : "no");
-  }
-  state.idx++;
-}
-
-function addPoster(p){
-  var box = el("posters");
-  var w = box.querySelector(".waiting");
-  if(w) box.removeChild(w);
-  var d = document.createElement("div");
-  d.className = "poster";
-  var b = document.createElement("b");
-  b.textContent = p.t;
-  d.appendChild(b);
-  d.appendChild(document.createTextNode(p.b));
-  box.appendChild(d);
-}
-
-function last(){
-  return state.r === ROUNDS.length - 1 && state.i === ROUNDS[state.r].items.length - 1;
-}
-
-function next(){
-  if(last()){ finish(); return; }
+function nextItem(){
   state.i++;
-  if(state.i >= ROUNDS[state.r].items.length){ state.r++; state.i = 0; }
+  if (state.i >= flat.length){ finish(); return; }
   render();
-  el("qtext").focus();
-  window.scrollTo({top:0, behavior:"smooth"});
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderBadges(targetId){
+  const box = document.getElementById(targetId);
+  box.innerHTML = "";
+  BADGES.forEach(b => {
+    const got = b.test(state);
+    if (got && state.earned.indexOf(b.id) === -1) state.earned.push(b.id);
+    const el = document.createElement("span");
+    el.className = "badge" + (got ? "" : " locked");
+    el.textContent = got ? b.label : "?  " + b.label;
+    box.appendChild(el);
+  });
 }
 
 function finish(){
-  el("play").hidden = true;
-  el("end").hidden = false;
+  document.getElementById("game").classList.add("hidden");
+  document.getElementById("end").classList.remove("hidden");
 
-  var pct = Math.round(state.correct / state.total * 100);
-  el("sScore").textContent = state.score;
-  el("sCorrect").textContent = state.correct + "/" + state.total;
-  el("sPct").textContent = pct + "%";
-  el("sStreak").textContent = state.best;
+  const pct = Math.round(state.correct / flat.length * 100);
+  document.getElementById("fscore").textContent = state.score;
+  document.getElementById("fcorrect").textContent = state.correct + " / " + flat.length;
+  document.getElementById("fstreak").textContent = state.best;
+  document.getElementById("certscore").textContent = pct + "%";
 
-  var badge, title;
-  if(pct === 100){ badge = "Knows the wall"; title = "Every single one right"; }
-  else if(pct >= 90){ badge = "Workplace delegate"; title = "You could advise someone on this"; }
-  else if(pct >= 75){ badge = "Knows their rights"; title = "Strong shift"; }
-  else if(pct >= 55){ badge = "Getting the hang of it"; title = "Halfway there"; }
-  else { badge = "Read the statement again"; title = "Worth another go"; }
-  el("badge").textContent = badge;
-  el("endTitle").textContent = title;
+  let band, line;
+  if (pct >= 90){ band = "Outstanding"; line = "You could teach this lesson yourself."; }
+  else if (pct >= 75){ band = "Strong"; line = "Solid. Check the ones you missed and you are set."; }
+  else if (pct >= 55){ band = "Developing"; line = "You have the idea. The detail needs another pass."; }
+  else { band = "Needs another go"; line = "Read the review below, then run it again."; }
+  document.getElementById("certband").textContent = band + "  |  " + state.correct + " of " + flat.length + " correct";
+  document.getElementById("endline").textContent = line;
 
-  var wrap = el("reviewWrap"), rv = el("review");
-  rv.innerHTML = "";
-  if(state.wrong.length){
-    wrap.hidden = false;
-    state.wrong.forEach(function(w){
-      var d = document.createElement("div"); d.className = "item";
-      var q = document.createElement("p"); q.className = "q"; q.textContent = w.q;
-      var a = document.createElement("p"); a.className = "a";
-      var b = document.createElement("b"); b.textContent = w.correct;
-      a.appendChild(document.createTextNode("Answer: "));
-      a.appendChild(b);
-      a.appendChild(document.createTextNode(". " + w.why));
-      d.appendChild(q); d.appendChild(a); rv.appendChild(d);
-    });
+  renderBadges("fbadges");
+
+  const rev = document.getElementById("review");
+  if (state.wrong.length === 0){
+    document.getElementById("reviewcard").innerHTML =
+      '<p class="roundlab">Review</p><p class="roundname" style="margin-bottom:2px;">Nothing to review</p>' +
+      '<p class="roundq">Thirty-two out of thirty-two. Write down one thing from the activity you did not know before today.</p>';
   } else {
-    wrap.hidden = true;
+    let html = '<table><tr><th style="width:34%">Statement</th><th style="width:16%">Correct answer</th><th>Why</th></tr>';
+    state.wrong.forEach(w => {
+      html += "<tr><td>" + w.t + "</td><td><strong>" + w.a + "</strong></td><td>" + w.e + "</td></tr>";
+    });
+    html += "</table>";
+    rev.innerHTML = html;
   }
-
-  el("certLine").textContent = "worked through all 32 decisions with " + pct + "% accuracy and " + state.score + " points";
-  var dt = new Date();
-  el("certDate").textContent = dt.toLocaleDateString("en-AU",{day:"numeric",month:"long",year:"numeric"});
-  window.scrollTo({top:0});
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
-el("go").addEventListener("click", function(){
-  reset();
-  el("start").hidden = true;
-  el("end").hidden = true;
-  el("play").hidden = false;
-  render();
-});
-el("next").addEventListener("click", next);
-el("again").addEventListener("click", function(){
-  reset();
-  el("end").hidden = true;
-  el("play").hidden = false;
-  render();
-  window.scrollTo({top:0});
-});
-el("nameIn").addEventListener("input", function(e){
-  el("certName").textContent = e.target.value.trim() || "\u00a0";
-});
-
-})();
 </script>
 </body>
 </html>
