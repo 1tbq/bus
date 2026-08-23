@@ -3,442 +3,385 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Balance Desk | Year 10 Business</title>
+<title>The Profit Line | Year 10 Business Lesson 31</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --violet:#5B2C8D;
-    --violet-light:#F3EDFA;
-    --violet-rule:#D9C9EE;
-    --ink:#1A1A1A;
-    --grey:#5F5F5F;
-    --line:#E3E3E3;
-    --yellow:#FFF3B0;
-    --yellow-edge:#E8C33A;
-    --green:#1B7F4B;
-    --green-bg:#EAF6EF;
-    --red:#B3261E;
-    --red-bg:#FCEDEC;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0; background:#FFFFFF; color:var(--ink);
-    font-family:"Segoe UI",Calibri,system-ui,-apple-system,sans-serif;
-    line-height:1.45;
-  }
-  .wrap{max-width:900px;margin:0 auto;padding:20px 18px 60px;}
+:root{
+  --ink:#10212A; --green:#0B7A5A; --red:#C0392B; --slate:#5A6B75;
+  --panel:#F1F5F4; --rule:#D8E0E3; --highlight:#FFE566; --paper:#FBF8F1;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Inter","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:#fff;color:var(--ink);line-height:1.5;
+  background-image:linear-gradient(var(--rule) 1px,transparent 1px);background-size:100% 28px;}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 16px 60px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
 
-  header{border-bottom:2px solid var(--violet-rule);padding-bottom:14px;margin-bottom:18px;}
-  h1{margin:0;font-size:30px;color:var(--violet);letter-spacing:-0.3px;}
-  .sub{margin:4px 0 0;color:var(--grey);font-size:15px;}
+/* ---- header ---- */
+header{background:var(--ink);color:#fff;border-radius:10px;padding:22px 24px;margin-bottom:20px;position:relative;overflow:hidden}
+header:before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--green)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:#9FD6C4;text-transform:uppercase}
+h1{font-family:var(--display);font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-.02em;margin:6px 0 4px}
+header p{color:#C9D6DB;font-size:15px;max-width:56ch}
 
-  .bar{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 20px;}
-  .chip{border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-width:96px;background:#FAFAFA;}
-  .chip .lab{font-size:11px;letter-spacing:1px;color:var(--grey);text-transform:uppercase;}
-  .chip .val{font-size:20px;font-weight:700;color:var(--violet);}
+/* ---- progress ---- */
+.bar{display:flex;gap:6px;margin:18px 0 14px}
+.seg{flex:1;height:6px;border-radius:3px;background:var(--rule)}
+.seg.done{background:var(--green)}
+.seg.now{background:var(--ink)}
 
-  .progress{height:8px;background:#EFEFEF;border-radius:4px;overflow:hidden;margin-bottom:18px;}
-  .progress span{display:block;height:100%;background:var(--violet);width:0;transition:width .25s;}
+.card{background:#fff;border:1px solid var(--rule);border-radius:10px;padding:22px}
+.roundhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.roundhead h2{font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:-.01em}
+.count{font-family:var(--mono);font-size:12px;color:var(--slate);letter-spacing:.08em}
+.rule{height:3px;width:56px;background:var(--green);border-radius:2px;margin:10px 0 18px}
+.qtext{font-size:clamp(18px,2.4vw,23px);font-weight:500;line-height:1.35;margin-bottom:6px}
+.qsub{font-family:var(--mono);font-size:14px;color:var(--slate);margin-bottom:16px}
 
-  .card{border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px;}
-  .roundlab{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--violet);font-weight:700;margin-bottom:6px;}
-  .roundname{font-size:19px;font-weight:700;margin:0 0 4px;}
-  .roundq{color:var(--grey);font-size:14px;margin:0;}
+.opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+button.opt{font-family:var(--body);font-size:17px;font-weight:500;text-align:left;color:var(--ink);
+  background:var(--panel);border:2px solid var(--rule);border-radius:8px;padding:16px 18px;cursor:pointer;
+  transition:transform .12s ease,border-color .12s ease,background .12s ease}
+button.opt:hover:not(:disabled){border-color:var(--ink);transform:translateY(-2px)}
+button.opt:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+button.opt:disabled{cursor:default}
+button.opt.right{background:#E8F5F0;border-color:var(--green);color:var(--green);font-weight:700}
+button.opt.wrong{background:#FBECEA;border-color:var(--red);color:var(--red);font-weight:700}
+button.opt.dim{opacity:.45}
 
-  .item{font-size:21px;font-weight:600;margin:22px 0 20px;line-height:1.4;}
+.verdict{margin-top:18px;border-left:5px solid var(--slate);background:var(--panel);padding:14px 16px;border-radius:0 8px 8px 0;display:none}
+.verdict.show{display:block}
+.verdict.ok{border-color:var(--green);background:#E8F5F0}
+.verdict.no{border-color:var(--red);background:#FBECEA}
+.verdict b{font-family:var(--display);display:block;font-size:15px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.verdict.ok b{color:var(--green)} .verdict.no b{color:var(--red)}
+.verdict p{font-size:15.5px}
 
-  .btns{display:flex;flex-wrap:wrap;gap:12px;}
-  button{
-    font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;
-    border:1.5px solid var(--violet);background:#FFFFFF;color:var(--violet);
-    border-radius:8px;padding:14px 18px;flex:1 1 200px;transition:background .12s;
-  }
-  button:hover:enabled{background:var(--violet-light);}
-  button:disabled{cursor:default;opacity:.55;}
-  button.primary{background:var(--violet);color:#fff;}
-  button.primary:hover:enabled{background:#4A2374;}
-  button.small{flex:0 0 auto;font-size:14px;padding:10px 14px;}
+.next{margin-top:16px;display:flex;justify-content:flex-end}
+button.go{font-family:var(--display);font-size:16px;font-weight:700;letter-spacing:.02em;background:var(--ink);color:#fff;
+  border:none;border-radius:8px;padding:13px 26px;cursor:pointer}
+button.go:hover{background:var(--green)}
+button.go:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+button.ghost{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+button.ghost:hover{background:var(--panel);color:var(--ink)}
 
-  .fb{margin-top:18px;padding:14px 16px;border-radius:8px;border:1px solid var(--line);display:none;}
-  .fb.right{background:var(--green-bg);border-color:#BFE3CE;}
-  .fb.wrong{background:var(--red-bg);border-color:#F2C9C6;}
-  .fb .verdict{font-weight:700;font-size:16px;margin-bottom:4px;}
-  .fb.right .verdict{color:var(--green);}
-  .fb.wrong .verdict{color:var(--red);}
-  .fb p{margin:0;font-size:15px;}
+/* ---- receipt: the signature ---- */
+.receipt{background:var(--paper);border-radius:4px;padding:18px 16px 26px;font-family:var(--mono);font-size:12.5px;
+  box-shadow:0 2px 14px rgba(16,33,42,.14);position:sticky;top:16px;
+  -webkit-mask-image:radial-gradient(circle at 6px 6px,transparent 5px,#000 5.5px) 0 100%/12px 12px repeat-x;
+  mask-image:radial-gradient(circle at 6px 6px,transparent 5px,#000 5.5px) 0 100%/12px 12px repeat-x;}
+.receipt h3{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-align:center;font-weight:600}
+.receipt .sub{text-align:center;color:var(--slate);font-size:11px;letter-spacing:.08em;margin-bottom:10px}
+.dash{border-top:1px dashed #B9AF9C;margin:9px 0}
+.tape{max-height:290px;overflow-y:auto}
+.line{display:flex;justify-content:space-between;gap:8px;padding:2px 0}
+.line span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.line.plus span:last-child{color:var(--green);font-weight:600}
+.line.minus span:last-child{color:var(--red);font-weight:600}
+.tape .empty{color:var(--slate);text-align:center;padding:14px 0;font-size:11.5px}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-top:4px}
+.total span:first-child{letter-spacing:.14em;font-weight:600}
+.total b{font-size:26px;font-weight:600}
+.pos{color:var(--green)} .neg{color:var(--red)}
+.meta{display:flex;justify-content:space-between;color:var(--slate);font-size:11px;margin-top:8px}
+.streakpill{display:inline-block;background:var(--highlight);color:#5A4700;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;letter-spacing:.06em}
 
-  .streakmsg{background:var(--yellow);border:1px solid var(--yellow-edge);border-left:6px solid var(--yellow-edge);
-    border-radius:6px;padding:10px 14px;margin-top:12px;font-size:14px;font-weight:600;display:none;}
-
-  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
-  .badge{border:1px solid var(--yellow-edge);background:var(--yellow);border-radius:20px;
-    padding:5px 12px;font-size:13px;font-weight:600;}
-  .badge.locked{background:#FAFAFA;border-color:var(--line);color:#B5B5B5;}
-
-  table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px;}
-  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
-  th{background:#FAFAFA;font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--grey);}
-
-  .cert{border:2px solid var(--violet);border-radius:10px;padding:26px;text-align:center;margin-top:18px;}
-  .cert h2{color:var(--violet);margin:0 0 6px;font-size:24px;}
-  .cert .name{border-bottom:1.5px solid var(--ink);display:inline-block;min-width:280px;margin:14px 0 6px;height:28px;}
-  .cert .big{font-size:40px;font-weight:700;color:var(--violet);margin:10px 0 0;}
-  .cert .small{color:var(--grey);font-size:13px;}
-
-  .hidden{display:none;}
-  footer{margin-top:26px;color:#9A9A9A;font-size:12px;text-align:center;}
-
-  @media print{
-    button,.progress,.bar{display:none !important;}
-    .card{page-break-inside:avoid;}
-  }
-  @media (max-width:520px){
-    h1{font-size:24px;}
-    .item{font-size:18px;}
-    button{flex:1 1 100%;}
-  }
+/* ---- results ---- */
+.badges{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));margin:18px 0}
+.badge{border:1px solid var(--rule);border-radius:8px;padding:13px 15px;background:var(--panel)}
+.badge.earned{background:#E8F5F0;border-color:var(--green)}
+.badge b{display:block;font-family:var(--display);font-size:15px}
+.badge small{color:var(--slate);font-size:12.5px}
+.badge.earned small{color:var(--ink)}
+.review{border:1px solid var(--rule);border-radius:8px;padding:14px 16px;margin-bottom:10px;background:#fff}
+.review .q{font-weight:600;margin-bottom:6px}
+.review .a{font-family:var(--mono);font-size:13px;color:var(--slate)}
+.review .a b{color:var(--green)}
+.cert{border:3px double var(--ink);border-radius:6px;padding:28px 26px;text-align:center;margin-top:22px;background:#fff}
+.cert .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--slate)}
+.cert h3{font-family:var(--display);font-size:30px;font-weight:800;margin:8px 0}
+.cert .figure{font-family:var(--mono);font-size:34px;font-weight:600;margin:10px 0}
+.cert input{font-family:var(--body);font-size:17px;text-align:center;border:none;border-bottom:2px solid var(--ink);
+  padding:6px 4px;width:min(320px,80%);margin-top:10px;background:transparent}
+.cert input:focus{outline:none;border-color:var(--green)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.hidden{display:none}
+.stat{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--rule);font-size:15px}
+.stat:last-child{border:none}
+.stat b{font-family:var(--mono)}
+@media print{body{background:#fff}header,.receipt,.actions,.badges,.review,.bar{display:none!important}.cert{border-color:#000}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
-
   <header>
-    <h1>The Balance Desk</h1>
-    <p class="sub">Year 10 Business and Accounting &nbsp;|&nbsp; Lesson 30: Work-Life Balance &nbsp;|&nbsp; 4 rounds, 32 decisions</p>
+    <div class="eyebrow">Year 10 Business &nbsp;|&nbsp; Week 7 &nbsp;|&nbsp; Lesson 31 &nbsp;|&nbsp; VCEBC014</div>
+    <h1>The Profit Line</h1>
+    <p>Four rounds, 32 questions. Every answer prints to the tape on the right. Correct answers pay you, wrong answers cost you. Three right in a row and the streak doubles what the next one is worth.</p>
   </header>
 
-  <!-- START -->
-  <section id="start" class="card">
-    <p class="roundlab">How this works</p>
-    <p class="roundname" style="margin-bottom:10px;">Four rounds, one decision at a time</p>
-    <table>
-      <tr><th>Round 1</th><td>Right or not a right. Is this something Australian law actually guarantees an employee?</td></tr>
-      <tr><th>Round 2</th><td>Business move or personal move. Who is making the change?</td></tr>
-      <tr><th>Round 3</th><td>Myth or fact. Sort what people say about work-life balance.</td></tr>
-      <tr><th>Round 4</th><td>Balanced or burnout risk. Judge the workplace in front of you.</td></tr>
-    </table>
-    <p style="font-size:15px;color:var(--grey);margin-top:14px;">
-      Every correct answer is 10 points. Three in a row and the streak bonus starts. There is no timer, so read properly before you tap.
-    </p>
-    <div class="btns" style="margin-top:14px;">
-      <button class="primary" onclick="startGame()">Start Round 1</button>
-    </div>
-  </section>
+  <div class="bar" id="bar"></div>
 
-  <!-- GAME -->
-  <section id="game" class="hidden">
-    <div class="bar">
-      <div class="chip"><div class="lab">Score</div><div class="val" id="score">0</div></div>
-      <div class="chip"><div class="lab">Correct</div><div class="val" id="correct">0</div></div>
-      <div class="chip"><div class="lab">Streak</div><div class="val" id="streak">0</div></div>
-      <div class="chip"><div class="lab">Question</div><div class="val" id="counter">1 / 32</div></div>
-    </div>
-    <div class="progress"><span id="pbar"></span></div>
-
-    <div class="card">
-      <p class="roundlab" id="roundlab">Round 1</p>
-      <p class="roundname" id="roundname">Right or not a right</p>
-      <p class="roundq" id="roundq"></p>
-      <p class="item" id="itemtext"></p>
-      <div class="btns" id="btns"></div>
-      <div class="streakmsg" id="streakmsg"></div>
-      <div class="fb" id="fb"><div class="verdict" id="verdict"></div><p id="explain"></p></div>
-      <div class="btns" style="margin-top:16px;">
-        <button class="primary hidden" id="next" onclick="nextItem()">Next</button>
+  <div class="grid">
+    <main>
+      <section class="card" id="stage"></section>
+    </main>
+    <aside>
+      <div class="receipt">
+        <h3>PROFIT LINE</h3>
+        <div class="sub">RUNNING TAPE</div>
+        <div class="dash"></div>
+        <div class="tape" id="tape"><div class="empty">No entries yet.<br>Answer to start the tape.</div></div>
+        <div class="dash"></div>
+        <div class="total"><span>PROFIT</span><b id="total" class="pos">$0</b></div>
+        <div class="meta"><span id="acc">0 correct</span><span id="streak">streak 0</span></div>
+        <div style="margin-top:10px" id="pillwrap"></div>
       </div>
-    </div>
-
-    <div class="card">
-      <p class="roundlab">Badges</p>
-      <div class="badges" id="badges"></div>
-    </div>
-  </section>
-
-  <!-- END -->
-  <section id="end" class="hidden">
-    <div class="card">
-      <p class="roundlab">Finished</p>
-      <p class="roundname" id="endline"></p>
-      <div class="bar" style="margin-bottom:0;">
-        <div class="chip"><div class="lab">Final score</div><div class="val" id="fscore">0</div></div>
-        <div class="chip"><div class="lab">Correct</div><div class="val" id="fcorrect">0 / 32</div></div>
-        <div class="chip"><div class="lab">Best streak</div><div class="val" id="fstreak">0</div></div>
-      </div>
-      <div class="badges" id="fbadges" style="margin-top:16px;"></div>
-    </div>
-
-    <div class="card" id="reviewcard">
-      <p class="roundlab">Review</p>
-      <p class="roundname" style="margin-bottom:2px;">The ones you got wrong</p>
-      <p class="roundq">Copy any two of these into your book with the correct answer.</p>
-      <div id="review"></div>
-    </div>
-
-    <div class="cert" id="cert">
-      <p class="roundlab" style="text-align:center;">Certificate of completion</p>
-      <h2>The Balance Desk</h2>
-      <p class="small">Year 10 Business and Accounting &nbsp;|&nbsp; Work-Life Balance</p>
-      <div class="name"></div>
-      <p class="small">Student name</p>
-      <p class="big" id="certscore">0%</p>
-      <p class="small" id="certband"></p>
-    </div>
-
-    <div class="btns" style="margin-top:16px;">
-      <button class="primary small" onclick="window.print()">Print or save certificate</button>
-      <button class="small" onclick="location.reload()">Play again</button>
-    </div>
-  </section>
-
-  <footer>Manor Lakes College &nbsp;|&nbsp; Lesson 30 &nbsp;|&nbsp; VCEBW016</footer>
+    </aside>
+  </div>
 </div>
 
 <script>
-/* ---------------- DATA ---------------- */
+"use strict";
+
 const ROUNDS = [
   {
-    name: "Right or not a right",
-    question: "Is this something Australian workplace law actually guarantees an employee?",
-    options: ["It is a right", "Not a right"],
+    name: "In or Out",
+    brief: "Money coming in from selling is revenue. Money going out to run the business is a cost.",
+    options: ["Revenue", "Cost"],
     items: [
-      { t: "Four weeks of paid annual leave each year for a full-time employee.", a: 0,
-        e: "The National Employment Standards give full-time employees four weeks of paid annual leave a year." },
-      { t: "Refusing to answer an unreasonable work message at 10pm on a Saturday.", a: 0,
-        e: "That is the right to disconnect. It started in August 2024 for larger employers and August 2025 for small business." },
-      { t: "Being paid extra every time your manager sends you a text after hours.", a: 1,
-        e: "There is no automatic payment for after-hours contact. The right to disconnect lets you refuse to respond, it does not create a bonus." },
-      { t: "Requesting flexible hours after 12 months if you are a parent of a young child.", a: 0,
-        e: "Parents, carers, employees aged 55 or over, employees with a disability and those escaping family violence can request flexible arrangements after 12 months." },
-      { t: "Choosing your own start and finish times in any job you like.", a: 1,
-        e: "You can request flexibility if you are eligible, but the employer can refuse on reasonable business grounds. There is no general right to pick your hours." },
-      { t: "A standard full-time week of 38 ordinary hours.", a: 0,
-        e: "The NES set 38 ordinary hours as the full-time week, plus additional hours only where they are reasonable." },
-      { t: "A casual employee receiving four weeks of paid annual leave.", a: 1,
-        e: "Casuals are paid a higher hourly rate, called casual loading, instead of paid annual and sick leave." },
-      { t: "Paid sick and carer's leave for a permanent part-time employee.", a: 0,
-        e: "Permanent part-time employees get sick and carer's leave, worked out in proportion to the hours they work." }
+      {q:"Cash taken at the till for 300 waffles sold on Saturday", a:"Revenue", why:"Money received from selling goods. That is revenue, whatever it later gets spent on."},
+      {q:"The monthly rent on the shop", a:"Cost", why:"Money going out so the business can operate. Nothing was sold to earn it."},
+      {q:"Payment received from a catering booking", a:"Revenue", why:"A service was sold and money came in. Revenue includes services, not just goods."},
+      {q:"Wages paid to casual staff", a:"Cost", why:"Money leaving the business to pay for labour."},
+      {q:"Fees charged by a barber for haircuts", a:"Revenue", why:"Selling a service. This is the top line of the barber's figures."},
+      {q:"The electricity bill for the ovens and lighting", a:"Cost", why:"An operating expense. It has to be paid before any profit is counted."},
+      {q:"Ticket sales at a local music venue", a:"Revenue", why:"Customers paying for something the business is selling."},
+      {q:"Flour, sugar and eggs bought from the supplier", a:"Cost", why:"Buying inputs is a cost, even though those inputs will later help earn revenue."},
+      {q:"Money from selling advertising space on the shop window", a:"Revenue", why:"The business is selling something, in this case space. Money in."},
+      {q:"The public liability insurance premium", a:"Cost", why:"A required payment to keep operating. Money out."}
     ]
   },
   {
-    name: "Business move or personal move",
-    question: "Who is making this change, the business or the individual worker?",
-    options: ["Business move", "Personal move"],
+    name: "Fixed or Variable",
+    brief: "Fixed costs do not change when sales change. Variable costs move up and down with how much you sell.",
+    options: ["Fixed", "Variable"],
     items: [
-      { t: "A firm trials a four-day week on full pay for all staff.", a: 0,
-        e: "The employer is changing the working arrangement across the organisation." },
-      { t: "A worker turns off email notifications on their phone after 6pm.", a: 1,
-        e: "This is an individual boundary, not a change to how the business operates." },
-      { t: "An employee blocks out Wednesday nights for football training.", a: 1,
-        e: "Protecting personal time in your own calendar is an individual strategy." },
-      { t: "A company hires three more staff so shifts stop running short.", a: 0,
-        e: "Workload design is a business strategy. Staffing the job properly is the employer's decision." },
-      { t: "A business writes a policy saying nobody is expected to reply after 7pm.", a: 0,
-        e: "An after-hours contact policy is a business-level strategy." },
-      { t: "A worker uses their annual leave instead of letting it build up unused.", a: 1,
-        e: "Taking the leave you have earned is an individual choice." },
-      { t: "An employer offers two wellbeing days a year on top of sick leave.", a: 0,
-        e: "Extra leave entitlements are offered by the business." },
-      { t: "A student worker says no to a Sunday shift during exam week.", a: 1,
-        e: "Setting a limit on your own availability is a personal strategy." }
+      {q:"Shop rent of $4,200 a month", a:"Fixed", why:"The landlord charges the same whether you sell 400 waffles or none."},
+      {q:"Cocoa powder for the waffle batter", a:"Variable", why:"Sell more, use more. The amount moves directly with sales."},
+      {q:"The manager's annual salary", a:"Fixed", why:"A set salary is paid the same in a busy month and a quiet one."},
+      {q:"Cardboard takeaway boxes", a:"Variable", why:"One box per order, so the total rises with the number of orders."},
+      {q:"Insurance premium of $300 a month", a:"Fixed", why:"A set monthly amount that ignores your sales completely."},
+      {q:"Extra casual staff rostered for the school holidays", a:"Variable", why:"The trap in this round. Wages feel permanent, but rostering more staff because you are busier makes the cost move with sales."},
+      {q:"Website hosting subscription, $29 a month", a:"Fixed", why:"Same charge every month regardless of trade."},
+      {q:"Delivery fuel for the van", a:"Variable", why:"More deliveries means more fuel."},
+      {q:"Council permit fee paid once a year", a:"Fixed", why:"A single set amount. Sales volume does not change it."},
+      {q:"Coffee beans", a:"Variable", why:"Stock consumed per sale. Classic variable cost."}
     ]
   },
   {
-    name: "Myth or fact",
-    question: "People say a lot of things about work and balance. Which is this?",
+    name: "The Bottom Line",
+    brief: "Profit = revenue - total costs. Where costs are split, add them together first.",
+    options: ["Profit", "Loss", "Break-even"],
+    items: [
+      {q:"Revenue $8,000. Total costs $8,600.", a:"Loss", why:"8,000 - 8,600 = negative $600. Costs beat revenue, so it is a loss of $600."},
+      {q:"Revenue $22,400. Total costs $19,100.", a:"Profit", why:"22,400 - 19,100 = $3,300 kept."},
+      {q:"Revenue $9,000. Fixed costs $2,400, variable costs $6,600.", a:"Break-even", why:"Add the costs first: 2,400 + 6,600 = $9,000. Revenue minus costs is exactly zero."},
+      {q:"Revenue $16,000. Fixed costs $8,000, variable costs $7,000.", a:"Profit", why:"Total costs $15,000. 16,000 - 15,000 = $1,000 profit. This is the waffle bar's August."},
+      {q:"Revenue $13,200. Fixed costs $8,000, variable costs $5,900.", a:"Loss", why:"Total costs $13,900. 13,200 - 13,900 = negative $700. Quiet month, but the fixed costs did not shrink."},
+      {q:"Revenue $45,000. Total costs $45,000.", a:"Break-even", why:"Exactly nothing left over. Not a failure, and the target most new businesses aim at in year one."},
+      {q:"Revenue $6,400. Total costs $4,950.", a:"Profit", why:"6,400 - 4,950 = $1,450."}
+    ]
+  },
+  {
+    name: "Myth or Fact",
+    brief: "Some of these sound right in a classroom and fall apart in a real business.",
     options: ["Myth", "Fact"],
     items: [
-      { t: "Cutting hours always causes productivity to fall.", a: 0,
-        e: "In the Australian four-day week study, none of the 15 companies reported a drop. Six reported a rise and nine said it stayed about the same." },
-      { t: "Australians work longer hours than the OECD average.", a: 1,
-        e: "About 13 per cent of Australians work 50 or more hours a week, above the OECD average of around 10 per cent." },
-      { t: "Unpaid overtime is a small problem worth only a few dollars a year.", a: 0,
-        e: "The average worker gives up around 3.5 hours a week, worth roughly $8,000 a year, and about $95.8 billion across the workforce." },
-      { t: "Work-life balance means working as little as possible.", a: 0,
-        e: "Balance is about the trade-off being worth it. Work still provides income, purpose, structure and connection." },
-      { t: "Burnout affects roughly one in two Australian workers according to a 2025 survey.", a: 1,
-        e: "A 2025 Beyond Blue survey found about half of Australian workers report burnout, with young people and parents most at risk." },
-      { t: "Improving work-life balance is purely a cost to a business with no return.", a: 0,
-        e: "Businesses report lower staff turnover, fewer sick days and easier recruitment, which all save money." },
-      { t: "A four-day week is possible in every single industry.", a: 0,
-        e: "Coverage-heavy work like hospitals, emergency services and retail is much harder to reduce without hiring more staff." },
-      { t: "Some Australian businesses adopted a shorter week mainly to reduce burnout, not to raise output.", a: 1,
-        e: "Six of the 15 companies studied said reducing burnout was their main motivation." }
-    ]
-  },
-  {
-    name: "Balanced or burnout risk",
-    question: "Read the workplace. Is this a healthy arrangement or a warning sign?",
-    options: ["Balanced", "Burnout risk"],
-    items: [
-      { t: "Rosters for the week are posted at 10pm on Sunday night.", a: 1,
-        e: "Late rosters make it impossible to plan a life around work, which is a common reason staff leave hospitality jobs." },
-      { t: "Staff finish at 5pm and messages sent after that are answered the next morning.", a: 0,
-        e: "Clear after-hours expectations let people actually switch off." },
-      { t: "One employee is doing the work of two because a role was never refilled.", a: 1,
-        e: "The workload no longer fits the paid hours, so unpaid overtime becomes the only way to finish." },
-      { t: "A worker has 45 days of annual leave saved up and has not taken a break in two years.", a: 1,
-        e: "Unused leave building up is a classic early warning sign of burnout." },
-      { t: "A business runs a nine-day fortnight and output has stayed the same.", a: 0,
-        e: "Fewer hours with the same output means the arrangement is working for both sides." },
-      { t: "Staff are praised publicly for answering emails on their days off.", a: 1,
-        e: "Rewarding after-hours work makes it the unofficial expectation for everyone." },
-      { t: "A cafe owner asks staff each term which nights they are unavailable.", a: 0,
-        e: "Planning rosters around known commitments is good workload design." },
-      { t: "A team of five has had three people resign in six months.", a: 1,
-        e: "High turnover in a small team is a strong signal that the workload or hours are unsustainable." }
+      {q:"A business with high revenue is always doing well.", a:"Myth", why:"Revenue tells you nothing until you know the costs. A business can take a million dollars and still close."},
+      {q:"Fixed costs stay the same no matter how much the business sells.", a:"Fact", why:"That is the definition. It is why a quiet month hurts, since the rent arrives anyway."},
+      {q:"Rent becomes a variable cost once the landlord puts it up.", a:"Myth", why:"Fixed does not mean the number never changes ever. It means it does not change with sales volume."},
+      {q:"If revenue rises and total costs stay the same, profit rises.", a:"Fact", why:"The gap between the two widens, and the gap is the profit."},
+      {q:"A loss means the business has completely run out of money.", a:"Myth", why:"A loss is one period's result. The business may have savings, a loan, or a strong month ahead."}
     ]
   }
 ];
 
+const BASE = 120, PENALTY = 80, STREAK_AT = 3;
 const BADGES = [
-  { id: "first",   label: "First blood",       test: s => s.correct >= 1 },
-  { id: "streak3", label: "Three in a row",    test: s => s.best >= 3 },
-  { id: "streak6", label: "Six in a row",      test: s => s.best >= 6 },
-  { id: "law",     label: "Knows the law",     test: s => s.roundScore[0] >= 7 },
-  { id: "sorter",  label: "Clean sorter",      test: s => s.roundScore[1] >= 7 },
-  { id: "buster",  label: "Myth buster",       test: s => s.roundScore[2] >= 7 },
-  { id: "reader",  label: "Reads the room",    test: s => s.roundScore[3] >= 7 },
-  { id: "ace",     label: "Balance Desk ace",  test: s => s.correct >= 29 }
+  {id:"clean",  name:"Clean books",     req:"Finish a round with no mistakes"},
+  {id:"streak", name:"On a run",        req:"Get 5 correct in a row"},
+  {id:"maths",  name:"Sharp pencil",    req:"All 7 correct in The Bottom Line"},
+  {id:"myth",   name:"Myth buster",     req:"All 5 correct in Myth or Fact"},
+  {id:"solid",  name:"In the black",    req:"Finish with a profit above $2,500"},
+  {id:"full",   name:"Full audit",      req:"Answer all 32 questions"}
 ];
 
-/* ---------------- STATE ---------------- */
-let flat = [];
-ROUNDS.forEach((r, ri) => r.items.forEach(it => flat.push({ ...it, r: ri })));
+let ri=0, qi=0, total=0, streak=0, best=0, correct=0, answered=0;
+let roundErrors=0, perRound={}, earned=new Set(), wrongs=[], locked=false, order=[];
 
-const state = { i: 0, score: 0, correct: 0, streak: 0, best: 0, roundScore: [0,0,0,0], wrong: [], earned: [] };
-let answered = false;
+const stage=document.getElementById("stage");
+const tape=document.getElementById("tape");
+const bar=document.getElementById("bar");
 
-/* ---------------- FLOW ---------------- */
-function startGame(){
-  document.getElementById("start").classList.add("hidden");
-  document.getElementById("game").classList.remove("hidden");
-  renderBadges("badges");
-  render();
-}
+function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function money(n){return (n<0?"-$":"$")+Math.abs(n).toLocaleString("en-AU");}
 
-function render(){
-  answered = false;
-  const item = flat[state.i];
-  const round = ROUNDS[item.r];
-
-  document.getElementById("roundlab").textContent = "Round " + (item.r + 1);
-  document.getElementById("roundname").textContent = round.name;
-  document.getElementById("roundq").textContent = round.question;
-  document.getElementById("itemtext").textContent = item.t;
-  document.getElementById("counter").textContent = (state.i + 1) + " / " + flat.length;
-  document.getElementById("pbar").style.width = ((state.i) / flat.length * 100) + "%";
-
-  const btns = document.getElementById("btns");
-  btns.innerHTML = "";
-  round.options.forEach((opt, oi) => {
-    const b = document.createElement("button");
-    b.textContent = opt;
-    b.onclick = () => answer(oi);
-    btns.appendChild(b);
+function drawBar(){
+  bar.innerHTML="";
+  ROUNDS.forEach((_,i)=>{
+    const d=document.createElement("div");
+    d.className="seg"+(i<ri?" done":i===ri?" now":"");
+    bar.appendChild(d);
   });
-
-  document.getElementById("fb").style.display = "none";
-  document.getElementById("streakmsg").style.display = "none";
-  document.getElementById("next").classList.add("hidden");
 }
 
-function answer(choice){
-  if (answered) return;
-  answered = true;
-  const item = flat[state.i];
-  const right = choice === item.a;
+function addLine(label,amount){
+  if(tape.querySelector(".empty")) tape.innerHTML="";
+  const row=document.createElement("div");
+  row.className="line "+(amount>=0?"plus":"minus");
+  row.innerHTML='<span>'+label+'</span><span>'+(amount>=0?"+":"")+money(amount)+'</span>';
+  tape.appendChild(row);
+  tape.scrollTop=tape.scrollHeight;
+}
 
-  Array.from(document.getElementById("btns").children).forEach(b => b.disabled = true);
+function updateTotals(){
+  const t=document.getElementById("total");
+  t.textContent=money(total);
+  t.className=total<0?"neg":"pos";
+  document.getElementById("acc").textContent=correct+" correct";
+  document.getElementById("streak").textContent="streak "+streak;
+  const pw=document.getElementById("pillwrap");
+  pw.innerHTML = streak>=STREAK_AT ? '<span class="streakpill">STREAK x2 ACTIVE</span>' : '';
+}
 
-  const fb = document.getElementById("fb");
-  fb.style.display = "block";
-  fb.className = "fb " + (right ? "right" : "wrong");
+function startRound(){
+  qi=0; roundErrors=0;
+  order=shuffle(ROUNDS[ri].items.map((_,i)=>i));
+  perRound[ri]={right:0,total:ROUNDS[ri].items.length};
+  drawBar();
+  renderQ();
+}
 
-  if (right){
-    state.correct++;
-    state.streak++;
-    state.roundScore[item.r]++;
-    if (state.streak > state.best) state.best = state.streak;
-    let points = 10;
-    if (state.streak >= 3) points += 5;
-    if (state.streak >= 6) points += 5;
-    state.score += points;
-    document.getElementById("verdict").textContent = "Correct. +" + points + " points";
-    if (state.streak >= 3){
-      const sm = document.getElementById("streakmsg");
-      sm.textContent = "Streak of " + state.streak + ". Bonus points added.";
-      sm.style.display = "block";
-    }
+function renderQ(){
+  locked=false;
+  const R=ROUNDS[ri], item=R.items[order[qi]];
+  const opts=shuffle(R.options);
+  stage.innerHTML=
+    '<div class="roundhead"><h2>Round '+(ri+1)+'. '+R.name+'</h2>'+
+    '<div class="count">QUESTION '+(qi+1)+' OF '+R.items.length+'</div></div>'+
+    '<div class="rule"></div>'+
+    '<div class="qsub">'+R.brief+'</div>'+
+    '<div class="qtext">'+item.q+'</div>'+
+    '<div class="opts" id="opts"></div>'+
+    '<div class="verdict" id="verdict"></div>'+
+    '<div class="next hidden" id="next"><button class="go" id="nextbtn">Next</button></div>';
+  const box=document.getElementById("opts");
+  opts.forEach(o=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.type="button"; b.textContent=o;
+    b.addEventListener("click",()=>answer(o,item,box));
+    box.appendChild(b);
+  });
+}
+
+function answer(choice,item,box){
+  if(locked) return; locked=true;
+  const right = choice===item.a;
+  [...box.children].forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===item.a) b.classList.add("right");
+    else if(b.textContent===choice) b.classList.add("wrong");
+    else b.classList.add("dim");
+  });
+  answered++;
+  const label = "Q"+(ri+1)+"."+(qi+1);
+  if(right){
+    correct++; streak++; best=Math.max(best,streak); perRound[ri].right++;
+    const amt = streak>=STREAK_AT ? BASE*2 : BASE;
+    total+=amt; addLine(label+" correct"+(streak>=STREAK_AT?" x2":""),amt);
   } else {
-    state.streak = 0;
-    document.getElementById("verdict").textContent =
-      "Not quite. The answer is: " + ROUNDS[item.r].options[item.a];
-    state.wrong.push({ round: item.r, t: item.t, a: ROUNDS[item.r].options[item.a], e: item.e });
+    streak=0; roundErrors++;
+    total-=PENALTY; addLine(label+" wrong",-PENALTY);
+    wrongs.push({q:item.q,a:item.a,why:item.why,chose:choice});
   }
-  document.getElementById("explain").textContent = item.e;
-
-  document.getElementById("score").textContent = state.score;
-  document.getElementById("correct").textContent = state.correct;
-  document.getElementById("streak").textContent = state.streak;
-  renderBadges("badges");
-  document.getElementById("next").classList.remove("hidden");
-  document.getElementById("next").textContent = (state.i === flat.length - 1) ? "See your result" : "Next";
-}
-
-function nextItem(){
-  state.i++;
-  if (state.i >= flat.length){ finish(); return; }
-  render();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function renderBadges(targetId){
-  const box = document.getElementById(targetId);
-  box.innerHTML = "";
-  BADGES.forEach(b => {
-    const got = b.test(state);
-    if (got && state.earned.indexOf(b.id) === -1) state.earned.push(b.id);
-    const el = document.createElement("span");
-    el.className = "badge" + (got ? "" : " locked");
-    el.textContent = got ? b.label : "?  " + b.label;
-    box.appendChild(el);
+  if(best>=5) earned.add("streak");
+  updateTotals();
+  const v=document.getElementById("verdict");
+  v.className="verdict show "+(right?"ok":"no");
+  v.innerHTML="<b>"+(right?"Correct. "+money(streak>=STREAK_AT?BASE*2:BASE)+" to the tape.":"Not this time. The answer is "+item.a+".")+"</b><p>"+item.why+"</p>";
+  const n=document.getElementById("next");
+  n.classList.remove("hidden");
+  const btn=document.getElementById("nextbtn");
+  const lastQ = qi===ROUNDS[ri].items.length-1;
+  const lastR = ri===ROUNDS.length-1;
+  btn.textContent = lastQ ? (lastR?"See your result":"Start round "+(ri+2)) : "Next";
+  btn.focus();
+  btn.addEventListener("click",()=>{
+    if(!lastQ){ qi++; renderQ(); return; }
+    if(roundErrors===0) earned.add("clean");
+    if(ri===2 && perRound[2].right===ROUNDS[2].items.length) earned.add("maths");
+    if(ri===3 && perRound[3].right===ROUNDS[3].items.length) earned.add("myth");
+    if(lastR){ finish(); } else { ri++; startRound(); }
   });
 }
 
 function finish(){
-  document.getElementById("game").classList.add("hidden");
-  document.getElementById("end").classList.remove("hidden");
+  if(answered===32) earned.add("full");
+  if(total>2500) earned.add("solid");
+  drawBar(); bar.querySelectorAll(".seg").forEach(s=>s.className="seg done");
 
-  const pct = Math.round(state.correct / flat.length * 100);
-  document.getElementById("fscore").textContent = state.score;
-  document.getElementById("fcorrect").textContent = state.correct + " / " + flat.length;
-  document.getElementById("fstreak").textContent = state.best;
-  document.getElementById("certscore").textContent = pct + "%";
+  let html='<div class="roundhead"><h2>Final tape</h2><div class="count">'+correct+' / 32 CORRECT</div></div><div class="rule"></div>';
+  html+='<div class="stat"><span>Questions answered</span><b>'+answered+'</b></div>';
+  html+='<div class="stat"><span>Correct</span><b>'+correct+'</b></div>';
+  html+='<div class="stat"><span>Longest streak</span><b>'+best+'</b></div>';
+  html+='<div class="stat"><span>Final profit</span><b class="'+(total<0?"neg":"pos")+'">'+money(total)+'</b></div>';
 
-  let band, line;
-  if (pct >= 90){ band = "Outstanding"; line = "You could teach this lesson yourself."; }
-  else if (pct >= 75){ band = "Strong"; line = "Solid. Check the ones you missed and you are set."; }
-  else if (pct >= 55){ band = "Developing"; line = "You have the idea. The detail needs another pass."; }
-  else { band = "Needs another go"; line = "Read the review below, then run it again."; }
-  document.getElementById("certband").textContent = band + "  |  " + state.correct + " of " + flat.length + " correct";
-  document.getElementById("endline").textContent = line;
+  html+='<h2 style="font-family:var(--display);font-size:20px;margin:22px 0 0">Badges</h2><div class="badges">';
+  BADGES.forEach(b=>{
+    const got=earned.has(b.id);
+    html+='<div class="badge'+(got?" earned":"")+'"><b>'+(got?"\u2713 ":"")+b.name+'</b><small>'+b.req+'</small></div>';
+  });
+  html+='</div>';
 
-  renderBadges("fbadges");
-
-  const rev = document.getElementById("review");
-  if (state.wrong.length === 0){
-    document.getElementById("reviewcard").innerHTML =
-      '<p class="roundlab">Review</p><p class="roundname" style="margin-bottom:2px;">Nothing to review</p>' +
-      '<p class="roundq">Thirty-two out of thirty-two. Write down one thing from the activity you did not know before today.</p>';
-  } else {
-    let html = '<table><tr><th style="width:34%">Statement</th><th style="width:16%">Correct answer</th><th>Why</th></tr>';
-    state.wrong.forEach(w => {
-      html += "<tr><td>" + w.t + "</td><td><strong>" + w.a + "</strong></td><td>" + w.e + "</td></tr>";
+  if(wrongs.length){
+    html+='<h2 style="font-family:var(--display);font-size:20px;margin:8px 0 12px">The ones to look at again ('+wrongs.length+')</h2>';
+    wrongs.forEach(w=>{
+      html+='<div class="review"><div class="q">'+w.q+'</div>'+
+            '<div class="a">You chose '+w.chose+'. Correct answer: <b>'+w.a+'</b></div>'+
+            '<p style="margin-top:7px;font-size:15px">'+w.why+'</p></div>';
     });
-    html += "</table>";
-    rev.innerHTML = html;
+  } else {
+    html+='<div class="review"><div class="q">Nothing to review. You did not miss one.</div></div>';
   }
-  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  html+='<div class="cert"><div class="k">YEAR 10 BUSINESS &nbsp;|&nbsp; LESSON 31 &nbsp;|&nbsp; REVENUE, COSTS AND PROFIT</div>'+
+        '<h3>The Profit Line</h3>'+
+        '<div class="figure '+(total<0?"neg":"pos")+'">'+money(total)+'</div>'+
+        '<div class="k">'+correct+' OF 32 CORRECT &nbsp;\u00B7&nbsp; LONGEST STREAK '+best+' &nbsp;\u00B7&nbsp; '+earned.size+' OF 6 BADGES</div>'+
+        '<input id="who" placeholder="Write your name here" aria-label="Your name">'+
+        '</div>';
+
+  html+='<div class="actions"><button class="go" id="printbtn">Print this certificate</button>'+
+        '<button class="go ghost" id="again">Run it again</button></div>';
+
+  stage.innerHTML=html;
+  document.getElementById("printbtn").addEventListener("click",()=>window.print());
+  document.getElementById("again").addEventListener("click",()=>{
+    ri=0;qi=0;total=0;streak=0;best=0;correct=0;answered=0;wrongs=[];earned=new Set();perRound={};
+    tape.innerHTML='<div class="empty">No entries yet.<br>Answer to start the tape.</div>';
+    updateTotals(); startRound();
+  });
 }
+
+updateTotals();
+startRound();
 </script>
 </body>
 </html>
