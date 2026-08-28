@@ -3,390 +3,525 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Budget Desk | Year 10 Business Lesson 32</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<title>The Decision Desk | Year 10 Business, Lesson 35</title>
 <style>
-:root{
-  --ink:#10212A; --green:#0B7A5A; --red:#C0392B; --slate:#5A6B75;
-  --panel:#F1F5F4; --rule:#D8E0E3; --highlight:#FFE566;
-  --display:"Instrument Serif",Georgia,serif;
-  --body:"Inter","Segoe UI",system-ui,sans-serif;
-  --mono:"IBM Plex Mono","Courier New",monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--body);background:#fff;color:var(--ink);line-height:1.5;
-  background-image:linear-gradient(var(--rule) 1px,transparent 1px),linear-gradient(90deg,var(--rule) 1px,transparent 1px);
-  background-size:26px 26px,26px 26px;background-position:-1px -1px;}
-.wrap{max-width:1180px;margin:0 auto;padding:20px 16px 60px}
-.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
+  :root{
+    --ink:#10212A; --green:#0B7A5A; --red:#C0392B; --yellow:#FFF0A5;
+    --yellow-edge:#D9B93C; --grey:#5A6B75; --panel:#F3F6F8; --line:#D3DCE2;
+    --soft-green:#E8F4EF; --soft-red:#FBEDEB; --paper:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Segoe UI",Calibri,system-ui,-apple-system,sans-serif;
+    background:var(--panel); color:var(--ink); line-height:1.5;
+    padding:16px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1000px;margin:0 auto}
+  .mono{font-family:"Courier New",ui-monospace,monospace;font-variant-numeric:tabular-nums}
 
-header{background:var(--ink);color:#fff;border-radius:10px;padding:22px 24px;margin-bottom:20px;position:relative;overflow:hidden}
-header:before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--green)}
-.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:#9FD6C4;text-transform:uppercase}
-h1{font-family:var(--display);font-size:clamp(34px,6vw,54px);font-weight:400;letter-spacing:-.01em;margin:4px 0 6px}
-header p{color:#C9D6DB;font-size:15px;max-width:58ch}
+  header.desk{
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:18px 20px; margin-bottom:14px;
+  }
+  .desk-top{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
+  h1{font-size:1.5rem;letter-spacing:.2px}
+  .sub{color:var(--grey);font-size:.87rem;margin-top:2px}
+  .meters{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .meter{
+    flex:1 1 130px; border:1px solid var(--line); border-radius:8px;
+    padding:9px 12px; background:var(--paper);
+  }
+  .meter .lab{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--grey)}
+  .meter .val{font-size:1.3rem;font-weight:700;margin-top:2px}
+  .meter.fee .val{color:var(--green)}
+  .meter.streak.hot{background:var(--yellow);border-color:var(--yellow-edge)}
+  .bar{height:7px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:14px}
+  .bar span{display:block;height:100%;background:var(--ink);width:0;transition:width .3s}
 
-.bar{display:flex;gap:6px;margin:18px 0 14px}
-.seg{flex:1;height:6px;border-radius:3px;background:var(--rule)}
-.seg.done{background:var(--green)} .seg.now{background:var(--ink)}
+  main{display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:start}
+  @media (max-width:820px){main{grid-template-columns:1fr}}
 
-.card{background:#fff;border:1px solid var(--rule);border-radius:10px;padding:22px}
-.roundhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
-.roundhead h2{font-family:var(--display);font-size:30px;font-weight:400;letter-spacing:-.01em}
-.count{font-family:var(--mono);font-size:12px;color:var(--slate);letter-spacing:.08em}
-.rule{height:3px;width:56px;background:var(--green);border-radius:2px;margin:10px 0 18px}
-.qsub{font-family:var(--mono);font-size:13.5px;color:var(--slate);margin-bottom:16px}
-.qtext{font-size:clamp(18px,2.4vw,23px);font-weight:500;line-height:1.35;margin-bottom:16px}
-.figures{font-family:var(--mono);font-size:15px;background:var(--panel);border-left:4px solid var(--ink);
-  border-radius:0 6px 6px 0;padding:12px 14px;margin:-6px 0 16px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px}
+  .roundtag{
+    display:inline-block;background:var(--ink);color:#fff;border-radius:6px;
+    padding:4px 11px;font-size:.68rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;
+  }
+  .scenario{
+    background:var(--yellow);border:1px solid var(--yellow-edge);border-radius:8px;
+    padding:11px 14px;margin-top:14px;font-size:.93rem;
+  }
+  .qnum{color:var(--grey);font-size:.78rem;margin-top:16px;letter-spacing:.5px}
+  .prompt{font-size:1.22rem;font-weight:600;margin-top:5px;line-height:1.4}
+  .figs{
+    margin-top:12px;border:1px solid var(--line);border-radius:8px;overflow:hidden;
+  }
+  .figs div{display:flex;justify-content:space-between;padding:7px 13px;font-size:.9rem;border-bottom:1px solid var(--line)}
+  .figs div:last-child{border-bottom:0}
+  .figs .out{color:var(--red)}
+  .figs .in{color:var(--green)}
 
-.opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-button.opt{font-family:var(--body);font-size:17px;font-weight:500;text-align:left;color:var(--ink);
-  background:var(--panel);border:2px solid var(--rule);border-radius:8px;padding:16px 18px;cursor:pointer;
-  transition:transform .12s ease,border-color .12s ease,background .12s ease}
-button.opt:hover:not(:disabled){border-color:var(--ink);transform:translateY(-2px)}
-button.opt:focus-visible{outline:3px solid var(--green);outline-offset:2px}
-button.opt:disabled{cursor:default}
-button.opt.right{background:#E8F5F0;border-color:var(--green);color:var(--green);font-weight:700}
-button.opt.wrong{background:#FBECEA;border-color:var(--red);color:var(--red);font-weight:700}
-button.opt.dim{opacity:.45}
+  .opts{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  button.opt{
+    flex:1 1 150px; font:inherit; font-weight:650; font-size:1rem;
+    padding:14px 12px; border-radius:9px; cursor:pointer;
+    background:var(--paper); color:var(--ink); border:2px solid var(--ink);
+    transition:transform .08s, background .15s;
+  }
+  button.opt:hover:not(:disabled){background:var(--ink);color:#fff}
+  button.opt:active:not(:disabled){transform:translateY(1px)}
+  button.opt:disabled{cursor:default;opacity:.5}
+  button.opt.picked-right{background:var(--green);border-color:var(--green);color:#fff;opacity:1}
+  button.opt.picked-wrong{background:var(--red);border-color:var(--red);color:#fff;opacity:1}
+  button.opt.was-right{background:var(--soft-green);border-color:var(--green);color:var(--green);opacity:1}
+  .key{font-size:.72rem;opacity:.7;display:block;margin-top:3px;font-weight:400}
 
-.verdict{margin-top:18px;border-left:5px solid var(--slate);background:var(--panel);padding:14px 16px;border-radius:0 8px 8px 0;display:none}
-.verdict.show{display:block}
-.verdict.ok{border-color:var(--green);background:#E8F5F0}
-.verdict.no{border-color:var(--red);background:#FBECEA}
-.verdict b{font-family:var(--mono);display:block;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
-.verdict.ok b{color:var(--green)} .verdict.no b{color:var(--red)}
-.verdict p{font-size:15.5px}
+  .fb{margin-top:16px;border-radius:9px;padding:14px 16px;display:none}
+  .fb.show{display:block}
+  .fb.right{background:var(--soft-green);border:1px solid var(--green)}
+  .fb.wrong{background:var(--soft-red);border:1px solid var(--red)}
+  .fb .verdict{font-weight:700;margin-bottom:5px}
+  .fb.right .verdict{color:var(--green)}
+  .fb.wrong .verdict{color:var(--red)}
+  .fb .why{font-size:.94rem}
+  .fb .earn{margin-top:8px;font-size:.85rem;color:var(--grey)}
 
-.next{margin-top:16px;display:flex;justify-content:flex-end}
-button.go{font-family:var(--body);font-size:16px;font-weight:700;background:var(--ink);color:#fff;border:none;border-radius:8px;padding:13px 26px;cursor:pointer}
-button.go:hover{background:var(--green)}
-button.go:focus-visible{outline:3px solid var(--green);outline-offset:2px}
-button.ghost{background:#fff;color:var(--ink);border:2px solid var(--ink)}
-button.ghost:hover{background:var(--panel);color:var(--ink)}
+  .next{
+    margin-top:16px;font:inherit;font-weight:700;font-size:1rem;padding:12px 26px;
+    border:0;border-radius:9px;background:var(--ink);color:#fff;cursor:pointer;display:none;
+  }
+  .next.show{display:inline-block}
 
-/* ---- funding panel: the signature ---- */
-.desk{border:1px solid var(--rule);border-radius:10px;background:#fff;padding:18px 16px;position:sticky;top:16px;
-  box-shadow:0 2px 14px rgba(16,33,42,.08)}
-.desk h3{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--slate)}
-.balance{font-family:var(--mono);font-size:34px;font-weight:600;margin:2px 0 2px}
-.balance.low{color:var(--red)}
-.track{height:12px;border-radius:6px;background:var(--panel);border:1px solid var(--rule);overflow:hidden}
-.fill{height:100%;background:var(--green);width:100%;transition:width .35s ease}
-.fill.low{background:var(--red)}
-.tick{font-family:var(--mono);font-size:11px;color:var(--slate);display:flex;justify-content:space-between;margin-top:5px}
-.ledger{margin-top:14px;border-top:1px dashed var(--rule);padding-top:10px;font-family:var(--mono);font-size:12.5px;max-height:230px;overflow-y:auto}
-.entry{display:flex;justify-content:space-between;gap:8px;padding:2px 0}
-.entry span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.entry.in span:last-child{color:var(--green);font-weight:600}
-.entry.out span:last-child{color:var(--red);font-weight:600}
-.entry.loan{color:var(--red);font-weight:600}
-.ledger .empty{color:var(--slate);text-align:center;padding:12px 0;font-size:11.5px}
-.deskmeta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--slate);margin-top:10px}
-.streakpill{display:inline-block;background:var(--highlight);color:#5A4700;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;letter-spacing:.06em;margin-top:8px;font-family:var(--body)}
+  aside .card{padding:16px}
+  aside h2{font-size:.72rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--grey);margin-bottom:10px}
+  .ledger{width:100%;border-collapse:collapse;font-size:.8rem}
+  .ledger td{padding:5px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+  .ledger td:first-child{width:20px;font-weight:700}
+  .ledger td:last-child{text-align:right;white-space:nowrap}
+  .ledger .ok{color:var(--green)}
+  .ledger .no{color:var(--red)}
+  .ledger-empty{color:var(--grey);font-size:.82rem;font-style:italic}
+  .ledger-wrap{max-height:330px;overflow-y:auto}
+  .ledger-total{display:flex;justify-content:space-between;border-top:2px solid var(--ink);margin-top:8px;padding-top:8px;font-weight:700}
 
-.badges{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));margin:18px 0}
-.badge{border:1px solid var(--rule);border-radius:8px;padding:13px 15px;background:var(--panel)}
-.badge.earned{background:#E8F5F0;border-color:var(--green)}
-.badge b{display:block;font-family:var(--body);font-size:15px}
-.badge small{color:var(--slate);font-size:12.5px}
-.badge.earned small{color:var(--ink)}
-.review{border:1px solid var(--rule);border-radius:8px;padding:14px 16px;margin-bottom:10px;background:#fff}
-.review .q{font-weight:600;margin-bottom:6px}
-.review .a{font-family:var(--mono);font-size:13px;color:var(--slate)}
-.review .a b{color:var(--green)}
-.cert{border:3px double var(--ink);border-radius:6px;padding:28px 26px;text-align:center;margin-top:22px;background:#fff}
-.cert .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--slate)}
-.cert h3{font-family:var(--display);font-size:38px;font-weight:400;margin:6px 0}
-.cert .figure{font-family:var(--mono);font-size:34px;font-weight:600;margin:10px 0;color:var(--green)}
-.cert input{font-family:var(--body);font-size:17px;text-align:center;border:none;border-bottom:2px solid var(--ink);padding:6px 4px;width:min(320px,80%);margin-top:10px;background:transparent}
-.cert input:focus{outline:none;border-color:var(--green)}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.stat{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--rule);font-size:15px}
-.stat:last-child{border:none}
-.stat b{font-family:var(--mono)}
-.hidden{display:none}
-.pos{color:var(--green)} .neg{color:var(--red)}
-@media print{body{background:#fff}header,.desk,.actions,.badges,.review,.bar{display:none!important}.cert{border-color:#000}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  .badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+  .badge{
+    border:1px dashed var(--line);border-radius:99px;padding:5px 11px;font-size:.75rem;color:var(--grey);
+  }
+  .badge.won{border:1px solid var(--green);background:var(--soft-green);color:var(--green);font-weight:650}
+
+  /* end screen */
+  #end{display:none}
+  .stamp{
+    display:inline-block;border:3px solid var(--green);color:var(--green);
+    border-radius:10px;padding:10px 26px;font-size:1.35rem;font-weight:800;
+    letter-spacing:2px;transform:rotate(-4deg);margin-bottom:6px;
+  }
+  .stamp.low{border-color:var(--red);color:var(--red)}
+  .final-grid{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}
+  .final-grid .meter{flex:1 1 120px}
+  .review{margin-top:8px}
+  .review .item{border-left:3px solid var(--red);background:var(--soft-red);padding:9px 13px;border-radius:0 7px 7px 0;margin-bottom:9px}
+  .review .item .q{font-weight:650;font-size:.92rem}
+  .review .item .a{font-size:.86rem;color:var(--grey);margin-top:3px}
+  .review .item .a b{color:var(--ink)}
+
+  .certbox{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}
+  .certbox input{
+    font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;width:250px;max-width:100%;
+  }
+  .btn{font:inherit;font-weight:700;padding:11px 20px;border:0;border-radius:8px;background:var(--ink);color:#fff;cursor:pointer;margin-right:8px;margin-top:8px}
+  .btn.ghost{background:var(--paper);color:var(--ink);border:2px solid var(--ink)}
+
+  #cert{display:none}
+  @media print{
+    body{background:#fff;padding:0}
+    .wrap > *:not(#cert), header.desk, aside, .certbox, .review, .final-grid, .stamp{display:none !important}
+    #cert{display:block !important;border:3px double var(--ink);padding:50px;text-align:center}
+  }
+  #cert h3{font-size:1.6rem;margin-bottom:6px}
+  #cert .name{font-size:2rem;font-weight:800;margin:18px 0;border-bottom:2px solid var(--ink);display:inline-block;padding:0 30px 6px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <div class="eyebrow">Year 10 Business &nbsp;|&nbsp; Week 7 &nbsp;|&nbsp; Lesson 32 &nbsp;|&nbsp; VCEBC014</div>
-    <h1>The Budget Desk</h1>
-    <p>Four rounds, 32 questions. You start with $2,000 of funding. Every wrong answer spends some of it and every correct answer adds to your surplus. Run the funding down to nothing and you are forced to take an emergency loan, which stays on your record.</p>
+
+  <header class="desk">
+    <div class="desk-top">
+      <div>
+        <h1>The Decision Desk</h1>
+        <div class="sub">Year 10 Business, Lesson 35: Financial Decision Making &nbsp;|&nbsp; VCEBE028 / VCEBC023</div>
+      </div>
+      <div class="sub" id="roundName">Round 1 of 4</div>
+    </div>
+    <div class="meters">
+      <div class="meter fee"><div class="lab">Advisory fees</div><div class="val mono" id="mFee">$0</div></div>
+      <div class="meter"><div class="lab">Correct calls</div><div class="val mono" id="mScore">0 / 32</div></div>
+      <div class="meter streak" id="streakBox"><div class="lab">Streak</div><div class="val mono" id="mStreak">0</div></div>
+      <div class="meter"><div class="lab">Fee rate</div><div class="val mono" id="mRate">$100</div></div>
+    </div>
+    <div class="bar"><span id="bar"></span></div>
   </header>
 
-  <div class="bar" id="bar"></div>
+  <main id="play">
+    <section class="card" id="qcard">
+      <span class="roundtag" id="roundTag">Round 1</span>
+      <div class="scenario" id="scenario"></div>
+      <div class="qnum" id="qnum"></div>
+      <div class="prompt" id="prompt"></div>
+      <div class="figs" id="figs"></div>
+      <div class="opts" id="opts"></div>
+      <div class="fb" id="fb">
+        <div class="verdict" id="verdict"></div>
+        <div class="why" id="why"></div>
+        <div class="earn mono" id="earn"></div>
+      </div>
+      <button class="next" id="next">Next decision</button>
+    </section>
 
-  <div class="grid">
-    <main><section class="card" id="stage"></section></main>
     <aside>
-      <div class="desk">
-        <h3>FUNDING REMAINING</h3>
-        <div class="balance" id="balance">$2,000</div>
-        <div class="track"><div class="fill" id="fill"></div></div>
-        <div class="tick"><span>$0</span><span>$2,000</span></div>
-        <div class="deskmeta"><span>Surplus earned</span><span id="surplus">$0</span></div>
-        <div class="deskmeta"><span id="acc">0 correct</span><span id="streak">streak 0</span></div>
-        <div id="pillwrap"></div>
-        <div class="ledger" id="ledger"><div class="empty">Ledger is empty.<br>Answer to open it.</div></div>
+      <div class="card">
+        <h2>Decision ledger</h2>
+        <div class="ledger-wrap">
+          <div class="ledger-empty" id="ledgerEmpty">No decisions logged yet.</div>
+          <table class="ledger"><tbody id="ledger"></tbody></table>
+        </div>
+        <div class="ledger-total"><span>Total</span><span class="mono" id="ledgerTotal">$0</span></div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h2>Badges</h2>
+        <div class="badges" id="badges"></div>
       </div>
     </aside>
-  </div>
+  </main>
+
+  <section class="card" id="end">
+    <div id="stampWrap"></div>
+    <h1 id="endTitle"></h1>
+    <p class="sub" id="endLine"></p>
+    <div class="final-grid">
+      <div class="meter fee"><div class="lab">Fees earned</div><div class="val mono" id="fFee">$0</div></div>
+      <div class="meter"><div class="lab">Correct</div><div class="val mono" id="fScore">0 / 32</div></div>
+      <div class="meter"><div class="lab">Accuracy</div><div class="val mono" id="fAcc">0%</div></div>
+      <div class="meter"><div class="lab">Best streak</div><div class="val mono" id="fBest">0</div></div>
+    </div>
+    <h2 style="font-size:.72rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--grey)">Badges earned</h2>
+    <div class="badges" id="fBadges" style="margin-bottom:18px"></div>
+    <div id="reviewWrap">
+      <h2 style="font-size:.72rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--grey);margin-bottom:8px">Worth another look</h2>
+      <div class="review" id="review"></div>
+    </div>
+    <div class="certbox">
+      <label for="nameIn" style="font-weight:650;display:block;margin-bottom:6px">Your name, for the certificate</label>
+      <input id="nameIn" placeholder="Type your name" autocomplete="off">
+      <div>
+        <button class="btn" id="printBtn">Print certificate</button>
+        <button class="btn ghost" id="againBtn">Run the desk again</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="cert">
+    <h3>THE DECISION DESK</h3>
+    <div class="sub">Year 10 Business &nbsp;|&nbsp; Financial Decision Making</div>
+    <p style="margin-top:26px">This certifies that</p>
+    <div class="name" id="certName">&nbsp;</div>
+    <p>advised on 32 business financial decisions and got</p>
+    <p style="font-size:1.5rem;font-weight:800;margin:12px 0" id="certScore"></p>
+    <p id="certFee" class="mono"></p>
+    <p style="margin-top:26px;font-size:.85rem;color:var(--grey)" id="certDate"></p>
+  </section>
+
 </div>
 
 <script>
-"use strict";
-
+/* ------------------------------------------------------------------ data */
 const ROUNDS = [
   {
-    name: "Income or expense",
-    brief: "Income is money the budget expects to come in. An expense is money the budget expects to go out.",
-    options: ["Income", "Expense"],
+    name: "Cost or benefit?",
+    tag: "Round 1",
+    scenario: "The Sundowner Cafe in Werribee is deciding whether to open on Sundays. For each item, decide whether it is a cost of the decision or a benefit.",
+    options: ["Cost", "Benefit"],
     items: [
-      {q:"Membership fees paid to a gym", a:"Income", why:"Customers paying the business. Money in."},
-      {q:"Rent on the studio space", a:"Expense", why:"Money the business must pay out to operate."},
-      {q:"Cash from a catering booking", a:"Income", why:"A service sold, so money comes in."},
-      {q:"The public liability insurance premium", a:"Expense", why:"A required payment out. It earns nothing on its own."},
-      {q:"Money from selling gift vouchers", a:"Income", why:"Money received now for a service later. It still enters the budget as income."},
-      {q:"Wages for the Saturday barber", a:"Expense", why:"Paying for labour is money out."},
-      {q:"Ticket sales for the Year 10 fundraiser stall", a:"Income", why:"The money coming in to fund the stall."},
-      {q:"Printing the banner and signage", a:"Expense", why:"A one-off cost of running the stall."},
-      {q:"A monthly payment from a regular corporate client", a:"Income", why:"Predictable income, which is the easiest kind to budget for."},
-      {q:"The supplier invoice for next month's stock", a:"Expense", why:"Buying stock is money out, even though it will help earn income later."}
+      ["Extra wages for the Sunday staff", 0, "Money going out. Wages are one of the biggest ongoing costs of opening another day."],
+      ["Extra coffee and food sales on Sunday", 1, "Money coming in. This is the financial benefit the whole decision rests on."],
+      ["Penalty rates paid to staff on a Sunday", 0, "A cost, and a bigger one than a weekday. Sunday penalty rates are exactly why many small cafes stay shut."],
+      ["Regular customers stop going to the rival cafe", 1, "A benefit. Winning customers back from a competitor lifts revenue over time."],
+      ["Electricity and gas for a seventh day", 0, "An ongoing cost. The lights, fridges and coffee machine all run whether it is busy or not."],
+      ["The owner loses their only day off", 0, "A cost, just not a financial one. Non-financial costs are still real and they still count."],
+      ["The cafe becomes better known in the neighbourhood", 1, "A benefit, and a non-financial one. It does not pay the rent this month, but it builds the customer base."],
+      ["More milk, beans and packaging used each week", 0, "A cost, and a variable one. It rises with how much the cafe sells."]
     ]
   },
   {
-    name: "Surplus or deficit",
-    brief: "Expected income minus expected expenses. Positive is a surplus, negative is a deficit, zero is balanced.",
-    options: ["Surplus", "Deficit", "Balanced"],
+    name: "Upfront or ongoing?",
+    tag: "Round 2",
+    scenario: "A pizza shop in Hoppers Crossing is costing out a fit-out. Sort each cost into paid once (upfront) or paid again and again (ongoing).",
+    options: ["Upfront", "Ongoing"],
     items: [
-      {q:"A Point Cook gym budgets October.", fig:"Expected income $24,000\nExpected expenses $25,400", a:"Deficit", why:"24,000 - 25,400 = negative $1,400. A predicted shortfall of $1,400. Nothing has been lost yet, October has not started."},
-      {q:"The waffle bar budgets October.", fig:"Expected income $16,500\nExpected expenses $15,600", a:"Surplus", why:"16,500 - 15,600 = $900 surplus."},
-      {q:"The waffle bar budgets November, with a competitor opening across the road.", fig:"Expected income $13,500\nExpected expenses $14,800", a:"Deficit", why:"13,500 - 14,800 = negative $1,300. The budget did its job by showing this in advance."},
-      {q:"Tarneit Barbers budgets December.", fig:"Expected income $18,600\nExpected expenses $20,100", a:"Deficit", why:"18,600 - 20,100 = negative $1,500. The owner now has time to decide what to cut."},
-      {q:"A mobile dog wash budgets February.", fig:"Expected income $9,400\nExpected expenses $8,750", a:"Surplus", why:"9,400 - 8,750 = $650 surplus."},
-      {q:"The Year 10 fundraiser stall budgets its wish list.", fig:"Expected income $2,000\nExpected expenses $3,150", a:"Deficit", why:"2,000 - 3,150 = negative $1,150. The list has to be ranked and cut."},
-      {q:"A Werribee bakery budgets a strong Easter month.", fig:"Expected income $31,000\nExpected expenses $28,400", a:"Surplus", why:"31,000 - 28,400 = $2,600 surplus."},
-      {q:"A small tutoring business budgets July.", fig:"Expected income $7,200\nExpected expenses $7,200", a:"Balanced", why:"The two are exactly equal, so the plan neither leaves money over nor falls short."}
+      ["Buying a $9,000 pizza oven", 0, "Upfront. You pay it once and you own the oven."],
+      ["Public liability insurance, billed monthly", 1, "Ongoing. It lands every month whether the shop is busy or empty."],
+      ["Paying an electrician to install the oven", 0, "Upfront. Installation happens once, even if the oven needs servicing later."],
+      ["Flour, cheese and tomato base", 1, "Ongoing, and variable. The more pizzas sold, the more it costs."],
+      ["A one-off repaint of the shopfront", 0, "Upfront. One job, one invoice."],
+      ["The monthly fee for the online ordering app", 1, "Ongoing. A subscription is the clearest example of a cost that never stops."],
+      ["Buying three tables and twelve chairs", 0, "Upfront. Equipment is bought once and used for years."],
+      ["Wages for the weekend staff", 1, "Ongoing. Wages are due every pay run, busy or not."]
     ]
   },
   {
-    name: "Must pay or could cut",
-    brief: "When a budget will not balance, some expenses can go and some cannot. Watch for the ones that earn the income.",
-    options: ["Must pay", "Could cut"],
+    name: "Name the idea",
+    tag: "Round 3",
+    scenario: "Dilnaz is deciding whether to spend $6,000 on a second wash bay for her pet wash. Name what each statement is describing.",
+    options: ["Opportunity cost", "Financial risk", "Non-financial benefit"],
     items: [
-      {q:"Shop rent under a signed lease", a:"Must pay", why:"Under contract, and there is no business without the space."},
-      {q:"New massage chairs for the waiting area", a:"Could cut", why:"An upgrade, not a need. The old ones still work and nobody stops coming because of them."},
-      {q:"Public liability insurance", a:"Must pay", why:"Legally required, and one accident without it can end the business."},
-      {q:"The staff Christmas party", a:"Could cut", why:"Cuttable this month. Cut it every month for a year and you have a business nobody wants to work at."},
-      {q:"Hair product stock the barbers use and sell", a:"Must pay", why:"The classic trap. This expense is what earns the income, so cutting it cuts revenue too."},
-      {q:"Sponsoring a local footy team", a:"Could cut", why:"Good for the local name, but the doors stay open without it."},
-      {q:"Wages for the Saturday shift, the busiest day of the week", a:"Must pay", why:"Cutting it saves the wage and loses more in turned-away customers. The saving costs more than it saves."},
-      {q:"Upgrading the shopfront sign this year", a:"Could cut", why:"Delayable. The existing sign still does the job."}
+      ["The delivery van she could have bought with the same $6,000", 0, "Opportunity cost. It is the next best option she gave up, not money she paid out."],
+      ["Winter is quiet, so the extra $1,500 a month may not turn up", 1, "Financial risk. The benefit is a forecast, not a guarantee."],
+      ["She would finally get a Sunday off", 2, "A non-financial benefit. Real, valuable, and it does not pay the rent."],
+      ["Customers wait less and the shop feels calmer", 2, "A non-financial benefit. It may bring customers back, but you cannot put a figure on it today."],
+      ["If the loan cannot be repaid, the business could close", 1, "Financial risk, and the most serious kind. Always ask whether the business survives failure."],
+      ["The $6,000 could have paid for six months of advertising instead", 0, "Opportunity cost. Same money, different use, and she can only spend it once."],
+      ["Her staff stop quitting because the work is less brutal", 2, "A non-financial benefit. Lower staff turnover does eventually save money, but not in a way you can count this month."],
+      ["The equipment supplier might raise its service prices next year", 1, "Financial risk. Ongoing costs can move after you have committed."]
     ]
   },
   {
-    name: "Myth or fact",
-    brief: "Four of these get said constantly. Only two of them are true.",
-    options: ["Myth", "Fact"],
+    name: "Run the numbers",
+    tag: "Round 4",
+    scenario: "Your call as the adviser. Work out the figures, then approve or decline. Where there is an upfront cost, the business wants its money back within six months.",
+    options: ["Approve", "Decline"],
     items: [
-      {q:"A budget records what a business actually spent.", a:"Myth", why:"That is a financial record, written afterwards. A budget is written before and estimates what should happen."},
-      {q:"A budget is written before the period it covers.", a:"Fact", why:"That is what makes it a plan rather than a record."},
-      {q:"A deficit in a budget means the business has already lost money.", a:"Myth", why:"Nothing has happened yet. It is a predicted shortfall, and spotting it early is the whole point."},
-      {q:"Small businesses need budgets less than large companies do.", a:"Myth", why:"Arguably the opposite. A large company can absorb a bad month. A sole trader cannot."},
-      {q:"A surplus means expected income is greater than expected expenses.", a:"Fact", why:"That is the definition. The plan leaves money over."},
-      {q:"Cutting any expense always improves the business.", a:"Myth", why:"Cut the stock or the busiest shift and you cut the income with it."}
+      ["A Geelong food van buys a second fridge.", 0,
+        "Better off each month: $700 in, $250 out, so $450. Counting up: 450, 900, 1350, 1800. The $1,800 is back in month 4, inside the six month rule.",
+        [["Upfront cost", "$1,800", "out"], ["Extra revenue", "$700 a month", "in"], ["Extra running costs", "$250 a month", "out"]]],
+      ["A Werribee nail salon signs up for online ads.", 1,
+        "$260 in, then $40 supplies and $300 ads out. That is $340 out against $260 in, so the salon is $80 a month worse off. Decline it.",
+        [["Upfront cost", "$0", "out"], ["Extra revenue", "$260 a month", "in"], ["Ad fee", "$300 a month", "out"], ["Extra supplies", "$40 a month", "out"]]],
+      ["A Sunbury bakery buys a display cabinet.", 0,
+        "$200 in, $50 out, so $150 a month better off. Counting up: 150, 300, 450, 600, 750, 900. The $900 is back in month 6, just inside the rule.",
+        [["Upfront cost", "$900", "out"], ["Extra revenue", "$200 a month", "in"], ["Extra power", "$50 a month", "out"]]],
+      ["A Tarneit gym buys $4,000 of new equipment.", 1,
+        "$500 in, $100 out, so $400 a month better off. In six months that is only $2,400 of the $4,000. Payback takes ten months, so it fails the six month rule.",
+        [["Upfront cost", "$4,000", "out"], ["Extra memberships", "$500 a month", "in"], ["Extra costs", "$100 a month", "out"]]],
+      ["A Point Cook cafe hires a casual for Saturdays.", 0,
+        "$1,400 in, minus $900 wages and $300 supplies, which is $1,200 out. The cafe is $200 a month better off and there is no upfront cost to pay back.",
+        [["Upfront cost", "$0", "out"], ["Extra revenue", "$1,400 a month", "in"], ["Wages", "$900 a month", "out"], ["Extra supplies", "$300 a month", "out"]]],
+      ["A Hoppers Crossing barber buys a professional clipper set.", 1,
+        "$60 a month better off with no extra running costs. Counting up, $600 takes ten months to come back. Good gear, wrong time.",
+        [["Upfront cost", "$600", "out"], ["Extra revenue", "$60 a month", "in"], ["Extra running costs", "$0", "out"]]],
+      ["A Wyndham Vale bike shop pays for a delivery service.", 1,
+        "$400 in, then $180 parts and $250 delivery out. That is $430 out against $400 in, so the shop loses $30 every month. Decline.",
+        [["Upfront cost", "$0", "out"], ["Extra revenue", "$400 a month", "in"], ["Delivery fee", "$250 a month", "out"], ["Extra parts", "$180 a month", "out"]]],
+      ["A Melton smoothie bar upgrades its blender line.", 0,
+        "$900 in, minus $400 ingredients and $50 power, which is $450 a month better off. Counting up: 450, 900, 1350, 1800, 2250. Past $2,000 in month 5.",
+        [["Upfront cost", "$2,000", "out"], ["Extra revenue", "$900 a month", "in"], ["Extra ingredients", "$400 a month", "out"], ["Extra power", "$50 a month", "out"]]]
     ]
   }
 ];
 
-const START = 2000, PENALTY = 150, EARN = 150, STREAK_AT = 3, LOAN = 600;
 const BADGES = [
-  {id:"nofunds", name:"Never refinanced",  req:"Finish without an emergency loan"},
-  {id:"streak",  name:"Straight run",       req:"Get 5 correct in a row"},
-  {id:"numbers", name:"Reads the figures",  req:"All 8 correct in surplus or deficit"},
-  {id:"cuts",    name:"Knows what to cut",  req:"All 8 correct in must pay or could cut"},
-  {id:"myth",    name:"Myth buster",        req:"All 6 correct in myth or fact"},
-  {id:"full",    name:"Signed off",         req:"Answer all 32 questions"}
+  { id:"opener",  label:"Open for business", test:s => s.score >= 8 },
+  { id:"roll",    label:"On a roll",          test:s => s.best >= 6 },
+  { id:"risk",    label:"Risk reader",        test:s => s.perRound[2] === 8 },
+  { id:"numbers", label:"Numbers person",     test:s => s.perRound[3] === 8 },
+  { id:"senior",  label:"Senior adviser",     test:s => s.score >= 26 },
+  { id:"sweep",   label:"Clean sweep",        test:s => s.score === 32 }
 ];
 
-let ri=0, qi=0, funds=START, surplus=0, streak=0, best=0, correct=0, answered=0, loans=0;
-let roundErrors=0, perRound={}, earned=new Set(), wrongs=[], locked=false, order=[];
+/* ------------------------------------------------------------------ state */
+const flat = [];
+ROUNDS.forEach((r, ri) => r.items.forEach((it, ii) => flat.push({
+  round: ri, idx: ii, text: it[0], answer: it[1], why: it[2], figs: it[3] || null
+})));
 
-const stage=document.getElementById("stage");
-const ledger=document.getElementById("ledger");
-const bar=document.getElementById("bar");
+const S = {
+  i: 0, score: 0, fee: 0, streak: 0, best: 0,
+  perRound: [0,0,0,0], answered: false, wrong: []
+};
 
-function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-function money(n){return (n<0?"-$":"$")+Math.abs(n).toLocaleString("en-AU");}
-function esc(s){return s.replace(/\n/g,"<br>");}
+const $ = id => document.getElementById(id);
+const money = n => "$" + n.toLocaleString("en-AU");
+const rate = () => S.streak >= 5 ? 300 : S.streak >= 3 ? 200 : 100;
 
-function drawBar(){
-  bar.innerHTML="";
-  ROUNDS.forEach((_,i)=>{
-    const d=document.createElement("div");
-    d.className="seg"+(i<ri?" done":i===ri?" now":"");
-    bar.appendChild(d);
+/* ------------------------------------------------------------------ render */
+function renderBadges(target, final) {
+  target.innerHTML = "";
+  BADGES.forEach(b => {
+    const won = b.test(S);
+    if (final && !won) return;
+    const el = document.createElement("span");
+    el.className = "badge" + (won ? " won" : "");
+    el.textContent = won ? "\u2713 " + b.label : b.label;
+    target.appendChild(el);
   });
-}
-
-function addEntry(label,amount,cls){
-  if(ledger.querySelector(".empty")) ledger.innerHTML="";
-  const row=document.createElement("div");
-  row.className="entry "+(cls||(amount>=0?"in":"out"));
-  row.innerHTML='<span>'+label+'</span><span>'+(amount>=0?"+":"")+money(amount)+'</span>';
-  ledger.appendChild(row);
-  ledger.scrollTop=ledger.scrollHeight;
-}
-
-function updateDesk(){
-  const b=document.getElementById("balance");
-  b.textContent=money(funds);
-  b.className="balance"+(funds<=500?" low":"");
-  const f=document.getElementById("fill");
-  f.style.width=Math.max(0,Math.min(100,(funds/START)*100))+"%";
-  f.className="fill"+(funds<=500?" low":"");
-  document.getElementById("surplus").textContent=money(surplus);
-  document.getElementById("acc").textContent=correct+" correct";
-  document.getElementById("streak").textContent="streak "+streak;
-  document.getElementById("pillwrap").innerHTML = streak>=STREAK_AT ? '<span class="streakpill">STREAK x2 ACTIVE</span>' : '';
-}
-
-function startRound(){
-  qi=0; roundErrors=0;
-  order=shuffle(ROUNDS[ri].items.map((_,i)=>i));
-  perRound[ri]={right:0,total:ROUNDS[ri].items.length};
-  drawBar(); renderQ();
-}
-
-function renderQ(){
-  locked=false;
-  const R=ROUNDS[ri], item=R.items[order[qi]];
-  const opts=shuffle(R.options);
-  stage.innerHTML=
-    '<div class="roundhead"><h2>Round '+(ri+1)+'. '+R.name+'</h2>'+
-    '<div class="count">ITEM '+(qi+1)+' OF '+R.items.length+'</div></div>'+
-    '<div class="rule"></div>'+
-    '<div class="qsub">'+R.brief+'</div>'+
-    '<div class="qtext">'+item.q+'</div>'+
-    (item.fig?'<div class="figures">'+esc(item.fig)+'</div>':'')+
-    '<div class="opts" id="opts"></div>'+
-    '<div class="verdict" id="verdict"></div>'+
-    '<div class="next hidden" id="next"><button class="go" id="nextbtn">Next</button></div>';
-  const box=document.getElementById("opts");
-  opts.forEach(o=>{
-    const b=document.createElement("button");
-    b.className="opt"; b.type="button"; b.textContent=o;
-    b.addEventListener("click",()=>answer(o,item,box));
-    box.appendChild(b);
-  });
-}
-
-function answer(choice,item,box){
-  if(locked) return; locked=true;
-  const right = choice===item.a;
-  [...box.children].forEach(b=>{
-    b.disabled=true;
-    if(b.textContent===item.a) b.classList.add("right");
-    else if(b.textContent===choice) b.classList.add("wrong");
-    else b.classList.add("dim");
-  });
-  answered++;
-  const label="R"+(ri+1)+" item "+(qi+1);
-  let note="";
-  if(right){
-    correct++; streak++; best=Math.max(best,streak); perRound[ri].right++;
-    const amt = streak>=STREAK_AT ? EARN*2 : EARN;
-    surplus+=amt; addEntry(label+" approved"+(streak>=STREAK_AT?" x2":""),amt,"in");
-  } else {
-    streak=0; roundErrors++;
-    funds-=PENALTY; addEntry(label+" rejected",-PENALTY,"out");
-    wrongs.push({q:item.q,a:item.a,why:item.why,chose:choice});
-    if(funds<=0){
-      loans++; funds+=LOAN;
-      addEntry("Emergency loan #"+loans,LOAN,"loan");
-      note=" Your funding ran out, so an emergency loan of "+money(LOAN)+" was taken. That is now on your record.";
-    }
+  if (final && !target.children.length) {
+    target.innerHTML = '<span class="badge">No badges this run. Have another go.</span>';
   }
-  if(best>=5) earned.add("streak");
-  updateDesk();
-  const v=document.getElementById("verdict");
-  v.className="verdict show "+(right?"ok":"no");
-  v.innerHTML="<b>"+(right?"Approved":"Rejected. Correct answer: "+item.a)+"</b><p>"+item.why+note+"</p>";
-  const n=document.getElementById("next"); n.classList.remove("hidden");
-  const btn=document.getElementById("nextbtn");
-  const lastQ = qi===ROUNDS[ri].items.length-1;
-  const lastR = ri===ROUNDS.length-1;
-  btn.textContent = lastQ ? (lastR?"Close the books":"Start round "+(ri+2)) : "Next";
-  btn.focus();
-  btn.addEventListener("click",()=>{
-    if(!lastQ){ qi++; renderQ(); return; }
-    if(ri===1 && perRound[1].right===ROUNDS[1].items.length) earned.add("numbers");
-    if(ri===2 && perRound[2].right===ROUNDS[2].items.length) earned.add("cuts");
-    if(ri===3 && perRound[3].right===ROUNDS[3].items.length) earned.add("myth");
-    if(lastR){ finish(); } else { ri++; startRound(); }
-  });
 }
 
-function finish(){
-  if(answered===32) earned.add("full");
-  if(loans===0) earned.add("nofunds");
-  drawBar(); bar.querySelectorAll(".seg").forEach(s=>s.className="seg done");
+function updateMeters() {
+  $("mFee").textContent = money(S.fee);
+  $("mScore").textContent = S.score + " / 32";
+  $("mStreak").textContent = S.streak;
+  $("mRate").textContent = money(rate());
+  $("streakBox").classList.toggle("hot", S.streak >= 3);
+  $("bar").style.width = (S.i / flat.length * 100) + "%";
+  $("ledgerTotal").textContent = money(S.fee);
+  renderBadges($("badges"), false);
+}
 
-  let html='<div class="roundhead"><h2>Closing the books</h2><div class="count">'+correct+' / 32 CORRECT</div></div><div class="rule"></div>';
-  html+='<div class="stat"><span>Questions answered</span><b>'+answered+'</b></div>';
-  html+='<div class="stat"><span>Correct</span><b>'+correct+'</b></div>';
-  html+='<div class="stat"><span>Longest streak</span><b>'+best+'</b></div>';
-  html+='<div class="stat"><span>Funding remaining</span><b class="'+(funds<=500?"neg":"pos")+'">'+money(funds)+'</b></div>';
-  html+='<div class="stat"><span>Emergency loans taken</span><b class="'+(loans?"neg":"pos")+'">'+loans+'</b></div>';
-  html+='<div class="stat"><span>Surplus earned</span><b class="pos">'+money(surplus)+'</b></div>';
+function logDecision(q, correct, earned) {
+  $("ledgerEmpty").style.display = "none";
+  const tr = document.createElement("tr");
+  const short = q.text.length > 42 ? q.text.slice(0, 40) + "\u2026" : q.text;
+  tr.innerHTML =
+    '<td class="' + (correct ? "ok" : "no") + '">' + (correct ? "\u2713" : "\u2717") + '</td>' +
+    '<td>' + short + '</td>' +
+    '<td class="mono ' + (correct ? "ok" : "no") + '">' + (correct ? "+" + money(earned) : "\u2013") + '</td>';
+  const body = $("ledger");
+  body.insertBefore(tr, body.firstChild);
+}
 
-  html+='<h2 style="font-family:var(--display);font-size:26px;margin:22px 0 0">Badges</h2><div class="badges">';
-  BADGES.forEach(b=>{
-    const got=earned.has(b.id);
-    html+='<div class="badge'+(got?" earned":"")+'"><b>'+(got?"\u2713 ":"")+b.name+'</b><small>'+b.req+'</small></div>';
+function showQuestion() {
+  const q = flat[S.i];
+  const R = ROUNDS[q.round];
+  S.answered = false;
+
+  $("roundTag").textContent = R.tag + ": " + R.name;
+  $("roundName").textContent = "Round " + (q.round + 1) + " of 4";
+  $("scenario").textContent = R.scenario;
+  $("qnum").textContent = "Decision " + (S.i + 1) + " of " + flat.length;
+  $("prompt").textContent = q.text;
+
+  const figs = $("figs");
+  figs.innerHTML = "";
+  figs.style.display = q.figs ? "block" : "none";
+  if (q.figs) q.figs.forEach(f => {
+    const row = document.createElement("div");
+    row.innerHTML = '<span>' + f[0] + '</span><span class="mono ' + f[2] + '">' + f[1] + '</span>';
+    figs.appendChild(row);
   });
-  html+='</div>';
 
-  if(wrongs.length){
-    html+='<h2 style="font-family:var(--display);font-size:26px;margin:8px 0 12px">The ones to look at again ('+wrongs.length+')</h2>';
-    wrongs.forEach(w=>{
-      html+='<div class="review"><div class="q">'+w.q+'</div>'+
-            '<div class="a">You chose '+w.chose+'. Correct answer: <b>'+w.a+'</b></div>'+
-            '<p style="margin-top:7px;font-size:15px">'+w.why+'</p></div>';
+  const opts = $("opts");
+  opts.innerHTML = "";
+  R.options.forEach((label, oi) => {
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.innerHTML = label + '<span class="key">press ' + (oi + 1) + '</span>';
+    b.onclick = () => answer(oi);
+    opts.appendChild(b);
+  });
+
+  $("fb").className = "fb";
+  $("next").className = "next";
+  updateMeters();
+}
+
+function answer(choice) {
+  if (S.answered) return;
+  S.answered = true;
+  const q = flat[S.i];
+  const correct = choice === q.answer;
+  const buttons = [...document.querySelectorAll(".opt")];
+  let earned = 0;
+
+  if (correct) {
+    earned = rate();
+    S.fee += earned;
+    S.score++;
+    S.perRound[q.round]++;
+    S.streak++;
+    if (S.streak > S.best) S.best = S.streak;
+  } else {
+    S.streak = 0;
+    S.wrong.push({ q, choice });
+  }
+
+  buttons.forEach((b, bi) => {
+    b.disabled = true;
+    if (bi === choice) b.classList.add(correct ? "picked-right" : "picked-wrong");
+    else if (bi === q.answer) b.classList.add("was-right");
+  });
+
+  const fb = $("fb");
+  fb.className = "fb show " + (correct ? "right" : "wrong");
+  $("verdict").textContent = correct ? "Good call." : "Not this time.";
+  $("why").textContent = q.why;
+  $("earn").textContent = correct
+    ? "Fee earned: " + money(earned) + (S.streak >= 3 ? "   (streak rate, " + S.streak + " in a row)" : "")
+    : "No fee. Streak back to zero.";
+
+  logDecision(q, correct, earned);
+  updateMeters();
+  $("next").className = "next show";
+  $("next").textContent = (S.i === flat.length - 1) ? "See your results" : "Next decision";
+}
+
+function nextQ() {
+  S.i++;
+  if (S.i >= flat.length) return finish();
+  showQuestion();
+}
+
+function finish() {
+  $("bar").style.width = "100%";
+  $("play").style.display = "none";
+  $("end").style.display = "block";
+
+  const acc = Math.round(S.score / flat.length * 100);
+  const strong = acc >= 75;
+  $("stampWrap").innerHTML = '<div class="stamp' + (strong ? "" : " low") + '">' +
+    (strong ? "APPROVED" : "UNDER REVIEW") + "</div>";
+  $("endTitle").textContent = strong ? "The desk trusts your judgement." : "Back to the ledger.";
+  $("endLine").textContent = strong
+    ? "You backed your calls with the numbers. That is exactly what a recommendation needs."
+    : "Read through what you missed below, then run the desk again. The figures do not change, but your reading of them will.";
+
+  $("fFee").textContent = money(S.fee);
+  $("fScore").textContent = S.score + " / " + flat.length;
+  $("fAcc").textContent = acc + "%";
+  $("fBest").textContent = S.best;
+  renderBadges($("fBadges"), true);
+
+  const rev = $("review");
+  if (!S.wrong.length) {
+    $("reviewWrap").innerHTML = '<div class="badge won" style="font-size:.9rem">Nothing to review. Every call was right.</div>';
+  } else {
+    rev.innerHTML = "";
+    S.wrong.forEach(w => {
+      const R = ROUNDS[w.q.round];
+      const el = document.createElement("div");
+      el.className = "item";
+      el.innerHTML = '<div class="q">' + w.q.text + '</div>' +
+        '<div class="a">You said <b>' + R.options[w.choice] + '</b>. The answer is <b>' +
+        R.options[w.q.answer] + '</b>. ' + w.q.why + '</div>';
+      rev.appendChild(el);
     });
-  } else {
-    html+='<div class="review"><div class="q">Nothing to review. Every item approved first time.</div></div>';
   }
 
-  html+='<div class="cert"><div class="k">YEAR 10 BUSINESS &nbsp;|&nbsp; LESSON 32 &nbsp;|&nbsp; BUDGETING</div>'+
-        '<h3>The Budget Desk</h3>'+
-        '<div class="figure">'+money(surplus)+' surplus</div>'+
-        '<div class="k">'+correct+' OF 32 CORRECT &nbsp;\u00B7&nbsp; '+money(funds)+' FUNDING LEFT &nbsp;\u00B7&nbsp; '+loans+' EMERGENCY LOAN'+(loans===1?"":"S")+' &nbsp;\u00B7&nbsp; '+earned.size+' OF 6 BADGES</div>'+
-        '<input id="who" placeholder="Write your name here" aria-label="Your name"></div>';
-
-  html+='<div class="actions"><button class="go" id="printbtn">Print this certificate</button>'+
-        '<button class="go ghost" id="again">Run it again</button></div>';
-
-  stage.innerHTML=html;
-  document.getElementById("printbtn").addEventListener("click",()=>window.print());
-  document.getElementById("again").addEventListener("click",()=>{
-    ri=0;qi=0;funds=START;surplus=0;streak=0;best=0;correct=0;answered=0;loans=0;wrongs=[];earned=new Set();perRound={};
-    ledger.innerHTML='<div class="empty">Ledger is empty.<br>Answer to open it.</div>';
-    updateDesk(); startRound();
-  });
+  $("certScore").textContent = S.score + " out of " + flat.length + " right";
+  $("certFee").textContent = "Advisory fees earned: " + money(S.fee);
+  $("certDate").textContent = new Date().toLocaleDateString("en-AU", { day:"numeric", month:"long", year:"numeric" });
 }
 
-updateDesk();
-startRound();
+/* ------------------------------------------------------------------ wiring */
+$("next").onclick = nextQ;
+$("nameIn").oninput = e => { $("certName").textContent = e.target.value.trim() || "\u00A0"; };
+$("printBtn").onclick = () => {
+  if (!$("nameIn").value.trim()) { $("nameIn").focus(); return; }
+  window.print();
+};
+$("againBtn").onclick = () => location.reload();
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter" && S.answered) { nextQ(); return; }
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= 3 && !S.answered) {
+    const b = document.querySelectorAll(".opt")[n - 1];
+    if (b) b.click();
+  }
+});
+
+showQuestion();
 </script>
 </body>
 </html>
