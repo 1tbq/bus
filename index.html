@@ -1,778 +1,404 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-AU">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SMART Goal Studio</title>
+<title>Shock Proof</title>
 <style>
-  :root {
-    --ink: #162447; --teal: #0F7C80; --gold: #F2A900; --copy: #FFE45C;
-    --tint: #EEF6F6; --line: #CFDCDD; --green: #2E8B57; --red: #C0392B;
-    --grey: #5B6478; --white: #FFFFFF; --paper: #F7F9FB;
-    --radius: 14px;
-  }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; }
-  body {
-    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
-    background: var(--paper); color: var(--ink); line-height: 1.45;
-    min-height: 100vh;
-  }
-  button { font: inherit; cursor: pointer; }
-  input { font: inherit; }
-
-  /* Top bar */
-  .topbar {
-    position: sticky; top: 0; z-index: 10;
-    background: var(--ink); color: var(--white);
-    display: flex; align-items: center; gap: 16px; padding: 10px 20px;
-    flex-wrap: wrap;
-  }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.05rem; letter-spacing: .2px; }
-  .tiles { display: flex; gap: 4px; }
-  .tile {
-    width: 26px; height: 30px; border-radius: 6px; display: grid; place-items: center;
-    font-weight: 800; font-size: .9rem; background: #24365F; color: #8FA3C7; border: 1px solid #33497A;
-    transition: background .25s, color .25s;
-  }
-  .tile.on { background: var(--gold); color: var(--ink); border-color: var(--gold); }
-  .spacer { flex: 1; }
-  .stat { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; }
-  .stat small { font-size: .7rem; color: #AFC3D6; text-transform: uppercase; letter-spacing: .6px; }
-  .stat b { font-size: 1.15rem; }
-  .stat.timer b { font-variant-numeric: tabular-nums; }
-  .stat.timer.low b { color: var(--copy); }
-  .stat.streak b { color: var(--gold); }
-
-  /* Layout */
-  .wrap { max-width: 1100px; margin: 0 auto; padding: 22px 20px 40px; display: grid; grid-template-columns: 1fr 230px; gap: 22px; }
-  @media (max-width: 820px) { .wrap { grid-template-columns: 1fr; } .side { order: 2; } }
-  .main { min-width: 0; }
-
-  .panel { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
-  .eyebrow { font-size: .78rem; text-transform: uppercase; letter-spacing: 1px; color: var(--teal); font-weight: 700; margin: 0 0 4px; }
-  h1 { font-size: 1.9rem; margin: 0 0 8px; line-height: 1.15; }
-  h2 { font-size: 1.4rem; margin: 0 0 6px; }
-  p { margin: 0 0 12px; }
-  .muted { color: var(--grey); }
-
-  /* Jar sidebar */
-  .side { display: flex; flex-direction: column; gap: 14px; }
-  .jarcard { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; text-align: center; }
-  .jarcard .amt { font-size: 1.8rem; font-weight: 800; color: var(--teal); line-height: 1; margin-top: 6px; }
-  .jarcard .target { font-size: .82rem; color: var(--grey); }
-  #jar { width: 150px; height: 190px; display: block; margin: 0 auto; }
-  .coin-pop { position: fixed; pointer-events: none; font-weight: 800; color: var(--green); font-size: 1.2rem; animation: pop 900ms ease-out forwards; z-index: 50; }
-  @keyframes pop { 0% { opacity: 0; transform: translateY(0) scale(.8); } 20% { opacity: 1; transform: translateY(-6px) scale(1.1); } 100% { opacity: 0; transform: translateY(-40px) scale(1); } }
-  .roundlist { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
-  .roundlist ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
-  .roundlist li { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--grey); }
-  .roundlist li .dot { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .75rem; font-weight: 800; background: var(--tint); color: var(--grey); border: 1px solid var(--line); flex: none; }
-  .roundlist li.now { color: var(--ink); font-weight: 700; }
-  .roundlist li.now .dot { background: var(--gold); color: var(--ink); border-color: var(--gold); }
-  .roundlist li.done .dot { background: var(--green); color: var(--white); border-color: var(--green); }
-  .badgebox { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
-  .badgebox h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .8px; color: var(--grey); margin: 0 0 8px; }
-  .badges { display: flex; flex-wrap: wrap; gap: 6px; }
-  .badge { font-size: .78rem; padding: 4px 9px; border-radius: 999px; background: var(--tint); color: #9AA6A8; border: 1px dashed var(--line); }
-  .badge.got { background: var(--copy); color: var(--ink); border: 1px solid var(--gold); font-weight: 700; }
-
-  /* Question UI */
-  .progress { height: 8px; background: var(--tint); border-radius: 99px; overflow: hidden; margin: 10px 0 20px; }
-  .progress > div { height: 100%; background: var(--teal); width: 0; transition: width .3s; }
-  .qmeta { display: flex; justify-content: space-between; font-size: .85rem; color: var(--grey); }
-  .statement {
-    background: var(--tint); border: 1px solid var(--line); border-radius: 12px;
-    padding: 20px 22px; font-size: 1.2rem; font-weight: 600; margin: 6px 0 18px;
-  }
-  .options { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-  .opt {
-    text-align: left; background: var(--white); border: 2px solid var(--line); border-radius: 12px;
-    padding: 14px 16px; font-size: 1rem; color: var(--ink); transition: border-color .15s, transform .1s, background .15s;
-  }
-  .opt:hover:not(:disabled) { border-color: var(--teal); transform: translateY(-1px); }
-  .opt:disabled { cursor: default; }
-  .opt.right { border-color: var(--green); background: #E3F2EC; }
-  .opt.wrong { border-color: var(--red); background: #FBE9E7; }
-  .opt .k { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; background: var(--ink); color: var(--white); font-size: .78rem; font-weight: 800; margin-right: 8px; }
-  .opt.big { text-align: center; font-weight: 800; font-size: 1.1rem; padding: 18px; }
-  .feedback { margin-top: 16px; padding: 14px 16px; border-radius: 12px; display: none; }
-  .feedback.show { display: block; }
-  .feedback.good { background: #E3F2EC; border: 1px solid #A9D5BD; }
-  .feedback.bad { background: #FBE9E7; border: 1px solid #EDB9B1; }
-  .feedback b { display: block; margin-bottom: 2px; }
-  .next {
-    margin-top: 16px; background: var(--ink); color: var(--white); border: 0; border-radius: 10px;
-    padding: 12px 20px; font-weight: 700; display: none;
-  }
-  .next.show { display: inline-block; }
-  .next:hover { background: #22356A; }
-
-  .btn { background: var(--ink); color: var(--white); border: 0; border-radius: 10px; padding: 13px 22px; font-weight: 700; font-size: 1rem; }
-  .btn:hover { background: #22356A; }
-  .btn.gold { background: var(--gold); color: var(--ink); }
-  .btn.gold:hover { background: #FFBD1F; }
-  .btn:disabled { opacity: .45; cursor: not-allowed; }
-
-  /* Intro */
-  .rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 16px 0 20px; }
-  .rule { background: var(--tint); border-radius: 12px; padding: 12px 14px; font-size: .95rem; }
-  .rule b { color: var(--teal); }
-  .namefield { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-  .namefield input { padding: 12px 14px; border: 2px solid var(--line); border-radius: 10px; min-width: 240px; }
-  .namefield input:focus { outline: none; border-color: var(--teal); }
-
-  /* Round intro */
-  .roundhead { display: flex; gap: 16px; align-items: center; margin-bottom: 8px; }
-  .roundnum { width: 54px; height: 60px; border-radius: 10px; background: var(--gold); display: grid; place-items: center; font-size: 1.6rem; font-weight: 900; flex: none; }
-  .copybox { background: var(--copy); border: 1px solid var(--gold); border-radius: 12px; padding: 12px 16px; margin: 12px 0 18px; }
-
-  /* Builder */
-  .wishline { font-size: 1.15rem; margin-bottom: 4px; }
-  .context { font-size: .92rem; color: var(--grey); margin-bottom: 14px; }
-  .slotlabel { display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 8px; }
-  .slotlabel .tile { width: 28px; height: 30px; }
-  .assembled { background: var(--ink); color: var(--white); border-radius: 12px; padding: 16px 18px; margin-top: 16px; font-style: italic; }
-  .assembled .blank { color: var(--copy); font-style: normal; font-weight: 700; }
-
-  .formgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
-  @media (max-width: 600px) { .formgrid { grid-template-columns: 1fr; } }
-  .formgrid label { font-size: .85rem; font-weight: 700; display: block; margin-bottom: 4px; }
-  .formgrid label .tile { display: inline-grid; width: 20px; height: 22px; font-size: .72rem; margin-right: 4px; vertical-align: middle; }
-  .formgrid input { width: 100%; padding: 10px 12px; border: 2px solid var(--line); border-radius: 10px; }
-  .formgrid input:focus { outline: none; border-color: var(--teal); }
-  .full { grid-column: 1 / -1; }
-  .verdict { padding: 12px 14px; border-radius: 10px; margin-top: 10px; font-weight: 600; }
-  .verdict.ok { background: #E3F2EC; color: var(--green); }
-  .verdict.tight { background: #FFF7DB; color: #8A6400; }
-  .verdict.no { background: #FBE9E7; color: var(--red); }
-
-  /* Results */
-  .card {
-    border: 3px solid var(--ink); border-radius: 18px; overflow: hidden; background: var(--white); margin-top: 12px;
-  }
-  .card .head { background: var(--ink); color: var(--white); padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .card .head h2 { margin: 0; }
-  .card .body { padding: 18px 22px; }
-  .card .nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 14px; }
-  .card .num { background: var(--tint); border-radius: 12px; padding: 10px 12px; }
-  .card .num small { display: block; font-size: .75rem; color: var(--grey); text-transform: uppercase; letter-spacing: .6px; }
-  .card .num b { font-size: 1.4rem; }
-  .goalquote { background: var(--copy); border: 1px solid var(--gold); border-radius: 12px; padding: 12px 16px; font-style: italic; margin: 10px 0; }
-  .review { margin-top: 20px; }
-  .review details { border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; background: var(--white); }
-  .review summary { cursor: pointer; font-weight: 600; }
-  .review .ans { margin-top: 8px; font-size: .95rem; }
-  .review .ans .you { color: var(--red); }
-  .review .ans .correct { color: var(--green); font-weight: 700; }
-  .roundscore { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 10px 0; }
-  .roundscore div { font-size: .9rem; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
-
-  .toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%) translateY(120px); background: var(--ink); color: var(--white); padding: 12px 18px; border-radius: 12px; font-weight: 700; transition: transform .35s; z-index: 60; box-shadow: 0 8px 24px rgba(22,36,71,.25); }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast .b { color: var(--gold); }
-  .hidden { display: none !important; }
-  :focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+:root{
+  --ink:#1F2328; --muted:#5B6168; --line:#E3E5E8; --bg:#FFFFFF; --soft:#F6F7F8;
+  --amber:#A8561B; --amber-soft:#FBEFE4; --green:#1E7A4C; --green-soft:#E6F4EC;
+  --red:#B83227; --red-soft:#FBEAE8; --navy:#22344A;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:860px;margin:0 auto;padding:16px}
+header.bar{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line)}
+header.bar .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
+.brand{font-weight:800;letter-spacing:.02em;color:var(--amber);font-size:1.1rem;margin-right:auto}
+.chip{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.88rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip b{color:var(--navy)}
+.chip.streak b{color:var(--amber)}
+.meter{width:100%;padding:0 16px 10px;max-width:860px;margin:0 auto}
+.meter-label{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:4px}
+.track{height:12px;background:var(--soft);border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.fill{height:100%;width:0;background:var(--green);transition:width .5s ease}
+.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+h1{font-size:2rem;margin:.4em 0 .2em;color:var(--navy)}
+h2{font-size:1.35rem;margin:.2em 0 .4em;color:var(--navy)}
+p.lead{font-size:1.05rem;color:var(--muted);margin-top:0}
+.card{border:1px solid var(--line);border-radius:14px;padding:20px;margin:14px 0;background:#fff}
+.roundtag{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);background:var(--amber-soft);border-radius:6px;padding:3px 8px}
+.progress{font-size:.85rem;color:var(--muted);float:right}
+.prompt{font-size:1.2rem;font-weight:600;margin:14px 0 16px}
+.scenario{background:var(--soft);border-radius:10px;padding:12px 14px;margin:10px 0 14px;font-size:1rem}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{text-align:left;border:2px solid var(--line);background:#fff;border-radius:10px;padding:12px 14px;font-size:1rem;color:var(--ink);transition:border-color .15s,background .15s}
+.opts.two .opt{text-align:center;font-weight:700;padding:18px 10px}
+.opt:hover:not(:disabled){border-color:var(--amber)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--green);background:var(--green-soft)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.feedback{margin-top:14px;padding:12px 14px;border-radius:10px;display:none}
+.feedback.ok{display:block;background:var(--green-soft);color:#14512F}
+.feedback.no{display:block;background:var(--red-soft);color:#7A1F17}
+.actions{display:flex;justify-content:flex-end;margin-top:14px;gap:10px}
+.btn{border:0;border-radius:10px;padding:11px 20px;font-weight:700;background:var(--navy);color:#fff}
+.btn.alt{background:var(--amber)}
+.btn:disabled{opacity:.4;cursor:default}
+input[type=text]{font:inherit;padding:11px 12px;border:2px solid var(--line);border-radius:10px;width:100%;max-width:360px}
+input[type=text]:focus{outline:none;border-color:var(--amber)}
+.rounds{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:14px 0}
+.rounds div{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:.92rem}
+.rounds b{display:block;color:var(--navy)}
+.order-pool,.order-picked{display:grid;gap:8px;margin:10px 0}
+.order-picked{min-height:40px}
+.slot{display:flex;gap:10px;align-items:center;border:2px dashed var(--line);border-radius:10px;padding:10px 12px;color:var(--muted)}
+.slot.filled{border-style:solid;border-color:var(--amber);color:var(--ink);background:var(--amber-soft)}
+.slot.right{border-color:var(--green);background:var(--green-soft)}
+.slot.wrong{border-color:var(--red);background:var(--red-soft)}
+.num{flex:0 0 26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:.85rem;font-weight:700}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.badge{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.9rem;background:#fff}
+.badge.got{background:var(--amber-soft);border-color:var(--amber);font-weight:600}
+.badge:not(.got){color:#9AA0A6}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(120px);background:var(--navy);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;transition:transform .35s;z-index:20}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0}
+.stat{background:var(--soft);border-radius:10px;padding:12px}
+.stat .v{font-size:1.6rem;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+.stat .k{font-size:.82rem;color:var(--muted)}
+.review{border-left:0;background:var(--red-soft);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:.95rem}
+.review .ans{color:#14512F;font-weight:600}
+.hidden{display:none}
+.timeup{color:var(--red)}
+@media (max-width:560px){h1{font-size:1.6rem}.opts.two{grid-template-columns:1fr}.prompt{font-size:1.08rem}}
 </style>
 </head>
 <body>
-
-<header class="topbar">
-  <div class="brand">
-    <div class="tiles" id="topTiles">
-      <div class="tile">S</div><div class="tile">M</div><div class="tile">A</div><div class="tile">R</div><div class="tile">T</div>
-    </div>
-    SMART Goal Studio
+<header class="bar">
+  <div class="wrap">
+    <div class="brand">SHOCK PROOF</div>
+    <span class="chip">Score <b id="score">0</b></span>
+    <span class="chip streak">Streak <b id="streak">0</b></span>
+    <span class="chip">Time <b id="clock">15:00</b></span>
   </div>
-  <div class="spacer"></div>
-  <div class="stat timer" id="timerStat"><small>Time left</small><b id="timer">20:00</b></div>
-  <div class="stat streak"><small>Streak</small><b id="streak">0</b></div>
-  <div class="stat"><small>In the jar</small><b id="bank">$0</b></div>
+  <div class="meter">
+    <div class="meter-label"><span>Emergency fund</span><span><b id="fund">$0</b> of $6,000 (3 months of expenses)</span></div>
+    <div class="track" id="track"><div class="fill" id="fill"></div></div>
+  </div>
 </header>
 
-<div class="wrap">
-  <main class="main" id="main"></main>
-
-  <aside class="side">
-    <div class="jarcard">
-      <svg id="jar" viewBox="0 0 150 190" aria-label="Savings jar">
-        <defs>
-          <clipPath id="jarClip"><path d="M30 52 Q22 60 22 78 L22 160 Q22 178 40 178 L110 178 Q128 178 128 160 L128 78 Q128 60 120 52 Z"/></clipPath>
-        </defs>
-        <rect x="40" y="24" width="70" height="22" rx="6" fill="#0F7C80"/>
-        <rect x="36" y="44" width="78" height="10" rx="4" fill="#CFDCDD"/>
-        <path d="M30 52 Q22 60 22 78 L22 160 Q22 178 40 178 L110 178 Q128 178 128 160 L128 78 Q128 60 120 52 Z" fill="#EEF6F6" stroke="#162447" stroke-width="3"/>
-        <g clip-path="url(#jarClip)">
-          <rect id="jarFill" x="0" y="178" width="150" height="0" fill="#F2A900"/>
-          <g id="coins"></g>
-        </g>
-        <path d="M30 52 Q22 60 22 78 L22 160 Q22 178 40 178 L110 178 Q128 178 128 160 L128 78 Q128 60 120 52 Z" fill="none" stroke="#162447" stroke-width="3"/>
-        <line x1="34" y1="75" x2="34" y2="150" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity=".7"/>
-        <rect x="45" y="62" width="60" height="24" rx="6" fill="#FFFFFF" stroke="#162447" stroke-width="2"/>
-        <text x="75" y="79" text-anchor="middle" font-size="13" font-weight="800" fill="#162447" font-family="Segoe UI, Arial, sans-serif" id="jarPct">0%</text>
-      </svg>
-      <div class="amt" id="jarAmt">$0</div>
-      <div class="target">Goal: <b>$600</b> in 20 minutes</div>
-    </div>
-    <div class="roundlist">
-      <ol id="roundList"></ol>
-    </div>
-    <div class="badgebox">
-      <h3>Badges</h3>
-      <div class="badges" id="badges"></div>
-    </div>
-  </aside>
-</div>
-
+<main class="wrap" id="app"></main>
 <div class="toast" id="toast"></div>
 
 <script>
-(() => {
-  "use strict";
-
-  // ---------- Content ----------
-  const ROUNDS = [
-    {
-      id: "wish", title: "Wish or goal?", letters: "",
-      blurb: "Decide whether each statement is a wish or a financial goal.",
-      copy: "A <b>wish</b> has no amount, no date and no plan. A <b>financial goal</b> has a specific amount of money, a date and a plan to get there.",
-      type: "binary", choices: ["Wish", "Goal"],
-      items: [
-        { q: "I want to be rich one day.", a: "Wish", why: "No amount, no date and no plan. It's a nice thought, not a goal." },
-        { q: "I'll save $250 for footy boots by 1 March 2027 by putting away $15 a week.", a: "Goal", why: "It has the item, the amount, the date and how the money gets saved." },
-        { q: "I wish I had a PS5.", a: "Wish", why: "There's an item, but no amount, no date and no plan." },
-        { q: "I will save $1,200 for a laptop by the end of next year, $30 a week from my job.", a: "Goal", why: "Item, amount, deadline and a weekly plan. That's a goal." },
-        { q: "I need to stop spending so much.", a: "Wish", why: "Good intention, but there's no number or date to check yourself against." },
-        { q: "I will save $3,000 for a gap year trip by December 2028, $25 a week into a separate account.", a: "Goal", why: "Amount, date and a plan, plus a separate account so it doesn't get spent." },
-        { q: "Hopefully I'll have enough for a car eventually.", a: "Wish", why: "\"Enough\" and \"eventually\" are not numbers or dates." },
-        { q: "I will put $10 a week aside for 20 weeks to buy a $200 formal ticket.", a: "Goal", why: "$10 x 20 weeks = $200. Item, amount, timeframe and plan all line up." }
-      ]
-    },
-    {
-      id: "letter", title: "Missing letter", letters: "SMAT",
-      blurb: "Each goal is missing one part of SMART. Which one?",
-      copy: "Ask the questions: <b>S</b> What exactly? <b>M</b> How much? <b>A</b> Can I afford it on my income? <b>T</b> By when? (We're leaving R out here, because only you can say whether a goal matters to you.)",
-      type: "choice", choices: ["Specific", "Measurable", "Achievable", "Time-bound"],
-      items: [
-        { q: "I will save $500 by 30 June 2027.", a: "Specific", why: "Save $500 for what? Without the item it's hard to stay motivated, so it isn't specific." },
-        { q: "I will save for a new phone by my birthday in May.", a: "Measurable", why: "There's no dollar amount, so you can't measure progress." },
-        { q: "I will save $10,000 for a car in the next 3 months from my $60-a-week job.", a: "Achievable", why: "13 weeks x $60 is only $780, even if you saved every cent. Not achievable." },
-        { q: "I will save $400 for a formal outfit from my weekend job.", a: "Time-bound", why: "No date or deadline. When does it need to be done?" },
-        { q: "I will save some money for a laptop by the end of next year.", a: "Measurable", why: "\"Some money\" isn't a number. How much does the laptop cost?" },
-        { q: "I will save $2,000 for a trip to Japan by next week, from my pocket money.", a: "Achievable", why: "It has a date, but $2,000 in one week from pocket money isn't realistic." },
-        { q: "I will save $300 for something by Christmas, $20 a week.", a: "Specific", why: "\"Something\" isn't specific. What are you actually saving for?" },
-        { q: "I will save $150 for concert tickets one day.", a: "Time-bound", why: "\"One day\" isn't a deadline. Tickets go on sale on a date, so pick one." }
-      ]
-    },
-    {
-      id: "time", title: "Short, medium or long?", letters: "T",
-      blurb: "Sort each goal by its timeframe.",
-      copy: "<b>Short term:</b> under 1 year. <b>Medium term:</b> 1 to 5 years. <b>Long term:</b> more than 5 years.",
-      type: "choice", choices: ["Short term", "Medium term", "Long term"],
-      items: [
-        { q: "Concert tickets for a show in 4 months.", a: "Short term", why: "4 months is under a year." },
-        { q: "A house deposit by the time you're 30.", a: "Long term", why: "That's around 15 years away for you. Well over 5 years." },
-        { q: "A used car for when you get your P-plates in 2 years.", a: "Medium term", why: "2 years sits in the 1 to 5 year range." },
-        { q: "Footy boots before next season starts in 5 months.", a: "Short term", why: "5 months is under a year." },
-        { q: "Schoolies at the end of Year 12, about 2 years from now.", a: "Medium term", why: "About 2 years away, so medium term." },
-        { q: "Saving $50,000 to start your own business by age 28.", a: "Long term", why: "More than 10 years away for a Year 10 student." },
-        { q: "A gap year trip in 3 years.", a: "Medium term", why: "3 years is between 1 and 5." },
-        { q: "A new phone case next month.", a: "Short term", why: "One month. About as short term as it gets." }
-      ]
-    },
-    {
-      id: "maths", title: "Run the numbers", letters: "MAT",
-      blurb: "Use a calculator. Work backwards from the deadline.",
-      copy: "<b>Weekly saving = goal amount ÷ weeks until the deadline.</b> If it doesn't divide evenly, round UP so you don't fall short.",
-      type: "mcq",
-      items: [
-        { q: "Concert ticket: $180 in 12 weeks. How much a week?", opts: ["$15", "$12", "$18", "$20"], a: "$15", why: "180 ÷ 12 = 15." },
-        { q: "Phone: $480 in 16 weeks. How much a week?", opts: ["$30", "$32", "$28", "$48"], a: "$30", why: "480 ÷ 16 = 30." },
-        { q: "Gaming chair: $1,040 in one year (52 weeks). How much a week?", opts: ["$20", "$10.40", "$25", "$104"], a: "$20", why: "1,040 ÷ 52 = 20." },
-        { q: "Car: $2,500 in 2 years. Weekly saving, rounded UP to the next dollar?", opts: ["$25", "$24", "$12", "$50"], a: "$25", why: "2 years = 104 weeks. 2,500 ÷ 104 = 24.04. Round up to $25, or you finish short." },
-        { q: "You save $15 a week for 30 weeks. How much do you end up with?", opts: ["$450", "$300", "$45", "$405"], a: "$450", why: "15 x 30 = 450. Same idea, worked forwards." },
-        { q: "Goal: $900. You can save $30 a week. How many weeks will it take?", opts: ["30 weeks", "27 weeks", "90 weeks", "300 weeks"], a: "30 weeks", why: "900 ÷ 30 = 30 weeks." },
-        { q: "Goal: $800. You've already saved $200. 20 weeks left. How much a week now?", opts: ["$30", "$40", "$50", "$10"], a: "$30", why: "Still need 800 - 200 = 600. Then 600 ÷ 20 = 30." },
-        { q: "You earn $90 a week. Your goal needs $120 a week. What's the best fix?", opts: ["Give yourself more time", "Keep the plan and hope", "Spend less on the goal some weeks", "Save $120 anyway"], a: "Give yourself more time", why: "$120 is more than your whole income, so it fails the A test. More weeks (or a smaller amount) brings the weekly figure down." }
-      ]
-    },
-    {
-      id: "build", title: "Goal builder", letters: "SMART",
-      blurb: "Pick the best option for each letter to turn a wish into a SMART goal. Then build your own.",
-      copy: "Pick the option that is clearest and most realistic for each letter. Watch the goal sentence build at the bottom.",
-      type: "builder",
-      builds: [
-        {
-          wish: "I want new footy boots.",
-          context: "You earn about $40 a week mowing lawns. Season starts in about 5 months.",
-          slots: [
-            { L: "S", label: "What exactly?", opts: ["a pair of footy boots in my size", "some sports stuff", "something nice"], a: 0, why: "Name the actual thing. \"Stuff\" can't be priced." },
-            { L: "M", label: "How much?", opts: ["$220", "heaps", "enough"], a: 0, why: "A dollar amount is the only way to measure progress." },
-            { L: "A", label: "Can I afford it?", opts: ["$20 a week from mowing", "$200 a week from mowing", "whatever's left over"], a: 0, why: "$20 of a $40 income is realistic. $200 is more than you earn, and \"whatever's left\" usually means nothing." },
-            { L: "R", label: "Why does it matter?", opts: ["my old boots split and I'm playing seniors", "no real reason, I just saw an ad", "my cousin wants some"], a: 0, why: "A real personal reason keeps you going when it's tempting to spend." },
-            { L: "T", label: "By when?", opts: ["by the first game in March", "soon", "one day"], a: 0, why: "A real deadline. $220 ÷ $20 = 11 weeks, which fits inside 5 months." }
-          ],
-          template: (o) => `I will save ${o[1]} for ${o[0]} ${o[4]}, putting away ${o[2]}, because ${o[3]}.`
-        },
-        {
-          wish: "I want to go on a trip.",
-          context: "You earn about $80 a week from café shifts. You finish Year 12 in about 2 years.",
-          slots: [
-            { L: "S", label: "What exactly?", opts: ["a 5-day trip to the Gold Coast with my mates", "travel somewhere", "a holiday"], a: 0, why: "Where, how long and who with. Now it can be priced." },
-            { L: "M", label: "How much?", opts: ["$1,200", "a lot", "as much as possible"], a: 0, why: "Only a number can be tracked." },
-            { L: "A", label: "Can I afford it?", opts: ["$15 a week from my café shifts", "$300 a week from my café shifts", "I'll find it somehow"], a: 0, why: "$15 of $80 is realistic. Over 104 weeks that's $1,560, which covers it with a buffer." },
-            { L: "R", label: "Why does it matter?", opts: ["to celebrate finishing Year 12 together", "because I'm bored", "my teacher told me to"], a: 0, why: "A reason that's yours, and that matters at this point in your life." },
-            { L: "T", label: "By when?", opts: ["by the end of November 2028", "someday", "when I have enough"], a: 0, why: "A real date. About 2 years, so a medium-term goal." }
-          ],
-          template: (o) => `I will save ${o[1]} for ${o[0]} ${o[4]}, putting away ${o[2]}, ${o[3]}.`
-        }
-      ]
-    }
-  ];
-
-  const TARGET = 600;
-  const BASE = 10;
-  const PLANNER_BONUS = 50;
-  const TIME_LIMIT = 20 * 60;
-
-  const BADGES = [
-    { id: "first", name: "First deposit" },
-    { id: "s3", name: "On a roll (3 streak)" },
-    { id: "s6", name: "Hot streak (6)" },
-    { id: "s10", name: "Unstoppable (10)" },
-    { id: "wish", name: "Wish spotter" },
-    { id: "letter", name: "Letter detective" },
-    { id: "maths", name: "Sharp saver" },
-    { id: "full", name: "Full jar" },
-    { id: "planner", name: "Planner" }
-  ];
-
-  // ---------- State ----------
-  const S = {
-    name: "", bank: 0, streak: 0, best: 0, correct: 0, answered: 0,
-    round: -1, idx: 0, items: [], roundStats: {}, mistakes: [], badges: new Set(),
-    startedAt: null, left: TIME_LIMIT, timerId: null, ownGoal: null, finished: false
-  };
-
-  const $ = (id) => document.getElementById(id);
-  const main = $("main");
-  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const shuffle = (a) => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
-  const money = (n) => "$" + Math.round(n).toLocaleString("en-AU");
-
-  // ---------- Sidebar ----------
-  function renderRoundList() {
-    $("roundList").innerHTML = ROUNDS.map((r, i) => {
-      const cls = i < S.round || (S.finished) ? "done" : i === S.round ? "now" : "";
-      return `<li class="${cls}"><span class="dot">${i < S.round || S.finished ? "✓" : i + 1}</span>${esc(r.title)}</li>`;
-    }).join("");
+/* ---------- CONTENT ---------- */
+const ROUNDS = [
+  {
+    title:"Income shock or expense shock?",
+    blurb:"Something changes in someone's life. Is it hitting the money coming IN or the money going OUT?",
+    time:"2 min",
+    type:"two",
+    labels:["Income shock","Expense shock"],
+    items:[
+      {q:"Mia loses her part-time job at a café.", a:0, why:"Her money coming in drops. That is an income shock."},
+      {q:"Electricity prices go up 15% this winter.", a:1, why:"The same household now pays more to run the house. That is an expense shock."},
+      {q:"Jayden's shifts get cut from 15 hours to 8 hours a week.", a:0, why:"Fewer hours means less pay. That is an income shock."},
+      {q:"The landlord raises the rent by $40 a week.", a:1, why:"Rent is money going out, and it just went up. Expense shock."},
+      {q:"The RBA lifts the cash rate and the bank raises a variable home loan repayment.", a:1, why:"The repayment is money going out. A rate rise makes it bigger, so it is an expense shock."},
+      {q:"A parent stops getting overtime at work.", a:0, why:"Overtime is extra income. Losing it is an income shock."},
+      {q:"The car needs $1,500 of repairs after a crash.", a:1, why:"An unexpected cost. Expense shock, and exactly what an emergency fund is for."},
+      {q:"Inflation pushes the weekly grocery bill from $180 to $205.", a:1, why:"Prices rising means the same groceries cost more. Expense shock."}
+    ]
+  },
+  {
+    title:"Fixed or variable?",
+    blurb:"Fixed expenses stay the same each time. Variable expenses change, and they are usually the easiest place to cut.",
+    time:"2 min",
+    type:"two",
+    labels:["Fixed","Variable"],
+    items:[
+      {q:"Rent of $420 a week on a 12-month lease", a:0, why:"The lease locks the amount in. Fixed."},
+      {q:"Petrol", a:1, why:"It changes with how much you drive and the price per litre. Variable."},
+      {q:"A $35 a month phone plan", a:0, why:"Same amount every month. Fixed."},
+      {q:"Eating out and takeaway", a:1, why:"You choose how much to spend each week. Variable, and a common place to cut."},
+      {q:"Groceries", a:1, why:"The bill changes week to week with what you buy and with prices. Variable."},
+      {q:"A $20 a month streaming subscription", a:0, why:"Same charge every month, so it is fixed. It is still a 'want' you can cancel to fix a deficit."},
+      {q:"Entertainment like movies and concerts", a:1, why:"It changes with your choices. Variable."},
+      {q:"Annual car registration", a:0, why:"A set amount, but it only comes once a year. That is why people forget it. Save a bit each week so it does not catch you out."}
+    ]
+  },
+  {
+    title:"Run the numbers",
+    blurb:"Quick calculations an adviser does every day. Working out on paper is fine.",
+    time:"4 min",
+    type:"mc",
+    items:[
+      {q:"Sam's weekly net income is $480. How much should Sam save to hit the 20% rule?", o:["$48","$96","$120","$240"], a:1, why:"20% of $480: 480 x 0.2 = $96."},
+      {q:"Lena's car uses 40 litres of petrol a week. The price rises from $1.80 to $2.20 a litre. How much extra does she spend each week?", o:["$0.40","$8","$16","$88"], a:2, why:"Old cost 40 x $1.80 = $72. New cost 40 x $2.20 = $88. Extra: $88 - $72 = $16 a week."},
+      {q:"Ari earns $620 a week and spends $680. What is the result?", o:["A $60 surplus","A $60 deficit","A $1,300 deficit","The budget is balanced"], a:1, why:"Expenses are higher than income: $680 - $620 = $60 deficit."},
+      {q:"The Millers' expenses are $2,000 a month. Using the 3-month rule, how big should their emergency fund be?", o:["$2,000","$4,000","$6,000","$24,000"], a:2, why:"3 months x $2,000 = $6,000."},
+      {q:"After a rate rise the Millers need an extra $200 a month. They cancel a $20 streaming service. How much more do they still need to find?", o:["$20","$180","$200","$220"], a:1, why:"$200 - $20 = $180 still to find. In the case study they cut eating out by $180 to close the gap."},
+      {q:"Priya's shifts drop and she now earns $150 less each week. She cuts takeaway by $60 and her phone plan by $15. What is her weekly gap now?", o:["$75","$90","$135","$225"], a:0, why:"Cuts total $60 + $15 = $75. Gap left: $150 - $75 = $75. She still needs another fix."}
+    ]
+  },
+  {
+    title:"The adviser's call",
+    blurb:"You are the financial adviser. Pick the BEST first move for each client.",
+    time:"4 min",
+    type:"mc",
+    items:[
+      {s:"Scenario A: Mia, 16, lost her café job. She was earning $200 a week and spends about $150 a week on takeaway, clothes, transport and a $20 subscription.",
+       q:"What is Mia's best first move?", o:["Keep spending the same and wait for a new job","Cut wants straight away and start looking for new work","Put everything on a buy now, pay later account","Stop using public transport so she cannot get anywhere"], a:1,
+       why:"An income shock needs action on both sides: cut variable wants now and look for new income. Borrowing to keep the same lifestyle just builds debt."},
+      {s:"Scenario B: The Tran family's electricity bill jumps from $450 to $600 a quarter.",
+       q:"Which adjustment makes the most sense?", o:["Stop paying the electricity bill","Compare plans with other energy retailers and cut usage at home","Cancel their home insurance to free up money","Ignore it because it is only once a quarter"], a:1,
+       why:"Electricity is a need, so you cannot just drop it. Find a cheaper provider and use less. Cancelling insurance swaps a small saving for a big risk."},
+      {s:"Scenario C: Josh needs $1,500 for car repairs to get to work. He has $0 in savings.",
+       q:"Why is Josh in a tough spot?", o:["He spends too much on petrol","He has no emergency fund, so he may have to borrow at high interest","His car is too old","His income is too high"], a:1,
+       why:"Without a buffer, an unexpected cost often goes on a credit card, which charges high interest. That is why the emergency fund matters."},
+      {s:"Scenario C continued: Josh puts the $1,500 on a credit card to fix the car.",
+       q:"What should Josh do next?", o:["Only ever pay the minimum repayment","Cut variable spending to pay the card off fast, then start building an emergency fund","Get a second credit card","Keep the debt and stop budgeting"], a:1,
+       why:"Pay the high interest debt off quickly by cutting wants, then build the buffer so the next shock does not end up on a card."},
+      {s:"Scenario D: The Millers have a variable rate mortgage. Rates rise and their repayment goes from $2,500 to $2,700 a month.",
+       q:"Why did their repayment change?", o:["They chose to pay more","Their lender passed on a rise in interest rates, and a variable rate moves with the market","Their house went up in value","The government taxed their mortgage"], a:1,
+       why:"The RBA lifts the cash rate, and lenders usually pass that on. Variable rate repayments move straight away. A fixed rate would have stayed the same for the fixed period."},
+      {s:"Scenario E: Ella built her budget assuming 20 hours of work a week. Most weeks she only gets 12.",
+       q:"What went wrong with Ella's budget?", o:["She forgot irregular expenses","She overestimated her income","She saved too much","Nothing, the budget is fine"], a:1,
+       why:"Planning on shifts you do not actually get is overestimating income, one of the common reasons budgets fail. Budget on what you reliably earn."}
+    ]
+  },
+  {
+    title:"Fix the budget in order",
+    blurb:"Tap the steps in the correct order to fix a deficit caused by rising costs.",
+    time:"1 min",
+    type:"order",
+    steps:["Identify the new deficit amount","Review variable expenses to cut","Implement the spending changes","Monitor the budget next month"],
+    why:"Find the size of the gap first, look for what you can cut, make the changes, then check next month that it worked. A budget is a living document."
   }
-  function renderBadges() {
-    $("badges").innerHTML = BADGES.map((b) => `<span class="badge ${S.badges.has(b.id) ? "got" : ""}">${esc(b.name)}</span>`).join("");
-  }
-  function setTiles(letters) {
-    [...$("topTiles").children].forEach((t) => t.classList.toggle("on", letters.includes(t.textContent)));
-  }
-  function renderStats() {
-    $("bank").textContent = money(S.bank);
-    $("streak").textContent = S.streak;
-    $("jarAmt").textContent = money(S.bank);
-    const pct = Math.min(1, S.bank / TARGET);
-    const fillTop = 178 - pct * 126;
-    const f = $("jarFill");
-    f.setAttribute("y", fillTop);
-    f.setAttribute("height", 178 - fillTop);
-    $("jarPct").textContent = Math.round(pct * 100) + "%";
-    // coin layer on top of fill
-    const coins = $("coins");
-    const n = Math.min(24, Math.floor(S.bank / 25));
-    let html = "";
-    for (let i = 0; i < n; i++) {
-      const row = Math.floor(i / 4), col = i % 4;
-      const cx = 42 + col * 22 + (row % 2 ? 11 : 0);
-      const cy = 170 - row * 9;
-      if (cy < fillTop + 4) break;
-      html += `<ellipse cx="${cx}" cy="${cy}" rx="10" ry="4" fill="#FFD25C" stroke="#B47C00" stroke-width="1.2"/>`;
-    }
-    coins.innerHTML = html;
-    if (S.bank >= TARGET) award("full");
-  }
+];
 
-  function toast(msg) {
-    const t = $("toast");
-    t.innerHTML = msg;
-    t.classList.add("show");
-    clearTimeout(toast._t);
-    toast._t = setTimeout(() => t.classList.remove("show"), 2200);
+const BADGES = [
+  {id:"first", name:"First deposit", test:s=>s.correct>=1},
+  {id:"streak3", name:"Steady saver (3 in a row)", test:s=>s.bestStreak>=3},
+  {id:"streak6", name:"Shock absorber (6 in a row)", test:s=>s.bestStreak>=6},
+  {id:"half", name:"Halfway buffer ($3,000)", test:s=>s.fund>=3000},
+  {id:"full", name:"Fully shock proof ($6,000)", test:s=>s.fund>=6000},
+  {id:"numbers", name:"Number cruncher (Round 3 perfect)", test:s=>s.perfect[2]},
+  {id:"adviser", name:"Trusted adviser (Round 4 perfect)", test:s=>s.perfect[3]}
+];
+
+/* ---------- STATE ---------- */
+const S = {name:"", score:0, streak:0, bestStreak:0, fund:0, correct:0, total:0,
+  round:0, item:0, mistakes:[], roundWrong:[0,0,0,0,0], perfect:[false,false,false,false,false],
+  got:new Set(), started:false, startTime:0};
+const FUND_TARGET = 6000;
+const $ = id => document.getElementById(id);
+const app = $("app");
+
+function money(n){return "$"+Math.max(0,Math.round(n)).toLocaleString("en-AU")}
+function updateHud(){
+  $("score").textContent = S.score;
+  $("streak").textContent = S.streak;
+  $("fund").textContent = money(S.fund);
+  $("fill").style.width = Math.min(100, S.fund/FUND_TARGET*100)+"%";
+}
+function toast(msg){
+  const t=$("toast"); t.textContent=msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),1800);
+}
+function checkBadges(){
+  BADGES.forEach(b=>{ if(!S.got.has(b.id) && b.test(S)){ S.got.add(b.id); toast("Badge: "+b.name); } });
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+/* Scoring: correct = +10 points and +$150 into the fund, doubled once your streak hits 3.
+   Wrong = streak resets and a "shock" drains $100 from the fund. */
+function award(ok, record){
+  S.total++;
+  if(ok){
+    S.correct++; S.streak++; S.bestStreak=Math.max(S.bestStreak,S.streak);
+    const mult = S.streak>=3 ? 2 : 1;
+    S.score += 10*mult; S.fund = Math.min(FUND_TARGET, S.fund + 150*mult);
+    if(S.streak===3) toast("Streak bonus: double deposits!");
+  } else {
+    S.streak=0; S.fund=Math.max(0,S.fund-100);
+    S.roundWrong[S.round]++; S.mistakes.push(record);
+    const tr=$("track"); tr.classList.remove("shake"); void tr.offsetWidth; tr.classList.add("shake");
   }
-  function award(id) {
-    if (S.badges.has(id)) return;
-    S.badges.add(id);
-    const b = BADGES.find((x) => x.id === id);
-    renderBadges();
-    toast(`Badge unlocked: <span class="b">${esc(b.name)}</span>`);
-  }
-  function coinPop(el, amt) {
-    const r = el.getBoundingClientRect();
-    const p = document.createElement("div");
-    p.className = "coin-pop";
-    p.textContent = "+" + money(amt);
-    p.style.left = (r.left + r.width / 2 - 20) + "px";
-    p.style.top = (r.top - 4) + "px";
-    document.body.appendChild(p);
-    setTimeout(() => p.remove(), 950);
-  }
+  updateHud(); checkBadges();
+}
 
-  // ---------- Timer ----------
-  function startTimer() {
-    S.startedAt = Date.now();
-    S.timerId = setInterval(() => {
-      S.left = Math.max(0, TIME_LIMIT - Math.floor((Date.now() - S.startedAt) / 1000));
-      const m = Math.floor(S.left / 60), s = S.left % 60;
-      $("timer").textContent = `${m}:${String(s).padStart(2, "0")}`;
-      $("timerStat").classList.toggle("low", S.left <= 120);
-      if (S.left === 120) toast("2 minutes left. Head for the finish.");
-      if (S.left === 0) { clearInterval(S.timerId); toast("Time's up. Finish this question, then go to your card."); }
-    }, 500);
-  }
+/* ---------- TIMER ---------- */
+function tick(){
+  if(!S.started) return;
+  const left = 15*60 - Math.floor((Date.now()-S.startTime)/1000);
+  const c=$("clock");
+  if(left<=0){ c.textContent="0:00"; c.classList.add("timeup"); return; }
+  c.textContent = Math.floor(left/60)+":"+String(left%60).padStart(2,"0");
+  setTimeout(tick,1000);
+}
 
-  // ---------- Scoring ----------
-  function record(round, q, given, correct, why, el) {
-    S.answered++;
-    const rs = S.roundStats[round.id] || (S.roundStats[round.id] = { right: 0, total: 0 });
-    rs.total++;
-    if (given === correct) {
-      S.correct++; rs.right++;
-      S.streak++; S.best = Math.max(S.best, S.streak);
-      const amt = S.streak >= 3 ? BASE * 2 : BASE;
-      S.bank += amt;
-      award("first");
-      if (S.streak === 3) award("s3");
-      if (S.streak === 6) award("s6");
-      if (S.streak === 10) award("s10");
-      if (el) coinPop(el, amt);
-      renderStats();
-      return amt;
-    }
-    S.streak = 0;
-    S.mistakes.push({ round: round.title, q, given, correct, why });
-    renderStats();
-    return 0;
-  }
+/* ---------- SCREENS ---------- */
+function intro(){
+  app.innerHTML = `
+  <h1>Shock Proof</h1>
+  <p class="lead">Life throws budget shocks: prices rise, shifts get cut, cars break. Every correct answer puts money into your emergency fund. Every wrong answer is a shock that drains it. Can you build a full 3-month buffer of $6,000?</p>
+  <div class="card">
+    <label for="nm"><b>Your name</b></label><br><br>
+    <input type="text" id="nm" placeholder="First name and last initial" maxlength="40" autocomplete="off">
+    <div class="rounds">
+      ${ROUNDS.map((r,i)=>`<div><b>Round ${i+1}</b>${esc(r.title)}<br><span style="color:var(--muted)">about ${r.time}</span></div>`).join("")}
+    </div>
+    <p style="font-size:.92rem;color:var(--muted);margin:0">Correct: +$150 into the fund. Get 3 in a row and deposits double. Wrong: a $100 shock.</p>
+    <div class="actions"><button class="btn alt" id="go">Start</button></div>
+  </div>`;
+  const go=()=>{ S.name=$("nm").value.trim()||"Student"; S.started=true; S.startTime=Date.now(); tick(); roundIntro(); };
+  $("go").onclick=go;
+  $("nm").addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
+}
 
-  // ---------- Screens ----------
-  function intro() {
-    setTiles("SMART");
-    main.innerHTML = `
-      <section class="panel">
-        <p class="eyebrow">Year 10 Economics and Business</p>
-        <h1>SMART Goal Studio</h1>
-        <p>Five quick rounds on turning wishes into SMART financial goals. Every right answer puts money in your savings jar. Your goal is to fill the jar to <b>$600</b> in 20 minutes.</p>
-        <div class="rules">
-          <div class="rule"><b>$10</b> for every right answer.</div>
-          <div class="rule"><b>Streak of 3+</b> doubles it to $20 a question.</div>
-          <div class="rule"><b>A wrong answer</b> resets your streak. You'll see why straight away.</div>
-          <div class="rule"><b>At the end</b> you get a mistake review and a completion card to show your teacher.</div>
-        </div>
-        <div class="namefield">
-          <input id="nameIn" type="text" maxlength="30" placeholder="Your first name" autocomplete="off" aria-label="Your first name">
-          <button class="btn gold" id="startBtn" disabled>Start the timer</button>
-        </div>
-        <p class="muted" style="margin-top:12px;font-size:.9rem">Have a calculator ready for Round 4, and your "By the time I'm 20" sentence ready for Round 5.</p>
-      </section>`;
-    const inp = $("nameIn"), btn = $("startBtn");
-    inp.addEventListener("input", () => { btn.disabled = inp.value.trim().length === 0; });
-    inp.addEventListener("keydown", (e) => { if (e.key === "Enter" && !btn.disabled) btn.click(); });
-    btn.addEventListener("click", () => {
-      S.name = inp.value.trim();
-      startTimer();
-      goRound(0);
-    });
-    inp.focus();
-  }
+function roundIntro(){
+  const r=ROUNDS[S.round];
+  app.innerHTML = `
+  <div class="card">
+    <span class="roundtag">Round ${S.round+1} of ${ROUNDS.length}</span>
+    <h2 style="margin-top:10px">${esc(r.title)}</h2>
+    <p class="lead">${esc(r.blurb)}</p>
+    <p style="color:var(--muted);font-size:.9rem">Aim for about ${r.time}.</p>
+    <div class="actions"><button class="btn alt" id="go">Go</button></div>
+  </div>`;
+  $("go").onclick = ()=>{ S.item=0; r.type==="order" ? orderRound() : question(); };
+  $("go").focus();
+}
 
-  function goRound(i) {
-    S.round = i; S.idx = 0;
-    renderRoundList();
-    const r = ROUNDS[i];
-    setTiles(r.letters);
-    if (r.type === "builder") { S.items = r.builds; }
-    else { S.items = shuffle(r.items); }
-    main.innerHTML = `
-      <section class="panel">
-        <div class="roundhead">
-          <div class="roundnum">${i + 1}</div>
-          <div><p class="eyebrow">Round ${i + 1} of ${ROUNDS.length}</p><h2>${esc(r.title)}</h2></div>
-        </div>
-        <p>${esc(r.blurb)}</p>
-        <div class="copybox">${r.copy}</div>
-        <button class="btn" id="goBtn">Let's go</button>
-      </section>`;
-    $("goBtn").addEventListener("click", () => (r.type === "builder" ? builder() : question()));
-    $("goBtn").focus();
-  }
-
-  function question() {
-    const r = ROUNDS[S.round];
-    const it = S.items[S.idx];
-    const opts = r.type === "mcq" ? shuffle(it.opts) : r.choices;
-    const big = r.type === "binary";
-    main.innerHTML = `
-      <section class="panel">
-        <div class="qmeta"><span>Round ${S.round + 1}: ${esc(r.title)}</span><span>${S.idx + 1} of ${S.items.length}</span></div>
-        <div class="progress"><div style="width:${(S.idx / S.items.length) * 100}%"></div></div>
-        <div class="statement">${esc(it.q)}</div>
-        <div class="options" id="opts">
-          ${opts.map((o, k) => `<button class="opt ${big ? "big" : ""}" data-v="${esc(o)}">${big ? "" : `<span class="k">${k + 1}</span>`}${esc(o)}</button>`).join("")}
-        </div>
-        <div class="feedback" id="fb"></div>
-        <button class="next" id="nextBtn">Next</button>
-      </section>`;
-    const buttons = [...document.querySelectorAll(".opt")];
-    buttons.forEach((b) => b.addEventListener("click", () => {
-      const given = b.dataset.v;
-      buttons.forEach((x) => { x.disabled = true; if (x.dataset.v === it.a) x.classList.add("right"); });
-      const amt = record(r, it.q, given, it.a, it.why, b);
-      if (given !== it.a) b.classList.add("wrong");
-      const fb = $("fb");
-      fb.className = "feedback show " + (amt ? "good" : "bad");
-      fb.innerHTML = amt
-        ? `<b>Correct. +${money(amt)}${S.streak >= 3 ? " (streak bonus)" : ""}</b>${esc(it.why)}`
-        : `<b>Not quite. The answer is: ${esc(it.a)}</b>${esc(it.why)}`;
-      const nb = $("nextBtn");
-      nb.textContent = S.idx + 1 < S.items.length ? "Next" : (S.round + 1 < ROUNDS.length ? "Finish round" : "See my results");
-      nb.classList.add("show");
-      nb.focus();
-    }));
-    $("nextBtn").addEventListener("click", advance);
-  }
-
-  function advance() {
-    S.idx++;
-    if (S.idx < S.items.length) { question(); return; }
-    endRound();
-  }
-
-  function endRound() {
-    const r = ROUNDS[S.round];
-    const rs = S.roundStats[r.id] || { right: 0, total: 0 };
-    if (r.id === "wish" && rs.right === rs.total) award("wish");
-    if (r.id === "letter" && rs.right >= 7) award("letter");
-    if (r.id === "maths" && rs.right >= 7) award("maths");
-    if (S.round + 1 < ROUNDS.length) {
-      toast(`Round ${S.round + 1} done: ${rs.right} / ${rs.total}`);
-      goRound(S.round + 1);
-    } else {
-      results();
-    }
-  }
-
-  // ---------- Builder ----------
-  function builder() {
-    const r = ROUNDS[S.round];
-    const bld = S.items[S.idx];
-    const picks = new Array(bld.slots.length).fill(null);
-    const optOrder = bld.slots.map((sl) => shuffle(sl.opts.map((o, k) => k)));
-    let step = 0;
-
-    function draw() {
-      const shown = bld.slots.map((sl, k) => picks[k] === null ? `<span class="blank">[${sl.L}]</span>` : esc(sl.opts[picks[k]]));
-      const sentence = bld.template(shown);
-      const sl = bld.slots[step];
-      const done = step >= bld.slots.length;
-      setTiles(done ? "SMART" : sl.L);
-      main.innerHTML = `
-        <section class="panel">
-          <div class="qmeta"><span>Round ${S.round + 1}: Goal builder</span><span>Wish ${S.idx + 1} of ${S.items.length + 1}</span></div>
-          <div class="progress"><div style="width:${(step / bld.slots.length) * 100}%"></div></div>
-          <p class="wishline">The wish: <b>"${esc(bld.wish)}"</b></p>
-          <p class="context">${esc(bld.context)}</p>
-          ${done ? "" : `
-            <div class="slotlabel"><span class="tile on">${sl.L}</span>${esc(sl.label)}</div>
-            <div class="options" id="opts">
-              ${optOrder[step].map((k, n) => `<button class="opt" data-k="${k}"><span class="k">${n + 1}</span>${esc(sl.opts[k])}</button>`).join("")}
-            </div>`}
-          <div class="feedback" id="fb"></div>
-          <div class="assembled">${sentence}</div>
-          <button class="next" id="nextBtn">Next</button>
-        </section>`;
-      if (done) {
-        const nb = $("nextBtn");
-        nb.textContent = S.idx + 1 < S.items.length ? "Next wish" : "Build your own goal";
-        nb.classList.add("show");
-        nb.addEventListener("click", () => { S.idx++; if (S.idx < S.items.length) builder(); else ownGoal(); });
-        const fb = $("fb");
-        fb.className = "feedback show good";
-        fb.innerHTML = `<b>That wish is now a SMART goal.</b>Read the sentence below. It has an item, an amount, a realistic plan, a reason and a deadline.`;
-        nb.focus();
-        return;
-      }
-      const buttons = [...document.querySelectorAll(".opt")];
-      buttons.forEach((b) => b.addEventListener("click", () => {
-        const k = Number(b.dataset.k);
-        buttons.forEach((x) => { x.disabled = true; if (Number(x.dataset.k) === sl.a) x.classList.add("right"); });
-        const qText = `Make "${bld.wish}" SMART. ${sl.L}: ${sl.label}`;
-        const amt = record(r, qText, sl.opts[k], sl.opts[sl.a], sl.why, b);
-        if (k !== sl.a) b.classList.add("wrong");
-        picks[step] = sl.a;
-        const fb = $("fb");
-        fb.className = "feedback show " + (amt ? "good" : "bad");
-        fb.innerHTML = amt
-          ? `<b>Correct. +${money(amt)}${S.streak >= 3 ? " (streak bonus)" : ""}</b>${esc(sl.why)}`
-          : `<b>Better choice: ${esc(sl.opts[sl.a])}</b>${esc(sl.why)}`;
-        const nb = $("nextBtn");
-        nb.textContent = "Next letter";
-        nb.classList.add("show");
-        nb.onclick = () => { step++; draw(); };
-        // update sentence immediately
-        const shown2 = bld.slots.map((s2, j) => picks[j] === null ? `<span class="blank">[${s2.L}]</span>` : esc(s2.opts[picks[j]]));
-        document.querySelector(".assembled").innerHTML = bld.template(shown2);
-        nb.focus();
-      }));
-    }
-    draw();
-  }
-
-  // ---------- Own goal ----------
-  function ownGoal() {
-    setTiles("SMART");
-    main.innerHTML = `
-      <section class="panel">
-        <div class="qmeta"><span>Round 5: Goal builder</span><span>Your own goal</span></div>
-        <div class="progress"><div style="width:100%"></div></div>
-        <h2>Now build yours</h2>
-        <p>Use your "By the time I'm 20" sentence, or any goal you actually care about. Weekly savings are rounded up to the next 10 cents so you never fall short. Fill in every box to earn the <b>$${PLANNER_BONUS} planner bonus</b>.</p>
-        <div class="formgrid">
-          <div class="full"><label for="gWhat"><span class="tile on">S</span>What exactly are you saving for?</label><input id="gWhat" maxlength="80" placeholder="e.g. a used Corolla for my P-plates"></div>
-          <div><label for="gAmt"><span class="tile on">M</span>How much does it cost? ($)</label><input id="gAmt" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 4000"></div>
-          <div><label for="gInc"><span class="tile on">A</span>Your weekly income now ($)</label><input id="gInc" type="number" min="0" step="1" inputmode="numeric" placeholder="job or pocket money, e.g. 120"></div>
-          <div><label for="gWeeks"><span class="tile on">T</span>Weeks until your deadline</label><input id="gWeeks" type="number" min="1" step="1" inputmode="numeric" placeholder="1 year = 52 weeks"></div>
-          <div><label for="gWhen"><span class="tile on">T</span>Deadline in words</label><input id="gWhen" maxlength="50" placeholder="e.g. my 18th birthday"></div>
-          <div class="full"><label for="gWhy"><span class="tile on">R</span>Why does it matter to you?</label><input id="gWhy" maxlength="100" placeholder="e.g. so I can get to TAFE and work"></div>
-        </div>
-        <div id="verdict"></div>
-        <div class="assembled" id="ownSentence"></div>
-        <button class="btn gold" id="saveGoal" style="margin-top:16px" disabled>Save my goal and see results</button>
-        <button class="btn" id="skipGoal" style="margin-top:16px;margin-left:8px;background:#5B6478">Skip</button>
-      </section>`;
-    const ids = ["gWhat", "gAmt", "gInc", "gWeeks", "gWhen", "gWhy"];
-    const val = (id) => $(id).value.trim();
-    function update() {
-      const amt = parseFloat(val("gAmt")), wks = parseFloat(val("gWeeks")), inc = parseFloat(val("gInc"));
-      let weekly = null;
-      if (amt > 0 && wks > 0) weekly = Math.ceil((amt / wks) * 10 - 1e-9) / 10;
-      const wtxt = weekly !== null ? "$" + weekly.toLocaleString("en-AU", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "<span class=\"blank\">[$ a week]</span>";
-      const what = val("gWhat") ? esc(val("gWhat")) : `<span class="blank">[S]</span>`;
-      const amtT = amt > 0 ? "$" + amt.toLocaleString("en-AU") : `<span class="blank">[M]</span>`;
-      const when = val("gWhen") ? esc(val("gWhen")) : `<span class="blank">[T]</span>`;
-      const why = val("gWhy") ? esc(val("gWhy")) : `<span class="blank">[R]</span>`;
-      $("ownSentence").innerHTML = `I will save ${amtT} for ${what} by ${when}, putting away ${wtxt} a week, because ${why}.`;
-      const v = $("verdict");
-      let verdict = null;
-      if (weekly !== null && inc >= 0 && val("gInc") !== "") {
-        if (inc === 0) { verdict = ["no", `You need ${wtxt} a week but have no income yet. Think about where the money will come from (A).`]; }
-        else if (weekly <= inc * 0.5) { verdict = ["ok", `${wtxt} a week is about ${Math.round((weekly / inc) * 100)} cents in every dollar you earn. Achievable.`]; }
-        else if (weekly <= inc) { verdict = ["tight", `${wtxt} a week is more than half your income. Possible, but tight. Could you give it more weeks?`]; }
-        else { verdict = ["no", `${wtxt} a week is more than you earn. Not achievable yet. Add more weeks or lower the amount.`]; }
-        v.innerHTML = `<div class="verdict ${verdict[0]}">${verdict[1]}</div>`;
-      } else v.innerHTML = "";
-      const complete = ids.every((id) => val(id) !== "") && weekly !== null;
-      $("saveGoal").disabled = !complete;
-      return { weekly, verdict, complete };
-    }
-    ids.forEach((id) => $(id).addEventListener("input", update));
-    update();
-    $("saveGoal").addEventListener("click", () => {
-      const u = update();
-      if (!u.complete) return;
-      S.ownGoal = { text: $("ownSentence").textContent, verdict: u.verdict ? u.verdict[0] : null };
-      S.bank += PLANNER_BONUS;
-      coinPop($("saveGoal"), PLANNER_BONUS);
-      award("planner");
-      renderStats();
-      results();
-    });
-    $("skipGoal").addEventListener("click", results);
-    $("gWhat").focus();
-  }
-
-  // ---------- Results ----------
-  function results() {
-    S.finished = true;
-    clearInterval(S.timerId);
-    renderRoundList();
-    setTiles("SMART");
-    const used = S.startedAt ? Math.min(TIME_LIMIT * 3, Math.floor((Date.now() - S.startedAt) / 1000)) : 0;
-    const mm = Math.floor(used / 60), ss = used % 60;
-    const acc = S.answered ? Math.round((S.correct / S.answered) * 100) : 0;
-    const verdictWord = { ok: "Achievable", tight: "Tight", no: "Needs adjusting" };
-    const now = new Date();
-    const dateStr = now.toLocaleDateString("en-AU", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
-    const timeStr = now.toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit" });
-    main.innerHTML = `
-      <section class="panel">
-        <p class="eyebrow">Finished</p>
-        <h1>${S.bank >= TARGET ? "Jar full. Goal reached." : "Nice work, " + esc(S.name) + "."}</h1>
-        <p class="muted">Take a screenshot of your card or show it to your teacher. Then read your mistake review.</p>
-
-        <div class="card" id="card">
-          <div class="head">
-            <div><div style="font-size:.8rem;color:#AFC3D6;text-transform:uppercase;letter-spacing:.8px">SMART Goal Studio</div><h2>${esc(S.name)}</h2></div>
-            <div class="tiles"><div class="tile on">S</div><div class="tile on">M</div><div class="tile on">A</div><div class="tile on">R</div><div class="tile on">T</div></div>
-          </div>
-          <div class="body">
-            <div class="nums">
-              <div class="num"><small>In the jar</small><b>${money(S.bank)}</b></div>
-              <div class="num"><small>Correct</small><b>${S.correct} / ${S.answered}</b></div>
-              <div class="num"><small>Accuracy</small><b>${acc}%</b></div>
-              <div class="num"><small>Best streak</small><b>${S.best}</b></div>
-              <div class="num"><small>Time</small><b>${mm}:${String(ss).padStart(2, "0")}</b></div>
-            </div>
-            <div class="roundscore">
-              ${ROUNDS.map((r) => { const rs = S.roundStats[r.id] || { right: 0, total: 0 }; return `<div><b>${esc(r.title)}</b><br>${rs.right} / ${rs.total}</div>`; }).join("")}
-            </div>
-            ${S.ownGoal ? `<p style="margin:12px 0 4px;font-weight:700">My SMART goal${S.ownGoal.verdict ? ` <span class="muted" style="font-weight:600">(${verdictWord[S.ownGoal.verdict]})</span>` : ""}</p><div class="goalquote">${esc(S.ownGoal.text)}</div>` : ""}
-            <p style="margin:12px 0 6px;font-weight:700">Badges</p>
-            <div class="badges">${BADGES.filter((b) => S.badges.has(b.id)).map((b) => `<span class="badge got">${esc(b.name)}</span>`).join("") || '<span class="muted">None this time</span>'}</div>
-            <p class="muted" style="margin:14px 0 0;font-size:.85rem">${dateStr}, ${timeStr}</p>
-          </div>
-        </div>
-
-        <div class="review">
-          <h2>Mistake review</h2>
-          ${S.mistakes.length === 0 ? `<p>No mistakes. Every answer was right.</p>` : `<p class="muted">Open each one. Read why, then copy the one you found hardest into your book.</p>` + S.mistakes.map((m, i) => `
-            <details ${i === 0 ? "open" : ""}>
-              <summary><span style="color:var(--teal)">${esc(m.round)}</span> &nbsp;${esc(m.q)}</summary>
-              <div class="ans">You said: <span class="you">${esc(m.given)}</span><br>Answer: <span class="correct">${esc(m.correct)}</span><br>${esc(m.why)}</div>
-            </details>`).join("")}
-        </div>
-        <div style="margin-top:20px">
-          <button class="btn" id="again">Play again for a bigger jar</button>
-        </div>
-      </section>`;
-    $("again").addEventListener("click", () => {
-      if (!confirm("Start again? Your current jar and card will be cleared.")) return;
-      Object.assign(S, { bank: 0, streak: 0, best: 0, correct: 0, answered: 0, round: -1, idx: 0, items: [], roundStats: {}, mistakes: [], badges: new Set(), startedAt: null, left: TIME_LIMIT, ownGoal: null, finished: false });
-      $("timer").textContent = "20:00";
-      $("timerStat").classList.remove("low");
-      renderStats(); renderBadges(); renderRoundList();
-      startTimer(); goRound(0);
-    });
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  // number keys for options
-  document.addEventListener("keydown", (e) => {
-    if (/^[1-4]$/.test(e.key) && !(e.target instanceof HTMLInputElement)) {
-      const btns = [...document.querySelectorAll(".opt:not(:disabled)")];
-      const b = btns[Number(e.key) - 1];
-      if (b) b.click();
-    }
+function question(){
+  const r=ROUNDS[S.round], it=r.items[S.item];
+  const opts = r.type==="two" ? r.labels.map((l,i)=>({t:l,i})) : shuffle(it.o.map((t,i)=>({t,i})));
+  app.innerHTML = `
+  <div class="card">
+    <span class="roundtag">Round ${S.round+1}: ${esc(r.title)}</span>
+    <span class="progress">${S.item+1} / ${r.items.length}</span>
+    ${it.s?`<div class="scenario">${esc(it.s)}</div>`:""}
+    <div class="prompt">${esc(it.q)}</div>
+    <div class="opts ${r.type==="two"?"two":""}">
+      ${opts.map(o=>`<button class="opt" data-i="${o.i}">${esc(o.t)}</button>`).join("")}
+    </div>
+    <div class="feedback" id="fb"></div>
+    <div class="actions"><button class="btn" id="next" disabled>Next</button></div>
+  </div>`;
+  const correctText = r.type==="two" ? r.labels[it.a] : it.o[it.a];
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const pick=+b.dataset.i, ok = pick===it.a;
+    app.querySelectorAll(".opt").forEach(x=>{ x.disabled=true; if(+x.dataset.i===it.a) x.classList.add("right"); });
+    if(!ok) b.classList.add("wrong");
+    const fb=$("fb"); fb.className="feedback "+(ok?"ok":"no");
+    fb.innerHTML = (ok?"<b>Correct.</b> ":"<b>Not quite.</b> The answer is <b>"+esc(correctText)+"</b>. ")+esc(it.why);
+    award(ok,{round:S.round, q:(it.s?it.s+" ":"")+it.q, picked:(r.type==="two"?r.labels[pick]:it.o[pick]), ans:correctText, why:it.why});
+    const n=$("next"); n.disabled=false; n.focus();
   });
+  $("next").onclick = nextItem;
+}
 
-  renderStats(); renderBadges(); renderRoundList();
-  intro();
-})();
+function nextItem(){
+  const r=ROUNDS[S.round];
+  S.item++;
+  if(S.item < r.items.length) question(); else endRound();
+}
+
+function endRound(){
+  const r=ROUNDS[S.round];
+  if(S.roundWrong[S.round]===0) S.perfect[S.round]=true;
+  checkBadges();
+  S.round++;
+  if(S.round < ROUNDS.length) roundIntro(); else finish();
+}
+
+function orderRound(){
+  const r=ROUNDS[S.round];
+  const pool = shuffle(r.steps.map((t,i)=>({t,i})));
+  const picked=[];
+  function draw(done){
+    app.innerHTML = `
+    <div class="card">
+      <span class="roundtag">Round ${S.round+1}: ${esc(r.title)}</span>
+      <div class="prompt">${esc(r.blurb)}</div>
+      <div class="order-picked">
+        ${r.steps.map((_,k)=>{
+          const p=picked[k];
+          let cls="slot"+(p?" filled":"");
+          if(done&&p) cls+= p.i===k?" right":" wrong";
+          return `<div class="${cls}"><span class="num">${k+1}</span>${p?esc(p.t):"Tap a step below"}</div>`;
+        }).join("")}
+      </div>
+      ${done?"":`<div class="order-pool">${pool.filter(p=>!picked.includes(p)).map(p=>`<button class="opt" data-i="${p.i}">${esc(p.t)}</button>`).join("")}</div>`}
+      <div class="feedback" id="fb"></div>
+      <div class="actions">
+        ${done?`<button class="btn" id="next">See results</button>`:`<button class="btn alt" id="undo" ${picked.length?"":"disabled"}>Undo</button><button class="btn" id="check" ${picked.length===r.steps.length?"":"disabled"}>Check</button>`}
+      </div>
+    </div>`;
+    if(done){
+      const ok = picked.every((p,k)=>p.i===k);
+      const fb=$("fb"); fb.className="feedback "+(ok?"ok":"no");
+      fb.innerHTML=(ok?"<b>Correct.</b> ":"<b>Not quite.</b> The order is: "+r.steps.map((s,k)=>(k+1)+". "+esc(s)).join(", ")+". ")+esc(r.why);
+      $("next").onclick=endRound; $("next").focus(); return;
+    }
+    app.querySelectorAll(".order-pool .opt").forEach(b=>b.onclick=()=>{ picked.push(pool.find(p=>p.i===+b.dataset.i)); draw(false); });
+    $("undo").onclick=()=>{ picked.pop(); draw(false); };
+    $("check").onclick=()=>{
+      const ok = picked.every((p,k)=>p.i===k);
+      award(ok,{round:S.round,q:"Put the steps to fix a deficit in order.",picked:picked.map(p=>p.t).join(" > "),ans:r.steps.join(" > "),why:r.why});
+      draw(true);
+    };
+  }
+  draw(false);
+}
+
+function finish(){
+  const pct = Math.round(S.correct/S.total*100);
+  const mins = Math.max(1,Math.round((Date.now()-S.startTime)/60000));
+  let verdict = S.fund>=FUND_TARGET ? "Fully shock proof. Your buffer could cover 3 months of expenses."
+    : S.fund>=3000 ? "Solid buffer. A few more good calls and you would be fully protected."
+    : "Your buffer is thin. Use the review below to see where the shocks hit.";
+  app.innerHTML = `
+  <h1>Results: ${esc(S.name)}</h1>
+  <p class="lead">${verdict}</p>
+  <div class="stats">
+    <div class="stat"><div class="v">${S.correct}/${S.total}</div><div class="k">Correct (${pct}%)</div></div>
+    <div class="stat"><div class="v">${S.score}</div><div class="k">Score</div></div>
+    <div class="stat"><div class="v">${money(S.fund)}</div><div class="k">Emergency fund</div></div>
+    <div class="stat"><div class="v">${S.bestStreak}</div><div class="k">Best streak</div></div>
+  </div>
+  <div class="card">
+    <h2>Badges</h2>
+    <div class="badges">${BADGES.map(b=>`<span class="badge ${S.got.has(b.id)?"got":""}">${esc(b.name)}</span>`).join("")}</div>
+    <p style="color:var(--muted);font-size:.9rem;margin-bottom:0">Finished in about ${mins} minute${mins===1?"":"s"}. Show this screen to your teacher.</p>
+  </div>
+  <div class="card">
+    <h2>Mistake review</h2>
+    ${S.mistakes.length? S.mistakes.map(m=>`
+      <div class="review"><div><b>Round ${m.round+1}:</b> ${esc(m.q)}</div>
+      <div>You said: ${esc(m.picked)}</div>
+      <div class="ans">Answer: ${esc(m.ans)}</div>
+      <div style="color:var(--muted)">${esc(m.why)}</div></div>`).join("")
+    : `<p style="margin:0">No mistakes. Perfect run.</p>`}
+  </div>
+  <div class="card">
+    <h2>In your book</h2>
+    <p style="margin:0">Write ONE sentence: "If my income dropped by $50 a week, the first thing I would cut is ... because ..."</p>
+  </div>
+  <div class="actions"><button class="btn alt" id="again">Play again</button></div>`;
+  $("again").onclick=()=>location.reload();
+  S.started=false;
+}
+
+updateHud();
+intro();
 </script>
 </body>
 </html>
