@@ -1,404 +1,551 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-AU">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Shock Proof</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Spending Log</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap">
 <style>
-:root{
-  --ink:#1F2328; --muted:#5B6168; --line:#E3E5E8; --bg:#FFFFFF; --soft:#F6F7F8;
-  --amber:#A8561B; --amber-soft:#FBEFE4; --green:#1E7A4C; --green-soft:#E6F4EC;
-  --red:#B83227; --red-soft:#FBEAE8; --navy:#22344A;
+/* Layout: a bank-app style game panel on the left, a printed receipt tape logging every answer on the right; stacks on phones. */
+:root {
+  --bg: #EEF2F6;
+  --panel: #FFFFFF;
+  --ink: #15233B;
+  --muted: #5B6675;
+  --line: #D5DCE5;
+  --soft: #F2F5F9;
+  --green: #0B7A5A;
+  --green-soft: #E3F2EC;
+  --coral: #C8462A;
+  --coral-soft: #FBE7E1;
+  --yellow: #FFE066;
+  --yellow-soft: #FFF6C7;
+  --blue: #2E6FB7;
+  --paper: #FFFDF7;
+  --on-accent: #FFFFFF;
+  --shadow: 0 2px 10px rgba(21,35,59,.10);
+  --f-display: "Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", Calibri, system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", "Courier New", ui-monospace, monospace;
 }
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
-button{font:inherit;cursor:pointer}
-.wrap{max-width:860px;margin:0 auto;padding:16px}
-header.bar{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line)}
-header.bar .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
-.brand{font-weight:800;letter-spacing:.02em;color:var(--amber);font-size:1.1rem;margin-right:auto}
-.chip{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.88rem;font-variant-numeric:tabular-nums;white-space:nowrap}
-.chip b{color:var(--navy)}
-.chip.streak b{color:var(--amber)}
-.meter{width:100%;padding:0 16px 10px;max-width:860px;margin:0 auto}
-.meter-label{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:4px}
-.track{height:12px;background:var(--soft);border:1px solid var(--line);border-radius:999px;overflow:hidden}
-.fill{height:100%;width:0;background:var(--green);transition:width .5s ease}
-.shake{animation:shake .4s}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-h1{font-size:2rem;margin:.4em 0 .2em;color:var(--navy)}
-h2{font-size:1.35rem;margin:.2em 0 .4em;color:var(--navy)}
-p.lead{font-size:1.05rem;color:var(--muted);margin-top:0}
-.card{border:1px solid var(--line);border-radius:14px;padding:20px;margin:14px 0;background:#fff}
-.roundtag{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);background:var(--amber-soft);border-radius:6px;padding:3px 8px}
-.progress{font-size:.85rem;color:var(--muted);float:right}
-.prompt{font-size:1.2rem;font-weight:600;margin:14px 0 16px}
-.scenario{background:var(--soft);border-radius:10px;padding:12px 14px;margin:10px 0 14px;font-size:1rem}
-.opts{display:grid;gap:10px}
-.opts.two{grid-template-columns:1fr 1fr}
-.opt{text-align:left;border:2px solid var(--line);background:#fff;border-radius:10px;padding:12px 14px;font-size:1rem;color:var(--ink);transition:border-color .15s,background .15s}
-.opts.two .opt{text-align:center;font-weight:700;padding:18px 10px}
-.opt:hover:not(:disabled){border-color:var(--amber)}
-.opt:disabled{cursor:default}
-.opt.right{border-color:var(--green);background:var(--green-soft)}
-.opt.wrong{border-color:var(--red);background:var(--red-soft)}
-.feedback{margin-top:14px;padding:12px 14px;border-radius:10px;display:none}
-.feedback.ok{display:block;background:var(--green-soft);color:#14512F}
-.feedback.no{display:block;background:var(--red-soft);color:#7A1F17}
-.actions{display:flex;justify-content:flex-end;margin-top:14px;gap:10px}
-.btn{border:0;border-radius:10px;padding:11px 20px;font-weight:700;background:var(--navy);color:#fff}
-.btn.alt{background:var(--amber)}
-.btn:disabled{opacity:.4;cursor:default}
-input[type=text]{font:inherit;padding:11px 12px;border:2px solid var(--line);border-radius:10px;width:100%;max-width:360px}
-input[type=text]:focus{outline:none;border-color:var(--amber)}
-.rounds{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:14px 0}
-.rounds div{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:.92rem}
-.rounds b{display:block;color:var(--navy)}
-.order-pool,.order-picked{display:grid;gap:8px;margin:10px 0}
-.order-picked{min-height:40px}
-.slot{display:flex;gap:10px;align-items:center;border:2px dashed var(--line);border-radius:10px;padding:10px 12px;color:var(--muted)}
-.slot.filled{border-style:solid;border-color:var(--amber);color:var(--ink);background:var(--amber-soft)}
-.slot.right{border-color:var(--green);background:var(--green-soft)}
-.slot.wrong{border-color:var(--red);background:var(--red-soft)}
-.num{flex:0 0 26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:.85rem;font-weight:700}
-.badges{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.badge{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.9rem;background:#fff}
-.badge.got{background:var(--amber-soft);border-color:var(--amber);font-weight:600}
-.badge:not(.got){color:#9AA0A6}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(120px);background:var(--navy);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;transition:transform .35s;z-index:20}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0}
-.stat{background:var(--soft);border-radius:10px;padding:12px}
-.stat .v{font-size:1.6rem;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
-.stat .k{font-size:.82rem;color:var(--muted)}
-.review{border-left:0;background:var(--red-soft);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:.95rem}
-.review .ans{color:#14512F;font-weight:600}
-.hidden{display:none}
-.timeup{color:var(--red)}
-@media (max-width:560px){h1{font-size:1.6rem}.opts.two{grid-template-columns:1fr}.prompt{font-size:1.08rem}}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1726; --panel: #16233A; --ink: #E8EEF6; --muted: #A3AFC2; --line: #2B3B57; --soft: #1C2B45;
+    --green: #3CC394; --green-soft: #133A31; --coral: #F27B5E; --coral-soft: #3F2420;
+    --yellow: #FFD84D; --yellow-soft: #3A3317; --blue: #6FA6E8; --paper: #1A2638; --on-accent: #0E1726;
+    --shadow: 0 2px 12px rgba(0,0,0,.35); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1726; --panel: #16233A; --ink: #E8EEF6; --muted: #A3AFC2; --line: #2B3B57; --soft: #1C2B45;
+  --green: #3CC394; --green-soft: #133A31; --coral: #F27B5E; --coral-soft: #3F2420;
+  --yellow: #FFD84D; --yellow-soft: #3A3317; --blue: #6FA6E8; --paper: #1A2638; --on-accent: #0E1726;
+  --shadow: 0 2px 12px rgba(0,0,0,.35); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.5; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-block: 20px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.1; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+/* header */
+.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-bottom: 16px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark { width: 44px; height: 44px; border-radius: 12px; background: var(--ink); color: var(--yellow); display: grid; place-items: center; font-family: var(--f-mono); font-weight: 700; font-size: 20px; }
+.brand h1 { font-size: 28px; font-weight: 800; }
+.brand p { margin: 0; color: var(--muted); font-size: 14px; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px; }
+.stat { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 6px 12px; min-width: 92px; }
+.stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.stat .v { font-family: var(--f-mono); font-weight: 700; font-size: 20px; font-variant-numeric: tabular-nums; }
+.stat.jar .v { color: var(--green); }
+.stat.streak.hot { border-color: var(--coral); }
+.stat.streak.hot .v { color: var(--coral); }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
+@media (max-width: 820px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 24px; min-width: 0; }
+@media (max-width: 500px) { .panel { padding: 18px; } }
+
+/* round chips */
+.rounds { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+.rchip { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; background: var(--soft); color: var(--muted); }
+.rchip.on { background: var(--ink); color: var(--panel); }
+.rchip.done { background: var(--green-soft); color: var(--green); }
+
+.progress { height: 8px; background: var(--soft); border-radius: 99px; overflow: hidden; margin-bottom: 20px; }
+.progress span { display: block; height: 100%; background: var(--green); width: 0; transition: width .3s ease; }
+
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+.prompt { font-family: var(--f-display); font-size: clamp(22px, 3.2vw, 30px); font-weight: 800; margin-bottom: 6px; }
+.sub { color: var(--muted); margin: 0 0 18px; }
+
+.item-card { display: flex; align-items: center; gap: 16px; background: var(--soft); border-radius: 14px; padding: 18px 20px; margin-bottom: 18px; }
+.item-card .tag { font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
+.item-card .name { font-size: 22px; font-weight: 700; }
+.item-card .price { margin-left: auto; font-family: var(--f-mono); font-weight: 700; font-size: 20px; color: var(--coral); white-space: nowrap; }
+.item-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--panel); display: grid; place-items: center; font-size: 26px; flex: none; }
+
+.choices { display: grid; gap: 10px; }
+.choices.two { grid-template-columns: 1fr 1fr; }
+.choices.four { grid-template-columns: 1fr 1fr; }
+@media (max-width: 520px) { .choices.four { grid-template-columns: 1fr; } }
+.choice { display: flex; align-items: center; gap: 12px; text-align: left; border: 2px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 14px; padding: 14px 16px; font-size: 17px; font-weight: 700; transition: transform .1s ease, border-color .15s; }
+.choice:hover:not(:disabled) { border-color: var(--ink); transform: translateY(-1px); }
+.choice .key { font-family: var(--f-mono); font-size: 13px; width: 28px; height: 28px; border-radius: 8px; background: var(--soft); display: grid; place-items: center; flex: none; }
+.choice.big { justify-content: center; font-family: var(--f-display); font-size: 24px; padding: 20px; }
+.choice.need { border-color: var(--green); color: var(--green); }
+.choice.want { border-color: var(--coral); color: var(--coral); }
+.choice.correct { background: var(--green); border-color: var(--green); color: var(--on-accent); }
+.choice.wrong { background: var(--coral); border-color: var(--coral); color: var(--on-accent); }
+.choice:disabled { cursor: default; }
+.choice.dim { opacity: .45; }
+.choice.picked .key { background: var(--ink); color: var(--panel); }
+
+.feedback { margin-top: 16px; border-radius: 14px; padding: 14px 16px; display: grid; gap: 4px; }
+.feedback.good { background: var(--green-soft); }
+.feedback.bad { background: var(--coral-soft); }
+.feedback strong { font-family: var(--f-display); font-size: 18px; }
+.feedback.good strong { color: var(--green); }
+.feedback.bad strong { color: var(--coral); }
+.row-end { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.btn { border: 0; border-radius: 12px; padding: 12px 20px; font-weight: 700; background: var(--ink); color: var(--panel); }
+.btn.alt { background: var(--soft); color: var(--ink); }
+.btn.go { background: var(--green); color: var(--on-accent); }
+.btn:disabled { opacity: .4; cursor: default; }
+
+/* statement */
+.statement { overflow-x: auto; margin-bottom: 16px; border: 1px solid var(--line); border-radius: 12px; }
+.statement table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 420px; }
+.statement th { text-align: left; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 8px 12px; background: var(--soft); }
+.statement td { padding: 7px 12px; border-top: 1px solid var(--line); }
+.statement td.amt, .statement th.amt { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.statement td.amt { color: var(--coral); font-weight: 700; }
+.statement td.cat { color: var(--blue); font-size: 14px; }
+.statement tfoot td { font-weight: 700; background: var(--soft); }
+
+/* order question */
+.order-list { display: grid; gap: 8px; }
+.order-item { display: flex; align-items: center; gap: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 14px; padding: 12px 14px; font-weight: 700; text-align: left; }
+.order-item .slot { width: 30px; height: 30px; border-radius: 50%; border: 2px dashed var(--line); display: grid; place-items: center; font-family: var(--f-mono); flex: none; }
+.order-item.set .slot { border: 0; background: var(--ink); color: var(--panel); }
+.scale { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin: 2px 4px 10px; }
+.scale .f { color: var(--green); } .scale .v { color: var(--coral); }
+
+/* receipt */
+.receipt { background: var(--paper); border-radius: 6px 6px 0 0; box-shadow: var(--shadow); padding: 18px 16px 26px; font-family: var(--f-mono); font-size: 13px; position: relative; min-width: 0;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
+          mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%; }
+.receipt h3 { font-family: var(--f-mono); font-size: 15px; text-align: center; letter-spacing: .15em; }
+.receipt .meta { text-align: center; color: var(--muted); font-size: 11px; margin: 2px 0 10px; }
+.dash { border-top: 1px dashed var(--muted); margin: 8px 0; }
+.tape { max-height: 360px; overflow-y: auto; display: grid; gap: 3px; }
+.tape .ln { display: grid; grid-template-columns: 16px minmax(0,1fr) auto; gap: 6px; }
+.tape .ln span:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tape .ln.ok span:first-child, .tape .ln.ok span:last-child { color: var(--green); }
+.tape .ln.no span:first-child, .tape .ln.no span:last-child { color: var(--coral); }
+.tape .empty { color: var(--muted); text-align: center; padding: 10px 0; }
+.tot { display: flex; justify-content: space-between; font-weight: 700; font-size: 15px; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.badge { font-family: var(--f-body); font-size: 12px; font-weight: 700; border-radius: 999px; padding: 4px 9px; background: var(--soft); color: var(--muted); }
+.badge.got { background: var(--yellow); color: #15233B; }
+
+/* start + end */
+.hero-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+@media (max-width: 700px) { .hero-row { grid-template-columns: minmax(0, 1fr); } }
+.how { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+.how li { display: flex; gap: 10px; align-items: baseline; }
+.how li b { font-family: var(--f-mono); color: var(--green); white-space: nowrap; }
+.rlist { display: grid; gap: 8px; }
+.rcard { background: var(--soft); border-radius: 12px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; }
+.rcard .n { font-family: var(--f-mono); font-weight: 700; background: var(--ink); color: var(--panel); border-radius: 8px; width: 30px; height: 30px; display: grid; place-items: center; flex: none; }
+.rcard small { display: block; color: var(--muted); }
+label.name { display: block; font-weight: 700; margin: 18px 0 6px; }
+input[type=text] { width: 100%; font: inherit; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); }
+
+.cert { border: 3px double var(--ink); border-radius: 16px; padding: 24px; text-align: center; background: var(--yellow-soft); margin-bottom: 20px; }
+.cert .eyebrow { color: var(--muted); }
+.cert h2 { font-size: clamp(26px, 4vw, 38px); margin: 6px 0; }
+.cert .who { font-family: var(--f-display); font-size: 26px; font-weight: 800; color: var(--green); margin: 6px 0; overflow-wrap: anywhere; }
+.cert .nums { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 28px; margin-top: 12px; font-family: var(--f-mono); }
+.cert .nums b { display: block; font-size: 24px; }
+.review { display: grid; gap: 8px; }
+.review .mi { background: var(--coral-soft); border-radius: 12px; padding: 10px 14px; }
+.review .mi small { color: var(--muted); display: block; }
+.allgood { background: var(--green-soft); border-radius: 12px; padding: 12px 14px; color: var(--green); font-weight: 700; }
+
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--panel); padding: 10px 16px; border-radius: 12px; font-weight: 700; opacity: 0; transition: .25s; pointer-events: none; max-width: calc(100% - 32px); text-align: center; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+@keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.15); } 100% { transform: scale(1); } }
+.pop { animation: pop .35s ease; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+@media print { body * { visibility: hidden; } #cert, #cert * { visibility: visible; } #cert { position: absolute; left: 0; top: 0; width: 100%; } }
 </style>
 </head>
 <body>
-<header class="bar">
-  <div class="wrap">
-    <div class="brand">SHOCK PROOF</div>
-    <span class="chip">Score <b id="score">0</b></span>
-    <span class="chip streak">Streak <b id="streak">0</b></span>
-    <span class="chip">Time <b id="clock">15:00</b></span>
-  </div>
-  <div class="meter">
-    <div class="meter-label"><span>Emergency fund</span><span><b id="fund">$0</b> of $6,000 (3 months of expenses)</span></div>
-    <div class="track" id="track"><div class="fill" id="fill"></div></div>
-  </div>
-</header>
 
-<main class="wrap" id="app"></main>
-<div class="toast" id="toast"></div>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">$</div>
+      <div>
+        <h1>The Spending Log</h1>
+        <p>Tracking Spending · 4 rounds · 35 items</p>
+      </div>
+    </div>
+    <div class="stats" aria-live="polite">
+      <div class="stat jar"><div class="k">Savings jar</div><div class="v" id="jar">$0</div></div>
+      <div class="stat streak" id="streakBox"><div class="k">Streak</div><div class="v" id="streak">0</div></div>
+      <div class="stat"><div class="k">Correct</div><div class="v" id="score">0/0</div></div>
+    </div>
+  </header>
+
+  <div class="grid">
+    <main class="panel" id="stage"></main>
+    <aside class="receipt" aria-label="Receipt of your answers">
+      <h3>RECEIPT</h3>
+      <div class="meta" id="rmeta">SPENDING LOG · NOT STARTED</div>
+      <div class="dash"></div>
+      <div class="tape" id="tape"><div class="empty">Every answer prints here.</div></div>
+      <div class="dash"></div>
+      <div class="tot"><span>SAVED</span><span id="rtotal">$0</span></div>
+      <div class="tot" style="font-size:13px;font-weight:400"><span>LEAKED</span><span id="rleak">$0</span></div>
+      <div class="dash"></div>
+      <div style="font-size:11px;color:var(--muted)">BADGES</div>
+      <div class="badges" id="badges"></div>
+    </aside>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
 
 <script>
-/* ---------- CONTENT ---------- */
-const ROUNDS = [
-  {
-    title:"Income shock or expense shock?",
-    blurb:"Something changes in someone's life. Is it hitting the money coming IN or the money going OUT?",
-    time:"2 min",
-    type:"two",
-    labels:["Income shock","Expense shock"],
-    items:[
-      {q:"Mia loses her part-time job at a café.", a:0, why:"Her money coming in drops. That is an income shock."},
-      {q:"Electricity prices go up 15% this winter.", a:1, why:"The same household now pays more to run the house. That is an expense shock."},
-      {q:"Jayden's shifts get cut from 15 hours to 8 hours a week.", a:0, why:"Fewer hours means less pay. That is an income shock."},
-      {q:"The landlord raises the rent by $40 a week.", a:1, why:"Rent is money going out, and it just went up. Expense shock."},
-      {q:"The RBA lifts the cash rate and the bank raises a variable home loan repayment.", a:1, why:"The repayment is money going out. A rate rise makes it bigger, so it is an expense shock."},
-      {q:"A parent stops getting overtime at work.", a:0, why:"Overtime is extra income. Losing it is an income shock."},
-      {q:"The car needs $1,500 of repairs after a crash.", a:1, why:"An unexpected cost. Expense shock, and exactly what an emergency fund is for."},
-      {q:"Inflation pushes the weekly grocery bill from $180 to $205.", a:1, why:"Prices rising means the same groceries cost more. Expense shock."}
-    ]
-  },
-  {
-    title:"Fixed or variable?",
-    blurb:"Fixed expenses stay the same each time. Variable expenses change, and they are usually the easiest place to cut.",
-    time:"2 min",
-    type:"two",
-    labels:["Fixed","Variable"],
-    items:[
-      {q:"Rent of $420 a week on a 12-month lease", a:0, why:"The lease locks the amount in. Fixed."},
-      {q:"Petrol", a:1, why:"It changes with how much you drive and the price per litre. Variable."},
-      {q:"A $35 a month phone plan", a:0, why:"Same amount every month. Fixed."},
-      {q:"Eating out and takeaway", a:1, why:"You choose how much to spend each week. Variable, and a common place to cut."},
-      {q:"Groceries", a:1, why:"The bill changes week to week with what you buy and with prices. Variable."},
-      {q:"A $20 a month streaming subscription", a:0, why:"Same charge every month, so it is fixed. It is still a 'want' you can cancel to fix a deficit."},
-      {q:"Entertainment like movies and concerts", a:1, why:"It changes with your choices. Variable."},
-      {q:"Annual car registration", a:0, why:"A set amount, but it only comes once a year. That is why people forget it. Save a bit each week so it does not catch you out."}
-    ]
-  },
-  {
-    title:"Run the numbers",
-    blurb:"Quick calculations an adviser does every day. Working out on paper is fine.",
-    time:"4 min",
-    type:"mc",
-    items:[
-      {q:"Sam's weekly net income is $480. How much should Sam save to hit the 20% rule?", o:["$48","$96","$120","$240"], a:1, why:"20% of $480: 480 x 0.2 = $96."},
-      {q:"Lena's car uses 40 litres of petrol a week. The price rises from $1.80 to $2.20 a litre. How much extra does she spend each week?", o:["$0.40","$8","$16","$88"], a:2, why:"Old cost 40 x $1.80 = $72. New cost 40 x $2.20 = $88. Extra: $88 - $72 = $16 a week."},
-      {q:"Ari earns $620 a week and spends $680. What is the result?", o:["A $60 surplus","A $60 deficit","A $1,300 deficit","The budget is balanced"], a:1, why:"Expenses are higher than income: $680 - $620 = $60 deficit."},
-      {q:"The Millers' expenses are $2,000 a month. Using the 3-month rule, how big should their emergency fund be?", o:["$2,000","$4,000","$6,000","$24,000"], a:2, why:"3 months x $2,000 = $6,000."},
-      {q:"After a rate rise the Millers need an extra $200 a month. They cancel a $20 streaming service. How much more do they still need to find?", o:["$20","$180","$200","$220"], a:1, why:"$200 - $20 = $180 still to find. In the case study they cut eating out by $180 to close the gap."},
-      {q:"Priya's shifts drop and she now earns $150 less each week. She cuts takeaway by $60 and her phone plan by $15. What is her weekly gap now?", o:["$75","$90","$135","$225"], a:0, why:"Cuts total $60 + $15 = $75. Gap left: $150 - $75 = $75. She still needs another fix."}
-    ]
-  },
-  {
-    title:"The adviser's call",
-    blurb:"You are the financial adviser. Pick the BEST first move for each client.",
-    time:"4 min",
-    type:"mc",
-    items:[
-      {s:"Scenario A: Mia, 16, lost her café job. She was earning $200 a week and spends about $150 a week on takeaway, clothes, transport and a $20 subscription.",
-       q:"What is Mia's best first move?", o:["Keep spending the same and wait for a new job","Cut wants straight away and start looking for new work","Put everything on a buy now, pay later account","Stop using public transport so she cannot get anywhere"], a:1,
-       why:"An income shock needs action on both sides: cut variable wants now and look for new income. Borrowing to keep the same lifestyle just builds debt."},
-      {s:"Scenario B: The Tran family's electricity bill jumps from $450 to $600 a quarter.",
-       q:"Which adjustment makes the most sense?", o:["Stop paying the electricity bill","Compare plans with other energy retailers and cut usage at home","Cancel their home insurance to free up money","Ignore it because it is only once a quarter"], a:1,
-       why:"Electricity is a need, so you cannot just drop it. Find a cheaper provider and use less. Cancelling insurance swaps a small saving for a big risk."},
-      {s:"Scenario C: Josh needs $1,500 for car repairs to get to work. He has $0 in savings.",
-       q:"Why is Josh in a tough spot?", o:["He spends too much on petrol","He has no emergency fund, so he may have to borrow at high interest","His car is too old","His income is too high"], a:1,
-       why:"Without a buffer, an unexpected cost often goes on a credit card, which charges high interest. That is why the emergency fund matters."},
-      {s:"Scenario C continued: Josh puts the $1,500 on a credit card to fix the car.",
-       q:"What should Josh do next?", o:["Only ever pay the minimum repayment","Cut variable spending to pay the card off fast, then start building an emergency fund","Get a second credit card","Keep the debt and stop budgeting"], a:1,
-       why:"Pay the high interest debt off quickly by cutting wants, then build the buffer so the next shock does not end up on a card."},
-      {s:"Scenario D: The Millers have a variable rate mortgage. Rates rise and their repayment goes from $2,500 to $2,700 a month.",
-       q:"Why did their repayment change?", o:["They chose to pay more","Their lender passed on a rise in interest rates, and a variable rate moves with the market","Their house went up in value","The government taxed their mortgage"], a:1,
-       why:"The RBA lifts the cash rate, and lenders usually pass that on. Variable rate repayments move straight away. A fixed rate would have stayed the same for the fixed period."},
-      {s:"Scenario E: Ella built her budget assuming 20 hours of work a week. Most weeks she only gets 12.",
-       q:"What went wrong with Ella's budget?", o:["She forgot irregular expenses","She overestimated her income","She saved too much","Nothing, the budget is fine"], a:1,
-       why:"Planning on shifts you do not actually get is overestimating income, one of the common reasons budgets fail. Budget on what you reliably earn."}
-    ]
-  },
-  {
-    title:"Fix the budget in order",
-    blurb:"Tap the steps in the correct order to fix a deficit caused by rising costs.",
-    time:"1 min",
-    type:"order",
-    steps:["Identify the new deficit amount","Review variable expenses to cut","Implement the spending changes","Monitor the budget next month"],
-    why:"Find the size of the gap first, look for what you can cut, make the changes, then check next month that it worked. A budget is a living document."
-  }
+// Set to true on the GitHub Pages copy so the certificate can be printed.
+const ALLOW_PRINT = true;
+
+const STATEMENT = [
+  ["Mon","Kwik-E-Mart","Snacks",12.50],["Mon","Bus Ticket","Transport",5.20],
+  ["Tue","Spotify Sub","Subscriptions",11.99],["Wed","Maccas","Food & Drink",18.00],
+  ["Thu","Video Game Purchase","Entertainment",89.00],["Fri","Cinema Tickets","Entertainment",35.00],
+  ["Sat","New Shoes","Clothing",120.00],["Sun","Coffee","Food & Drink",6.50]
 ];
+
+const ROUNDS = [
+  { id: "nw", name: "Need or want?", short: "Need/Want", blurb: "Could you survive without it?", type: "nw",
+    items: [
+      ["🏠","Rent for a flat",null,"Need","Somewhere to live is essential."],
+      ["🛒","Weekly groceries",null,"Need","Food from the supermarket keeps you alive. That makes it a need."],
+      ["💡","Electricity bill",null,"Need","Power for lights, cooking and heating is essential."],
+      ["🚌","Bus ticket to school",null,"Need","Getting to school or work is a need."],
+      ["📺","Netflix subscription",null,"Want","Nice to have, but you can survive without it."],
+      ["👟","New sneakers when your old pair is fine",null,"Want","Shoes are a need. A second pair when yours still work is a want."],
+      ["🎤","Concert tickets",null,"Want","Fun, but optional. Discretionary spending."],
+      ["📚","School textbooks",null,"Need","You need these to do your schoolwork."],
+      ["🍟","Maccas after school",null,"Want","Food is a need, but takeaway when you could eat at home is the want version."],
+      ["🎮","In-game skin",null,"Want","Purely optional. A classic small purchase that leaks money."]
+    ]},
+  { id: "fv", name: "Fixed or variable?", short: "Fixed/Variable", blurb: "Is it the same amount every time?", type: "fv",
+    items: [
+      ["📱","Phone plan","$35/month","Fixed","A set plan charges the same each month."],
+      ["🎵","Spotify subscription","$11.99/month","Fixed","Same price every month, even though it's a want."],
+      ["🏋️","Gym membership","$15/week","Fixed","Charged the same whether you go or not."],
+      ["🏠","Rent","$450/week","Fixed","Stays the same each period regardless of usage."],
+      ["🚗","Car insurance","$90/month","Fixed","A set premium paid on a schedule."],
+      ["🛵","Food delivery",null,"Variable","Depends on how often you order and what you get."],
+      ["⛽","Petrol",null,"Variable","Changes with how far you drive and the price per litre."],
+      ["💡","Electricity bill",null,"Variable","It's a need, but the amount changes with how much power you use."],
+      ["🎬","Cinema tickets",null,"Variable","Could be $0 or $50. It's your choice each week."],
+      ["🛒","Groceries",null,"Variable","The total moves week to week depending on what you buy."]
+    ]},
+  { id: "tm", name: "Name the term", short: "Terms", blurb: "Match the description to the key word.", type: "mcq",
+    items: [
+      ["Money flowing out of your account when you pay for something.", ["Expenditure","Income","Categorisation","Savings"], 0, "Expenditure is the act of spending money; an outflow of funds."],
+      ["Optional spending on luxuries or non-essential items.", ["Fixed","Mandatory","Discretionary","Variable"], 2, "Discretionary spending is the 'wants' side of a budget."],
+      ["A cost that changes in amount from month to month.", ["Fixed","Variable","Latent","Mandatory"], 1, "Variable costs move with your usage and choices."],
+      ["A cost that stays the same amount each period.", ["Discretionary","Variable","Fixed","Impulse"], 2, "Fixed costs are predictable and recurring."],
+      ["Grouping expenses so you can see your spending patterns.", ["Expenditure","Categorisation","Budgeting","Saving"], 1, "Categorisation means labelling each expense, like Need, Want, Fixed or Variable."],
+      ["A free trial that quietly turned into a $14.99 monthly charge you forgot about.", ["Impulse buy","Variable cost","Latent expense","Mandatory cost"], 2, "Latent expenses happen automatically, so you forget they exist."]
+    ]},
+  { id: "jd", name: "Jordan's statement", short: "Jordan", blurb: "Use the bank statement to answer.", type: "mcq", statement: true,
+    items: [
+      ["Which expense is discretionary but also fixed?", ["Bus Ticket","Spotify Sub","Maccas","New Shoes"], 1, "Spotify is a want, but it costs $11.99 every month."],
+      ["What was Jordan's single biggest purchase?", ["Video Game Purchase","Cinema Tickets","New Shoes","Maccas"], 2, "New Shoes at $120.00."],
+      ["How much did Jordan spend on entertainment?", ["$35.00","$89.00","$124.00","$155.00"], 2, "Video game $89.00 + cinema $35.00 = $124.00."],
+      ["What was Jordan's total spending for the week?", ["$283.19","$298.19","$302.69","$291.69"], 1, "12.50 + 5.20 + 11.99 + 18.00 + 89.00 + 35.00 + 120.00 + 6.50 = $298.19."],
+      ["Only one line is clearly a need. How much did Jordan spend on needs?", ["$5.20","$11.99","$17.70","$23.20"], 0, "Only the bus ticket ($5.20) is a need."],
+      ["Wants were $292.99 out of $298.19. Roughly what percentage went on wants?", ["About 50%","About 75%","About 88%","About 98%"], 3, "292.99 ÷ 298.19 × 100 ≈ 98%."],
+      ["Spotify costs $11.99 a month. How much would Jordan save in a year by cancelling it?", ["$119.90","$131.89","$143.88","$71.94"], 2, "$11.99 × 12 months = $143.88."],
+      ["What is Jordan's biggest spending weakness?", ["Essential transport costs","Subscription services","Impulse buys and entertainment","Groceries"], 2, "Entertainment, shoes and snacks make up most of the week."],
+      { order: true, q: "Tap the items in order from FIXED (1) to MOST VARIABLE (4).",
+        items: ["Weekly Bus Ticket","Spotify Subscription","Friday Night Takeaway","Weekly Grocery Budget"],
+        answer: ["Spotify Subscription","Weekly Bus Ticket","Weekly Grocery Budget","Friday Night Takeaway"],
+        alt: ["Weekly Bus Ticket","Spotify Subscription","Weekly Grocery Budget","Friday Night Takeaway"],
+        why: "Spotify and the bus ticket barely change. The grocery budget moves a little. Friday takeaway could be $0 or $60." }
+    ]}
+];
+const TOTAL = ROUNDS.reduce((n, r) => n + r.items.length, 0);
 
 const BADGES = [
-  {id:"first", name:"First deposit", test:s=>s.correct>=1},
-  {id:"streak3", name:"Steady saver (3 in a row)", test:s=>s.bestStreak>=3},
-  {id:"streak6", name:"Shock absorber (6 in a row)", test:s=>s.bestStreak>=6},
-  {id:"half", name:"Halfway buffer ($3,000)", test:s=>s.fund>=3000},
-  {id:"full", name:"Fully shock proof ($6,000)", test:s=>s.fund>=6000},
-  {id:"numbers", name:"Number cruncher (Round 3 perfect)", test:s=>s.perfect[2]},
-  {id:"adviser", name:"Trusted adviser (Round 4 perfect)", test:s=>s.perfect[3]}
+  ["first", "First entry"], ["streak5", "Hot streak (5)"], ["streak10", "On fire (10)"],
+  ["clean", "Leak plugger"], ["sleuth", "Statement sleuth"], ["boss", "Budget boss"]
 ];
 
-/* ---------- STATE ---------- */
-const S = {name:"", score:0, streak:0, bestStreak:0, fund:0, correct:0, total:0,
-  round:0, item:0, mistakes:[], roundWrong:[0,0,0,0,0], perfect:[false,false,false,false,false],
-  got:new Set(), started:false, startTime:0};
-const FUND_TARGET = 6000;
-const $ = id => document.getElementById(id);
-const app = $("app");
+let S;
+function fresh() {
+  return { name: "", r: 0, i: 0, jar: 0, leak: 0, streak: 0, best: 0, correct: 0, answered: 0,
+           roundMiss: 0, badges: {}, mistakes: [], tape: [], locked: false, order: [] };
+}
+S = fresh();
 
-function money(n){return "$"+Math.max(0,Math.round(n)).toLocaleString("en-AU")}
-function updateHud(){
-  $("score").textContent = S.score;
-  $("streak").textContent = S.streak;
-  $("fund").textContent = money(S.fund);
-  $("fill").style.width = Math.min(100, S.fund/FUND_TARGET*100)+"%";
-}
-function toast(msg){
-  const t=$("toast"); t.textContent=msg; t.classList.add("show");
-  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),1800);
-}
-function checkBadges(){
-  BADGES.forEach(b=>{ if(!S.got.has(b.id) && b.test(S)){ S.got.add(b.id); toast("Badge: "+b.name); } });
-}
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+const $ = (id) => document.getElementById(id);
+const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const money = (n) => "$" + n.toLocaleString("en-AU");
 
-/* Scoring: correct = +10 points and +$150 into the fund, doubled once your streak hits 3.
-   Wrong = streak resets and a "shock" drains $100 from the fund. */
-function award(ok, record){
-  S.total++;
-  if(ok){
-    S.correct++; S.streak++; S.bestStreak=Math.max(S.bestStreak,S.streak);
-    const mult = S.streak>=3 ? 2 : 1;
-    S.score += 10*mult; S.fund = Math.min(FUND_TARGET, S.fund + 150*mult);
-    if(S.streak===3) toast("Streak bonus: double deposits!");
-  } else {
-    S.streak=0; S.fund=Math.max(0,S.fund-100);
-    S.roundWrong[S.round]++; S.mistakes.push(record);
-    const tr=$("track"); tr.classList.remove("shake"); void tr.offsetWidth; tr.classList.add("shake");
+function toast(msg) {
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+function renderStats() {
+  $("jar").textContent = money(S.jar);
+  $("streak").textContent = S.streak + (S.streak >= 3 ? " ×2" : "");
+  $("streakBox").classList.toggle("hot", S.streak >= 3);
+  $("score").textContent = S.correct + "/" + S.answered;
+  $("rtotal").textContent = money(S.jar);
+  $("rleak").textContent = money(S.leak);
+  const tape = $("tape");
+  if (!S.tape.length) tape.innerHTML = '<div class="empty">Every answer prints here.</div>';
+  else {
+    tape.innerHTML = S.tape.map((l) => `<div class="ln ${l.ok ? "ok" : "no"}"><span>${l.ok ? "✓" : "✗"}</span><span>${esc(l.label)}</span><span>${l.ok ? "+" : "-"}$${l.amt}</span></div>`).join("");
+    tape.scrollTop = tape.scrollHeight;
   }
-  updateHud(); checkBadges();
+  $("badges").innerHTML = BADGES.map(([k, n]) => `<span class="badge ${S.badges[k] ? "got" : ""}">${S.badges[k] ? "★ " : ""}${n}</span>`).join("");
+  $("rmeta").textContent = S.name ? "SPENDING LOG · " + S.name.toUpperCase() : "SPENDING LOG · NOT STARTED";
 }
 
-/* ---------- TIMER ---------- */
-function tick(){
-  if(!S.started) return;
-  const left = 15*60 - Math.floor((Date.now()-S.startTime)/1000);
-  const c=$("clock");
-  if(left<=0){ c.textContent="0:00"; c.classList.add("timeup"); return; }
-  c.textContent = Math.floor(left/60)+":"+String(left%60).padStart(2,"0");
-  setTimeout(tick,1000);
+function award(k) {
+  if (S.badges[k]) return;
+  S.badges[k] = true;
+  toast("Badge unlocked: " + BADGES.find((b) => b[0] === k)[1]);
 }
 
-/* ---------- SCREENS ---------- */
-function intro(){
-  app.innerHTML = `
-  <h1>Shock Proof</h1>
-  <p class="lead">Life throws budget shocks: prices rise, shifts get cut, cars break. Every correct answer puts money into your emergency fund. Every wrong answer is a shock that drains it. Can you build a full 3-month buffer of $6,000?</p>
-  <div class="card">
-    <label for="nm"><b>Your name</b></label><br><br>
-    <input type="text" id="nm" placeholder="First name and last initial" maxlength="40" autocomplete="off">
-    <div class="rounds">
-      ${ROUNDS.map((r,i)=>`<div><b>Round ${i+1}</b>${esc(r.title)}<br><span style="color:var(--muted)">about ${r.time}</span></div>`).join("")}
-    </div>
-    <p style="font-size:.92rem;color:var(--muted);margin:0">Correct: +$150 into the fund. Get 3 in a row and deposits double. Wrong: a $100 shock.</p>
-    <div class="actions"><button class="btn alt" id="go">Start</button></div>
-  </div>`;
-  const go=()=>{ S.name=$("nm").value.trim()||"Student"; S.started=true; S.startTime=Date.now(); tick(); roundIntro(); };
-  $("go").onclick=go;
-  $("nm").addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
+function roundChips() {
+  return `<div class="rounds">${ROUNDS.map((r, k) => `<span class="rchip ${k === S.r ? "on" : k < S.r ? "done" : ""}">${k + 1}. ${r.short}</span>`).join("")}</div>`;
+}
+function progress() {
+  const done = ROUNDS.slice(0, S.r).reduce((n, r) => n + r.items.length, 0) + S.i;
+  return `<div class="progress" aria-hidden="true"><span style="width:${(done / TOTAL) * 100}%"></span></div>`;
+}
+function statementHTML() {
+  const tot = STATEMENT.reduce((n, r) => n + r[3], 0);
+  return `<div class="statement"><table><thead><tr><th>Day</th><th>Transaction</th><th>Category</th><th class="amt">Amount</th></tr></thead><tbody>${
+    STATEMENT.map((r) => `<tr><td><b>${r[0]}</b></td><td>${esc(r[1])}</td><td class="cat">${esc(r[2])}</td><td class="amt">-$${r[3].toFixed(2)}</td></tr>`).join("")
+  }</tbody><tfoot><tr><td colspan="3">Week total</td><td class="amt">-$${tot.toFixed(2)}</td></tr></tfoot></table></div>`;
 }
 
-function roundIntro(){
-  const r=ROUNDS[S.round];
-  app.innerHTML = `
-  <div class="card">
-    <span class="roundtag">Round ${S.round+1} of ${ROUNDS.length}</span>
-    <h2 style="margin-top:10px">${esc(r.title)}</h2>
-    <p class="lead">${esc(r.blurb)}</p>
-    <p style="color:var(--muted);font-size:.9rem">Aim for about ${r.time}.</p>
-    <div class="actions"><button class="btn alt" id="go">Go</button></div>
-  </div>`;
-  $("go").onclick = ()=>{ S.item=0; r.type==="order" ? orderRound() : question(); };
-  $("go").focus();
-}
-
-function question(){
-  const r=ROUNDS[S.round], it=r.items[S.item];
-  const opts = r.type==="two" ? r.labels.map((l,i)=>({t:l,i})) : shuffle(it.o.map((t,i)=>({t,i})));
-  app.innerHTML = `
-  <div class="card">
-    <span class="roundtag">Round ${S.round+1}: ${esc(r.title)}</span>
-    <span class="progress">${S.item+1} / ${r.items.length}</span>
-    ${it.s?`<div class="scenario">${esc(it.s)}</div>`:""}
-    <div class="prompt">${esc(it.q)}</div>
-    <div class="opts ${r.type==="two"?"two":""}">
-      ${opts.map(o=>`<button class="opt" data-i="${o.i}">${esc(o.t)}</button>`).join("")}
-    </div>
-    <div class="feedback" id="fb"></div>
-    <div class="actions"><button class="btn" id="next" disabled>Next</button></div>
-  </div>`;
-  const correctText = r.type==="two" ? r.labels[it.a] : it.o[it.a];
-  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
-    const pick=+b.dataset.i, ok = pick===it.a;
-    app.querySelectorAll(".opt").forEach(x=>{ x.disabled=true; if(+x.dataset.i===it.a) x.classList.add("right"); });
-    if(!ok) b.classList.add("wrong");
-    const fb=$("fb"); fb.className="feedback "+(ok?"ok":"no");
-    fb.innerHTML = (ok?"<b>Correct.</b> ":"<b>Not quite.</b> The answer is <b>"+esc(correctText)+"</b>. ")+esc(it.why);
-    award(ok,{round:S.round, q:(it.s?it.s+" ":"")+it.q, picked:(r.type==="two"?r.labels[pick]:it.o[pick]), ans:correctText, why:it.why});
-    const n=$("next"); n.disabled=false; n.focus();
-  });
-  $("next").onclick = nextItem;
-}
-
-function nextItem(){
-  const r=ROUNDS[S.round];
-  S.item++;
-  if(S.item < r.items.length) question(); else endRound();
-}
-
-function endRound(){
-  const r=ROUNDS[S.round];
-  if(S.roundWrong[S.round]===0) S.perfect[S.round]=true;
-  checkBadges();
-  S.round++;
-  if(S.round < ROUNDS.length) roundIntro(); else finish();
-}
-
-function orderRound(){
-  const r=ROUNDS[S.round];
-  const pool = shuffle(r.steps.map((t,i)=>({t,i})));
-  const picked=[];
-  function draw(done){
-    app.innerHTML = `
-    <div class="card">
-      <span class="roundtag">Round ${S.round+1}: ${esc(r.title)}</span>
-      <div class="prompt">${esc(r.blurb)}</div>
-      <div class="order-picked">
-        ${r.steps.map((_,k)=>{
-          const p=picked[k];
-          let cls="slot"+(p?" filled":"");
-          if(done&&p) cls+= p.i===k?" right":" wrong";
-          return `<div class="${cls}"><span class="num">${k+1}</span>${p?esc(p.t):"Tap a step below"}</div>`;
-        }).join("")}
-      </div>
-      ${done?"":`<div class="order-pool">${pool.filter(p=>!picked.includes(p)).map(p=>`<button class="opt" data-i="${p.i}">${esc(p.t)}</button>`).join("")}</div>`}
-      <div class="feedback" id="fb"></div>
-      <div class="actions">
-        ${done?`<button class="btn" id="next">See results</button>`:`<button class="btn alt" id="undo" ${picked.length?"":"disabled"}>Undo</button><button class="btn" id="check" ${picked.length===r.steps.length?"":"disabled"}>Check</button>`}
+// ---------- screens ----------
+function startScreen() {
+  $("stage").innerHTML = `
+    <div class="eyebrow">Tracking spending</div>
+    <h2 class="prompt">Where does your money go?</h2>
+    <p class="sub">Sort spending, name the terms, then audit Jordan's bank statement. Every right answer puts money in your savings jar. Every wrong one is a leak.</p>
+    <div class="hero-row">
+      <div class="rlist">${ROUNDS.map((r, k) => `<div class="rcard"><span class="n">${k + 1}</span><div><b>${r.name}</b><small>${r.items.length} items · ${r.blurb}</small></div></div>`).join("")}</div>
+      <div>
+        <ul class="how">
+          <li><b>+$10</b><span>for each correct answer</span></li>
+          <li><b>×2</b><span>once you hit a streak of 3 in a row</span></li>
+          <li><b>-$5</b><span>leaks out for each wrong answer</span></li>
+          <li><b>★</b><span>badges for streaks, clean rounds and acing Jordan</span></li>
+        </ul>
+        <label class="name" for="nameIn">Your name (for the certificate)</label>
+        <input type="text" id="nameIn" maxlength="40" autocomplete="off" placeholder="First name and surname">
+        <div class="row-end"><button class="btn go" id="startBtn">Start the log</button></div>
       </div>
     </div>`;
-    if(done){
-      const ok = picked.every((p,k)=>p.i===k);
-      const fb=$("fb"); fb.className="feedback "+(ok?"ok":"no");
-      fb.innerHTML=(ok?"<b>Correct.</b> ":"<b>Not quite.</b> The order is: "+r.steps.map((s,k)=>(k+1)+". "+esc(s)).join(", ")+". ")+esc(r.why);
-      $("next").onclick=endRound; $("next").focus(); return;
-    }
-    app.querySelectorAll(".order-pool .opt").forEach(b=>b.onclick=()=>{ picked.push(pool.find(p=>p.i===+b.dataset.i)); draw(false); });
-    $("undo").onclick=()=>{ picked.pop(); draw(false); };
-    $("check").onclick=()=>{
-      const ok = picked.every((p,k)=>p.i===k);
-      award(ok,{round:S.round,q:"Put the steps to fix a deficit in order.",picked:picked.map(p=>p.t).join(" > "),ans:r.steps.join(" > "),why:r.why});
-      draw(true);
-    };
+  $("startBtn").onclick = () => {
+    S.name = $("nameIn").value.trim() || "Student";
+    renderStats(); question();
+  };
+  $("nameIn").addEventListener("keydown", (e) => { if (e.key === "Enter") $("startBtn").click(); });
+}
+
+function question() {
+  S.locked = false; S.order = [];
+  const R = ROUNDS[S.r], it = R.items[S.i];
+  let html = roundChips() + progress() + `<div class="eyebrow">Round ${S.r + 1} · ${R.name} · ${S.i + 1} of ${R.items.length}</div>`;
+  if (R.statement) html += statementHTML();
+  if (R.type === "nw" || R.type === "fv") {
+    const [ic, name, price] = it;
+    const [a, b] = R.type === "nw" ? ["Need", "Want"] : ["Fixed", "Variable"];
+    html += `<h2 class="prompt">${R.type === "nw" ? "Need or want?" : "Fixed or variable?"}</h2><p class="sub">${R.blurb}</p>
+      <div class="item-card"><div class="item-icon" aria-hidden="true">${ic}</div><div><div class="tag">${R.type === "nw" ? "PURCHASE" : "EXPENSE"}</div><div class="name">${esc(name)}</div></div>${price ? `<div class="price">${esc(price)}</div>` : ""}</div>
+      <div class="choices two">
+        <button class="choice big need" data-v="${a}">${a}<span class="key" style="margin-left:8px">1</span></button>
+        <button class="choice big want" data-v="${b}">${b}<span class="key" style="margin-left:8px">2</span></button>
+      </div>`;
+  } else if (it.order) {
+    html += `<h2 class="prompt">Sort Jordan's spending</h2><p class="sub">${esc(it.q)}</p>
+      <div class="scale"><span class="f">1 = Fixed</span><span class="v">4 = Most variable</span></div>
+      <div class="order-list">${it.items.map((t, k) => `<button class="order-item" data-k="${k}"><span class="slot"></span><span>${esc(t)}</span></button>`).join("")}</div>
+      <div class="row-end"><button class="btn alt" id="resetOrd">Reset</button><button class="btn go" id="checkOrd" disabled>Check order</button></div>`;
+  } else {
+    const [q, opts] = it;
+    html += `<h2 class="prompt">${esc(q)}</h2><p class="sub">Pick one. Keys 1 to 4 work too.</p>
+      <div class="choices four">${opts.map((o, k) => `<button class="choice" data-k="${k}"><span class="key">${k + 1}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
   }
-  draw(false);
+  html += `<div id="fb"></div>`;
+  $("stage").innerHTML = html;
+
+  if (it.order) {
+    document.querySelectorAll(".order-item").forEach((b) => b.onclick = () => {
+      if (S.locked) return;
+      const k = +b.dataset.k;
+      const at = S.order.indexOf(k);
+      if (at >= 0) S.order.splice(at, 1); else S.order.push(k);
+      document.querySelectorAll(".order-item").forEach((x) => {
+        const p = S.order.indexOf(+x.dataset.k);
+        x.classList.toggle("set", p >= 0);
+        x.querySelector(".slot").textContent = p >= 0 ? p + 1 : "";
+      });
+      $("checkOrd").disabled = S.order.length !== it.items.length;
+    });
+    $("resetOrd").onclick = () => { if (!S.locked) question(); };
+    $("checkOrd").onclick = () => {
+      const got = S.order.map((k) => it.items[k]);
+      const ok = got.join("|") === it.answer.join("|") || got.join("|") === it.alt.join("|");
+      S.locked = true;
+      document.querySelectorAll(".order-item").forEach((x) => x.disabled = true);
+      $("checkOrd").disabled = true; $("resetOrd").disabled = true;
+      resolve(ok, "Fixed to variable order", it.answer.map((t, n) => `${n + 1}. ${t}`).join("  "), it.why, it.q);
+    };
+  } else {
+    document.querySelectorAll(".choice").forEach((b) => b.onclick = () => pick(b));
+  }
 }
 
-function finish(){
-  const pct = Math.round(S.correct/S.total*100);
-  const mins = Math.max(1,Math.round((Date.now()-S.startTime)/60000));
-  let verdict = S.fund>=FUND_TARGET ? "Fully shock proof. Your buffer could cover 3 months of expenses."
-    : S.fund>=3000 ? "Solid buffer. A few more good calls and you would be fully protected."
-    : "Your buffer is thin. Use the review below to see where the shocks hit.";
-  app.innerHTML = `
-  <h1>Results: ${esc(S.name)}</h1>
-  <p class="lead">${verdict}</p>
-  <div class="stats">
-    <div class="stat"><div class="v">${S.correct}/${S.total}</div><div class="k">Correct (${pct}%)</div></div>
-    <div class="stat"><div class="v">${S.score}</div><div class="k">Score</div></div>
-    <div class="stat"><div class="v">${money(S.fund)}</div><div class="k">Emergency fund</div></div>
-    <div class="stat"><div class="v">${S.bestStreak}</div><div class="k">Best streak</div></div>
-  </div>
-  <div class="card">
-    <h2>Badges</h2>
-    <div class="badges">${BADGES.map(b=>`<span class="badge ${S.got.has(b.id)?"got":""}">${esc(b.name)}</span>`).join("")}</div>
-    <p style="color:var(--muted);font-size:.9rem;margin-bottom:0">Finished in about ${mins} minute${mins===1?"":"s"}. Show this screen to your teacher.</p>
-  </div>
-  <div class="card">
-    <h2>Mistake review</h2>
-    ${S.mistakes.length? S.mistakes.map(m=>`
-      <div class="review"><div><b>Round ${m.round+1}:</b> ${esc(m.q)}</div>
-      <div>You said: ${esc(m.picked)}</div>
-      <div class="ans">Answer: ${esc(m.ans)}</div>
-      <div style="color:var(--muted)">${esc(m.why)}</div></div>`).join("")
-    : `<p style="margin:0">No mistakes. Perfect run.</p>`}
-  </div>
-  <div class="card">
-    <h2>In your book</h2>
-    <p style="margin:0">Write ONE sentence: "If my income dropped by $50 a week, the first thing I would cut is ... because ..."</p>
-  </div>
-  <div class="actions"><button class="btn alt" id="again">Play again</button></div>`;
-  $("again").onclick=()=>location.reload();
-  S.started=false;
+function pick(btn) {
+  if (S.locked) return;
+  S.locked = true;
+  const R = ROUNDS[S.r], it = R.items[S.i];
+  const btns = [...document.querySelectorAll(".choice")];
+  btns.forEach((b) => b.disabled = true);
+  let ok, right, label, why, q;
+  if (R.type === "nw" || R.type === "fv") {
+    right = it[3]; ok = btn.dataset.v === right; label = it[1]; why = it[4]; q = it[1];
+    btns.forEach((b) => { if (b.dataset.v === right) b.classList.add("correct"); else if (b === btn) b.classList.add("wrong"); else b.classList.add("dim"); });
+  } else {
+    const k = +btn.dataset.k; ok = k === it[2]; right = it[1][it[2]]; why = it[3]; q = it[0];
+    label = right;
+    btns.forEach((b, n) => { if (n === it[2]) b.classList.add("correct"); else if (b === btn) b.classList.add("wrong"); else b.classList.add("dim"); });
+  }
+  resolve(ok, label, right, why, q);
 }
 
-updateHud();
-intro();
+function resolve(ok, label, right, why, q) {
+  S.answered++;
+  let amt;
+  if (ok) {
+    S.correct++; S.streak++; S.best = Math.max(S.best, S.streak);
+    amt = S.streak >= 3 ? 20 : 10; S.jar += amt;
+    award("first");
+    if (S.streak >= 5) award("streak5");
+    if (S.streak >= 10) award("streak10");
+  } else {
+    if (S.streak >= 3) toast("Streak broken at " + S.streak);
+    S.streak = 0; S.roundMiss++;
+    amt = Math.min(5, S.jar); S.jar -= amt; S.leak += 5;
+    amt = 5;
+    S.mistakes.push({ round: ROUNDS[S.r].name, q, right, why });
+  }
+  S.tape.push({ ok, label, amt });
+  renderStats();
+  $("jar").classList.remove("pop"); void $("jar").offsetWidth; $("jar").classList.add("pop");
+
+  const last = S.i === ROUNDS[S.r].items.length - 1;
+  const lastRound = S.r === ROUNDS.length - 1;
+  $("fb").innerHTML = `<div class="feedback ${ok ? "good" : "bad"}">
+      <strong>${ok ? (amt === 20 ? "Correct! +$20 streak bonus" : "Correct! +$10") : "Not quite. The answer is " + esc(right) + "."}</strong>
+      <span>${esc(why)}</span></div>
+    <div class="row-end"><button class="btn" id="nextBtn">${last ? (lastRound ? "See my results" : "Finish round") : "Next"}</button></div>`;
+  $("nextBtn").focus();
+  $("nextBtn").onclick = next;
+}
+
+function next() {
+  const R = ROUNDS[S.r];
+  if (S.i < R.items.length - 1) { S.i++; question(); return; }
+  // end of round
+  if (S.roundMiss === 0) award("clean");
+  if (R.id === "jd" && S.roundMiss === 0) award("sleuth");
+  roundEnd();
+}
+
+function roundEnd() {
+  const R = ROUNDS[S.r];
+  const n = R.items.length, got = n - S.roundMiss;
+  const lastRound = S.r === ROUNDS.length - 1;
+  if (lastRound) { finish(); return; }
+  $("stage").innerHTML = roundChips() + progress() + `
+    <div class="eyebrow">Round ${S.r + 1} complete</div>
+    <h2 class="prompt">${R.name}: ${got} out of ${n}</h2>
+    <p class="sub">${S.roundMiss === 0 ? "No leaks this round. Leak plugger badge earned." : S.roundMiss + " leak" + (S.roundMiss > 1 ? "s" : "") + " this round. Check the explanations in your results at the end."}</p>
+    <div class="rcard"><span class="n">${S.r + 2}</span><div><b>Up next: ${ROUNDS[S.r + 1].name}</b><small>${ROUNDS[S.r + 1].items.length} items · ${ROUNDS[S.r + 1].blurb}</small></div></div>
+    <div class="row-end"><button class="btn go" id="goBtn">Start round ${S.r + 2}</button></div>`;
+  $("goBtn").focus();
+  $("goBtn").onclick = () => { S.r++; S.i = 0; S.roundMiss = 0; question(); };
+}
+
+function finish() {
+  const pct = Math.round((S.correct / TOTAL) * 100);
+  if (pct >= 90) award("boss");
+  renderStats();
+  const level = pct >= 90 ? "Budget Boss" : pct >= 75 ? "Smart Spender" : pct >= 50 ? "Money Tracker" : "Getting Started";
+  const d = new Date().toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
+  $("stage").innerHTML = `
+    <div class="cert" id="cert">
+      <div class="eyebrow">Certificate of completion</div>
+      <h2>The Spending Log</h2>
+      <div>This certifies that</div>
+      <div class="who">${esc(S.name)}</div>
+      <div>tracked every dollar and earned the title <b>${level}</b></div>
+      <div class="nums">
+        <div><b>${S.correct}/${TOTAL}</b>correct</div>
+        <div><b>${pct}%</b>score</div>
+        <div><b>${money(S.jar)}</b>saved</div>
+        <div><b>${S.best}</b>best streak</div>
+      </div>
+      <div style="margin-top:12px;font-size:14px;color:var(--muted)">${Object.keys(S.badges).length} of ${BADGES.length} badges · ${d}</div>
+    </div>
+    <h3 style="margin-bottom:10px">Mistake review</h3>
+    <div class="review">${S.mistakes.length ? S.mistakes.map((m) => `<div class="mi"><small>${esc(m.round)}</small><b>${esc(m.q)}</b><br>Answer: ${esc(m.right)}. ${esc(m.why)}</div>`).join("") : '<div class="allgood">No mistakes at all. Every dollar accounted for.</div>'}</div>
+    <div class="row-end">
+      ${ALLOW_PRINT ? '<button class="btn alt" id="printBtn">Print certificate</button>' : ""}
+      <button class="btn go" id="againBtn">Play again</button>
+    </div>
+    <p class="sub" style="margin-top:12px">Show your teacher this screen, or take a screenshot of your certificate.</p>`;
+  if (ALLOW_PRINT) $("printBtn").onclick = () => window.print();
+  $("againBtn").onclick = () => { const n = S.name; S = fresh(); S.name = n; renderStats(); question(); };
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "INPUT") return;
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= 4 && !S.locked) {
+    const b = document.querySelectorAll(".choice")[n - 1];
+    if (b && !b.disabled) b.click();
+  }
+});
+
+renderStats();
+startScreen();
 </script>
+
 </body>
 </html>
