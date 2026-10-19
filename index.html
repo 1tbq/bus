@@ -1,551 +1,731 @@
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Spending Log</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Spending Audit</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* Layout: a bank-app style game panel on the left, a printed receipt tape logging every answer on the right; stacks on phones. */
-:root {
-  --bg: #EEF2F6;
-  --panel: #FFFFFF;
-  --ink: #15233B;
-  --muted: #5B6675;
-  --line: #D5DCE5;
-  --soft: #F2F5F9;
-  --green: #0B7A5A;
-  --green-soft: #E3F2EC;
-  --coral: #C8462A;
-  --coral-soft: #FBE7E1;
-  --yellow: #FFE066;
-  --yellow-soft: #FFF6C7;
-  --blue: #2E6FB7;
-  --paper: #FFFDF7;
-  --on-accent: #FFFFFF;
-  --shadow: 0 2px 10px rgba(21,35,59,.10);
-  --f-display: "Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
-  --f-body: "Atkinson Hyperlegible", Calibri, system-ui, sans-serif;
-  --f-mono: "JetBrains Mono", "Courier New", ui-monospace, monospace;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0E1726; --panel: #16233A; --ink: #E8EEF6; --muted: #A3AFC2; --line: #2B3B57; --soft: #1C2B45;
-    --green: #3CC394; --green-soft: #133A31; --coral: #F27B5E; --coral-soft: #3F2420;
-    --yellow: #FFD84D; --yellow-soft: #3A3317; --blue: #6FA6E8; --paper: #1A2638; --on-accent: #0E1726;
-    --shadow: 0 2px 12px rgba(0,0,0,.35); color-scheme: dark;
+  :root {
+    --ink: #10212A;
+    --ink-soft: #4A5A63;
+    --paper: #FBFAF6;
+    --card: #FFFFFF;
+    --line: #DCD8CC;
+    --green: #0B7A5A;
+    --green-soft: #E3F3EC;
+    --red: #C0392B;
+    --red-soft: #FBE7E4;
+    --yellow: #FFE45C;
+    --yellow-soft: #FFF6C2;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --sans: 'DM Sans', system-ui, sans-serif;
   }
-}
-:root[data-theme="dark"] {
-  --bg: #0E1726; --panel: #16233A; --ink: #E8EEF6; --muted: #A3AFC2; --line: #2B3B57; --soft: #1C2B45;
-  --green: #3CC394; --green-soft: #133A31; --coral: #F27B5E; --coral-soft: #3F2420;
-  --yellow: #FFD84D; --yellow-soft: #3A3317; --blue: #6FA6E8; --paper: #1A2638; --on-accent: #0E1726;
-  --shadow: 0 2px 12px rgba(0,0,0,.35); color-scheme: dark;
-}
-* { box-sizing: border-box; }
-body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.5; }
-.wrap { max-width: 1100px; margin: 0 auto; padding-block: 20px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.1; }
-button { font: inherit; cursor: pointer; }
-button:focus-visible, input:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    background-image: repeating-linear-gradient(0deg, transparent 0 31px, rgba(16,33,42,0.035) 31px 32px);
+    min-height: 100vh;
+    line-height: 1.45;
+  }
+  button { font-family: inherit; cursor: pointer; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 60px; }
 
-/* header */
-.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-bottom: 16px; }
-.brand { display: flex; align-items: center; gap: 12px; }
-.brand-mark { width: 44px; height: 44px; border-radius: 12px; background: var(--ink); color: var(--yellow); display: grid; place-items: center; font-family: var(--f-mono); font-weight: 700; font-size: 20px; }
-.brand h1 { font-size: 28px; font-weight: 800; }
-.brand p { margin: 0; color: var(--muted); font-size: 14px; }
-.stats { display: flex; flex-wrap: wrap; gap: 8px; }
-.stat { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 6px 12px; min-width: 92px; }
-.stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
-.stat .v { font-family: var(--f-mono); font-weight: 700; font-size: 20px; font-variant-numeric: tabular-nums; }
-.stat.jar .v { color: var(--green); }
-.stat.streak.hot { border-color: var(--coral); }
-.stat.streak.hot .v { color: var(--coral); }
+  /* Header */
+  header.top {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    border-bottom: 3px double var(--ink); padding-bottom: 12px; margin-bottom: 20px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    width: 46px; height: 46px; border-radius: 10px; background: var(--ink); color: var(--yellow);
+    display: grid; place-items: center; font-family: var(--mono); font-weight: 600; font-size: 22px;
+  }
+  .brand h1 { margin: 0; font-size: 24px; letter-spacing: -0.02em; }
+  .brand p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+  .acct { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); text-align: right; }
 
-.grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
-@media (max-width: 820px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+  /* Layout */
+  .grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
 
-.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 24px; min-width: 0; }
-@media (max-width: 500px) { .panel { padding: 18px; } }
+  .panel {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: 0 2px 0 rgba(16,33,42,0.06);
+  }
+  .pad { padding: 24px; }
+  @media (max-width: 560px) { .pad { padding: 18px; } }
 
-/* round chips */
-.rounds { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
-.rchip { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; background: var(--soft); color: var(--muted); }
-.rchip.on { background: var(--ink); color: var(--panel); }
-.rchip.done { background: var(--green-soft); color: var(--green); }
+  /* Intro */
+  .hero h2 { font-size: 32px; margin: 0 0 6px; letter-spacing: -0.02em; line-height: 1.1; }
+  .hero .lead { font-size: 18px; color: var(--ink-soft); margin: 0 0 20px; }
+  .copy {
+    background: var(--yellow-soft); border-left: 6px solid var(--yellow); padding: 14px 16px; border-radius: 8px; margin: 16px 0;
+  }
+  .copy h3 { margin: 0 0 6px; font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .copy ul { margin: 0; padding-left: 20px; }
+  .rounds-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 18px 0; }
+  .round-chip { border: 1px dashed var(--line); border-radius: 10px; padding: 12px; }
+  .round-chip b { display: block; font-size: 15px; }
+  .round-chip span { font-size: 13px; color: var(--ink-soft); }
+  .round-chip .num { font-family: var(--mono); font-size: 12px; color: var(--green); }
+  label.field { display: block; font-weight: 700; margin: 18px 0 6px; }
+  input[type=text], input[type=number], textarea {
+    width: 100%; font: inherit; padding: 12px 14px; border: 2px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink);
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--ink); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; border: 2px solid var(--ink); background: var(--ink); color: #fff;
+    font-weight: 700; font-size: 16px; padding: 12px 22px; border-radius: 10px; transition: transform .08s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+  .btn.ghost { background: #fff; color: var(--ink); }
+  .btn.yellow { background: var(--yellow); color: var(--ink); }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 18px; }
 
-.progress { height: 8px; background: var(--soft); border-radius: 99px; overflow: hidden; margin-bottom: 20px; }
-.progress span { display: block; height: 100%; background: var(--green); width: 0; transition: width .3s ease; }
+  /* Question */
+  .q-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .q-round { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--green); font-weight: 600; }
+  .q-count { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
+  .progress { height: 8px; background: #EEEBE2; border-radius: 99px; overflow: hidden; margin-bottom: 20px; }
+  .progress > div { height: 100%; background: var(--green); transition: width .3s; }
+  .q-instr { font-size: 14px; color: var(--ink-soft); margin: 0 0 8px; }
+  .q-text { font-size: 22px; font-weight: 700; margin: 0 0 20px; line-height: 1.3; }
+  @media (max-width: 560px) { .q-text { font-size: 19px; } }
+  .receipt {
+    font-family: var(--mono); background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; margin: 0 0 20px;
+    font-size: 15px; position: relative;
+  }
+  .receipt::before { content: "TRANSACTION"; position: absolute; top: -9px; left: 12px; background: var(--card); padding: 0 6px; font-size: 10px; letter-spacing: .1em; color: var(--ink-soft); }
+  .opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  @media (max-width: 560px) { .opts { grid-template-columns: 1fr; } }
+  .opt {
+    text-align: left; background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 14px 16px;
+    font-size: 16px; font-weight: 500; color: var(--ink); display: flex; gap: 12px; align-items: center; transition: border-color .1s, background .1s;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--ink); }
+  .opt .key {
+    font-family: var(--mono); font-size: 12px; width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--line);
+    display: grid; place-items: center; flex-shrink: 0; color: var(--ink-soft);
+  }
+  .opt.correct { border-color: var(--green); background: var(--green-soft); }
+  .opt.wrong { border-color: var(--red); background: var(--red-soft); }
+  .opt:disabled { cursor: default; }
+  .feedback { margin-top: 18px; border-radius: 12px; padding: 14px 16px; display: none; }
+  .feedback.show { display: block; animation: rise .25s ease; }
+  .feedback.good { background: var(--green-soft); border: 1px solid var(--green); }
+  .feedback.bad { background: var(--red-soft); border: 1px solid var(--red); }
+  .feedback b { display: block; margin-bottom: 4px; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
-.prompt { font-family: var(--f-display); font-size: clamp(22px, 3.2vw, 30px); font-weight: 800; margin-bottom: 6px; }
-.sub { color: var(--muted); margin: 0 0 18px; }
+  /* Statement sidebar */
+  .statement { position: sticky; top: 16px; overflow: hidden; }
+  .st-head { background: var(--ink); color: #fff; padding: 16px 18px; }
+  .st-head small { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; opacity: .7; }
+  .st-bal { font-family: var(--mono); font-size: 34px; font-weight: 600; margin-top: 2px; }
+  .st-bal.pulse { animation: pulse .4s ease; }
+  @keyframes pulse { 50% { color: var(--yellow); transform: scale(1.04); } }
+  .st-stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+  .st-stats div { padding: 10px 8px; text-align: center; border-right: 1px solid var(--line); }
+  .st-stats div:last-child { border-right: 0; }
+  .st-stats b { display: block; font-family: var(--mono); font-size: 18px; }
+  .st-stats span { font-size: 11px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .06em; }
+  .streak-on b { color: var(--green); }
+  .ledger { max-height: 300px; overflow-y: auto; font-family: var(--mono); font-size: 12px; }
+  .ledger .entry { display: flex; justify-content: space-between; gap: 10px; padding: 7px 14px; border-bottom: 1px dotted var(--line); }
+  .ledger .entry:first-child { animation: rise .25s ease; }
+  .ledger .cr { color: var(--green); font-weight: 600; white-space: nowrap; }
+  .ledger .dr { color: var(--red); font-weight: 600; white-space: nowrap; }
+  .ledger .empty { padding: 14px; color: var(--ink-soft); font-family: var(--sans); font-size: 13px; }
+  .st-note { padding: 12px 14px; font-size: 12px; color: var(--ink-soft); background: #F6F4EE; }
+  .badges-mini { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 14px; border-top: 1px solid var(--line); min-height: 44px; }
+  .badges-mini span { font-size: 20px; }
 
-.item-card { display: flex; align-items: center; gap: 16px; background: var(--soft); border-radius: 14px; padding: 18px 20px; margin-bottom: 18px; }
-.item-card .tag { font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
-.item-card .name { font-size: 22px; font-weight: 700; }
-.item-card .price { margin-left: auto; font-family: var(--f-mono); font-weight: 700; font-size: 20px; color: var(--coral); white-space: nowrap; }
-.item-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--panel); display: grid; place-items: center; font-size: 26px; flex: none; }
+  /* Toast */
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(120px); background: var(--ink); color: #fff;
+    padding: 12px 18px; border-radius: 12px; font-weight: 700; z-index: 50; transition: transform .3s; max-width: calc(100% - 32px); text-align: center;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 
-.choices { display: grid; gap: 10px; }
-.choices.two { grid-template-columns: 1fr 1fr; }
-.choices.four { grid-template-columns: 1fr 1fr; }
-@media (max-width: 520px) { .choices.four { grid-template-columns: 1fr; } }
-.choice { display: flex; align-items: center; gap: 12px; text-align: left; border: 2px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 14px; padding: 14px 16px; font-size: 17px; font-weight: 700; transition: transform .1s ease, border-color .15s; }
-.choice:hover:not(:disabled) { border-color: var(--ink); transform: translateY(-1px); }
-.choice .key { font-family: var(--f-mono); font-size: 13px; width: 28px; height: 28px; border-radius: 8px; background: var(--soft); display: grid; place-items: center; flex: none; }
-.choice.big { justify-content: center; font-family: var(--f-display); font-size: 24px; padding: 20px; }
-.choice.need { border-color: var(--green); color: var(--green); }
-.choice.want { border-color: var(--coral); color: var(--coral); }
-.choice.correct { background: var(--green); border-color: var(--green); color: var(--on-accent); }
-.choice.wrong { background: var(--coral); border-color: var(--coral); color: var(--on-accent); }
-.choice:disabled { cursor: default; }
-.choice.dim { opacity: .45; }
-.choice.picked .key { background: var(--ink); color: var(--panel); }
+  /* Round summary + results */
+  .stamp {
+    display: inline-block; font-family: var(--mono); font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+    border: 3px solid var(--green); color: var(--green); padding: 6px 14px; border-radius: 6px; transform: rotate(-3deg); margin-bottom: 12px;
+  }
+  .stamp.red { border-color: var(--red); color: var(--red); }
+  .big-num { font-family: var(--mono); font-size: 44px; font-weight: 600; margin: 4px 0; }
+  .badge-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0; }
+  .badge { border: 2px solid var(--line); border-radius: 12px; padding: 12px; text-align: center; opacity: .35; filter: grayscale(1); }
+  .badge.got { opacity: 1; filter: none; border-color: var(--green); background: var(--green-soft); }
+  .badge .ico { font-size: 28px; }
+  .badge b { display: block; font-size: 14px; margin-top: 4px; }
+  .badge small { font-size: 12px; color: var(--ink-soft); }
+  .review { margin-top: 10px; }
+  .review .item { border-left: 4px solid var(--red); background: #fff; padding: 10px 14px; margin-bottom: 8px; border-radius: 0 8px 8px 0; border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .review .item p { margin: 2px 0; font-size: 14px; }
+  .review .item .you { color: var(--red); }
+  .review .item .ans { color: var(--green); font-weight: 700; }
+  section h3 { font-size: 20px; margin: 28px 0 8px; }
 
-.feedback { margin-top: 16px; border-radius: 14px; padding: 14px 16px; display: grid; gap: 4px; }
-.feedback.good { background: var(--green-soft); }
-.feedback.bad { background: var(--coral-soft); }
-.feedback strong { font-family: var(--f-display); font-size: 18px; }
-.feedback.good strong { color: var(--green); }
-.feedback.bad strong { color: var(--coral); }
-.row-end { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
-.btn { border: 0; border-radius: 12px; padding: 12px 20px; font-weight: 700; background: var(--ink); color: var(--panel); }
-.btn.alt { background: var(--soft); color: var(--ink); }
-.btn.go { background: var(--green); color: var(--on-accent); }
-.btn:disabled { opacity: .4; cursor: default; }
+  /* Calculator */
+  .calc { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; }
+  @media (max-width: 560px) { .calc { grid-template-columns: 1fr; } }
+  .calc label { font-size: 13px; font-weight: 700; display: block; margin-bottom: 4px; }
+  .calc-out { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  @media (max-width: 560px) { .calc-out { grid-template-columns: 1fr; } }
+  .calc-out div { background: #F6F4EE; border-radius: 10px; padding: 12px; text-align: center; }
+  .calc-out b { display: block; font-family: var(--mono); font-size: 22px; color: var(--red); }
+  .calc-out span { font-size: 12px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .06em; }
+  .working { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); margin-top: 10px; }
 
-/* statement */
-.statement { overflow-x: auto; margin-bottom: 16px; border: 1px solid var(--line); border-radius: 12px; }
-.statement table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 420px; }
-.statement th { text-align: left; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 8px 12px; background: var(--soft); }
-.statement td { padding: 7px 12px; border-top: 1px solid var(--line); }
-.statement td.amt, .statement th.amt { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
-.statement td.amt { color: var(--coral); font-weight: 700; }
-.statement td.cat { color: var(--blue); font-size: 14px; }
-.statement tfoot td { font-weight: 700; background: var(--soft); }
+  /* Certificate */
+  #certificate { display: none; }
+  .cert {
+    border: 3px double var(--ink); border-radius: 6px; padding: 28px; text-align: center; background: #fff; margin-top: 18px;
+  }
+  .cert h2 { margin: 0; font-size: 28px; }
+  .cert .cname { font-size: 30px; font-weight: 800; border-bottom: 2px solid var(--ink); display: inline-block; padding: 0 20px 4px; margin: 14px 0; }
+  .cert .meta { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
+  .cert .exit { text-align: left; margin-top: 18px; font-size: 14px; border-top: 1px dashed var(--line); padding-top: 12px; }
 
-/* order question */
-.order-list { display: grid; gap: 8px; }
-.order-item { display: flex; align-items: center; gap: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 14px; padding: 12px 14px; font-weight: 700; text-align: left; }
-.order-item .slot { width: 30px; height: 30px; border-radius: 50%; border: 2px dashed var(--line); display: grid; place-items: center; font-family: var(--f-mono); flex: none; }
-.order-item.set .slot { border: 0; background: var(--ink); color: var(--panel); }
-.scale { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin: 2px 4px 10px; }
-.scale .f { color: var(--green); } .scale .v { color: var(--coral); }
+  .hidden { display: none !important; }
 
-/* receipt */
-.receipt { background: var(--paper); border-radius: 6px 6px 0 0; box-shadow: var(--shadow); padding: 18px 16px 26px; font-family: var(--f-mono); font-size: 13px; position: relative; min-width: 0;
-  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
-          mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%; }
-.receipt h3 { font-family: var(--f-mono); font-size: 15px; text-align: center; letter-spacing: .15em; }
-.receipt .meta { text-align: center; color: var(--muted); font-size: 11px; margin: 2px 0 10px; }
-.dash { border-top: 1px dashed var(--muted); margin: 8px 0; }
-.tape { max-height: 360px; overflow-y: auto; display: grid; gap: 3px; }
-.tape .ln { display: grid; grid-template-columns: 16px minmax(0,1fr) auto; gap: 6px; }
-.tape .ln span:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tape .ln.ok span:first-child, .tape .ln.ok span:last-child { color: var(--green); }
-.tape .ln.no span:first-child, .tape .ln.no span:last-child { color: var(--coral); }
-.tape .empty { color: var(--muted); text-align: center; padding: 10px 0; }
-.tot { display: flex; justify-content: space-between; font-weight: 700; font-size: 15px; }
-.badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.badge { font-family: var(--f-body); font-size: 12px; font-weight: 700; border-radius: 999px; padding: 4px 9px; background: var(--soft); color: var(--muted); }
-.badge.got { background: var(--yellow); color: #15233B; }
-
-/* start + end */
-.hero-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
-@media (max-width: 700px) { .hero-row { grid-template-columns: minmax(0, 1fr); } }
-.how { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
-.how li { display: flex; gap: 10px; align-items: baseline; }
-.how li b { font-family: var(--f-mono); color: var(--green); white-space: nowrap; }
-.rlist { display: grid; gap: 8px; }
-.rcard { background: var(--soft); border-radius: 12px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; }
-.rcard .n { font-family: var(--f-mono); font-weight: 700; background: var(--ink); color: var(--panel); border-radius: 8px; width: 30px; height: 30px; display: grid; place-items: center; flex: none; }
-.rcard small { display: block; color: var(--muted); }
-label.name { display: block; font-weight: 700; margin: 18px 0 6px; }
-input[type=text] { width: 100%; font: inherit; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); }
-
-.cert { border: 3px double var(--ink); border-radius: 16px; padding: 24px; text-align: center; background: var(--yellow-soft); margin-bottom: 20px; }
-.cert .eyebrow { color: var(--muted); }
-.cert h2 { font-size: clamp(26px, 4vw, 38px); margin: 6px 0; }
-.cert .who { font-family: var(--f-display); font-size: 26px; font-weight: 800; color: var(--green); margin: 6px 0; overflow-wrap: anywhere; }
-.cert .nums { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 28px; margin-top: 12px; font-family: var(--f-mono); }
-.cert .nums b { display: block; font-size: 24px; }
-.review { display: grid; gap: 8px; }
-.review .mi { background: var(--coral-soft); border-radius: 12px; padding: 10px 14px; }
-.review .mi small { color: var(--muted); display: block; }
-.allgood { background: var(--green-soft); border-radius: 12px; padding: 12px 14px; color: var(--green); font-weight: 700; }
-
-.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--panel); padding: 10px 16px; border-radius: 12px; font-weight: 700; opacity: 0; transition: .25s; pointer-events: none; max-width: calc(100% - 32px); text-align: center; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-@keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.15); } 100% { transform: scale(1); } }
-.pop { animation: pop .35s ease; }
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
-
-@media print { body * { visibility: hidden; } #cert, #cert * { visibility: visible; } #cert { position: absolute; left: 0; top: 0; width: 100%; } }
+  @media print {
+    body { background: #fff; }
+    body * { visibility: hidden; }
+    #certificate, #certificate * { visibility: visible; }
+    #certificate { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
+    .cert { border-color: #000; }
+  }
 </style>
 </head>
 <body>
-
-
 <div class="wrap">
   <header class="top">
     <div class="brand">
-      <div class="brand-mark" aria-hidden="true">$</div>
+      <div class="brand-mark">$</div>
       <div>
-        <h1>The Spending Log</h1>
-        <p>Tracking Spending · 4 rounds · 35 items</p>
+        <h1>The Spending Audit</h1>
+        <p>Analysing Spending Patterns: why do we buy what we buy?</p>
       </div>
     </div>
-    <div class="stats" aria-live="polite">
-      <div class="stat jar"><div class="k">Savings jar</div><div class="v" id="jar">$0</div></div>
-      <div class="stat streak" id="streakBox"><div class="k">Streak</div><div class="v" id="streak">0</div></div>
-      <div class="stat"><div class="k">Correct</div><div class="v" id="score">0/0</div></div>
-    </div>
+    <div class="acct">YEAR 10 ECONOMICS AND BUSINESS<br>VC2HE10K09</div>
   </header>
 
   <div class="grid">
-    <main class="panel" id="stage"></main>
-    <aside class="receipt" aria-label="Receipt of your answers">
-      <h3>RECEIPT</h3>
-      <div class="meta" id="rmeta">SPENDING LOG · NOT STARTED</div>
-      <div class="dash"></div>
-      <div class="tape" id="tape"><div class="empty">Every answer prints here.</div></div>
-      <div class="dash"></div>
-      <div class="tot"><span>SAVED</span><span id="rtotal">$0</span></div>
-      <div class="tot" style="font-size:13px;font-weight:400"><span>LEAKED</span><span id="rleak">$0</span></div>
-      <div class="dash"></div>
-      <div style="font-size:11px;color:var(--muted)">BADGES</div>
-      <div class="badges" id="badges"></div>
+    <main>
+      <!-- INTRO -->
+      <div id="intro" class="panel pad hero">
+        <h2>Audit the spending. Spot the triggers.</h2>
+        <p class="lead">Four rounds, 32 transactions. Every correct call banks money into your savings. Every wrong call is an impulse buy.</p>
+
+        <div class="copy">
+          <h3>Learning goals</h3>
+          <ul>
+            <li>Identify how marketing and lifestyle choices influence spending habits.</li>
+            <li>Recognise the psychological impact of Buy Now, Pay Later (BNPL).</li>
+            <li>Calculate the annual cost of small daily habits.</li>
+            <li>Analyse spending triggers to improve financial wellbeing.</li>
+          </ul>
+        </div>
+
+        <div class="rounds-list">
+          <div class="round-chip"><span class="num">ROUND 1</span><b>Fixed or Variable?</b><span>Sort the costs from last lesson.</span></div>
+          <div class="round-chip"><span class="num">ROUND 2</span><b>Spot the Trigger</b><span>FOMO, convenience, mood or marketing?</span></div>
+          <div class="round-chip"><span class="num">ROUND 3</span><b>Myth or Fact</b><span>BNPL, consumerism and the digital economy.</span></div>
+          <div class="round-chip"><span class="num">ROUND 4</span><b>Run the Numbers</b><span>Annual habit costs and GST.</span></div>
+        </div>
+
+        <p style="margin:0;font-size:14px;color:var(--ink-soft)"><b style="color:var(--ink)">Banking rules:</b> correct = +$10. Get 3 in a row and your deposits double to +$20 (that is compound interest working for you). Wrong = $5 impulse buy and your streak resets.</p>
+
+        <label class="field" for="nameInput">Your name</label>
+        <input id="nameInput" type="text" maxlength="40" placeholder="First name and surname" autocomplete="off">
+        <div class="row">
+          <button class="btn" id="startBtn" disabled>Open the statement &rarr;</button>
+        </div>
+      </div>
+
+      <!-- QUESTION -->
+      <div id="quiz" class="panel pad hidden">
+        <div class="q-head">
+          <div class="q-round" id="qRound">Round 1</div>
+          <div class="q-count" id="qCount">1 / 8</div>
+        </div>
+        <div class="progress"><div id="qProg" style="width:0%"></div></div>
+        <p class="q-instr" id="qInstr"></p>
+        <div id="qReceipt" class="receipt hidden"></div>
+        <p class="q-text" id="qText"></p>
+        <div class="opts" id="qOpts"></div>
+        <div class="feedback" id="qFb"></div>
+        <div class="row hidden" id="nextRow">
+          <button class="btn" id="nextBtn">Next &rarr;</button>
+          <span style="font-size:13px;color:var(--ink-soft)">or press Enter</span>
+        </div>
+      </div>
+
+      <!-- ROUND SUMMARY -->
+      <div id="roundEnd" class="panel pad hidden" style="text-align:center">
+        <div class="stamp" id="reStamp">Round cleared</div>
+        <h2 style="margin:6px 0" id="reTitle"></h2>
+        <div class="big-num" id="reScore"></div>
+        <p id="reMsg" style="color:var(--ink-soft);max-width:520px;margin:0 auto"></p>
+        <div class="row" style="justify-content:center">
+          <button class="btn" id="reNext">Next round &rarr;</button>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div id="results" class="panel pad hidden">
+        <div class="stamp" id="resStamp">Audit complete</div>
+        <h2 style="margin:4px 0 0;font-size:30px">Your end-of-audit statement</h2>
+        <div class="row" style="gap:28px;margin-top:10px">
+          <div><div style="font-size:13px;color:var(--ink-soft)">CORRECT</div><div class="big-num" id="resCorrect"></div></div>
+          <div><div style="font-size:13px;color:var(--ink-soft)">SAVINGS BANKED</div><div class="big-num" id="resBal" style="color:var(--green)"></div></div>
+          <div><div style="font-size:13px;color:var(--ink-soft)">BEST STREAK</div><div class="big-num" id="resStreak"></div></div>
+        </div>
+
+        <section>
+          <h3>Badges</h3>
+          <div class="badge-grid" id="badgeGrid"></div>
+        </section>
+
+        <section id="reviewSec">
+          <h3>Mistake review</h3>
+          <p style="margin:0;font-size:14px;color:var(--ink-soft)">Read each one. These are the ideas to tighten up before next lesson.</p>
+          <div class="review" id="reviewList"></div>
+        </section>
+
+        <section>
+          <h3>Your habit calculator</h3>
+          <p style="margin:0 0 12px;font-size:14px;color:var(--ink-soft)">Pick one thing you buy often. Use the three steps from class: find the cost, multiply by how many times a week, multiply by 52.</p>
+          <div class="calc">
+            <div><label for="cItem">What is the habit?</label><input id="cItem" type="text" placeholder="e.g. bubble tea after school" maxlength="40"></div>
+            <div><label for="cCost">Cost each time ($)</label><input id="cCost" type="number" min="0" step="0.5" placeholder="7.50"></div>
+            <div><label for="cTimes">Times per week</label><input id="cTimes" type="number" min="0" max="21" step="1" placeholder="3"></div>
+          </div>
+          <div class="calc-out">
+            <div><span>Per week</span><b id="cWeek">$0</b></div>
+            <div><span>Per year</span><b id="cYear">$0</b></div>
+            <div><span>Over 5 years</span><b id="cFive">$0</b></div>
+          </div>
+          <div class="working" id="cWork">Enter a cost and how many times a week to see the working.</div>
+        </section>
+
+        <section>
+          <h3>Exit ticket</h3>
+          <label class="field" for="exit1" style="margin-top:0">One spending trigger I identified in myself today:</label>
+          <textarea id="exit1" rows="2" maxlength="200"></textarea>
+          <label class="field" for="exit2">One lifestyle factor that makes financial discipline difficult in the digital economy:</label>
+          <textarea id="exit2" rows="2" maxlength="200"></textarea>
+        </section>
+
+        <div class="row">
+          <button class="btn yellow" id="printBtn">Print certificate</button>
+          <button class="btn ghost" id="restartBtn">Run the audit again</button>
+        </div>
+      </div>
+
+      <!-- CERTIFICATE (print only + preview) -->
+      <div id="certificate">
+        <div class="cert">
+          <div class="meta">THE SPENDING AUDIT &middot; YEAR 10 ECONOMICS AND BUSINESS</div>
+          <h2 style="margin-top:10px">Certificate of Audit</h2>
+          <p style="margin:12px 0 0">This certifies that</p>
+          <div class="cname" id="certName"></div>
+          <p style="margin:0">completed the Analysing Spending Patterns audit</p>
+          <p class="meta" id="certStats" style="margin-top:12px"></p>
+          <p id="certBadges" style="font-size:24px;margin:8px 0"></p>
+          <div class="exit" id="certExit"></div>
+          <p class="meta" id="certDate" style="margin-top:16px"></p>
+        </div>
+      </div>
+    </main>
+
+    <!-- STATEMENT SIDEBAR -->
+    <aside class="panel statement" id="statement">
+      <div class="st-head">
+        <small>SAVINGS ACCOUNT &middot; <span id="stName">STUDENT</span></small>
+        <div class="st-bal" id="stBal">$0</div>
+      </div>
+      <div class="st-stats">
+        <div><b id="stCorrect">0</b><span>Correct</span></div>
+        <div id="stStreakBox"><b id="stStreak">0</b><span>Streak</span></div>
+        <div><b id="stLeft">32</b><span>Left</span></div>
+      </div>
+      <div class="ledger" id="ledger"><div class="empty">No transactions yet. Your audit history will appear here.</div></div>
+      <div class="badges-mini" id="badgesMini"></div>
+      <div class="st-note">3 in a row doubles every deposit. Keyboard: press 1 to 4 to answer.</div>
     </aside>
   </div>
 </div>
-<div class="toast" id="toast" role="status"></div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-// Set to true on the GitHub Pages copy so the certificate can be printed.
-const ALLOW_PRINT = true;
+(function () {
+  "use strict";
 
-const STATEMENT = [
-  ["Mon","Kwik-E-Mart","Snacks",12.50],["Mon","Bus Ticket","Transport",5.20],
-  ["Tue","Spotify Sub","Subscriptions",11.99],["Wed","Maccas","Food & Drink",18.00],
-  ["Thu","Video Game Purchase","Entertainment",89.00],["Fri","Cinema Tickets","Entertainment",35.00],
-  ["Sat","New Shoes","Clothing",120.00],["Sun","Coffee","Food & Drink",6.50]
-];
+  // ---------- CONTENT ----------
+  var ROUNDS = [
+    {
+      id: "r1",
+      title: "Fixed or Variable?",
+      instr: "Recap from last lesson. Is this a fixed cost or a variable cost?",
+      ledger: "Cost sort",
+      options: ["Fixed cost", "Variable cost"],
+      items: [
+        { q: "A monthly Netflix subscription", a: 0, why: "The same amount comes out every month whether you watch one show or fifty, so it is fixed." },
+        { q: "Buying petrol for your car", a: 1, why: "The more you drive, the more you spend. It changes with usage, so it is variable." },
+        { q: "Rent on a share house room, $220 a week", a: 0, why: "Rent stays the same and must be paid regularly. That is the textbook fixed cost." },
+        { q: "The weekly grocery shop", a: 1, why: "Groceries change week to week depending on what you choose to buy, so they are variable." },
+        { q: "A $35 a month phone plan", a: 0, why: "A plan charges the same amount each month, so it is fixed (as long as you stay inside it)." },
+        { q: "Movie tickets with friends", a: 1, why: "You choose whether to go and how often. It is variable, and it is discretionary spending too." },
+        { q: "Car insurance paid every month", a: 0, why: "Insurance premiums stay the same for the period of the policy, so they are fixed." },
+        { q: "Uber Eats orders", a: 1, why: "Some weeks it is zero, some weeks it is $80. That is variable, and a classic place where spending leaks." }
+      ]
+    },
+    {
+      id: "r2",
+      title: "Spot the Trigger",
+      instr: "Which spending trigger is at work here?",
+      ledger: "Trigger",
+      options: ["FOMO", "Convenience", "Mood", "Marketing"],
+      receipt: true,
+      items: [
+        { q: "Everyone in your friend group now has the new wireless earbuds. Suddenly yours feel ancient and you start looking up prices.", a: 0, why: "Fear Of Missing Out. Seeing friends with the latest gadget makes you want it too, even though yours still work." },
+        { q: "Your card is saved in an app, so you buy a hoodie with one tap at 11:40 pm without getting off the couch.", a: 1, why: "Convenience. One-click buying removes the pause where you might have asked \"do I actually need this?\"" },
+        { q: "You had a terrible day at school, so you go to the shops and buy a new pair of sneakers to feel better.", a: 2, why: "Mood. This is 'retail therapy': spending to change how you feel rather than because you need the item." },
+        { q: "A pop-up says \"Only 2 left in stock! Sale ends at midnight!\" and a countdown clock is ticking.", a: 3, why: "Marketing. Scarcity and countdown timers are designed to rush you so you do not stop and think." },
+        { q: "Tickets for a festival are selling fast and your whole group chat is posting screenshots of theirs.", a: 0, why: "FOMO. The pressure comes from not wanting to be the one left out, not from the event itself." },
+        { q: "Bored on a Sunday afternoon, you scroll a fashion app for an hour and end up with $60 in your cart.", a: 2, why: "Mood. Boredom is an emotion, and spending to fill the gap is mood-driven buying." },
+        { q: "You tap your phone at the canteen every lunchtime and never really notice how much is going out.", a: 1, why: "Convenience. Tap-and-go is frictionless, so it does not feel like real money leaving your account." },
+        { q: "An ad shows a smiling, popular group of teens all drinking one brand of energy drink.", a: 3, why: "Marketing. The ad is selling a lifestyle and making you feel incomplete without the product, not telling you about the drink." }
+      ]
+    },
+    {
+      id: "r3",
+      title: "Myth or Fact",
+      instr: "Buy Now, Pay Later, consumerism and the digital economy. Myth or fact?",
+      ledger: "Myth/Fact",
+      options: ["Myth", "Fact"],
+      items: [
+        { q: "Buy Now, Pay Later is always free because it does not charge interest.", a: 0, why: "Myth. There may be no interest, but late fees and account-keeping fees can cost you more than interest would." },
+        { q: "With a typical BNPL plan you get the item now, pay 25% upfront, and pay the rest over about 6 weeks.", a: 1, why: "Fact. That is how most plans work, which is exactly why it feels so easy." },
+        { q: "It is easy to end up with several BNPL plans running at once and lose track of what you owe.", a: 1, why: "Fact. Five small plans can quietly add up to a large debt, with five sets of due dates to miss." },
+        { q: "BNPL can lead people to buy items they cannot actually afford.", a: 1, why: "Fact. Splitting the price makes it look smaller, so people spend more than they would with cash." },
+        { q: "Tapping a card or phone feels exactly the same as handing over cash, so it does not change how much people spend.", a: 0, why: "Myth. Frictionless payments do not feel like real money leaving, so people tend to spend more." },
+        { q: "Marketers often create a 'problem' (your phone is slow) and then sell you the 'solution' (the new model).", a: 1, why: "Fact. This is the cycle of consumerism. Spotting it is the first step to breaking it." },
+        { q: "Constantly upgrading your stuff has no real effect on your ability to save for emergencies.", a: 0, why: "Myth. Every upgrade is money that cannot go into an emergency buffer, so constant spending reduces your ability to handle unexpected costs." },
+        { q: "Understanding WHY you spend is just as important as knowing HOW MUCH you spend.", a: 1, why: "Fact. Knowing your triggers lets you fix the root cause instead of just feeling bad about the total." }
+      ]
+    },
+    {
+      id: "r4",
+      title: "Run the Numbers",
+      instr: "Use the steps: find the cost, multiply by times per week, multiply by 52 (or by 365 for every day of the year).",
+      ledger: "Calc",
+      shuffle: true,
+      items: [
+        { q: "You buy a $10 lunch every single day of the year (365 days). What does that cost you in a year?", opts: ["$3,650", "$520", "$365", "$2,600"], a: 0, why: "$10 x 365 = $3,650. That is more than fifteen times the cost of a year of streaming." },
+        { q: "A streaming service costs $20 a month. How much is that per year?", opts: ["$240", "$1,040", "$200", "$140"], a: 0, why: "$20 x 12 months = $240. Monthly bills are often smaller than daily habits once you add them up." },
+        { q: "A smoothie costs $8 and you buy one every day. Using x7 then x52, what is the yearly cost?", opts: ["$2,912", "$416", "$1,456", "$5,824"], a: 0, why: "$8 x 7 = $56 a week. $56 x 52 = $2,912 a year." },
+        { q: "You buy a $6 sandwich every weekday (Monday to Friday). How much do you spend in one year (52 weeks)?", opts: ["$1,560", "$1,092", "$312", "$2,184"], a: 0, why: "Weekdays only, so $6 x 5 = $30 a week. $30 x 52 = $1,560. ($2,184 is what you get if you wrongly use 7 days.)" },
+        { q: "An energy drink costs $4 and you buy one 3 times a week. What is the yearly cost?", opts: ["$624", "$208", "$1,456", "$156"], a: 0, why: "$4 x 3 = $12 a week. $12 x 52 = $624 a year." },
+        { q: "You buy a shirt for $55, GST included. How much of that is GST?", opts: ["$5", "$5.50", "$50", "$11"], a: 0, why: "Divide the total by 11: $55 / 11 = $5 GST. The base price was $50. ($5.50 is 10% of $55, which is the common mistake.)" },
+        { q: "To find the GST included in a total price of $110, you divide the amount by...", opts: ["11", "10", "1.1", "100"], a: 0, why: "Divide by 11. $110 / 11 = $10 GST, leaving a $100 base price. Dividing by 1.1 gives the base price, not the GST." },
+        { q: "Concert merch costs $88, GST included. How much GST did you pay?", opts: ["$8", "$8.80", "$80", "$11"], a: 0, why: "$88 / 11 = $8 GST. The price before GST was $80." }
+      ]
+    }
+  ];
 
-const ROUNDS = [
-  { id: "nw", name: "Need or want?", short: "Need/Want", blurb: "Could you survive without it?", type: "nw",
-    items: [
-      ["🏠","Rent for a flat",null,"Need","Somewhere to live is essential."],
-      ["🛒","Weekly groceries",null,"Need","Food from the supermarket keeps you alive. That makes it a need."],
-      ["💡","Electricity bill",null,"Need","Power for lights, cooking and heating is essential."],
-      ["🚌","Bus ticket to school",null,"Need","Getting to school or work is a need."],
-      ["📺","Netflix subscription",null,"Want","Nice to have, but you can survive without it."],
-      ["👟","New sneakers when your old pair is fine",null,"Want","Shoes are a need. A second pair when yours still work is a want."],
-      ["🎤","Concert tickets",null,"Want","Fun, but optional. Discretionary spending."],
-      ["📚","School textbooks",null,"Need","You need these to do your schoolwork."],
-      ["🍟","Maccas after school",null,"Want","Food is a need, but takeaway when you could eat at home is the want version."],
-      ["🎮","In-game skin",null,"Want","Purely optional. A classic small purchase that leaks money."]
-    ]},
-  { id: "fv", name: "Fixed or variable?", short: "Fixed/Variable", blurb: "Is it the same amount every time?", type: "fv",
-    items: [
-      ["📱","Phone plan","$35/month","Fixed","A set plan charges the same each month."],
-      ["🎵","Spotify subscription","$11.99/month","Fixed","Same price every month, even though it's a want."],
-      ["🏋️","Gym membership","$15/week","Fixed","Charged the same whether you go or not."],
-      ["🏠","Rent","$450/week","Fixed","Stays the same each period regardless of usage."],
-      ["🚗","Car insurance","$90/month","Fixed","A set premium paid on a schedule."],
-      ["🛵","Food delivery",null,"Variable","Depends on how often you order and what you get."],
-      ["⛽","Petrol",null,"Variable","Changes with how far you drive and the price per litre."],
-      ["💡","Electricity bill",null,"Variable","It's a need, but the amount changes with how much power you use."],
-      ["🎬","Cinema tickets",null,"Variable","Could be $0 or $50. It's your choice each week."],
-      ["🛒","Groceries",null,"Variable","The total moves week to week depending on what you buy."]
-    ]},
-  { id: "tm", name: "Name the term", short: "Terms", blurb: "Match the description to the key word.", type: "mcq",
-    items: [
-      ["Money flowing out of your account when you pay for something.", ["Expenditure","Income","Categorisation","Savings"], 0, "Expenditure is the act of spending money; an outflow of funds."],
-      ["Optional spending on luxuries or non-essential items.", ["Fixed","Mandatory","Discretionary","Variable"], 2, "Discretionary spending is the 'wants' side of a budget."],
-      ["A cost that changes in amount from month to month.", ["Fixed","Variable","Latent","Mandatory"], 1, "Variable costs move with your usage and choices."],
-      ["A cost that stays the same amount each period.", ["Discretionary","Variable","Fixed","Impulse"], 2, "Fixed costs are predictable and recurring."],
-      ["Grouping expenses so you can see your spending patterns.", ["Expenditure","Categorisation","Budgeting","Saving"], 1, "Categorisation means labelling each expense, like Need, Want, Fixed or Variable."],
-      ["A free trial that quietly turned into a $14.99 monthly charge you forgot about.", ["Impulse buy","Variable cost","Latent expense","Mandatory cost"], 2, "Latent expenses happen automatically, so you forget they exist."]
-    ]},
-  { id: "jd", name: "Jordan's statement", short: "Jordan", blurb: "Use the bank statement to answer.", type: "mcq", statement: true,
-    items: [
-      ["Which expense is discretionary but also fixed?", ["Bus Ticket","Spotify Sub","Maccas","New Shoes"], 1, "Spotify is a want, but it costs $11.99 every month."],
-      ["What was Jordan's single biggest purchase?", ["Video Game Purchase","Cinema Tickets","New Shoes","Maccas"], 2, "New Shoes at $120.00."],
-      ["How much did Jordan spend on entertainment?", ["$35.00","$89.00","$124.00","$155.00"], 2, "Video game $89.00 + cinema $35.00 = $124.00."],
-      ["What was Jordan's total spending for the week?", ["$283.19","$298.19","$302.69","$291.69"], 1, "12.50 + 5.20 + 11.99 + 18.00 + 89.00 + 35.00 + 120.00 + 6.50 = $298.19."],
-      ["Only one line is clearly a need. How much did Jordan spend on needs?", ["$5.20","$11.99","$17.70","$23.20"], 0, "Only the bus ticket ($5.20) is a need."],
-      ["Wants were $292.99 out of $298.19. Roughly what percentage went on wants?", ["About 50%","About 75%","About 88%","About 98%"], 3, "292.99 ÷ 298.19 × 100 ≈ 98%."],
-      ["Spotify costs $11.99 a month. How much would Jordan save in a year by cancelling it?", ["$119.90","$131.89","$143.88","$71.94"], 2, "$11.99 × 12 months = $143.88."],
-      ["What is Jordan's biggest spending weakness?", ["Essential transport costs","Subscription services","Impulse buys and entertainment","Groceries"], 2, "Entertainment, shoes and snacks make up most of the week."],
-      { order: true, q: "Tap the items in order from FIXED (1) to MOST VARIABLE (4).",
-        items: ["Weekly Bus Ticket","Spotify Subscription","Friday Night Takeaway","Weekly Grocery Budget"],
-        answer: ["Spotify Subscription","Weekly Bus Ticket","Weekly Grocery Budget","Friday Night Takeaway"],
-        alt: ["Weekly Bus Ticket","Spotify Subscription","Weekly Grocery Budget","Friday Night Takeaway"],
-        why: "Spotify and the bus ticket barely change. The grocery budget moves a little. Friday takeaway could be $0 or $60." }
-    ]}
-];
-const TOTAL = ROUNDS.reduce((n, r) => n + r.items.length, 0);
+  var BADGES = [
+    { id: "cost", ico: "📋", name: "Cost Sorter", desc: "7+ in Round 1" },
+    { id: "trigger", ico: "🔍", name: "Trigger Spotter", desc: "7+ in Round 2" },
+    { id: "bnpl", ico: "🚫", name: "BNPL Buster", desc: "7+ in Round 3" },
+    { id: "numbers", ico: "🧮", name: "Number Cruncher", desc: "7+ in Round 4" },
+    { id: "streak", ico: "🔥", name: "Compound Interest", desc: "Streak of 6+" },
+    { id: "clean", ico: "✨", name: "Clean Statement", desc: "A perfect round" },
+    { id: "saver", ico: "🏦", name: "Sharp Saver", desc: "$400+ banked" },
+    { id: "auditor", ico: "🏆", name: "Chief Auditor", desc: "28+ correct" }
+  ];
+  var BADGE_ROUND = ["cost", "trigger", "bnpl", "numbers"];
 
-const BADGES = [
-  ["first", "First entry"], ["streak5", "Hot streak (5)"], ["streak10", "On fire (10)"],
-  ["clean", "Leak plugger"], ["sleuth", "Statement sleuth"], ["boss", "Budget boss"]
-];
+  var TOTAL = ROUNDS.reduce(function (s, r) { return s + r.items.length; }, 0);
+  var KEYS = ["1", "2", "3", "4"];
 
-let S;
-function fresh() {
-  return { name: "", r: 0, i: 0, jar: 0, leak: 0, streak: 0, best: 0, correct: 0, answered: 0,
-           roundMiss: 0, badges: {}, mistakes: [], tape: [], locked: false, order: [] };
-}
-S = fresh();
-
-const $ = (id) => document.getElementById(id);
-const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const money = (n) => "$" + n.toLocaleString("en-AU");
-
-function toast(msg) {
-  const t = $("toast"); t.textContent = msg; t.classList.add("show");
-  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 1800);
-}
-
-function renderStats() {
-  $("jar").textContent = money(S.jar);
-  $("streak").textContent = S.streak + (S.streak >= 3 ? " ×2" : "");
-  $("streakBox").classList.toggle("hot", S.streak >= 3);
-  $("score").textContent = S.correct + "/" + S.answered;
-  $("rtotal").textContent = money(S.jar);
-  $("rleak").textContent = money(S.leak);
-  const tape = $("tape");
-  if (!S.tape.length) tape.innerHTML = '<div class="empty">Every answer prints here.</div>';
-  else {
-    tape.innerHTML = S.tape.map((l) => `<div class="ln ${l.ok ? "ok" : "no"}"><span>${l.ok ? "✓" : "✗"}</span><span>${esc(l.label)}</span><span>${l.ok ? "+" : "-"}$${l.amt}</span></div>`).join("");
-    tape.scrollTop = tape.scrollHeight;
-  }
-  $("badges").innerHTML = BADGES.map(([k, n]) => `<span class="badge ${S.badges[k] ? "got" : ""}">${S.badges[k] ? "★ " : ""}${n}</span>`).join("");
-  $("rmeta").textContent = S.name ? "SPENDING LOG · " + S.name.toUpperCase() : "SPENDING LOG · NOT STARTED";
-}
-
-function award(k) {
-  if (S.badges[k]) return;
-  S.badges[k] = true;
-  toast("Badge unlocked: " + BADGES.find((b) => b[0] === k)[1]);
-}
-
-function roundChips() {
-  return `<div class="rounds">${ROUNDS.map((r, k) => `<span class="rchip ${k === S.r ? "on" : k < S.r ? "done" : ""}">${k + 1}. ${r.short}</span>`).join("")}</div>`;
-}
-function progress() {
-  const done = ROUNDS.slice(0, S.r).reduce((n, r) => n + r.items.length, 0) + S.i;
-  return `<div class="progress" aria-hidden="true"><span style="width:${(done / TOTAL) * 100}%"></span></div>`;
-}
-function statementHTML() {
-  const tot = STATEMENT.reduce((n, r) => n + r[3], 0);
-  return `<div class="statement"><table><thead><tr><th>Day</th><th>Transaction</th><th>Category</th><th class="amt">Amount</th></tr></thead><tbody>${
-    STATEMENT.map((r) => `<tr><td><b>${r[0]}</b></td><td>${esc(r[1])}</td><td class="cat">${esc(r[2])}</td><td class="amt">-$${r[3].toFixed(2)}</td></tr>`).join("")
-  }</tbody><tfoot><tr><td colspan="3">Week total</td><td class="amt">-$${tot.toFixed(2)}</td></tr></tfoot></table></div>`;
-}
-
-// ---------- screens ----------
-function startScreen() {
-  $("stage").innerHTML = `
-    <div class="eyebrow">Tracking spending</div>
-    <h2 class="prompt">Where does your money go?</h2>
-    <p class="sub">Sort spending, name the terms, then audit Jordan's bank statement. Every right answer puts money in your savings jar. Every wrong one is a leak.</p>
-    <div class="hero-row">
-      <div class="rlist">${ROUNDS.map((r, k) => `<div class="rcard"><span class="n">${k + 1}</span><div><b>${r.name}</b><small>${r.items.length} items · ${r.blurb}</small></div></div>`).join("")}</div>
-      <div>
-        <ul class="how">
-          <li><b>+$10</b><span>for each correct answer</span></li>
-          <li><b>×2</b><span>once you hit a streak of 3 in a row</span></li>
-          <li><b>-$5</b><span>leaks out for each wrong answer</span></li>
-          <li><b>★</b><span>badges for streaks, clean rounds and acing Jordan</span></li>
-        </ul>
-        <label class="name" for="nameIn">Your name (for the certificate)</label>
-        <input type="text" id="nameIn" maxlength="40" autocomplete="off" placeholder="First name and surname">
-        <div class="row-end"><button class="btn go" id="startBtn">Start the log</button></div>
-      </div>
-    </div>`;
-  $("startBtn").onclick = () => {
-    S.name = $("nameIn").value.trim() || "Student";
-    renderStats(); question();
-  };
-  $("nameIn").addEventListener("keydown", (e) => { if (e.key === "Enter") $("startBtn").click(); });
-}
-
-function question() {
-  S.locked = false; S.order = [];
-  const R = ROUNDS[S.r], it = R.items[S.i];
-  let html = roundChips() + progress() + `<div class="eyebrow">Round ${S.r + 1} · ${R.name} · ${S.i + 1} of ${R.items.length}</div>`;
-  if (R.statement) html += statementHTML();
-  if (R.type === "nw" || R.type === "fv") {
-    const [ic, name, price] = it;
-    const [a, b] = R.type === "nw" ? ["Need", "Want"] : ["Fixed", "Variable"];
-    html += `<h2 class="prompt">${R.type === "nw" ? "Need or want?" : "Fixed or variable?"}</h2><p class="sub">${R.blurb}</p>
-      <div class="item-card"><div class="item-icon" aria-hidden="true">${ic}</div><div><div class="tag">${R.type === "nw" ? "PURCHASE" : "EXPENSE"}</div><div class="name">${esc(name)}</div></div>${price ? `<div class="price">${esc(price)}</div>` : ""}</div>
-      <div class="choices two">
-        <button class="choice big need" data-v="${a}">${a}<span class="key" style="margin-left:8px">1</span></button>
-        <button class="choice big want" data-v="${b}">${b}<span class="key" style="margin-left:8px">2</span></button>
-      </div>`;
-  } else if (it.order) {
-    html += `<h2 class="prompt">Sort Jordan's spending</h2><p class="sub">${esc(it.q)}</p>
-      <div class="scale"><span class="f">1 = Fixed</span><span class="v">4 = Most variable</span></div>
-      <div class="order-list">${it.items.map((t, k) => `<button class="order-item" data-k="${k}"><span class="slot"></span><span>${esc(t)}</span></button>`).join("")}</div>
-      <div class="row-end"><button class="btn alt" id="resetOrd">Reset</button><button class="btn go" id="checkOrd" disabled>Check order</button></div>`;
-  } else {
-    const [q, opts] = it;
-    html += `<h2 class="prompt">${esc(q)}</h2><p class="sub">Pick one. Keys 1 to 4 work too.</p>
-      <div class="choices four">${opts.map((o, k) => `<button class="choice" data-k="${k}"><span class="key">${k + 1}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
-  }
-  html += `<div id="fb"></div>`;
-  $("stage").innerHTML = html;
-
-  if (it.order) {
-    document.querySelectorAll(".order-item").forEach((b) => b.onclick = () => {
-      if (S.locked) return;
-      const k = +b.dataset.k;
-      const at = S.order.indexOf(k);
-      if (at >= 0) S.order.splice(at, 1); else S.order.push(k);
-      document.querySelectorAll(".order-item").forEach((x) => {
-        const p = S.order.indexOf(+x.dataset.k);
-        x.classList.toggle("set", p >= 0);
-        x.querySelector(".slot").textContent = p >= 0 ? p + 1 : "";
-      });
-      $("checkOrd").disabled = S.order.length !== it.items.length;
-    });
-    $("resetOrd").onclick = () => { if (!S.locked) question(); };
-    $("checkOrd").onclick = () => {
-      const got = S.order.map((k) => it.items[k]);
-      const ok = got.join("|") === it.answer.join("|") || got.join("|") === it.alt.join("|");
-      S.locked = true;
-      document.querySelectorAll(".order-item").forEach((x) => x.disabled = true);
-      $("checkOrd").disabled = true; $("resetOrd").disabled = true;
-      resolve(ok, "Fixed to variable order", it.answer.map((t, n) => `${n + 1}. ${t}`).join("  "), it.why, it.q);
+  // ---------- STATE ----------
+  var S;
+  function fresh(name) {
+    return {
+      name: name, round: 0, idx: 0, balance: 0, correct: 0, streak: 0, best: 0,
+      roundCorrect: [0, 0, 0, 0], mistakes: [], badges: {}, answered: false, order: []
     };
-  } else {
-    document.querySelectorAll(".choice").forEach((b) => b.onclick = () => pick(b));
   }
-}
 
-function pick(btn) {
-  if (S.locked) return;
-  S.locked = true;
-  const R = ROUNDS[S.r], it = R.items[S.i];
-  const btns = [...document.querySelectorAll(".choice")];
-  btns.forEach((b) => b.disabled = true);
-  let ok, right, label, why, q;
-  if (R.type === "nw" || R.type === "fv") {
-    right = it[3]; ok = btn.dataset.v === right; label = it[1]; why = it[4]; q = it[1];
-    btns.forEach((b) => { if (b.dataset.v === right) b.classList.add("correct"); else if (b === btn) b.classList.add("wrong"); else b.classList.add("dim"); });
-  } else {
-    const k = +btn.dataset.k; ok = k === it[2]; right = it[1][it[2]]; why = it[3]; q = it[0];
-    label = right;
-    btns.forEach((b, n) => { if (n === it[2]) b.classList.add("correct"); else if (b === btn) b.classList.add("wrong"); else b.classList.add("dim"); });
+  // ---------- HELPERS ----------
+  function $(id) { return document.getElementById(id); }
+  function money(n) { var neg = n < 0; n = Math.abs(n); var s = "$" + n.toLocaleString("en-AU", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); return neg ? "-" + s : s; }
+  function esc(t) { var d = document.createElement("div"); d.textContent = t; return d.innerHTML; }
+  function show(id) { ["intro", "quiz", "roundEnd", "results"].forEach(function (k) { $(k).classList.toggle("hidden", k !== id); }); window.scrollTo({ top: 0, behavior: "smooth" }); }
+  var toastT;
+  function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove("show"); }, 2200); }
+  function shuffle(arr) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+  // ---------- INTRO ----------
+  $("nameInput").addEventListener("input", function () { $("startBtn").disabled = this.value.trim().length < 2; });
+  $("nameInput").addEventListener("keydown", function (e) { if (e.key === "Enter" && !$("startBtn").disabled) start(); });
+  $("startBtn").addEventListener("click", start);
+
+  function start() {
+    S = fresh($("nameInput").value.trim());
+    $("stName").textContent = S.name.toUpperCase();
+    $("ledger").innerHTML = '<div class="empty">No transactions yet. Your audit history will appear here.</div>';
+    renderBadgesMini();
+    updateStatement();
+    beginRound();
   }
-  resolve(ok, label, right, why, q);
-}
 
-function resolve(ok, label, right, why, q) {
-  S.answered++;
-  let amt;
-  if (ok) {
-    S.correct++; S.streak++; S.best = Math.max(S.best, S.streak);
-    amt = S.streak >= 3 ? 20 : 10; S.jar += amt;
-    award("first");
-    if (S.streak >= 5) award("streak5");
-    if (S.streak >= 10) award("streak10");
-  } else {
-    if (S.streak >= 3) toast("Streak broken at " + S.streak);
-    S.streak = 0; S.roundMiss++;
-    amt = Math.min(5, S.jar); S.jar -= amt; S.leak += 5;
-    amt = 5;
-    S.mistakes.push({ round: ROUNDS[S.r].name, q, right, why });
+  function beginRound() {
+    var r = ROUNDS[S.round];
+    S.order = shuffle(r.items.map(function (_, i) { return i; }));
+    S.idx = 0;
+    show("quiz");
+    renderQ();
   }
-  S.tape.push({ ok, label, amt });
-  renderStats();
-  $("jar").classList.remove("pop"); void $("jar").offsetWidth; $("jar").classList.add("pop");
 
-  const last = S.i === ROUNDS[S.r].items.length - 1;
-  const lastRound = S.r === ROUNDS.length - 1;
-  $("fb").innerHTML = `<div class="feedback ${ok ? "good" : "bad"}">
-      <strong>${ok ? (amt === 20 ? "Correct! +$20 streak bonus" : "Correct! +$10") : "Not quite. The answer is " + esc(right) + "."}</strong>
-      <span>${esc(why)}</span></div>
-    <div class="row-end"><button class="btn" id="nextBtn">${last ? (lastRound ? "See my results" : "Finish round") : "Next"}</button></div>`;
-  $("nextBtn").focus();
-  $("nextBtn").onclick = next;
-}
+  // ---------- QUESTION ----------
+  function currentItem() { return ROUNDS[S.round].items[S.order[S.idx]]; }
 
-function next() {
-  const R = ROUNDS[S.r];
-  if (S.i < R.items.length - 1) { S.i++; question(); return; }
-  // end of round
-  if (S.roundMiss === 0) award("clean");
-  if (R.id === "jd" && S.roundMiss === 0) award("sleuth");
-  roundEnd();
-}
+  function renderQ() {
+    var r = ROUNDS[S.round], it = currentItem();
+    S.answered = false;
+    $("qRound").textContent = "Round " + (S.round + 1) + " · " + r.title;
+    $("qCount").textContent = (S.idx + 1) + " / " + r.items.length;
+    var done = ROUNDS.slice(0, S.round).reduce(function (s, x) { return s + x.items.length; }, 0) + S.idx;
+    $("qProg").style.width = (done / TOTAL * 100) + "%";
+    $("qInstr").textContent = r.instr;
 
-function roundEnd() {
-  const R = ROUNDS[S.r];
-  const n = R.items.length, got = n - S.roundMiss;
-  const lastRound = S.r === ROUNDS.length - 1;
-  if (lastRound) { finish(); return; }
-  $("stage").innerHTML = roundChips() + progress() + `
-    <div class="eyebrow">Round ${S.r + 1} complete</div>
-    <h2 class="prompt">${R.name}: ${got} out of ${n}</h2>
-    <p class="sub">${S.roundMiss === 0 ? "No leaks this round. Leak plugger badge earned." : S.roundMiss + " leak" + (S.roundMiss > 1 ? "s" : "") + " this round. Check the explanations in your results at the end."}</p>
-    <div class="rcard"><span class="n">${S.r + 2}</span><div><b>Up next: ${ROUNDS[S.r + 1].name}</b><small>${ROUNDS[S.r + 1].items.length} items · ${ROUNDS[S.r + 1].blurb}</small></div></div>
-    <div class="row-end"><button class="btn go" id="goBtn">Start round ${S.r + 2}</button></div>`;
-  $("goBtn").focus();
-  $("goBtn").onclick = () => { S.r++; S.i = 0; S.roundMiss = 0; question(); };
-}
+    if (r.receipt) {
+      $("qReceipt").classList.remove("hidden");
+      $("qReceipt").textContent = it.q;
+      $("qText").textContent = "What triggered this purchase?";
+    } else {
+      $("qReceipt").classList.add("hidden");
+      $("qText").textContent = it.q;
+    }
 
-function finish() {
-  const pct = Math.round((S.correct / TOTAL) * 100);
-  if (pct >= 90) award("boss");
-  renderStats();
-  const level = pct >= 90 ? "Budget Boss" : pct >= 75 ? "Smart Spender" : pct >= 50 ? "Money Tracker" : "Getting Started";
-  const d = new Date().toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
-  $("stage").innerHTML = `
-    <div class="cert" id="cert">
-      <div class="eyebrow">Certificate of completion</div>
-      <h2>The Spending Log</h2>
-      <div>This certifies that</div>
-      <div class="who">${esc(S.name)}</div>
-      <div>tracked every dollar and earned the title <b>${level}</b></div>
-      <div class="nums">
-        <div><b>${S.correct}/${TOTAL}</b>correct</div>
-        <div><b>${pct}%</b>score</div>
-        <div><b>${money(S.jar)}</b>saved</div>
-        <div><b>${S.best}</b>best streak</div>
-      </div>
-      <div style="margin-top:12px;font-size:14px;color:var(--muted)">${Object.keys(S.badges).length} of ${BADGES.length} badges · ${d}</div>
-    </div>
-    <h3 style="margin-bottom:10px">Mistake review</h3>
-    <div class="review">${S.mistakes.length ? S.mistakes.map((m) => `<div class="mi"><small>${esc(m.round)}</small><b>${esc(m.q)}</b><br>Answer: ${esc(m.right)}. ${esc(m.why)}</div>`).join("") : '<div class="allgood">No mistakes at all. Every dollar accounted for.</div>'}</div>
-    <div class="row-end">
-      ${ALLOW_PRINT ? '<button class="btn alt" id="printBtn">Print certificate</button>' : ""}
-      <button class="btn go" id="againBtn">Play again</button>
-    </div>
-    <p class="sub" style="margin-top:12px">Show your teacher this screen, or take a screenshot of your certificate.</p>`;
-  if (ALLOW_PRINT) $("printBtn").onclick = () => window.print();
-  $("againBtn").onclick = () => { const n = S.name; S = fresh(); S.name = n; renderStats(); question(); };
-}
+    // Build options. For round 4, shuffle the option order but track the right one.
+    var opts = it.opts ? it.opts.map(function (t, i) { return { t: t, ok: i === it.a }; }) : r.options.map(function (t, i) { return { t: t, ok: i === it.a }; });
+    if (r.shuffle) opts = shuffle(opts);
+    S.curOpts = opts;
 
-document.addEventListener("keydown", (e) => {
-  if (e.target.tagName === "INPUT") return;
-  const n = parseInt(e.key, 10);
-  if (n >= 1 && n <= 4 && !S.locked) {
-    const b = document.querySelectorAll(".choice")[n - 1];
-    if (b && !b.disabled) b.click();
+    var box = $("qOpts");
+    box.innerHTML = "";
+    box.style.gridTemplateColumns = opts.length === 2 ? "" : "";
+    opts.forEach(function (o, i) {
+      var b = document.createElement("button");
+      b.className = "opt";
+      b.innerHTML = '<span class="key">' + (i + 1) + "</span><span>" + esc(o.t) + "</span>";
+      b.addEventListener("click", function () { answer(i); });
+      box.appendChild(b);
+    });
+    $("qFb").className = "feedback";
+    $("qFb").innerHTML = "";
+    $("nextRow").classList.add("hidden");
   }
-});
 
-renderStats();
-startScreen();
+  function answer(i) {
+    if (S.answered) return;
+    S.answered = true;
+    var r = ROUNDS[S.round], it = currentItem(), o = S.curOpts[i];
+    var btns = $("qOpts").querySelectorAll(".opt");
+    btns.forEach(function (b, k) {
+      b.disabled = true;
+      if (S.curOpts[k].ok) b.classList.add("correct");
+    });
+    var right = S.curOpts.filter(function (x) { return x.ok; })[0].t;
+    var label = (r.receipt ? it.q : it.q);
+    var short = label.length > 34 ? label.slice(0, 32).trim() + "..." : label;
+
+    if (o.ok) {
+      S.streak++;
+      S.best = Math.max(S.best, S.streak);
+      S.correct++;
+      S.roundCorrect[S.round]++;
+      var amt = S.streak >= 3 ? 20 : 10;
+      S.balance += amt;
+      addLedger(r.ledger + ": " + short, amt);
+      $("qFb").className = "feedback show good";
+      $("qFb").innerHTML = "<b>" + (S.streak >= 3 ? "Correct. Interest is compounding: +$20" : "Correct: +$10") + "</b>" + esc(it.why);
+      if (S.streak === 3) toast("🔥 3 in a row. Deposits now double!");
+      if (S.streak === 6) toast("🔥 Streak of 6. Compound Interest badge unlocked!");
+    } else {
+      btns[i].classList.add("wrong");
+      if (S.streak >= 3) toast("Streak broken. Back to +$10 deposits.");
+      S.streak = 0;
+      S.balance -= 5;
+      addLedger("Impulse buy: " + short, -5);
+      S.mistakes.push({ round: S.round + 1, q: it.q, you: o.t, ans: right, why: it.why });
+      $("qFb").className = "feedback show bad";
+      $("qFb").innerHTML = "<b>Not quite. The answer is " + esc(right) + ". Impulse buy: -$5</b>" + esc(it.why);
+    }
+    checkBadges();
+    updateStatement(true);
+    $("nextRow").classList.remove("hidden");
+    $("nextBtn").focus({ preventScroll: true });
+  }
+
+  $("nextBtn").addEventListener("click", next);
+  function next() {
+    var r = ROUNDS[S.round];
+    S.idx++;
+    if (S.idx < r.items.length) { renderQ(); return; }
+    endRound();
+  }
+
+  document.addEventListener("keydown", function (e) {
+    if ($("quiz").classList.contains("hidden")) return;
+    if (!S.answered) {
+      var k = KEYS.indexOf(e.key);
+      if (k > -1 && k < S.curOpts.length) answer(k);
+    } else if (e.key === "Enter") {
+      e.preventDefault(); next();
+    }
+  });
+
+  // ---------- STATEMENT ----------
+  function addLedger(desc, amt) {
+    var L = $("ledger");
+    var empty = L.querySelector(".empty"); if (empty) empty.remove();
+    var row = document.createElement("div");
+    row.className = "entry";
+    row.innerHTML = "<span>" + esc(desc) + "</span><span class=\"" + (amt >= 0 ? "cr" : "dr") + "\">" + (amt >= 0 ? "+" : "") + money(amt) + "</span>";
+    L.insertBefore(row, L.firstChild);
+  }
+
+  function updateStatement(pulse) {
+    $("stBal").textContent = money(S.balance);
+    $("stCorrect").textContent = S.correct;
+    $("stStreak").textContent = S.streak;
+    $("stStreakBox").classList.toggle("streak-on", S.streak >= 3);
+    var done = ROUNDS.slice(0, S.round).reduce(function (s, x) { return s + x.items.length; }, 0) + S.idx + (S.answered ? 1 : 0);
+    $("stLeft").textContent = TOTAL - done;
+    if (pulse) { var b = $("stBal"); b.classList.remove("pulse"); void b.offsetWidth; b.classList.add("pulse"); }
+  }
+
+  // ---------- BADGES ----------
+  function award(id) {
+    if (S.badges[id]) return;
+    S.badges[id] = true;
+    var b = BADGES.filter(function (x) { return x.id === id; })[0];
+    setTimeout(function () { toast(b.ico + " Badge: " + b.name); }, 400);
+    renderBadgesMini();
+  }
+  function checkBadges() {
+    if (S.best >= 6) award("streak");
+    if (S.balance >= 400) award("saver");
+    if (S.correct >= 28) award("auditor");
+  }
+  function renderBadgesMini() {
+    var m = $("badgesMini");
+    var got = BADGES.filter(function (b) { return S && S.badges[b.id]; });
+    m.innerHTML = got.length ? got.map(function (b) { return '<span title="' + esc(b.name) + '">' + b.ico + "</span>"; }).join("") : '<small style="color:var(--ink-soft);font-size:12px">Badges you earn appear here.</small>';
+  }
+
+  // ---------- ROUND END ----------
+  var ROUND_MSG = [
+    ["Fixed costs stay the same. Variable costs change with usage and choices.", "Remember: if the amount changes with how much you use it, it is variable."],
+    ["You can see the trigger. That is the first step to resisting it.", "Triggers are sneaky. Re-read the scenarios in your mistake review at the end."],
+    ["You are not falling for the BNPL sales pitch.", "Watch the fees and the psychology. 'No interest' does not mean 'free'."],
+    ["Small costs add up, and you can prove it with numbers.", "Check: weekdays means x5, not x7. GST means divide by 11, not take 10%."]
+  ];
+  function endRound() {
+    var r = ROUNDS[S.round], got = S.roundCorrect[S.round], n = r.items.length;
+    if (got >= 7) award(BADGE_ROUND[S.round]);
+    if (got === n) award("clean");
+    $("reTitle").textContent = "Round " + (S.round + 1) + ": " + r.title;
+    $("reScore").textContent = got + " / " + n;
+    var good = got >= 6;
+    $("reStamp").textContent = got === n ? "Clean statement" : good ? "Round cleared" : "Needs review";
+    $("reStamp").className = "stamp" + (good ? "" : " red");
+    $("reMsg").textContent = ROUND_MSG[S.round][good ? 0 : 1];
+    $("reNext").textContent = S.round < ROUNDS.length - 1 ? "Start Round " + (S.round + 2) + ": " + ROUNDS[S.round + 1].title + " →" : "See my statement →";
+    show("roundEnd");
+  }
+  $("reNext").addEventListener("click", function () {
+    S.round++;
+    if (S.round < ROUNDS.length) beginRound(); else finish();
+  });
+
+  // ---------- RESULTS ----------
+  function finish() {
+    checkBadges();
+    $("resCorrect").textContent = S.correct + " / " + TOTAL;
+    $("resBal").textContent = money(S.balance);
+    $("resStreak").textContent = S.best;
+    var pct = S.correct / TOTAL;
+    $("resStamp").textContent = pct >= 0.875 ? "Audit approved" : pct >= 0.6 ? "Audit passed" : "Audit flagged";
+    $("resStamp").className = "stamp" + (pct >= 0.6 ? "" : " red");
+
+    $("badgeGrid").innerHTML = BADGES.map(function (b) {
+      return '<div class="badge' + (S.badges[b.id] ? " got" : "") + '"><div class="ico">' + b.ico + "</div><b>" + esc(b.name) + "</b><small>" + esc(b.desc) + "</small></div>";
+    }).join("");
+
+    if (S.mistakes.length) {
+      $("reviewSec").classList.remove("hidden");
+      $("reviewList").innerHTML = S.mistakes.map(function (m) {
+        return '<div class="item"><p style="font-family:var(--mono);font-size:11px;color:var(--ink-soft)">ROUND ' + m.round + "</p><p><b>" + esc(m.q) + '</b></p><p class="you">You said: ' + esc(m.you) + '</p><p class="ans">Answer: ' + esc(m.ans) + "</p><p>" + esc(m.why) + "</p></div>";
+      }).join("");
+    } else {
+      $("reviewSec").classList.remove("hidden");
+      $("reviewList").innerHTML = '<p style="font-weight:700;color:var(--green)">No mistakes. A perfectly clean statement.</p>';
+    }
+    show("results");
+  }
+
+  // ---------- CALCULATOR ----------
+  function calc() {
+    var c = parseFloat($("cCost").value), t = parseFloat($("cTimes").value);
+    var item = $("cItem").value.trim() || "this habit";
+    if (!(c > 0) || !(t > 0)) {
+      $("cWeek").textContent = "$0"; $("cYear").textContent = "$0"; $("cFive").textContent = "$0";
+      $("cWork").textContent = "Enter a cost and how many times a week to see the working.";
+      return;
+    }
+    var w = c * t, y = w * 52;
+    $("cWeek").textContent = money(Math.round(w * 100) / 100);
+    $("cYear").textContent = money(Math.round(y * 100) / 100);
+    $("cFive").textContent = money(Math.round(y * 5 * 100) / 100);
+    $("cWork").textContent = "Working for " + item + ": " + money(c) + " x " + t + " = " + money(Math.round(w * 100) / 100) + " a week. " + money(Math.round(w * 100) / 100) + " x 52 = " + money(Math.round(y * 100) / 100) + " a year. Opportunity cost: what else could that money do?";
+  }
+  ["cItem", "cCost", "cTimes"].forEach(function (id) { $(id).addEventListener("input", calc); });
+
+  // ---------- CERTIFICATE ----------
+  $("printBtn").addEventListener("click", function () {
+    $("certName").textContent = S.name;
+    $("certStats").textContent = S.correct + " / " + TOTAL + " correct · " + money(S.balance) + " banked · best streak " + S.best;
+    var got = BADGES.filter(function (b) { return S.badges[b.id]; });
+    $("certBadges").textContent = got.map(function (b) { return b.ico; }).join(" ");
+    var e1 = $("exit1").value.trim(), e2 = $("exit2").value.trim();
+    var habit = $("cYear").textContent !== "$0" ? "<p><b>My habit:</b> " + esc($("cItem").value.trim() || "habit") + " costs me " + esc($("cYear").textContent) + " a year.</p>" : "";
+    $("certExit").innerHTML = (e1 || e2 || habit) ? "<b>Exit ticket</b>" + (e1 ? "<p><b>My spending trigger:</b> " + esc(e1) + "</p>" : "") + (e2 ? "<p><b>Digital economy challenge:</b> " + esc(e2) + "</p>" : "") + habit : "";
+    $("certExit").style.display = (e1 || e2 || habit) ? "block" : "none";
+    $("certDate").textContent = new Date().toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
+    window.print();
+  });
+
+  $("restartBtn").addEventListener("click", function () {
+    $("exit1").value = ""; $("exit2").value = "";
+    start();
+  });
+})();
 </script>
-
 </body>
 </html>
