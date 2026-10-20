@@ -1,730 +1,458 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-AU">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Spending Audit</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WellbeingTok | Year 10 Geography Revision</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ink: #10212A;
-    --ink-soft: #4A5A63;
-    --paper: #FBFAF6;
-    --card: #FFFFFF;
-    --line: #DCD8CC;
-    --green: #0B7A5A;
-    --green-soft: #E3F3EC;
-    --red: #C0392B;
-    --red-soft: #FBE7E4;
-    --yellow: #FFE45C;
-    --yellow-soft: #FFF6C2;
-    --mono: 'IBM Plex Mono', ui-monospace, monospace;
-    --sans: 'DM Sans', system-ui, sans-serif;
-  }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; }
-  body {
-    font-family: var(--sans);
-    color: var(--ink);
-    background: var(--paper);
-    background-image: repeating-linear-gradient(0deg, transparent 0 31px, rgba(16,33,42,0.035) 31px 32px);
-    min-height: 100vh;
-    line-height: 1.45;
-  }
-  button { font-family: inherit; cursor: pointer; }
-  .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 60px; }
-
-  /* Header */
-  header.top {
-    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-    border-bottom: 3px double var(--ink); padding-bottom: 12px; margin-bottom: 20px;
-  }
-  .brand { display: flex; align-items: center; gap: 12px; }
-  .brand-mark {
-    width: 46px; height: 46px; border-radius: 10px; background: var(--ink); color: var(--yellow);
-    display: grid; place-items: center; font-family: var(--mono); font-weight: 600; font-size: 22px;
-  }
-  .brand h1 { margin: 0; font-size: 24px; letter-spacing: -0.02em; }
-  .brand p { margin: 0; color: var(--ink-soft); font-size: 14px; }
-  .acct { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); text-align: right; }
-
-  /* Layout */
-  .grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
-  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
-
-  .panel {
-    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
-    box-shadow: 0 2px 0 rgba(16,33,42,0.06);
-  }
-  .pad { padding: 24px; }
-  @media (max-width: 560px) { .pad { padding: 18px; } }
-
-  /* Intro */
-  .hero h2 { font-size: 32px; margin: 0 0 6px; letter-spacing: -0.02em; line-height: 1.1; }
-  .hero .lead { font-size: 18px; color: var(--ink-soft); margin: 0 0 20px; }
-  .copy {
-    background: var(--yellow-soft); border-left: 6px solid var(--yellow); padding: 14px 16px; border-radius: 8px; margin: 16px 0;
-  }
-  .copy h3 { margin: 0 0 6px; font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; }
-  .copy ul { margin: 0; padding-left: 20px; }
-  .rounds-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 18px 0; }
-  .round-chip { border: 1px dashed var(--line); border-radius: 10px; padding: 12px; }
-  .round-chip b { display: block; font-size: 15px; }
-  .round-chip span { font-size: 13px; color: var(--ink-soft); }
-  .round-chip .num { font-family: var(--mono); font-size: 12px; color: var(--green); }
-  label.field { display: block; font-weight: 700; margin: 18px 0 6px; }
-  input[type=text], input[type=number], textarea {
-    width: 100%; font: inherit; padding: 12px 14px; border: 2px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink);
-  }
-  input:focus, textarea:focus { outline: none; border-color: var(--ink); }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px; border: 2px solid var(--ink); background: var(--ink); color: #fff;
-    font-weight: 700; font-size: 16px; padding: 12px 22px; border-radius: 10px; transition: transform .08s;
-  }
-  .btn:hover { transform: translateY(-1px); }
-  .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-  .btn.ghost { background: #fff; color: var(--ink); }
-  .btn.yellow { background: var(--yellow); color: var(--ink); }
-  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 18px; }
-
-  /* Question */
-  .q-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
-  .q-round { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--green); font-weight: 600; }
-  .q-count { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
-  .progress { height: 8px; background: #EEEBE2; border-radius: 99px; overflow: hidden; margin-bottom: 20px; }
-  .progress > div { height: 100%; background: var(--green); transition: width .3s; }
-  .q-instr { font-size: 14px; color: var(--ink-soft); margin: 0 0 8px; }
-  .q-text { font-size: 22px; font-weight: 700; margin: 0 0 20px; line-height: 1.3; }
-  @media (max-width: 560px) { .q-text { font-size: 19px; } }
-  .receipt {
-    font-family: var(--mono); background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; margin: 0 0 20px;
-    font-size: 15px; position: relative;
-  }
-  .receipt::before { content: "TRANSACTION"; position: absolute; top: -9px; left: 12px; background: var(--card); padding: 0 6px; font-size: 10px; letter-spacing: .1em; color: var(--ink-soft); }
-  .opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  @media (max-width: 560px) { .opts { grid-template-columns: 1fr; } }
-  .opt {
-    text-align: left; background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 14px 16px;
-    font-size: 16px; font-weight: 500; color: var(--ink); display: flex; gap: 12px; align-items: center; transition: border-color .1s, background .1s;
-  }
-  .opt:hover:not(:disabled) { border-color: var(--ink); }
-  .opt .key {
-    font-family: var(--mono); font-size: 12px; width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--line);
-    display: grid; place-items: center; flex-shrink: 0; color: var(--ink-soft);
-  }
-  .opt.correct { border-color: var(--green); background: var(--green-soft); }
-  .opt.wrong { border-color: var(--red); background: var(--red-soft); }
-  .opt:disabled { cursor: default; }
-  .feedback { margin-top: 18px; border-radius: 12px; padding: 14px 16px; display: none; }
-  .feedback.show { display: block; animation: rise .25s ease; }
-  .feedback.good { background: var(--green-soft); border: 1px solid var(--green); }
-  .feedback.bad { background: var(--red-soft); border: 1px solid var(--red); }
-  .feedback b { display: block; margin-bottom: 4px; }
-  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-
-  /* Statement sidebar */
-  .statement { position: sticky; top: 16px; overflow: hidden; }
-  .st-head { background: var(--ink); color: #fff; padding: 16px 18px; }
-  .st-head small { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; opacity: .7; }
-  .st-bal { font-family: var(--mono); font-size: 34px; font-weight: 600; margin-top: 2px; }
-  .st-bal.pulse { animation: pulse .4s ease; }
-  @keyframes pulse { 50% { color: var(--yellow); transform: scale(1.04); } }
-  .st-stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
-  .st-stats div { padding: 10px 8px; text-align: center; border-right: 1px solid var(--line); }
-  .st-stats div:last-child { border-right: 0; }
-  .st-stats b { display: block; font-family: var(--mono); font-size: 18px; }
-  .st-stats span { font-size: 11px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .06em; }
-  .streak-on b { color: var(--green); }
-  .ledger { max-height: 300px; overflow-y: auto; font-family: var(--mono); font-size: 12px; }
-  .ledger .entry { display: flex; justify-content: space-between; gap: 10px; padding: 7px 14px; border-bottom: 1px dotted var(--line); }
-  .ledger .entry:first-child { animation: rise .25s ease; }
-  .ledger .cr { color: var(--green); font-weight: 600; white-space: nowrap; }
-  .ledger .dr { color: var(--red); font-weight: 600; white-space: nowrap; }
-  .ledger .empty { padding: 14px; color: var(--ink-soft); font-family: var(--sans); font-size: 13px; }
-  .st-note { padding: 12px 14px; font-size: 12px; color: var(--ink-soft); background: #F6F4EE; }
-  .badges-mini { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 14px; border-top: 1px solid var(--line); min-height: 44px; }
-  .badges-mini span { font-size: 20px; }
-
-  /* Toast */
-  .toast {
-    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(120px); background: var(--ink); color: #fff;
-    padding: 12px 18px; border-radius: 12px; font-weight: 700; z-index: 50; transition: transform .3s; max-width: calc(100% - 32px); text-align: center;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  /* Round summary + results */
-  .stamp {
-    display: inline-block; font-family: var(--mono); font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-    border: 3px solid var(--green); color: var(--green); padding: 6px 14px; border-radius: 6px; transform: rotate(-3deg); margin-bottom: 12px;
-  }
-  .stamp.red { border-color: var(--red); color: var(--red); }
-  .big-num { font-family: var(--mono); font-size: 44px; font-weight: 600; margin: 4px 0; }
-  .badge-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0; }
-  .badge { border: 2px solid var(--line); border-radius: 12px; padding: 12px; text-align: center; opacity: .35; filter: grayscale(1); }
-  .badge.got { opacity: 1; filter: none; border-color: var(--green); background: var(--green-soft); }
-  .badge .ico { font-size: 28px; }
-  .badge b { display: block; font-size: 14px; margin-top: 4px; }
-  .badge small { font-size: 12px; color: var(--ink-soft); }
-  .review { margin-top: 10px; }
-  .review .item { border-left: 4px solid var(--red); background: #fff; padding: 10px 14px; margin-bottom: 8px; border-radius: 0 8px 8px 0; border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .review .item p { margin: 2px 0; font-size: 14px; }
-  .review .item .you { color: var(--red); }
-  .review .item .ans { color: var(--green); font-weight: 700; }
-  section h3 { font-size: 20px; margin: 28px 0 8px; }
-
-  /* Calculator */
-  .calc { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; }
-  @media (max-width: 560px) { .calc { grid-template-columns: 1fr; } }
-  .calc label { font-size: 13px; font-weight: 700; display: block; margin-bottom: 4px; }
-  .calc-out { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
-  @media (max-width: 560px) { .calc-out { grid-template-columns: 1fr; } }
-  .calc-out div { background: #F6F4EE; border-radius: 10px; padding: 12px; text-align: center; }
-  .calc-out b { display: block; font-family: var(--mono); font-size: 22px; color: var(--red); }
-  .calc-out span { font-size: 12px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .06em; }
-  .working { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); margin-top: 10px; }
-
-  /* Certificate */
-  #certificate { display: none; }
-  .cert {
-    border: 3px double var(--ink); border-radius: 6px; padding: 28px; text-align: center; background: #fff; margin-top: 18px;
-  }
-  .cert h2 { margin: 0; font-size: 28px; }
-  .cert .cname { font-size: 30px; font-weight: 800; border-bottom: 2px solid var(--ink); display: inline-block; padding: 0 20px 4px; margin: 14px 0; }
-  .cert .meta { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
-  .cert .exit { text-align: left; margin-top: 18px; font-size: 14px; border-top: 1px dashed var(--line); padding-top: 12px; }
-
-  .hidden { display: none !important; }
-
-  @media print {
-    body { background: #fff; }
-    body * { visibility: hidden; }
-    #certificate, #certificate * { visibility: visible; }
-    #certificate { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-    .cert { border-color: #000; }
-  }
+:root{
+  --bg:#0E0F1A; --card:#171A2B; --card2:#20243A; --line:#2C3150; --text:#F3F4FA; --mute:#9AA0BD;
+  --pink:#FF3D8B; --cyan:#22D3EE; --lime:#B6F23A; --amber:#FFB020; --red:#FF5A5F; --violet:#8B5CF6;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;
+  background-image:radial-gradient(600px 400px at 10% -10%,rgba(255,61,139,.18),transparent 60%),radial-gradient(600px 400px at 110% 10%,rgba(34,211,238,.15),transparent 60%);}
+button{font-family:inherit}
+.app{max-width:520px;margin:0 auto;padding:12px 16px 40px}
+.topbar{position:sticky;top:0;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0;background:linear-gradient(var(--bg) 70%,transparent)}
+.logo{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.35rem;letter-spacing:-.02em}
+.logo span{background:linear-gradient(90deg,var(--pink),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hud{display:flex;gap:6px;align-items:center}
+.pill{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:.8rem;font-weight:600;white-space:nowrap}
+.pill b{font-size:.95rem}
+.fire{color:var(--amber)}
+.prog{height:4px;background:var(--card2);border-radius:999px;overflow:hidden;margin:2px 0 14px}
+.prog span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--cyan));transition:width .3s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;animation:pop .35s ease}
+@keyframes pop{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.who{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ava{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1rem;flex:none;color:#0E0F1A}
+.who .h{font-weight:700;font-size:.95rem}
+.who .h .tick{color:var(--cyan)}
+.who .s{color:var(--mute);font-size:.78rem}
+.tagr{margin-left:auto;font-size:.7rem;font-weight:800;padding:4px 8px;border-radius:999px;color:#0E0F1A}
+.post{font-size:1.12rem;line-height:1.45;margin:4px 0 14px}
+.post .hash{color:var(--cyan)}
+.opts{display:grid;gap:8px}
+.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--card2);color:var(--text);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;font-size:1rem;cursor:pointer;transition:transform .1s,border-color .15s}
+.opt:hover:not(:disabled){border-color:var(--cyan);transform:translateY(-1px)}
+.opt .k{flex:none;width:26px;height:26px;border-radius:8px;background:var(--line);display:grid;place-items:center;font-size:.8rem;font-weight:800}
+.opt.right{border-color:var(--lime);background:rgba(182,242,58,.12)}
+.opt.right .k{background:var(--lime);color:#0E0F1A}
+.opt.wrong{border-color:var(--red);background:rgba(255,90,95,.12)}
+.opt.wrong .k{background:var(--red)}
+.opt:disabled{cursor:default}
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tf .opt{justify-content:center;font-weight:800;font-size:1.05rem;padding:16px}
+.reply{display:none;margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+.reply.show{display:flex;gap:10px;animation:pop .3s ease}
+.reply .ava{width:32px;height:32px;font-size:.8rem}
+.reply .txt{font-size:.92rem;line-height:1.45}
+.reply .txt b{display:block;margin-bottom:2px}
+.acts{display:flex;align-items:center;justify-content:space-between;margin-top:12px;color:var(--mute);font-size:.85rem}
+.acts .icons{display:flex;gap:14px}
+.heart{transition:transform .2s}
+.heart.liked{color:var(--pink);transform:scale(1.25)}
+.btn{border:none;border-radius:14px;padding:13px 18px;font-weight:800;font-size:1rem;cursor:pointer;background:linear-gradient(90deg,var(--pink),var(--violet));color:#fff}
+.btn.ghost{background:var(--card2);border:1px solid var(--line)}
+.btn:focus-visible,.opt:focus-visible,input:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.hidden{display:none!important}
+h2{font-family:"Space Grotesk",sans-serif;margin:0 0 6px;font-size:1.5rem}
+.muted{color:var(--mute)}
+.rounds{display:grid;gap:8px;margin:14px 0}
+.rnd{display:flex;gap:10px;align-items:center;background:var(--card2);border-radius:14px;padding:10px 12px}
+.rnd .n{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-weight:800;color:#0E0F1A;flex:none}
+.rnd small{display:block;color:var(--mute)}
+input.name{width:100%;padding:13px;border-radius:14px;border:1.5px solid var(--line);background:var(--card2);color:var(--text);font-size:1rem;font-family:inherit;margin:8px 0 14px}
+.big{font-family:"Space Grotesk",sans-serif;font-size:3rem;font-weight:700;line-height:1}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.badge{font-size:.75rem;padding:6px 10px;border-radius:999px;background:var(--card2);color:var(--mute);border:1px solid var(--line)}
+.badge.got{color:#0E0F1A;background:var(--lime);border-color:var(--lime);font-weight:700}
+.toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-140%);background:#fff;color:#0E0F1A;padding:10px 16px;border-radius:999px;font-weight:800;font-size:.9rem;transition:transform .35s;z-index:9;box-shadow:0 8px 30px rgba(0,0,0,.4);text-align:center;max-width:90vw}
+.toast.show{transform:translate(-50%,0)}
+.review .item{background:var(--card2);border-left:4px solid var(--red);border-radius:0 12px 12px 0;padding:10px 12px;margin:8px 0;font-size:.9rem}
+.review .ans{color:var(--lime);font-weight:600}
+.cert{display:none;background:#fff;color:#111;border:6px double #111;border-radius:16px;padding:26px;text-align:center;margin-top:14px}
+.cert h3{font-family:"Space Grotesk",sans-serif;font-size:1.6rem;margin:6px 0}
+.cert .nm{font-size:2rem;font-weight:800}
+.burst{position:fixed;inset:0;pointer-events:none;z-index:8;overflow:hidden}
+.burst i{position:absolute;top:-10px;width:8px;height:14px;border-radius:2px;animation:fall 1.4s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+@media (prefers-reduced-motion:reduce){.card,.reply.show{animation:none}.burst{display:none}}
+@media print{
+  body{background:#fff}
+  body *{visibility:hidden}
+  .cert,.cert *{visibility:visible}
+  .cert{display:block!important;position:absolute;left:0;top:0;width:100%}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <div class="brand">
-      <div class="brand-mark">$</div>
-      <div>
-        <h1>The Spending Audit</h1>
-        <p>Analysing Spending Patterns: why do we buy what we buy?</p>
+<div class="app">
+  <div class="topbar">
+    <div class="logo"><span>Wellbeing</span>Tok</div>
+    <div class="hud" aria-live="polite">
+      <div class="pill"><b id="fol">0</b> followers</div>
+      <div class="pill fire" title="streak">&#128293; <b id="stk">0</b></div>
+    </div>
+  </div>
+  <div class="prog"><span id="prog"></span></div>
+
+  <!-- START -->
+  <section id="start" class="card">
+    <h2>Your account, your glow up</h2>
+    <p class="muted">Year 10 Geography | Human Wellbeing revision, Lessons 1 to 6 plus the India worksheet</p>
+    <p>Scroll the feed and answer every post. There are 60 posts plus a written finale. Right answers get you followers. Three in a row puts you on fire (double followers), six in a row means you're going viral (triple). One wrong answer ends the streak.</p>
+    <div class="rounds">
+      <div class="rnd"><div class="n" style="background:var(--pink)">1</div><div><b>For You</b><small>Quick-fire basics: wellbeing, indicators, HDI</small></div></div>
+      <div class="rnd"><div class="n" style="background:var(--red)">2</div><div><b>Sort the Feed</b><small>Economic, social, environmental or qualitative?</small></div></div>
+      <div class="rnd"><div class="n" style="background:var(--cyan)">3</div><div><b>Cap or No Cap?</b><small>Is the post true or fake?</small></div></div>
+      <div class="rnd"><div class="n" style="background:var(--lime)">4</div><div><b>Stitch the Stat</b><small>Match the number to the post</small></div></div>
+      <div class="rnd"><div class="n" style="background:var(--amber)">5</div><div><b>Rate My Region</b><small>Spatial differences in Australia and India</small></div></div>
+      <div class="rnd"><div class="n" style="background:var(--violet)">6</div><div><b>Top Comment</b><small>Pick the comment a Geography teacher would pin</small></div></div>
+      <div class="rnd"><div class="n" style="background:#fff">&#9998;</div><div><b>Finale: Write the Caption</b><small>Your own TEEL paragraph, printed on your certificate</small></div></div>
+    </div>
+    <label for="name"><b>Your handle</b> (first name and last initial, for the certificate)</label>
+    <input id="name" class="name" maxlength="30" placeholder="@ e.g. Sam B" autocomplete="off">
+    <button class="btn" id="go">Start scrolling</button>
+    <p class="muted" style="font-size:.8rem;margin-top:12px">Keys: A to D to answer, T or F for Cap or No Cap, Enter for next.</p>
+  </section>
+
+  <!-- ROUND INTRO -->
+  <section id="intro" class="card hidden">
+    <div class="tagr" id="iTag" style="display:inline-block;margin:0 0 10px"></div>
+    <h2 id="iTitle"></h2>
+    <p id="iText" class="muted"></p>
+    <button class="btn" id="iGo">Let's go</button>
+  </section>
+
+  <!-- FEED POST -->
+  <section id="play" class="hidden">
+    <article class="card" id="postCard">
+      <div class="who">
+        <div class="ava" id="pAva"></div>
+        <div><div class="h" id="pHandle"></div><div class="s" id="pSub"></div></div>
+        <div class="tagr" id="pTag"></div>
+      </div>
+      <div class="post" id="pText"></div>
+      <div id="opts"></div>
+      <div class="reply" id="reply">
+        <div class="ava" style="background:var(--cyan)">Mr</div>
+        <div class="txt" id="replyTxt"></div>
+      </div>
+      <div class="acts">
+        <div class="icons"><span class="heart" id="heart">&#9829;</span><span>&#128172;</span><span>&#8599;</span></div>
+        <span id="count"></span>
+      </div>
+    </article>
+    <button class="btn hidden" id="next" style="width:100%">Next post</button>
+  </section>
+
+  <!-- FINALE -->
+  <section id="finale" class="card hidden">
+    <div class="tagr" style="display:inline-block;margin:0 0 10px;background:#fff">Finale</div>
+    <h2>Write the caption</h2>
+    <p>Your last post is a written one. Write one TEEL paragraph (80 to 150 words):</p>
+    <p class="post" style="font-weight:700">Is wellbeing the same everywhere within one country? Use Australia OR India, and at least one figure.</p>
+    <div class="rnd" style="display:block;margin-bottom:10px;font-size:.9rem">
+      <b>Sentence starters</b><br>
+      T: Wellbeing is not the same across ...<br>
+      E: For example, ...<br>
+      E: This shows that ... because ...<br>
+      L: Therefore, ...
+    </div>
+    <label for="cap" class="muted" style="font-size:.85rem">Your caption</label>
+    <textarea id="cap" rows="8" style="width:100%;margin-top:6px;padding:12px;border-radius:14px;border:1.5px solid var(--line);background:var(--card2);color:var(--text);font:inherit;font-size:1rem;resize:vertical"></textarea>
+    <div id="checks" style="margin:10px 0;font-size:.9rem;display:grid;gap:4px"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" id="post">Post caption</button>
+      <button class="btn ghost" id="skip">Skip</button>
+    </div>
+  </section>
+
+  <!-- END -->
+  <section id="end" class="hidden">
+    <div class="card">
+      <p class="muted" style="margin:0">Final follower count</p>
+      <div class="big" id="eFol"></div>
+      <p id="eText"></p>
+      <div class="badges" id="eBadges"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+        <button class="btn" id="print">Print certificate</button>
+        <button class="btn ghost" id="again">Play again</button>
       </div>
     </div>
-    <div class="acct">YEAR 10 ECONOMICS AND BUSINESS<br>VC2HE10K09</div>
-  </header>
-
-  <div class="grid">
-    <main>
-      <!-- INTRO -->
-      <div id="intro" class="panel pad hero">
-        <h2>Audit the spending. Spot the triggers.</h2>
-        <p class="lead">Four rounds, 32 transactions. Every correct call banks money into your savings. Every wrong call is an impulse buy.</p>
-
-        <div class="copy">
-          <h3>Learning goals</h3>
-          <ul>
-            <li>Identify how marketing and lifestyle choices influence spending habits.</li>
-            <li>Recognise the psychological impact of Buy Now, Pay Later (BNPL).</li>
-            <li>Calculate the annual cost of small daily habits.</li>
-            <li>Analyse spending triggers to improve financial wellbeing.</li>
-          </ul>
-        </div>
-
-        <div class="rounds-list">
-          <div class="round-chip"><span class="num">ROUND 1</span><b>Fixed or Variable?</b><span>Sort the costs from last lesson.</span></div>
-          <div class="round-chip"><span class="num">ROUND 2</span><b>Spot the Trigger</b><span>FOMO, convenience, mood or marketing?</span></div>
-          <div class="round-chip"><span class="num">ROUND 3</span><b>Myth or Fact</b><span>BNPL, consumerism and the digital economy.</span></div>
-          <div class="round-chip"><span class="num">ROUND 4</span><b>Run the Numbers</b><span>Annual habit costs and GST.</span></div>
-        </div>
-
-        <p style="margin:0;font-size:14px;color:var(--ink-soft)"><b style="color:var(--ink)">Banking rules:</b> correct = +$10. Get 3 in a row and your deposits double to +$20 (that is compound interest working for you). Wrong = $5 impulse buy and your streak resets.</p>
-
-        <label class="field" for="nameInput">Your name</label>
-        <input id="nameInput" type="text" maxlength="40" placeholder="First name and surname" autocomplete="off">
-        <div class="row">
-          <button class="btn" id="startBtn" disabled>Open the statement &rarr;</button>
-        </div>
-      </div>
-
-      <!-- QUESTION -->
-      <div id="quiz" class="panel pad hidden">
-        <div class="q-head">
-          <div class="q-round" id="qRound">Round 1</div>
-          <div class="q-count" id="qCount">1 / 8</div>
-        </div>
-        <div class="progress"><div id="qProg" style="width:0%"></div></div>
-        <p class="q-instr" id="qInstr"></p>
-        <div id="qReceipt" class="receipt hidden"></div>
-        <p class="q-text" id="qText"></p>
-        <div class="opts" id="qOpts"></div>
-        <div class="feedback" id="qFb"></div>
-        <div class="row hidden" id="nextRow">
-          <button class="btn" id="nextBtn">Next &rarr;</button>
-          <span style="font-size:13px;color:var(--ink-soft)">or press Enter</span>
-        </div>
-      </div>
-
-      <!-- ROUND SUMMARY -->
-      <div id="roundEnd" class="panel pad hidden" style="text-align:center">
-        <div class="stamp" id="reStamp">Round cleared</div>
-        <h2 style="margin:6px 0" id="reTitle"></h2>
-        <div class="big-num" id="reScore"></div>
-        <p id="reMsg" style="color:var(--ink-soft);max-width:520px;margin:0 auto"></p>
-        <div class="row" style="justify-content:center">
-          <button class="btn" id="reNext">Next round &rarr;</button>
-        </div>
-      </div>
-
-      <!-- RESULTS -->
-      <div id="results" class="panel pad hidden">
-        <div class="stamp" id="resStamp">Audit complete</div>
-        <h2 style="margin:4px 0 0;font-size:30px">Your end-of-audit statement</h2>
-        <div class="row" style="gap:28px;margin-top:10px">
-          <div><div style="font-size:13px;color:var(--ink-soft)">CORRECT</div><div class="big-num" id="resCorrect"></div></div>
-          <div><div style="font-size:13px;color:var(--ink-soft)">SAVINGS BANKED</div><div class="big-num" id="resBal" style="color:var(--green)"></div></div>
-          <div><div style="font-size:13px;color:var(--ink-soft)">BEST STREAK</div><div class="big-num" id="resStreak"></div></div>
-        </div>
-
-        <section>
-          <h3>Badges</h3>
-          <div class="badge-grid" id="badgeGrid"></div>
-        </section>
-
-        <section id="reviewSec">
-          <h3>Mistake review</h3>
-          <p style="margin:0;font-size:14px;color:var(--ink-soft)">Read each one. These are the ideas to tighten up before next lesson.</p>
-          <div class="review" id="reviewList"></div>
-        </section>
-
-        <section>
-          <h3>Your habit calculator</h3>
-          <p style="margin:0 0 12px;font-size:14px;color:var(--ink-soft)">Pick one thing you buy often. Use the three steps from class: find the cost, multiply by how many times a week, multiply by 52.</p>
-          <div class="calc">
-            <div><label for="cItem">What is the habit?</label><input id="cItem" type="text" placeholder="e.g. bubble tea after school" maxlength="40"></div>
-            <div><label for="cCost">Cost each time ($)</label><input id="cCost" type="number" min="0" step="0.5" placeholder="7.50"></div>
-            <div><label for="cTimes">Times per week</label><input id="cTimes" type="number" min="0" max="21" step="1" placeholder="3"></div>
-          </div>
-          <div class="calc-out">
-            <div><span>Per week</span><b id="cWeek">$0</b></div>
-            <div><span>Per year</span><b id="cYear">$0</b></div>
-            <div><span>Over 5 years</span><b id="cFive">$0</b></div>
-          </div>
-          <div class="working" id="cWork">Enter a cost and how many times a week to see the working.</div>
-        </section>
-
-        <section>
-          <h3>Exit ticket</h3>
-          <label class="field" for="exit1" style="margin-top:0">One spending trigger I identified in myself today:</label>
-          <textarea id="exit1" rows="2" maxlength="200"></textarea>
-          <label class="field" for="exit2">One lifestyle factor that makes financial discipline difficult in the digital economy:</label>
-          <textarea id="exit2" rows="2" maxlength="200"></textarea>
-        </section>
-
-        <div class="row">
-          <button class="btn yellow" id="printBtn">Print certificate</button>
-          <button class="btn ghost" id="restartBtn">Run the audit again</button>
-        </div>
-      </div>
-
-      <!-- CERTIFICATE (print only + preview) -->
-      <div id="certificate">
-        <div class="cert">
-          <div class="meta">THE SPENDING AUDIT &middot; YEAR 10 ECONOMICS AND BUSINESS</div>
-          <h2 style="margin-top:10px">Certificate of Audit</h2>
-          <p style="margin:12px 0 0">This certifies that</p>
-          <div class="cname" id="certName"></div>
-          <p style="margin:0">completed the Analysing Spending Patterns audit</p>
-          <p class="meta" id="certStats" style="margin-top:12px"></p>
-          <p id="certBadges" style="font-size:24px;margin:8px 0"></p>
-          <div class="exit" id="certExit"></div>
-          <p class="meta" id="certDate" style="margin-top:16px"></p>
-        </div>
-      </div>
-    </main>
-
-    <!-- STATEMENT SIDEBAR -->
-    <aside class="panel statement" id="statement">
-      <div class="st-head">
-        <small>SAVINGS ACCOUNT &middot; <span id="stName">STUDENT</span></small>
-        <div class="st-bal" id="stBal">$0</div>
-      </div>
-      <div class="st-stats">
-        <div><b id="stCorrect">0</b><span>Correct</span></div>
-        <div id="stStreakBox"><b id="stStreak">0</b><span>Streak</span></div>
-        <div><b id="stLeft">32</b><span>Left</span></div>
-      </div>
-      <div class="ledger" id="ledger"><div class="empty">No transactions yet. Your audit history will appear here.</div></div>
-      <div class="badges-mini" id="badgesMini"></div>
-      <div class="st-note">3 in a row doubles every deposit. Keyboard: press 1 to 4 to answer.</div>
-    </aside>
-  </div>
+    <div class="card review" id="review"></div>
+    <div class="cert" id="cert">
+      <div style="letter-spacing:.15em;font-size:.75rem">YEAR 10 GEOGRAPHY | HUMAN WELLBEING</div>
+      <h3>WellbeingTok Creator Certificate</h3>
+      <p>This certifies that</p>
+      <div class="nm" id="cName"></div>
+      <p id="cLine"></p>
+      <p id="cBadges" style="font-size:.9rem"></p>
+      <div id="cCap" style="text-align:left;font-size:.9rem;border-top:1px solid #ccc;margin-top:10px;padding-top:10px;white-space:pre-wrap"></div>
+      <p id="cDate" style="font-size:.8rem"></p>
+    </div>
+  </section>
 </div>
-
 <div class="toast" id="toast"></div>
+<div class="burst" id="burst"></div>
 
 <script>
-(function () {
-  "use strict";
+(function(){
+"use strict";
 
-  // ---------- CONTENT ----------
-  var ROUNDS = [
-    {
-      id: "r1",
-      title: "Fixed or Variable?",
-      instr: "Recap from last lesson. Is this a fixed cost or a variable cost?",
-      ledger: "Cost sort",
-      options: ["Fixed cost", "Variable cost"],
-      items: [
-        { q: "A monthly Netflix subscription", a: 0, why: "The same amount comes out every month whether you watch one show or fifty, so it is fixed." },
-        { q: "Buying petrol for your car", a: 1, why: "The more you drive, the more you spend. It changes with usage, so it is variable." },
-        { q: "Rent on a share house room, $220 a week", a: 0, why: "Rent stays the same and must be paid regularly. That is the textbook fixed cost." },
-        { q: "The weekly grocery shop", a: 1, why: "Groceries change week to week depending on what you choose to buy, so they are variable." },
-        { q: "A $35 a month phone plan", a: 0, why: "A plan charges the same amount each month, so it is fixed (as long as you stay inside it)." },
-        { q: "Movie tickets with friends", a: 1, why: "You choose whether to go and how often. It is variable, and it is discretionary spending too." },
-        { q: "Car insurance paid every month", a: 0, why: "Insurance premiums stay the same for the period of the policy, so they are fixed." },
-        { q: "Uber Eats orders", a: 1, why: "Some weeks it is zero, some weeks it is $80. That is variable, and a classic place where spending leaks." }
-      ]
-    },
-    {
-      id: "r2",
-      title: "Spot the Trigger",
-      instr: "Which spending trigger is at work here?",
-      ledger: "Trigger",
-      options: ["FOMO", "Convenience", "Mood", "Marketing"],
-      receipt: true,
-      items: [
-        { q: "Everyone in your friend group now has the new wireless earbuds. Suddenly yours feel ancient and you start looking up prices.", a: 0, why: "Fear Of Missing Out. Seeing friends with the latest gadget makes you want it too, even though yours still work." },
-        { q: "Your card is saved in an app, so you buy a hoodie with one tap at 11:40 pm without getting off the couch.", a: 1, why: "Convenience. One-click buying removes the pause where you might have asked \"do I actually need this?\"" },
-        { q: "You had a terrible day at school, so you go to the shops and buy a new pair of sneakers to feel better.", a: 2, why: "Mood. This is 'retail therapy': spending to change how you feel rather than because you need the item." },
-        { q: "A pop-up says \"Only 2 left in stock! Sale ends at midnight!\" and a countdown clock is ticking.", a: 3, why: "Marketing. Scarcity and countdown timers are designed to rush you so you do not stop and think." },
-        { q: "Tickets for a festival are selling fast and your whole group chat is posting screenshots of theirs.", a: 0, why: "FOMO. The pressure comes from not wanting to be the one left out, not from the event itself." },
-        { q: "Bored on a Sunday afternoon, you scroll a fashion app for an hour and end up with $60 in your cart.", a: 2, why: "Mood. Boredom is an emotion, and spending to fill the gap is mood-driven buying." },
-        { q: "You tap your phone at the canteen every lunchtime and never really notice how much is going out.", a: 1, why: "Convenience. Tap-and-go is frictionless, so it does not feel like real money leaving your account." },
-        { q: "An ad shows a smiling, popular group of teens all drinking one brand of energy drink.", a: 3, why: "Marketing. The ad is selling a lifestyle and making you feel incomplete without the product, not telling you about the drink." }
-      ]
-    },
-    {
-      id: "r3",
-      title: "Myth or Fact",
-      instr: "Buy Now, Pay Later, consumerism and the digital economy. Myth or fact?",
-      ledger: "Myth/Fact",
-      options: ["Myth", "Fact"],
-      items: [
-        { q: "Buy Now, Pay Later is always free because it does not charge interest.", a: 0, why: "Myth. There may be no interest, but late fees and account-keeping fees can cost you more than interest would." },
-        { q: "With a typical BNPL plan you get the item now, pay 25% upfront, and pay the rest over about 6 weeks.", a: 1, why: "Fact. That is how most plans work, which is exactly why it feels so easy." },
-        { q: "It is easy to end up with several BNPL plans running at once and lose track of what you owe.", a: 1, why: "Fact. Five small plans can quietly add up to a large debt, with five sets of due dates to miss." },
-        { q: "BNPL can lead people to buy items they cannot actually afford.", a: 1, why: "Fact. Splitting the price makes it look smaller, so people spend more than they would with cash." },
-        { q: "Tapping a card or phone feels exactly the same as handing over cash, so it does not change how much people spend.", a: 0, why: "Myth. Frictionless payments do not feel like real money leaving, so people tend to spend more." },
-        { q: "Marketers often create a 'problem' (your phone is slow) and then sell you the 'solution' (the new model).", a: 1, why: "Fact. This is the cycle of consumerism. Spotting it is the first step to breaking it." },
-        { q: "Constantly upgrading your stuff has no real effect on your ability to save for emergencies.", a: 0, why: "Myth. Every upgrade is money that cannot go into an emergency buffer, so constant spending reduces your ability to handle unexpected costs." },
-        { q: "Understanding WHY you spend is just as important as knowing HOW MUCH you spend.", a: 1, why: "Fact. Knowing your triggers lets you fix the root cause instead of just feeling bad about the total." }
-      ]
-    },
-    {
-      id: "r4",
-      title: "Run the Numbers",
-      instr: "Use the steps: find the cost, multiply by times per week, multiply by 52 (or by 365 for every day of the year).",
-      ledger: "Calc",
-      shuffle: true,
-      items: [
-        { q: "You buy a $10 lunch every single day of the year (365 days). What does that cost you in a year?", opts: ["$3,650", "$520", "$365", "$2,600"], a: 0, why: "$10 x 365 = $3,650. That is more than fifteen times the cost of a year of streaming." },
-        { q: "A streaming service costs $20 a month. How much is that per year?", opts: ["$240", "$1,040", "$200", "$140"], a: 0, why: "$20 x 12 months = $240. Monthly bills are often smaller than daily habits once you add them up." },
-        { q: "A smoothie costs $8 and you buy one every day. Using x7 then x52, what is the yearly cost?", opts: ["$2,912", "$416", "$1,456", "$5,824"], a: 0, why: "$8 x 7 = $56 a week. $56 x 52 = $2,912 a year." },
-        { q: "You buy a $6 sandwich every weekday (Monday to Friday). How much do you spend in one year (52 weeks)?", opts: ["$1,560", "$1,092", "$312", "$2,184"], a: 0, why: "Weekdays only, so $6 x 5 = $30 a week. $30 x 52 = $1,560. ($2,184 is what you get if you wrongly use 7 days.)" },
-        { q: "An energy drink costs $4 and you buy one 3 times a week. What is the yearly cost?", opts: ["$624", "$208", "$1,456", "$156"], a: 0, why: "$4 x 3 = $12 a week. $12 x 52 = $624 a year." },
-        { q: "You buy a shirt for $55, GST included. How much of that is GST?", opts: ["$5", "$5.50", "$50", "$11"], a: 0, why: "Divide the total by 11: $55 / 11 = $5 GST. The base price was $50. ($5.50 is 10% of $55, which is the common mistake.)" },
-        { q: "To find the GST included in a total price of $110, you divide the amount by...", opts: ["11", "10", "1.1", "100"], a: 0, why: "Divide by 11. $110 / 11 = $10 GST, leaving a $100 base price. Dividing by 1.1 gives the base price, not the GST." },
-        { q: "Concert merch costs $88, GST included. How much GST did you pay?", opts: ["$8", "$8.80", "$80", "$11"], a: 0, why: "$88 / 11 = $8 GST. The price before GST was $80." }
-      ]
-    }
-  ];
+var ACCOUNTS=[
+ ["@geo.girlie","GG","#FF3D8B"],["@hdi.hub","HD","#22D3EE"],["@stats.unfiltered","SU","#B6F23A"],
+ ["@mapmyvibes","MV","#FFB020"],["@wyndham.wanderer","WW","#8B5CF6"],["@delhi.dispatch","DD","#FF5A5F"],
+ ["@factcheck.au","FC","#22D3EE"],["@touchgrass.geo","TG","#B6F23A"]
+];
 
-  var BADGES = [
-    { id: "cost", ico: "📋", name: "Cost Sorter", desc: "7+ in Round 1" },
-    { id: "trigger", ico: "🔍", name: "Trigger Spotter", desc: "7+ in Round 2" },
-    { id: "bnpl", ico: "🚫", name: "BNPL Buster", desc: "7+ in Round 3" },
-    { id: "numbers", ico: "🧮", name: "Number Cruncher", desc: "7+ in Round 4" },
-    { id: "streak", ico: "🔥", name: "Compound Interest", desc: "Streak of 6+" },
-    { id: "clean", ico: "✨", name: "Clean Statement", desc: "A perfect round" },
-    { id: "saver", ico: "🏦", name: "Sharp Saver", desc: "$400+ banked" },
-    { id: "auditor", ico: "🏆", name: "Chief Auditor", desc: "28+ correct" }
-  ];
-  var BADGE_ROUND = ["cost", "trigger", "bnpl", "numbers"];
+var ROUNDS=[
+ {key:"For You",color:"#FF3D8B",text:"Quick-fire basics from Lessons 1 and 2. Easy followers, don't fumble.",type:"mc",qs:[
+  {q:"POV: you have to define human wellbeing in one line. Which one slaps?",a:"The quality of life and state of being healthy, happy and having your needs met",w:["How much money a country makes in a year","The number of people living in a place","How good a country's sporting teams are"],e:"Wellbeing is about quality of life, not just money."},
+  {q:"GDP per person is an example of which type of indicator?",a:"Economic",w:["Social","Environmental","Qualitative"],e:"Anything measured in money (GDP, GNI, income) is an economic indicator."},
+  {q:"Life expectancy and literacy rate are both ...",a:"Social indicators",w:["Economic indicators","Environmental indicators","Political indicators"],e:"They measure health and education, so they are social."},
+  {q:"The Human Development Index (HDI) combines which three things?",a:"Health, education and income",w:["Health, happiness and housing","Income, population and land area","Education, safety and climate"],e:"Life expectancy, years of schooling and GNI per person."},
+  {q:"HDI is a number between ...",a:"0 and 1",w:["0 and 10","1 and 100","0 and 1,000"],e:"Closer to 1 means higher human development."},
+  {q:"A country with an HDI of 0.820 is in which category?",a:"Very high human development",w:["High human development","Medium human development","Low human development"],e:"Very high starts at 0.800."},
+  {q:"Access to safe drinking water is best described as an ...",a:"Environmental indicator",w:["Economic indicator","Income indicator","Qualitative indicator"],e:"It measures the condition of the environment people live in."},
+  {q:"Which organisation publishes the HDI each year?",a:"The United Nations Development Programme (UNDP)",w:["The Australian Bureau of Statistics","The World Health Organization","Google"],e:"The UNDP's Human Development Report ranks 193 countries."},
+  {q:"Geographers measure wellbeing using things called ...",a:"Indicators",w:["Hashtags","Landforms","Climates"],e:"An indicator is a measurable sign of wellbeing, like literacy or income."},
+  {q:"Which of these is a qualitative indicator?",a:"How safe people feel walking home at night",w:["Average income","Number of doctors","Life expectancy"],e:"It's based on feelings and experience, not a count."}
+ ]},
+ {key:"Sort the Feed",color:"#FF5A5F",text:"The algorithm is broken. Sort each indicator into the right type.",type:"fixed",fixed:["Economic","Social","Environmental","Qualitative"],qs:[
+  {q:"Unemployment rate",a:"Economic",e:"It's about jobs and income."},
+  {q:"Average household income",a:"Economic",e:"Measured in dollars."},
+  {q:"GNI per person",a:"Economic",e:"Gross national income, measured in money."},
+  {q:"Infant mortality rate",a:"Social",e:"It's a health measure."},
+  {q:"Average years of schooling",a:"Social",e:"It's an education measure."},
+  {q:"Doctors per 1,000 people",a:"Social",e:"Access to health care."},
+  {q:"Air pollution levels in a city",a:"Environmental",e:"The condition of the environment people live in."},
+  {q:"Share of homes with safe drinking water",a:"Environmental",e:"Access to a clean environment and resources."},
+  {q:"How happy people say they are",a:"Qualitative",e:"Based on people's own opinions and feelings."},
+  {q:"How connected people feel to culture and Country",a:"Qualitative",e:"Lived experience that numbers struggle to capture."}
+ ]},
+ {key:"Cap or No Cap?",color:"#22D3EE",text:"Is the post legit (No Cap) or fake (Cap)? Lessons 1 to 4.",type:"tf",qs:[
+  {q:"A country with a high GDP automatically has high wellbeing for everyone.",a:false,e:"Cap. Wealth can be shared very unevenly. That's why we look beyond GDP."},
+  {q:"Wellbeing can be different between places inside the same country.",a:true,e:"No cap. That's spatial variation, e.g. major cities vs remote Australia."},
+  {q:"Happiness and feeling safe are examples of qualitative (subjective) wellbeing.",a:true,e:"No cap. They're based on how people feel, not counted in dollars."},
+  {q:"The HDI measures how happy people are.",a:false,e:"Cap. HDI only uses health, education and income."},
+  {q:"Closing the Gap is an agreement between Australian governments and Aboriginal and Torres Strait Islander organisations.",a:true,e:"No cap. The National Agreement on Closing the Gap was signed in 2020."},
+  {q:"The 2026 report found every Closing the Gap target is on track.",a:false,e:"Cap. Only a few are on track or met, and some are getting worse."},
+  {q:"Numbers like averages can hide big differences between groups of people.",a:true,e:"No cap. An average can look fine while some groups are doing badly. Beyond the numbers, Lesson 4."},
+  {q:"India's HDI puts it in the low human development category.",a:false,e:"Cap. India is medium (0.685), close to the 0.700 line for high."},
+  {q:"Life expectancy is how long a newborn is expected to live, on average.",a:true,e:"No cap. It's one of the three parts of the HDI."},
+  {q:"'Spatial' means something to do with time.",a:false,e:"Cap. Spatial means to do with space and place: where things are."}
+ ]},
+ {key:"Stitch the Stat",color:"#B6F23A",text:"Every post is missing its number. Stitch the right stat on.",type:"mc",qs:[
+  {q:"India's HDI value in the 2025 report: ___",a:"0.685",w:["0.958","0.450","0.800"],e:"Medium human development, rank 130 of 193."},
+  {q:"India's HDI rank: ___ out of 193",a:"130",w:["13","7","181"],e:"Up from 133 the year before."},
+  {q:"India's life expectancy in 2023: ___ years",a:"72",w:["58","83","65"],e:"Up from 58.6 years in 1990."},
+  {q:"The HDI score where 'high human development' starts: ___",a:"0.700",w:["0.500","0.900","0.550"],e:"India is 0.015 away."},
+  {q:"Closing the Gap agreement signed in ___",a:"2020",w:["2008","1967","2026"],e:"The National Agreement was signed in July 2020."},
+  {q:"Preschool enrolment for First Nations kids in 2026: more than ___",a:"95%",w:["61%","50%","25%"],e:"Up from 61.3% in 2016. The first target to be met."},
+  {q:"Aboriginal and Torres Strait Islander male life expectancy (2020-2022): ___ years",a:"71.9",w:["81.2","65.0","59.5"],e:"Females 75.6 years (ABS)."},
+  {q:"First Nations life expectancy in remote areas is about ___ years lower than in major cities",a:"5",w:["1","15","25"],e:"About 5.2 years lower, for both males and females (ABS 2020-2022)."},
+  {q:"India's HDI value has risen by over ___% since 1990",a:"53",w:["5","10","200"],e:"Faster than both the global and South Asian averages (UNDP)."},
+  {q:"Aboriginal and Torres Strait Islander female life expectancy (2020-2022): ___ years",a:"75.6",w:["71.9","85.3","62.0"],e:"Males are 71.9 years (ABS)."}
+ ]},
+ {key:"Rate My Region",color:"#FFB020",text:"Spatial differences in Australia and India, plus the causes from Lesson 5.",type:"mc",qs:[
+  {q:"In Australia, which area usually has lower wellbeing on health and services?",a:"Remote and very remote areas",w:["Major cities","Inner suburbs of Melbourne","Every area is exactly the same"],e:"Distance makes hospitals, schools and jobs harder to reach."},
+  {q:"Kerala vs Bihar. Which Indian state usually tops wellbeing rankings like literacy and life expectancy?",a:"Kerala",w:["Bihar","They are the same","Neither, India has no states"],e:"Kerala has long invested in health and education. Bihar is near the bottom."},
+  {q:"Literacy in Kerala (2011 Census) was about 94%. Bihar was about ...",a:"62%",w:["94%","99%","20%"],e:"A 30-point gap inside one country."},
+  {q:"Which is a PHYSICAL cause of spatial differences in wellbeing?",a:"Remoteness, harsh climate or natural hazards",w:["Corruption in government","Discrimination","Spending on schools"],e:"Physical causes come from the natural environment."},
+  {q:"Which is a HUMAN cause of spatial differences in wellbeing?",a:"Conflict, poor governance or unequal access to services",w:["Drought","Mountains","Cyclones"],e:"Human causes come from decisions and systems people create."},
+  {q:"In India, which group generally has lower access to services like clean water and hospitals?",a:"People in rural villages",w:["People in big cities like Mumbai","Everyone has equal access","Tourists"],e:"Rural areas have fewer hospitals, schools and piped water."},
+  {q:"The ABS index that ranks Australian areas by advantage and disadvantage is called ...",a:"SEIFA",w:["HDI","GDP","NAPLAN"],e:"Socio-Economic Indexes for Areas, made from Census data."},
+  {q:"Which helps explain why remote First Nations communities have lower wellbeing?",a:"Distance from services plus the long-term effects of colonisation",w:["People there choose not to see doctors","There are no differences at all","The climate is always perfect"],e:"Combine physical (remoteness) and human (history, access) causes for full marks."},
+  {q:"Which state or territory has the lowest First Nations life expectancy?",a:"Northern Territory",w:["New South Wales","Victoria","Australian Capital Territory"],e:"NT males 65.6 years vs NSW males 73.8 years (ABS 2020-2022). Much of the NT is remote."},
+  {q:"Who is MOST likely to have better access to hospitals and schools?",a:"A family in central Mumbai",w:["A family in a remote village in Bihar","A family in a flood-prone rural area","They all have the same access"],e:"The urban-rural divide: services cluster in cities."}
+ ]},
+ {key:"Top Comment",color:"#8B5CF6",text:"Pick the comment a Geography teacher would pin. Think: specific, uses evidence, explains WHY.",type:"mc",qs:[
+  {q:"Post: 'Australia is rich so everyone here has great wellbeing'. Top comment?",a:"Not really. Remote First Nations people live about 5 years less than those in cities, so averages hide gaps",w:["Facts, Australia is the best","Nah, Australia is poor","Who cares about wellbeing"],e:"Uses evidence and the idea of spatial variation."},
+  {q:"Post: 'Why use HDI and not just GDP?' Top comment?",a:"GDP only shows money. HDI adds health and education, so it gives a fuller picture of wellbeing",w:["Because HDI is newer","GDP and HDI are the same thing","HDI measures happiness"],e:"Explains the difference and why it matters."},
+  {q:"Post: 'India is poor, end of story'. Top comment?",a:"India's HDI rose over 50% since 1990 and life expectancy hit 72, but states like Bihar still lag Kerala",w:["True, nothing has changed","India is richer than Australia","Life expectancy doesn't matter"],e:"Balanced: shows progress AND uneven wellbeing, with figures."},
+  {q:"Post: 'Is Closing the Gap working?' Top comment?",a:"Partly. Preschool enrolment hit 95% but some targets, like kids in out-of-home care, are getting worse",w:["Yes, it's done, all fixed","No, nothing has improved at all","It's not a real policy"],e:"A judgement backed by evidence on both sides."},
+  {q:"Which comment best explains a CAUSE of low wellbeing?",a:"Remote areas have fewer hospitals, so people travel hours for care and health suffers",w:["Remote areas have low wellbeing","Some places are just worse","It's bad there"],e:"It explains HOW the cause leads to the effect, not just WHAT."},
+  {q:"Post: 'Qualitative data is useless'. Top comment?",a:"It shows things numbers can't, like feeling safe or connected to culture and Country",w:["Agreed, only numbers count","Qualitative means quantity","It's only for English class"],e:"Qualitative indicators capture lived experience."},
+  {q:"Best comment comparing wellbeing in Australia and India?",a:"Australia is very high on HDI and India is medium, but both have big gaps between regions and groups",w:["Australia wins, India loses","They are identical","You can't compare countries"],e:"Compares overall levels AND makes the point about inequality within both."},
+  {q:"Which comment uses the PEEL/TEEL structure best?",a:"Wellbeing varies within India. For example, Kerala's literacy is 94% vs Bihar's 62%. This shows where you live shapes your opportunities",w:["India is unequal","Kerala good, Bihar bad lol","I think India is a big country with lots of people"],e:"Point, evidence with figures, then explain the link."},
+  {q:"Post: 'Wellbeing and standard of living are the same thing'. Top comment?",a:"Standard of living is the material stuff like income and housing. Wellbeing also includes health, happiness and feeling safe",w:["Yep, same thing","Standard of living is about the weather","Wellbeing only means money"],e:"Shows you know the difference between the two terms."},
+  {q:"Post: 'How can a rich region have people with low wellbeing?' Top comment?",a:"Income can be shared unequally, so some groups still miss out on good housing, health care and jobs",w:["It can't, rich means happy","Rich regions have no problems","Because of the weather"],e:"Inequality explains why averages can mislead."}
+ ]}
+];
 
-  var TOTAL = ROUNDS.reduce(function (s, r) { return s + r.items.length; }, 0);
-  var KEYS = ["1", "2", "3", "4"];
+var TOTAL=ROUNDS.reduce(function(s,r){return s+r.qs.length;},0);
+var BADGES=[
+ {id:"first",n:"First Post",t:function(s){return s.correct>=1;}},
+ {id:"fire",n:"On Fire (3 streak)",t:function(s){return s.best>=3;}},
+ {id:"viral",n:"Gone Viral (6 streak)",t:function(s){return s.best>=6;}},
+ {id:"verified",n:"Verified (50K)",t:function(s){return s.fol>=50000;}},
+ {id:"nocap",n:"Cap Detector",t:function(s){return s.capClean;}},
+ {id:"brain",n:"Big Brain (52+)",t:function(s){return s.correct>=52;}},
+ {id:"writer",n:"Caption King",t:function(s){return s.caption;}}
+];
+var $=function(id){return document.getElementById(id);};
+var L=["A","B","C","D"];
+var st, order, rIdx, qIdx, done;
 
-  // ---------- STATE ----------
-  var S;
-  function fresh(name) {
-    return {
-      name: name, round: 0, idx: 0, balance: 0, correct: 0, streak: 0, best: 0,
-      roundCorrect: [0, 0, 0, 0], mistakes: [], badges: {}, answered: false, order: []
-    };
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function fmt(n){return n>=1000?(n/1000).toFixed(n%1000===0?0:1)+"K":String(n);}
+function reset(){st={fol:0,streak:0,best:0,correct:0,got:{},miss:[],capClean:false,capWrong:0};done=0;hud();}
+function hud(){$("fol").textContent=fmt(st.fol);$("stk").textContent=st.streak;$("prog").style.width=(done/TOTAL*100)+"%";}
+var tt;function toast(m){var t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(function(){t.classList.remove("show");},1700);}
+function burst(){
+  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  var b=$("burst"),cols=["#FF3D8B","#22D3EE","#B6F23A","#FFB020","#8B5CF6"];
+  for(var i=0;i<40;i++){var e=document.createElement("i");e.style.left=Math.random()*100+"vw";e.style.background=cols[i%5];e.style.animationDelay=(Math.random()*.4)+"s";b.appendChild(e);}
+  setTimeout(function(){b.innerHTML="";},2000);
+}
+function show(id){["start","intro","play","finale","end"].forEach(function(s){$(s).classList.toggle("hidden",s!==id);});window.scrollTo(0,0);}
+function checkBadges(){BADGES.forEach(function(b){if(!st.got[b.id]&&b.t(st)){st.got[b.id]=true;toast("Badge unlocked: "+b.n);}});}
+
+function startRound(r){
+  rIdx=r;qIdx=0;var R=ROUNDS[r];order=shuffle(R.qs);
+  if(R.type==="tf"){st.capWrong=0;}
+  var t=$("iTag");t.textContent="Round "+(r+1)+" of "+ROUNDS.length;t.style.background=R.color;
+  $("iTitle").textContent=R.key;$("iText").textContent=R.text;
+  show("intro");$("iGo").focus();
+}
+
+function ask(){
+  var R=ROUNDS[rIdx],Q=order[qIdx],acc=ACCOUNTS[Math.floor(Math.random()*ACCOUNTS.length)];
+  var card=$("postCard");card.style.animation="none";void card.offsetWidth;card.style.animation="";
+  $("pAva").textContent=acc[1];$("pAva").style.background=acc[2];
+  $("pHandle").innerHTML="";var h=document.createElement("span");h.textContent=acc[0]+" ";$("pHandle").appendChild(h);
+  var tk=document.createElement("span");tk.className="tick";tk.textContent="✓";$("pHandle").appendChild(tk);
+  $("pSub").textContent=(Math.floor(Math.random()*58)+2)+"m ago";
+  var tg=$("pTag");tg.textContent=R.key;tg.style.background=R.color;
+  $("pText").textContent=Q.q;
+  var box=$("opts");box.innerHTML="";box.className=R.type==="tf"?"tf":"opts";
+  var options=R.type==="tf"?[["No Cap (true)",true],["Cap (fake)",false]]:(R.type==="fixed"?R.fixed.map(function(o){return [o,o];}):shuffle([Q.a].concat(Q.w)).map(function(o){return [o,o];}));
+  options.forEach(function(o,i){
+    var b=document.createElement("button");b.type="button";b.className="opt";
+    if(R.type!=="tf"){var k=document.createElement("span");k.className="k";k.textContent=L[i];b.appendChild(k);}
+    var s=document.createElement("span");s.textContent=o[0];b.appendChild(s);
+    b._v=o[1];b.addEventListener("click",function(){answer(b);});box.appendChild(b);
+  });
+  $("reply").className="reply";$("heart").className="heart";
+  $("count").textContent=fmt(Math.floor(Math.random()*9000)+400)+" likes";
+  $("next").classList.add("hidden");st.locked=false;
+  show("play");
+}
+
+function answer(btn){
+  if(st.locked)return;st.locked=true;
+  var R=ROUNDS[rIdx],Q=order[qIdx],ok=btn._v===Q.a,gain=0;
+  Array.prototype.forEach.call($("opts").children,function(b){b.disabled=true;if(b._v===Q.a)b.classList.add("right");});
+  if(ok){
+    st.correct++;st.streak++;st.best=Math.max(st.best,st.streak);
+    var mult=st.streak>=6?3:(st.streak>=3?2:1);gain=1000*mult;st.fol+=gain;
+    $("heart").className="heart liked";
+    if(st.streak===3)toast("🔥 You're on fire. Double followers!");
+    if(st.streak===6){toast("🚀 Gone viral. Triple followers!");burst();}
+  }else{
+    btn.classList.add("wrong");
+    if(st.streak>=3)toast("Streak lost. Ratioed 😬");
+    st.streak=0;if(R.type==="tf")st.capWrong++;
+    var shown=R.type==="tf"?(btn._v?"No Cap":"Cap"):btn._v;
+    var right=R.type==="tf"?(Q.a?"No Cap (true)":"Cap (fake)"):Q.a;
+    st.miss.push({q:Q.q,mine:shown,a:right,e:Q.e});
   }
+  var rp=$("replyTxt");rp.innerHTML="";
+  var hd=document.createElement("b");hd.textContent=ok?("W. +"+fmt(gain)+" followers"):"L. Not quite.";rp.appendChild(hd);
+  rp.appendChild(document.createTextNode(Q.e));
+  $("reply").className="reply show";
+  done++;
+  if(R.type==="tf"&&qIdx===order.length-1&&st.capWrong===0)st.capClean=true;
+  hud();checkBadges();
+  var n=$("next");n.classList.remove("hidden");
+  n.textContent=qIdx<order.length-1?"Next post":(rIdx<ROUNDS.length-1?"Next round":"See my stats");
+  n.focus();
+}
 
-  // ---------- HELPERS ----------
-  function $(id) { return document.getElementById(id); }
-  function money(n) { var neg = n < 0; n = Math.abs(n); var s = "$" + n.toLocaleString("en-AU", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); return neg ? "-" + s : s; }
-  function esc(t) { var d = document.createElement("div"); d.textContent = t; return d.innerHTML; }
-  function show(id) { ["intro", "quiz", "roundEnd", "results"].forEach(function (k) { $(k).classList.toggle("hidden", k !== id); }); window.scrollTo({ top: 0, behavior: "smooth" }); }
-  var toastT;
-  function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove("show"); }, 2200); }
-  function shuffle(arr) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function next(){
+  if(qIdx<order.length-1){qIdx++;ask();}
+  else if(rIdx<ROUNDS.length-1){startRound(rIdx+1);}
+  else startFinale();
+}
 
-  // ---------- INTRO ----------
-  $("nameInput").addEventListener("input", function () { $("startBtn").disabled = this.value.trim().length < 2; });
-  $("nameInput").addEventListener("keydown", function (e) { if (e.key === "Enter" && !$("startBtn").disabled) start(); });
-  $("startBtn").addEventListener("click", start);
+var CHECKS=[
+ ["80 to 150 words",function(t){var n=wc(t);return n>=80&&n<=150;}],
+ ["Uses at least one figure (a number)",function(t){return /\d/.test(t);}],
+ ["Names a real place",function(t){return /(australia|india|kerala|bihar|mumbai|delhi|northern territory|remote|melbourne|sydney|victoria|rural|urban)/i.test(t);}],
+ ["Explains with because, this shows or therefore",function(t){return /(because|this shows|therefore|this means)/i.test(t);}]
+];
+function wc(t){return (t.trim().match(/\S+/g)||[]).length;}
+function renderChecks(){
+  var t=$("cap").value,box=$("checks");box.innerHTML="";
+  var w=document.createElement("div");w.className="muted";w.textContent=wc(t)+" words";box.appendChild(w);
+  CHECKS.forEach(function(c){var d=document.createElement("div");var ok=c[1](t);d.textContent=(ok?"\u2705 ":"\u2B1C ")+c[0];box.appendChild(d);});
+}
+function startFinale(){$("prog").style.width="100%";renderChecks();show("finale");$("cap").focus();}
+function postCaption(){
+  var t=$("cap").value.trim();
+  var passed=CHECKS.filter(function(c){return c[1](t);}).length;
+  st.captionText=t;
+  if(passed===CHECKS.length){st.caption=true;st.fol+=10000;toast("Caption hit every check. +10K followers");burst();}
+  else if(t){st.fol+=passed*2000;toast("Posted. +"+fmt(passed*2000)+" followers");}
+  hud();checkBadges();finish();
+}
 
-  function start() {
-    S = fresh($("nameInput").value.trim());
-    $("stName").textContent = S.name.toUpperCase();
-    $("ledger").innerHTML = '<div class="empty">No transactions yet. Your audit history will appear here.</div>';
-    renderBadgesMini();
-    updateStatement();
-    beginRound();
-  }
-
-  function beginRound() {
-    var r = ROUNDS[S.round];
-    S.order = shuffle(r.items.map(function (_, i) { return i; }));
-    S.idx = 0;
-    show("quiz");
-    renderQ();
-  }
-
-  // ---------- QUESTION ----------
-  function currentItem() { return ROUNDS[S.round].items[S.order[S.idx]]; }
-
-  function renderQ() {
-    var r = ROUNDS[S.round], it = currentItem();
-    S.answered = false;
-    $("qRound").textContent = "Round " + (S.round + 1) + " · " + r.title;
-    $("qCount").textContent = (S.idx + 1) + " / " + r.items.length;
-    var done = ROUNDS.slice(0, S.round).reduce(function (s, x) { return s + x.items.length; }, 0) + S.idx;
-    $("qProg").style.width = (done / TOTAL * 100) + "%";
-    $("qInstr").textContent = r.instr;
-
-    if (r.receipt) {
-      $("qReceipt").classList.remove("hidden");
-      $("qReceipt").textContent = it.q;
-      $("qText").textContent = "What triggered this purchase?";
-    } else {
-      $("qReceipt").classList.add("hidden");
-      $("qText").textContent = it.q;
-    }
-
-    // Build options. For round 4, shuffle the option order but track the right one.
-    var opts = it.opts ? it.opts.map(function (t, i) { return { t: t, ok: i === it.a }; }) : r.options.map(function (t, i) { return { t: t, ok: i === it.a }; });
-    if (r.shuffle) opts = shuffle(opts);
-    S.curOpts = opts;
-
-    var box = $("qOpts");
-    box.innerHTML = "";
-    box.style.gridTemplateColumns = opts.length === 2 ? "" : "";
-    opts.forEach(function (o, i) {
-      var b = document.createElement("button");
-      b.className = "opt";
-      b.innerHTML = '<span class="key">' + (i + 1) + "</span><span>" + esc(o.t) + "</span>";
-      b.addEventListener("click", function () { answer(i); });
-      box.appendChild(b);
+function finish(){
+  var title=st.correct>=52?"Certified Geo Influencer":st.correct>=42?"Rising Creator":st.correct>=30?"Micro Influencer":"Lurker (for now)";
+  $("eFol").textContent=fmt(st.fol);
+  $("eText").innerHTML="";var p=document.createElement("span");
+  p.textContent=st.correct+" out of "+TOTAL+" correct. Best streak: "+st.best+". Rank: "+title+".";$("eText").appendChild(p);
+  var eb=$("eBadges");eb.innerHTML="";
+  BADGES.forEach(function(b){var s=document.createElement("span");s.className="badge"+(st.got[b.id]?" got":"");s.textContent=b.n;eb.appendChild(s);});
+  var rv=$("review");rv.innerHTML="";var h=document.createElement("h2");
+  if(st.miss.length){
+    h.textContent="Mistake review ("+st.miss.length+")";rv.appendChild(h);
+    var m=document.createElement("p");m.className="muted";m.textContent="Write the ones you missed into your book.";rv.appendChild(m);
+    st.miss.forEach(function(x){
+      var d=document.createElement("div");d.className="item";
+      var q=document.createElement("div");q.style.fontWeight="700";q.textContent=x.q;d.appendChild(q);
+      var y=document.createElement("div");y.textContent="You said: "+x.mine;d.appendChild(y);
+      var a=document.createElement("div");a.className="ans";a.textContent="Answer: "+x.a;d.appendChild(a);
+      var e=document.createElement("div");e.className="muted";e.textContent=x.e;d.appendChild(e);
+      rv.appendChild(d);
     });
-    $("qFb").className = "feedback";
-    $("qFb").innerHTML = "";
-    $("nextRow").classList.add("hidden");
-  }
+  }else{h.textContent="Zero mistakes. Main character energy.";rv.appendChild(h);}
+  var nm=($("name").value||"").trim()||"A Year 10 geographer";
+  $("cName").textContent=nm;
+  $("cLine").textContent="scored "+st.correct+"/"+TOTAL+" in WellbeingTok, reached "+fmt(st.fol)+" followers and earned the rank of "+title+".";
+  var g=BADGES.filter(function(b){return st.got[b.id];}).map(function(b){return b.n;});
+  $("cBadges").textContent=g.length?"Badges: "+g.join(", "):"";
+  $("cDate").textContent=new Date().toLocaleDateString("en-AU",{day:"numeric",month:"long",year:"numeric"});
+  $("cCap").textContent=st.captionText?("My caption:\n"+st.captionText):"";
+  $("cert").style.display="block";
+  $("prog").style.width="100%";
+  show("end");if(st.correct>=45)burst();
+}
 
-  function answer(i) {
-    if (S.answered) return;
-    S.answered = true;
-    var r = ROUNDS[S.round], it = currentItem(), o = S.curOpts[i];
-    var btns = $("qOpts").querySelectorAll(".opt");
-    btns.forEach(function (b, k) {
-      b.disabled = true;
-      if (S.curOpts[k].ok) b.classList.add("correct");
-    });
-    var right = S.curOpts.filter(function (x) { return x.ok; })[0].t;
-    var label = (r.receipt ? it.q : it.q);
-    var short = label.length > 34 ? label.slice(0, 32).trim() + "..." : label;
-
-    if (o.ok) {
-      S.streak++;
-      S.best = Math.max(S.best, S.streak);
-      S.correct++;
-      S.roundCorrect[S.round]++;
-      var amt = S.streak >= 3 ? 20 : 10;
-      S.balance += amt;
-      addLedger(r.ledger + ": " + short, amt);
-      $("qFb").className = "feedback show good";
-      $("qFb").innerHTML = "<b>" + (S.streak >= 3 ? "Correct. Interest is compounding: +$20" : "Correct: +$10") + "</b>" + esc(it.why);
-      if (S.streak === 3) toast("🔥 3 in a row. Deposits now double!");
-      if (S.streak === 6) toast("🔥 Streak of 6. Compound Interest badge unlocked!");
-    } else {
-      btns[i].classList.add("wrong");
-      if (S.streak >= 3) toast("Streak broken. Back to +$10 deposits.");
-      S.streak = 0;
-      S.balance -= 5;
-      addLedger("Impulse buy: " + short, -5);
-      S.mistakes.push({ round: S.round + 1, q: it.q, you: o.t, ans: right, why: it.why });
-      $("qFb").className = "feedback show bad";
-      $("qFb").innerHTML = "<b>Not quite. The answer is " + esc(right) + ". Impulse buy: -$5</b>" + esc(it.why);
-    }
-    checkBadges();
-    updateStatement(true);
-    $("nextRow").classList.remove("hidden");
-    $("nextBtn").focus({ preventScroll: true });
-  }
-
-  $("nextBtn").addEventListener("click", next);
-  function next() {
-    var r = ROUNDS[S.round];
-    S.idx++;
-    if (S.idx < r.items.length) { renderQ(); return; }
-    endRound();
-  }
-
-  document.addEventListener("keydown", function (e) {
-    if ($("quiz").classList.contains("hidden")) return;
-    if (!S.answered) {
-      var k = KEYS.indexOf(e.key);
-      if (k > -1 && k < S.curOpts.length) answer(k);
-    } else if (e.key === "Enter") {
-      e.preventDefault(); next();
-    }
-  });
-
-  // ---------- STATEMENT ----------
-  function addLedger(desc, amt) {
-    var L = $("ledger");
-    var empty = L.querySelector(".empty"); if (empty) empty.remove();
-    var row = document.createElement("div");
-    row.className = "entry";
-    row.innerHTML = "<span>" + esc(desc) + "</span><span class=\"" + (amt >= 0 ? "cr" : "dr") + "\">" + (amt >= 0 ? "+" : "") + money(amt) + "</span>";
-    L.insertBefore(row, L.firstChild);
-  }
-
-  function updateStatement(pulse) {
-    $("stBal").textContent = money(S.balance);
-    $("stCorrect").textContent = S.correct;
-    $("stStreak").textContent = S.streak;
-    $("stStreakBox").classList.toggle("streak-on", S.streak >= 3);
-    var done = ROUNDS.slice(0, S.round).reduce(function (s, x) { return s + x.items.length; }, 0) + S.idx + (S.answered ? 1 : 0);
-    $("stLeft").textContent = TOTAL - done;
-    if (pulse) { var b = $("stBal"); b.classList.remove("pulse"); void b.offsetWidth; b.classList.add("pulse"); }
-  }
-
-  // ---------- BADGES ----------
-  function award(id) {
-    if (S.badges[id]) return;
-    S.badges[id] = true;
-    var b = BADGES.filter(function (x) { return x.id === id; })[0];
-    setTimeout(function () { toast(b.ico + " Badge: " + b.name); }, 400);
-    renderBadgesMini();
-  }
-  function checkBadges() {
-    if (S.best >= 6) award("streak");
-    if (S.balance >= 400) award("saver");
-    if (S.correct >= 28) award("auditor");
-  }
-  function renderBadgesMini() {
-    var m = $("badgesMini");
-    var got = BADGES.filter(function (b) { return S && S.badges[b.id]; });
-    m.innerHTML = got.length ? got.map(function (b) { return '<span title="' + esc(b.name) + '">' + b.ico + "</span>"; }).join("") : '<small style="color:var(--ink-soft);font-size:12px">Badges you earn appear here.</small>';
-  }
-
-  // ---------- ROUND END ----------
-  var ROUND_MSG = [
-    ["Fixed costs stay the same. Variable costs change with usage and choices.", "Remember: if the amount changes with how much you use it, it is variable."],
-    ["You can see the trigger. That is the first step to resisting it.", "Triggers are sneaky. Re-read the scenarios in your mistake review at the end."],
-    ["You are not falling for the BNPL sales pitch.", "Watch the fees and the psychology. 'No interest' does not mean 'free'."],
-    ["Small costs add up, and you can prove it with numbers.", "Check: weekdays means x5, not x7. GST means divide by 11, not take 10%."]
-  ];
-  function endRound() {
-    var r = ROUNDS[S.round], got = S.roundCorrect[S.round], n = r.items.length;
-    if (got >= 7) award(BADGE_ROUND[S.round]);
-    if (got === n) award("clean");
-    $("reTitle").textContent = "Round " + (S.round + 1) + ": " + r.title;
-    $("reScore").textContent = got + " / " + n;
-    var good = got >= 6;
-    $("reStamp").textContent = got === n ? "Clean statement" : good ? "Round cleared" : "Needs review";
-    $("reStamp").className = "stamp" + (good ? "" : " red");
-    $("reMsg").textContent = ROUND_MSG[S.round][good ? 0 : 1];
-    $("reNext").textContent = S.round < ROUNDS.length - 1 ? "Start Round " + (S.round + 2) + ": " + ROUNDS[S.round + 1].title + " →" : "See my statement →";
-    show("roundEnd");
-  }
-  $("reNext").addEventListener("click", function () {
-    S.round++;
-    if (S.round < ROUNDS.length) beginRound(); else finish();
-  });
-
-  // ---------- RESULTS ----------
-  function finish() {
-    checkBadges();
-    $("resCorrect").textContent = S.correct + " / " + TOTAL;
-    $("resBal").textContent = money(S.balance);
-    $("resStreak").textContent = S.best;
-    var pct = S.correct / TOTAL;
-    $("resStamp").textContent = pct >= 0.875 ? "Audit approved" : pct >= 0.6 ? "Audit passed" : "Audit flagged";
-    $("resStamp").className = "stamp" + (pct >= 0.6 ? "" : " red");
-
-    $("badgeGrid").innerHTML = BADGES.map(function (b) {
-      return '<div class="badge' + (S.badges[b.id] ? " got" : "") + '"><div class="ico">' + b.ico + "</div><b>" + esc(b.name) + "</b><small>" + esc(b.desc) + "</small></div>";
-    }).join("");
-
-    if (S.mistakes.length) {
-      $("reviewSec").classList.remove("hidden");
-      $("reviewList").innerHTML = S.mistakes.map(function (m) {
-        return '<div class="item"><p style="font-family:var(--mono);font-size:11px;color:var(--ink-soft)">ROUND ' + m.round + "</p><p><b>" + esc(m.q) + '</b></p><p class="you">You said: ' + esc(m.you) + '</p><p class="ans">Answer: ' + esc(m.ans) + "</p><p>" + esc(m.why) + "</p></div>";
-      }).join("");
-    } else {
-      $("reviewSec").classList.remove("hidden");
-      $("reviewList").innerHTML = '<p style="font-weight:700;color:var(--green)">No mistakes. A perfectly clean statement.</p>';
-    }
-    show("results");
-  }
-
-  // ---------- CALCULATOR ----------
-  function calc() {
-    var c = parseFloat($("cCost").value), t = parseFloat($("cTimes").value);
-    var item = $("cItem").value.trim() || "this habit";
-    if (!(c > 0) || !(t > 0)) {
-      $("cWeek").textContent = "$0"; $("cYear").textContent = "$0"; $("cFive").textContent = "$0";
-      $("cWork").textContent = "Enter a cost and how many times a week to see the working.";
-      return;
-    }
-    var w = c * t, y = w * 52;
-    $("cWeek").textContent = money(Math.round(w * 100) / 100);
-    $("cYear").textContent = money(Math.round(y * 100) / 100);
-    $("cFive").textContent = money(Math.round(y * 5 * 100) / 100);
-    $("cWork").textContent = "Working for " + item + ": " + money(c) + " x " + t + " = " + money(Math.round(w * 100) / 100) + " a week. " + money(Math.round(w * 100) / 100) + " x 52 = " + money(Math.round(y * 100) / 100) + " a year. Opportunity cost: what else could that money do?";
-  }
-  ["cItem", "cCost", "cTimes"].forEach(function (id) { $(id).addEventListener("input", calc); });
-
-  // ---------- CERTIFICATE ----------
-  $("printBtn").addEventListener("click", function () {
-    $("certName").textContent = S.name;
-    $("certStats").textContent = S.correct + " / " + TOTAL + " correct · " + money(S.balance) + " banked · best streak " + S.best;
-    var got = BADGES.filter(function (b) { return S.badges[b.id]; });
-    $("certBadges").textContent = got.map(function (b) { return b.ico; }).join(" ");
-    var e1 = $("exit1").value.trim(), e2 = $("exit2").value.trim();
-    var habit = $("cYear").textContent !== "$0" ? "<p><b>My habit:</b> " + esc($("cItem").value.trim() || "habit") + " costs me " + esc($("cYear").textContent) + " a year.</p>" : "";
-    $("certExit").innerHTML = (e1 || e2 || habit) ? "<b>Exit ticket</b>" + (e1 ? "<p><b>My spending trigger:</b> " + esc(e1) + "</p>" : "") + (e2 ? "<p><b>Digital economy challenge:</b> " + esc(e2) + "</p>" : "") + habit : "";
-    $("certExit").style.display = (e1 || e2 || habit) ? "block" : "none";
-    $("certDate").textContent = new Date().toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
-    window.print();
-  });
-
-  $("restartBtn").addEventListener("click", function () {
-    $("exit1").value = ""; $("exit2").value = "";
-    start();
-  });
+$("go").addEventListener("click",function(){reset();startRound(0);});
+$("iGo").addEventListener("click",ask);
+$("next").addEventListener("click",next);
+$("cap").addEventListener("input",renderChecks);
+$("post").addEventListener("click",postCaption);
+$("skip").addEventListener("click",function(){st.captionText="";finish();});
+$("again").addEventListener("click",function(){$("cert").style.display="none";$("cap").value="";reset();show("start");});
+$("print").addEventListener("click",function(){window.print();});
+document.addEventListener("keydown",function(e){
+  if(e.target&&e.target.tagName==="TEXTAREA")return;
+  if(e.target&&e.target.tagName==="INPUT"){if(e.key==="Enter")$("go").click();return;}
+  if($("play").classList.contains("hidden")||st.locked)return;
+  var opts=$("opts").children,k=e.key.toUpperCase();
+  if(ROUNDS[rIdx].type==="tf"){if(k==="T")opts[0].click();if(k==="F")opts[1].click();return;}
+  var i=L.indexOf(k);if(i>-1&&i<opts.length)opts[i].click();
+});
+reset();
 })();
 </script>
 </body>
