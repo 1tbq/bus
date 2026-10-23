@@ -3,457 +3,246 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WellbeingTok | Year 10 Geography Revision</title>
+<title>Follow the Money</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0E0F1A; --card:#171A2B; --card2:#20243A; --line:#2C3150; --text:#F3F4FA; --mute:#9AA0BD;
-  --pink:#FF3D8B; --cyan:#22D3EE; --lime:#B6F23A; --amber:#FFB020; --red:#FF5A5F; --violet:#8B5CF6;
+  --ink:#10212A; --green:#0B7A5A; --red:#C0392B; --yel:#FFE36E; --pale:#F3F5F6; --mid:#6B7780; --line:#D5DADD; --paper:#FFFFFF;
 }
 *{box-sizing:border-box}
-html,body{margin:0}
-body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;
-  background-image:radial-gradient(600px 400px at 10% -10%,rgba(255,61,139,.18),transparent 60%),radial-gradient(600px 400px at 110% 10%,rgba(34,211,238,.15),transparent 60%);}
-button{font-family:inherit}
-.app{max-width:520px;margin:0 auto;padding:12px 16px 40px}
-.topbar{position:sticky;top:0;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0;background:linear-gradient(var(--bg) 70%,transparent)}
-.logo{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.35rem;letter-spacing:-.02em}
-.logo span{background:linear-gradient(90deg,var(--pink),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hud{display:flex;gap:6px;align-items:center}
-.pill{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:.8rem;font-weight:600;white-space:nowrap}
-.pill b{font-size:.95rem}
-.fire{color:var(--amber)}
-.prog{height:4px;background:var(--card2);border-radius:999px;overflow:hidden;margin:2px 0 14px}
-.prog span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--cyan));transition:width .3s}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;animation:pop .35s ease}
-@keyframes pop{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
-.who{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.ava{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1rem;flex:none;color:#0E0F1A}
-.who .h{font-weight:700;font-size:.95rem}
-.who .h .tick{color:var(--cyan)}
-.who .s{color:var(--mute);font-size:.78rem}
-.tagr{margin-left:auto;font-size:.7rem;font-weight:800;padding:4px 8px;border-radius:999px;color:#0E0F1A}
-.post{font-size:1.12rem;line-height:1.45;margin:4px 0 14px}
-.post .hash{color:var(--cyan)}
-.opts{display:grid;gap:8px}
-.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--card2);color:var(--text);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;font-size:1rem;cursor:pointer;transition:transform .1s,border-color .15s}
-.opt:hover:not(:disabled){border-color:var(--cyan);transform:translateY(-1px)}
-.opt .k{flex:none;width:26px;height:26px;border-radius:8px;background:var(--line);display:grid;place-items:center;font-size:.8rem;font-weight:800}
-.opt.right{border-color:var(--lime);background:rgba(182,242,58,.12)}
-.opt.right .k{background:var(--lime);color:#0E0F1A}
-.opt.wrong{border-color:var(--red);background:rgba(255,90,95,.12)}
-.opt.wrong .k{background:var(--red)}
-.opt:disabled{cursor:default}
-.tf{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tf .opt{justify-content:center;font-weight:800;font-size:1.05rem;padding:16px}
-.reply{display:none;margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
-.reply.show{display:flex;gap:10px;animation:pop .3s ease}
-.reply .ava{width:32px;height:32px;font-size:.8rem}
-.reply .txt{font-size:.92rem;line-height:1.45}
-.reply .txt b{display:block;margin-bottom:2px}
-.acts{display:flex;align-items:center;justify-content:space-between;margin-top:12px;color:var(--mute);font-size:.85rem}
-.acts .icons{display:flex;gap:14px}
-.heart{transition:transform .2s}
-.heart.liked{color:var(--pink);transform:scale(1.25)}
-.btn{border:none;border-radius:14px;padding:13px 18px;font-weight:800;font-size:1rem;cursor:pointer;background:linear-gradient(90deg,var(--pink),var(--violet));color:#fff}
-.btn.ghost{background:var(--card2);border:1px solid var(--line)}
-.btn:focus-visible,.opt:focus-visible,input:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
-.hidden{display:none!important}
-h2{font-family:"Space Grotesk",sans-serif;margin:0 0 6px;font-size:1.5rem}
-.muted{color:var(--mute)}
-.rounds{display:grid;gap:8px;margin:14px 0}
-.rnd{display:flex;gap:10px;align-items:center;background:var(--card2);border-radius:14px;padding:10px 12px}
-.rnd .n{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-weight:800;color:#0E0F1A;flex:none}
-.rnd small{display:block;color:var(--mute)}
-input.name{width:100%;padding:13px;border-radius:14px;border:1.5px solid var(--line);background:var(--card2);color:var(--text);font-size:1rem;font-family:inherit;margin:8px 0 14px}
-.big{font-family:"Space Grotesk",sans-serif;font-size:3rem;font-weight:700;line-height:1}
-.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.badge{font-size:.75rem;padding:6px 10px;border-radius:999px;background:var(--card2);color:var(--mute);border:1px solid var(--line)}
-.badge.got{color:#0E0F1A;background:var(--lime);border-color:var(--lime);font-weight:700}
-.toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-140%);background:#fff;color:#0E0F1A;padding:10px 16px;border-radius:999px;font-weight:800;font-size:.9rem;transition:transform .35s;z-index:9;box-shadow:0 8px 30px rgba(0,0,0,.4);text-align:center;max-width:90vw}
-.toast.show{transform:translate(-50%,0)}
-.review .item{background:var(--card2);border-left:4px solid var(--red);border-radius:0 12px 12px 0;padding:10px 12px;margin:8px 0;font-size:.9rem}
-.review .ans{color:var(--lime);font-weight:600}
-.cert{display:none;background:#fff;color:#111;border:6px double #111;border-radius:16px;padding:26px;text-align:center;margin-top:14px}
-.cert h3{font-family:"Space Grotesk",sans-serif;font-size:1.6rem;margin:6px 0}
-.cert .nm{font-size:2rem;font-weight:800}
-.burst{position:fixed;inset:0;pointer-events:none;z-index:8;overflow:hidden}
-.burst i{position:absolute;top:-10px;width:8px;height:14px;border-radius:2px;animation:fall 1.4s linear forwards}
-@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
-@media (prefers-reduced-motion:reduce){.card,.reply.show{animation:none}.burst{display:none}}
+body{margin:0;background:var(--pale);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.45}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 48px}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+h1{font-family:"DM Serif Display",Georgia,serif;font-weight:400;font-size:clamp(30px,5vw,44px);margin:0;line-height:1.05}
+.sub{color:var(--mid);margin:4px 0 0;font-size:15px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--paper);border:1px solid var(--line)}
+.chip.cr{color:var(--green)} .chip.dr{color:var(--red)}
+.grid{display:grid;grid-template-columns:1fr 300px;gap:16px}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:6px}
+.game{padding:22px}
+.roundbar{display:flex;gap:6px;margin-bottom:16px}
+.roundbar span{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.roundbar span.done{background:var(--green)} .roundbar span.now{background:var(--ink)}
+.rlabel{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;color:var(--mid);text-transform:uppercase}
+.rtitle{font-family:"DM Serif Display",Georgia,serif;font-size:28px;margin:2px 0 4px}
+.rhint{color:var(--mid);font-size:14px;margin:0 0 16px}
+.item{border:2px dashed var(--line);border-radius:6px;padding:18px;font-size:18px;min-height:92px;display:flex;align-items:center;background:#FCFCFD}
+.item .mono{font-family:"IBM Plex Mono",monospace;font-size:16px}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+@media (max-width:520px){.opts{grid-template-columns:1fr}}
+.opt{font:600 16px Inter,sans-serif;padding:14px;border-radius:6px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;text-align:left}
+.opt:hover:not(:disabled){background:var(--yel)}
+.opt:disabled{cursor:default;opacity:.55}
+.opt.right{background:var(--green);border-color:var(--green);color:#fff;opacity:1}
+.opt.wrong{background:var(--red);border-color:var(--red);color:#fff;opacity:1}
+.feedback{margin-top:14px;padding:12px 14px;border-radius:6px;display:none;font-size:15px}
+.feedback.show{display:block}
+.feedback.good{background:#E3F3EC;border-left:5px solid var(--green)}
+.feedback.bad{background:#FBE7E4;border-left:5px solid var(--red)}
+.next{margin-top:14px;font:700 15px Inter,sans-serif;padding:12px 18px;border-radius:6px;border:0;background:var(--ink);color:#fff;cursor:pointer;display:none}
+.next.show{display:inline-block}
+.side{padding:16px}
+.side h2{font:700 13px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px;color:var(--mid)}
+.bal{font-family:"IBM Plex Mono",monospace;font-size:34px;font-weight:600}
+.streak{font-size:14px;color:var(--mid);margin:2px 0 14px}
+.ledger{font-family:"IBM Plex Mono",monospace;font-size:12px;width:100%;border-collapse:collapse}
+.ledger td{padding:4px 2px;border-bottom:1px solid var(--line)}
+.ledger td:last-child{text-align:right}
+.ledger .c{color:var(--green)} .ledger .d{color:var(--red)}
+.ledwrap{max-height:260px;overflow:auto}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.badge{font-size:12px;font-weight:700;padding:5px 9px;border-radius:4px;background:var(--yel);border:1px solid #E0B400}
+.start,.end{padding:28px}
+.start p{max-width:60ch}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:18px 0}
+.rule{background:var(--pale);border-left:5px solid var(--ink);padding:10px 12px;font-size:14px}
+.rule.g{border-color:var(--green)} .rule.r{border-color:var(--red)}
+input[type=text]{font:16px Inter,sans-serif;padding:12px;border:2px solid var(--ink);border-radius:6px;width:min(320px,100%)}
+.big{font:700 17px Inter,sans-serif;padding:14px 22px;border-radius:6px;border:0;background:var(--ink);color:#fff;cursor:pointer;margin-top:12px}
+.big.alt{background:var(--paper);color:var(--ink);border:2px solid var(--ink);margin-left:8px}
+.review li{margin-bottom:10px;font-size:14px}
+.review b{color:var(--red)}
+.cert{display:none}
 @media print{
   body{background:#fff}
-  body *{visibility:hidden}
-  .cert,.cert *{visibility:visible}
-  .cert{display:block!important;position:absolute;left:0;top:0;width:100%}
+  .wrap > *:not(.cert){display:none !important}
+  .cert{display:block !important;border:6px double var(--ink);padding:40px;margin:20px;text-align:center}
+  .cert h2{font-family:"DM Serif Display",Georgia,serif;font-size:40px;margin:0 0 10px}
 }
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="topbar">
-    <div class="logo"><span>Wellbeing</span>Tok</div>
-    <div class="hud" aria-live="polite">
-      <div class="pill"><b id="fol">0</b> followers</div>
-      <div class="pill fire" title="streak">&#128293; <b id="stk">0</b></div>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Follow the Money</h1>
+      <p class="sub">Pay slips, tax invoices and bank statements. Year 10 Business.</p>
     </div>
+    <div class="chips"><span class="chip cr">CR money in</span><span class="chip dr">DR money out</span></div>
+  </header>
+
+  <section class="card start" id="start">
+    <p>You have just been hired as a junior bookkeeper. Your account starts at <b>$0.00</b>. Every correct answer is a <b style="color:var(--green)">credit</b>. Every mistake costs you a <b style="color:var(--red)">$5 fee</b>. Get three right in a row and your credits double.</p>
+    <div class="rules">
+      <div class="rule"><b>Round 1</b><br>Which document is it?</div>
+      <div class="rule g"><b>Round 2</b><br>CR or DR?</div>
+      <div class="rule r"><b>Round 3</b><br>Tick it or chase it</div>
+      <div class="rule"><b>Round 4</b><br>Run the numbers</div>
+    </div>
+    <label for="nm"><b>Your name</b> (for the certificate)</label><br>
+    <input type="text" id="nm" placeholder="First name and last initial" maxlength="40">
+    <br><button class="big" id="go">Open the books</button>
+  </section>
+
+  <div class="grid" id="play" style="display:none">
+    <section class="card game">
+      <div class="roundbar" id="rbar"><span></span><span></span><span></span><span></span></div>
+      <div class="rlabel" id="rlabel"></div>
+      <div class="rtitle" id="rtitle"></div>
+      <p class="rhint" id="rhint"></p>
+      <div class="item" id="item"></div>
+      <div class="opts" id="opts"></div>
+      <div class="feedback" id="fb"></div>
+      <button class="next" id="next">Next</button>
+    </section>
+    <aside class="card side">
+      <h2>Your account</h2>
+      <div class="bal" id="bal">$0.00</div>
+      <div class="streak" id="streak">Streak: 0</div>
+      <h2>Statement</h2>
+      <div class="ledwrap"><table class="ledger" id="ledger"></table></div>
+      <div class="badges" id="badges"></div>
+    </aside>
   </div>
-  <div class="prog"><span id="prog"></span></div>
 
-  <!-- START -->
-  <section id="start" class="card">
-    <h2>Your account, your glow up</h2>
-    <p class="muted">Year 10 Geography | Human Wellbeing revision, Lessons 1 to 6 plus the India worksheet</p>
-    <p>Scroll the feed and answer every post. There are 60 posts plus a written finale. Right answers get you followers. Three in a row puts you on fire (double followers), six in a row means you're going viral (triple). One wrong answer ends the streak.</p>
-    <div class="rounds">
-      <div class="rnd"><div class="n" style="background:var(--pink)">1</div><div><b>For You</b><small>Quick-fire basics: wellbeing, indicators, HDI</small></div></div>
-      <div class="rnd"><div class="n" style="background:var(--red)">2</div><div><b>Sort the Feed</b><small>Economic, social, environmental or qualitative?</small></div></div>
-      <div class="rnd"><div class="n" style="background:var(--cyan)">3</div><div><b>Cap or No Cap?</b><small>Is the post true or fake?</small></div></div>
-      <div class="rnd"><div class="n" style="background:var(--lime)">4</div><div><b>Stitch the Stat</b><small>Match the number to the post</small></div></div>
-      <div class="rnd"><div class="n" style="background:var(--amber)">5</div><div><b>Rate My Region</b><small>Spatial differences in Australia and India</small></div></div>
-      <div class="rnd"><div class="n" style="background:var(--violet)">6</div><div><b>Top Comment</b><small>Pick the comment a Geography teacher would pin</small></div></div>
-      <div class="rnd"><div class="n" style="background:#fff">&#9998;</div><div><b>Finale: Write the Caption</b><small>Your own TEEL paragraph, printed on your certificate</small></div></div>
-    </div>
-    <label for="name"><b>Your handle</b> (first name and last initial, for the certificate)</label>
-    <input id="name" class="name" maxlength="30" placeholder="@ e.g. Sam B" autocomplete="off">
-    <button class="btn" id="go">Start scrolling</button>
-    <p class="muted" style="font-size:.8rem;margin-top:12px">Keys: A to D to answer, T or F for Cap or No Cap, Enter for next.</p>
+  <section class="card end" id="end" style="display:none">
+    <div class="rlabel">Closing balance</div>
+    <div class="rtitle" id="endbal"></div>
+    <p id="endmsg"></p>
+    <div class="badges" id="endbadges"></div>
+    <div id="reviewwrap"></div>
+    <button class="big" id="print">Print certificate</button>
+    <button class="big alt" id="again">Play again</button>
   </section>
 
-  <!-- ROUND INTRO -->
-  <section id="intro" class="card hidden">
-    <div class="tagr" id="iTag" style="display:inline-block;margin:0 0 10px"></div>
-    <h2 id="iTitle"></h2>
-    <p id="iText" class="muted"></p>
-    <button class="btn" id="iGo">Let's go</button>
-  </section>
-
-  <!-- FEED POST -->
-  <section id="play" class="hidden">
-    <article class="card" id="postCard">
-      <div class="who">
-        <div class="ava" id="pAva"></div>
-        <div><div class="h" id="pHandle"></div><div class="s" id="pSub"></div></div>
-        <div class="tagr" id="pTag"></div>
-      </div>
-      <div class="post" id="pText"></div>
-      <div id="opts"></div>
-      <div class="reply" id="reply">
-        <div class="ava" style="background:var(--cyan)">Mr</div>
-        <div class="txt" id="replyTxt"></div>
-      </div>
-      <div class="acts">
-        <div class="icons"><span class="heart" id="heart">&#9829;</span><span>&#128172;</span><span>&#8599;</span></div>
-        <span id="count"></span>
-      </div>
-    </article>
-    <button class="btn hidden" id="next" style="width:100%">Next post</button>
-  </section>
-
-  <!-- FINALE -->
-  <section id="finale" class="card hidden">
-    <div class="tagr" style="display:inline-block;margin:0 0 10px;background:#fff">Finale</div>
-    <h2>Write the caption</h2>
-    <p>Your last post is a written one. Write one TEEL paragraph (80 to 150 words):</p>
-    <p class="post" style="font-weight:700">Is wellbeing the same everywhere within one country? Use Australia OR India, and at least one figure.</p>
-    <div class="rnd" style="display:block;margin-bottom:10px;font-size:.9rem">
-      <b>Sentence starters</b><br>
-      T: Wellbeing is not the same across ...<br>
-      E: For example, ...<br>
-      E: This shows that ... because ...<br>
-      L: Therefore, ...
-    </div>
-    <label for="cap" class="muted" style="font-size:.85rem">Your caption</label>
-    <textarea id="cap" rows="8" style="width:100%;margin-top:6px;padding:12px;border-radius:14px;border:1.5px solid var(--line);background:var(--card2);color:var(--text);font:inherit;font-size:1rem;resize:vertical"></textarea>
-    <div id="checks" style="margin:10px 0;font-size:.9rem;display:grid;gap:4px"></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn" id="post">Post caption</button>
-      <button class="btn ghost" id="skip">Skip</button>
-    </div>
-  </section>
-
-  <!-- END -->
-  <section id="end" class="hidden">
-    <div class="card">
-      <p class="muted" style="margin:0">Final follower count</p>
-      <div class="big" id="eFol"></div>
-      <p id="eText"></p>
-      <div class="badges" id="eBadges"></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
-        <button class="btn" id="print">Print certificate</button>
-        <button class="btn ghost" id="again">Play again</button>
-      </div>
-    </div>
-    <div class="card review" id="review"></div>
-    <div class="cert" id="cert">
-      <div style="letter-spacing:.15em;font-size:.75rem">YEAR 10 GEOGRAPHY | HUMAN WELLBEING</div>
-      <h3>WellbeingTok Creator Certificate</h3>
-      <p>This certifies that</p>
-      <div class="nm" id="cName"></div>
-      <p id="cLine"></p>
-      <p id="cBadges" style="font-size:.9rem"></p>
-      <div id="cCap" style="text-align:left;font-size:.9rem;border-top:1px solid #ccc;margin-top:10px;padding-top:10px;white-space:pre-wrap"></div>
-      <p id="cDate" style="font-size:.8rem"></p>
-    </div>
-  </section>
+  <div class="cert" id="cert"></div>
 </div>
-<div class="toast" id="toast"></div>
-<div class="burst" id="burst"></div>
 
 <script>
-(function(){
-"use strict";
-
-var ACCOUNTS=[
- ["@geo.girlie","GG","#FF3D8B"],["@hdi.hub","HD","#22D3EE"],["@stats.unfiltered","SU","#B6F23A"],
- ["@mapmyvibes","MV","#FFB020"],["@wyndham.wanderer","WW","#8B5CF6"],["@delhi.dispatch","DD","#FF5A5F"],
- ["@factcheck.au","FC","#22D3EE"],["@touchgrass.geo","TG","#B6F23A"]
+const ROUNDS = [
+  { name:"Which document is it?", hint:"Pick the document that would show this.", opts:["Pay slip","Receipt","Tax invoice","Bank statement"], items:[
+    {q:"Shows your hours, your hourly rate, PAYG tax withheld and your net pay.", a:"Pay slip", why:"A pay slip breaks down what you earned and what was taken out."},
+    {q:"Shows the words 'Tax invoice', the seller's ABN and the GST charged.", a:"Tax invoice", why:"Only a tax invoice has to show the ABN and GST so a business can claim the GST back."},
+    {q:"Lists every CR and DR for the month with a running balance.", a:"Bank statement", why:"The bank's record of every movement in and out of your account."},
+    {q:"'BURRITO BAR 1 x Burrito $14.00 TOTAL $16.50 PAID CARD' and nothing else.", a:"Receipt", why:"Proof you paid, but no ABN and no GST shown, so it is a simple receipt."},
+    {q:"Shows $144 paid into your super fund on top of your wage.", a:"Pay slip", why:"Super contributions are listed on your pay slip, separate from your net pay."}
+  ]},
+  { name:"CR or DR?", hint:"Money in or money out of the account?", opts:["CR (money in)","DR (money out)"], items:[
+    {q:"<span class='mono'>WAGE WYNDHAM VALE BIKE REPAIR $960.00</span>", a:"CR (money in)", why:"Your net pay arriving is money in."},
+    {q:"<span class='mono'>DIRECT DEBIT FITZONE GYM $19.95</span>", a:"DR (money out)", why:"A direct debit is a business taking money out with your permission."},
+    {q:"<span class='mono'>INTEREST $0.12</span>&nbsp;on a savings account", a:"CR (money in)", why:"On savings, the bank pays you interest."},
+    {q:"<span class='mono'>ATM OPERATOR FEE $3.00</span>", a:"DR (money out)", why:"Fees are always money out. This one is for using another bank's ATM."},
+    {q:"<span class='mono'>REFUND KMART WERRIBEE $9.00</span>", a:"CR (money in)", why:"A refund puts money back into your account."},
+    {q:"<span class='mono'>BPAY TELCO MOBILE $45.00</span>", a:"DR (money out)", why:"BPAY is paying a bill, so money leaves the account."}
+  ]},
+  { name:"Tick it or chase it", hint:"Compare the receipt with the statement line.", opts:["Match","Wrong amount","Duplicate","Scam red flag"], items:[
+    {q:"Receipt: Coles $38.40 on 02 Oct.<br>Statement: <span class='mono'>02 Oct EFTPOS COLES $38.40</span>", a:"Match", why:"Date, merchant and amount all agree. Tick it."},
+    {q:"Receipt: Kmart $45.00.<br>Statement: <span class='mono'>07 Oct EFTPOS KMART $54.00</span>", a:"Wrong amount", why:"The digits are swapped. A difference that divides by 9 ($9) is a classic sign of a typing error."},
+    {q:"One receipt: Burrito Bar $16.50.<br>Statement: <span class='mono'>BURRITO BAR $16.50</span> twice on 10 Oct", a:"Duplicate", why:"One lunch, charged twice. Take the receipt back and ask for a refund."},
+    {q:"No receipt.<br>Statement: <span class='mono'>XYZ TECH SVCS SINGAPORE $0.50</span>", a:"Scam red flag", why:"A tiny charge from an unknown overseas company is often card testing. Call the bank and cancel the card."},
+    {q:"Pay slip net pay $960.00.<br>Statement: <span class='mono'>05 Oct WAGE $960.00</span>", a:"Match", why:"The pay slip and the bank agree, so Jordan was paid correctly."}
+  ]},
+  { name:"Run the numbers", hint:"Use the formula. Working in your book.", opts:null, items:[
+    {q:"Gross pay $1,200. PAYG tax $240. What is the net pay?", opts:["$1,440","$960","$1,056","$240"], a:"$960", why:"Gross pay minus tax: $1,200 - $240 = $960."},
+    {q:"Gross pay $1,000. Tax $200. What percentage went to tax?", opts:["2%","10%","20%","200%"], a:"20%", why:"($200 ÷ $1,000) x 100 = 20%."},
+    {q:"Gross pay $1,500. Super is 12%. How much super does the employer pay?", opts:["$150","$120","$180","$1,320"], a:"$180", why:"10% is $150, 2% is $30, so 12% is $180. It is paid on top of the wage."},
+    {q:"A tax invoice total is $110 including GST. How much is the GST?", opts:["$11","$10","$1.10","$100"], a:"$10", why:"Divide a GST-inclusive price by 11: $110 ÷ 11 = $10."}
+  ]}
 ];
-
-var ROUNDS=[
- {key:"For You",color:"#FF3D8B",text:"Quick-fire basics from Lessons 1 and 2. Easy followers, don't fumble.",type:"mc",qs:[
-  {q:"POV: you have to define human wellbeing in one line. Which one slaps?",a:"The quality of life and state of being healthy, happy and having your needs met",w:["How much money a country makes in a year","The number of people living in a place","How good a country's sporting teams are"],e:"Wellbeing is about quality of life, not just money."},
-  {q:"GDP per person is an example of which type of indicator?",a:"Economic",w:["Social","Environmental","Qualitative"],e:"Anything measured in money (GDP, GNI, income) is an economic indicator."},
-  {q:"Life expectancy and literacy rate are both ...",a:"Social indicators",w:["Economic indicators","Environmental indicators","Political indicators"],e:"They measure health and education, so they are social."},
-  {q:"The Human Development Index (HDI) combines which three things?",a:"Health, education and income",w:["Health, happiness and housing","Income, population and land area","Education, safety and climate"],e:"Life expectancy, years of schooling and GNI per person."},
-  {q:"HDI is a number between ...",a:"0 and 1",w:["0 and 10","1 and 100","0 and 1,000"],e:"Closer to 1 means higher human development."},
-  {q:"A country with an HDI of 0.820 is in which category?",a:"Very high human development",w:["High human development","Medium human development","Low human development"],e:"Very high starts at 0.800."},
-  {q:"Access to safe drinking water is best described as an ...",a:"Environmental indicator",w:["Economic indicator","Income indicator","Qualitative indicator"],e:"It measures the condition of the environment people live in."},
-  {q:"Which organisation publishes the HDI each year?",a:"The United Nations Development Programme (UNDP)",w:["The Australian Bureau of Statistics","The World Health Organization","Google"],e:"The UNDP's Human Development Report ranks 193 countries."},
-  {q:"Geographers measure wellbeing using things called ...",a:"Indicators",w:["Hashtags","Landforms","Climates"],e:"An indicator is a measurable sign of wellbeing, like literacy or income."},
-  {q:"Which of these is a qualitative indicator?",a:"How safe people feel walking home at night",w:["Average income","Number of doctors","Life expectancy"],e:"It's based on feelings and experience, not a count."}
- ]},
- {key:"Sort the Feed",color:"#FF5A5F",text:"The algorithm is broken. Sort each indicator into the right type.",type:"fixed",fixed:["Economic","Social","Environmental","Qualitative"],qs:[
-  {q:"Unemployment rate",a:"Economic",e:"It's about jobs and income."},
-  {q:"Average household income",a:"Economic",e:"Measured in dollars."},
-  {q:"GNI per person",a:"Economic",e:"Gross national income, measured in money."},
-  {q:"Infant mortality rate",a:"Social",e:"It's a health measure."},
-  {q:"Average years of schooling",a:"Social",e:"It's an education measure."},
-  {q:"Doctors per 1,000 people",a:"Social",e:"Access to health care."},
-  {q:"Air pollution levels in a city",a:"Environmental",e:"The condition of the environment people live in."},
-  {q:"Share of homes with safe drinking water",a:"Environmental",e:"Access to a clean environment and resources."},
-  {q:"How happy people say they are",a:"Qualitative",e:"Based on people's own opinions and feelings."},
-  {q:"How connected people feel to culture and Country",a:"Qualitative",e:"Lived experience that numbers struggle to capture."}
- ]},
- {key:"Cap or No Cap?",color:"#22D3EE",text:"Is the post legit (No Cap) or fake (Cap)? Lessons 1 to 4.",type:"tf",qs:[
-  {q:"A country with a high GDP automatically has high wellbeing for everyone.",a:false,e:"Cap. Wealth can be shared very unevenly. That's why we look beyond GDP."},
-  {q:"Wellbeing can be different between places inside the same country.",a:true,e:"No cap. That's spatial variation, e.g. major cities vs remote Australia."},
-  {q:"Happiness and feeling safe are examples of qualitative (subjective) wellbeing.",a:true,e:"No cap. They're based on how people feel, not counted in dollars."},
-  {q:"The HDI measures how happy people are.",a:false,e:"Cap. HDI only uses health, education and income."},
-  {q:"Closing the Gap is an agreement between Australian governments and Aboriginal and Torres Strait Islander organisations.",a:true,e:"No cap. The National Agreement on Closing the Gap was signed in 2020."},
-  {q:"The 2026 report found every Closing the Gap target is on track.",a:false,e:"Cap. Only a few are on track or met, and some are getting worse."},
-  {q:"Numbers like averages can hide big differences between groups of people.",a:true,e:"No cap. An average can look fine while some groups are doing badly. Beyond the numbers, Lesson 4."},
-  {q:"India's HDI puts it in the low human development category.",a:false,e:"Cap. India is medium (0.685), close to the 0.700 line for high."},
-  {q:"Life expectancy is how long a newborn is expected to live, on average.",a:true,e:"No cap. It's one of the three parts of the HDI."},
-  {q:"'Spatial' means something to do with time.",a:false,e:"Cap. Spatial means to do with space and place: where things are."}
- ]},
- {key:"Stitch the Stat",color:"#B6F23A",text:"Every post is missing its number. Stitch the right stat on.",type:"mc",qs:[
-  {q:"India's HDI value in the 2025 report: ___",a:"0.685",w:["0.958","0.450","0.800"],e:"Medium human development, rank 130 of 193."},
-  {q:"India's HDI rank: ___ out of 193",a:"130",w:["13","7","181"],e:"Up from 133 the year before."},
-  {q:"India's life expectancy in 2023: ___ years",a:"72",w:["58","83","65"],e:"Up from 58.6 years in 1990."},
-  {q:"The HDI score where 'high human development' starts: ___",a:"0.700",w:["0.500","0.900","0.550"],e:"India is 0.015 away."},
-  {q:"Closing the Gap agreement signed in ___",a:"2020",w:["2008","1967","2026"],e:"The National Agreement was signed in July 2020."},
-  {q:"Preschool enrolment for First Nations kids in 2026: more than ___",a:"95%",w:["61%","50%","25%"],e:"Up from 61.3% in 2016. The first target to be met."},
-  {q:"Aboriginal and Torres Strait Islander male life expectancy (2020-2022): ___ years",a:"71.9",w:["81.2","65.0","59.5"],e:"Females 75.6 years (ABS)."},
-  {q:"First Nations life expectancy in remote areas is about ___ years lower than in major cities",a:"5",w:["1","15","25"],e:"About 5.2 years lower, for both males and females (ABS 2020-2022)."},
-  {q:"India's HDI value has risen by over ___% since 1990",a:"53",w:["5","10","200"],e:"Faster than both the global and South Asian averages (UNDP)."},
-  {q:"Aboriginal and Torres Strait Islander female life expectancy (2020-2022): ___ years",a:"75.6",w:["71.9","85.3","62.0"],e:"Males are 71.9 years (ABS)."}
- ]},
- {key:"Rate My Region",color:"#FFB020",text:"Spatial differences in Australia and India, plus the causes from Lesson 5.",type:"mc",qs:[
-  {q:"In Australia, which area usually has lower wellbeing on health and services?",a:"Remote and very remote areas",w:["Major cities","Inner suburbs of Melbourne","Every area is exactly the same"],e:"Distance makes hospitals, schools and jobs harder to reach."},
-  {q:"Kerala vs Bihar. Which Indian state usually tops wellbeing rankings like literacy and life expectancy?",a:"Kerala",w:["Bihar","They are the same","Neither, India has no states"],e:"Kerala has long invested in health and education. Bihar is near the bottom."},
-  {q:"Literacy in Kerala (2011 Census) was about 94%. Bihar was about ...",a:"62%",w:["94%","99%","20%"],e:"A 30-point gap inside one country."},
-  {q:"Which is a PHYSICAL cause of spatial differences in wellbeing?",a:"Remoteness, harsh climate or natural hazards",w:["Corruption in government","Discrimination","Spending on schools"],e:"Physical causes come from the natural environment."},
-  {q:"Which is a HUMAN cause of spatial differences in wellbeing?",a:"Conflict, poor governance or unequal access to services",w:["Drought","Mountains","Cyclones"],e:"Human causes come from decisions and systems people create."},
-  {q:"In India, which group generally has lower access to services like clean water and hospitals?",a:"People in rural villages",w:["People in big cities like Mumbai","Everyone has equal access","Tourists"],e:"Rural areas have fewer hospitals, schools and piped water."},
-  {q:"The ABS index that ranks Australian areas by advantage and disadvantage is called ...",a:"SEIFA",w:["HDI","GDP","NAPLAN"],e:"Socio-Economic Indexes for Areas, made from Census data."},
-  {q:"Which helps explain why remote First Nations communities have lower wellbeing?",a:"Distance from services plus the long-term effects of colonisation",w:["People there choose not to see doctors","There are no differences at all","The climate is always perfect"],e:"Combine physical (remoteness) and human (history, access) causes for full marks."},
-  {q:"Which state or territory has the lowest First Nations life expectancy?",a:"Northern Territory",w:["New South Wales","Victoria","Australian Capital Territory"],e:"NT males 65.6 years vs NSW males 73.8 years (ABS 2020-2022). Much of the NT is remote."},
-  {q:"Who is MOST likely to have better access to hospitals and schools?",a:"A family in central Mumbai",w:["A family in a remote village in Bihar","A family in a flood-prone rural area","They all have the same access"],e:"The urban-rural divide: services cluster in cities."}
- ]},
- {key:"Top Comment",color:"#8B5CF6",text:"Pick the comment a Geography teacher would pin. Think: specific, uses evidence, explains WHY.",type:"mc",qs:[
-  {q:"Post: 'Australia is rich so everyone here has great wellbeing'. Top comment?",a:"Not really. Remote First Nations people live about 5 years less than those in cities, so averages hide gaps",w:["Facts, Australia is the best","Nah, Australia is poor","Who cares about wellbeing"],e:"Uses evidence and the idea of spatial variation."},
-  {q:"Post: 'Why use HDI and not just GDP?' Top comment?",a:"GDP only shows money. HDI adds health and education, so it gives a fuller picture of wellbeing",w:["Because HDI is newer","GDP and HDI are the same thing","HDI measures happiness"],e:"Explains the difference and why it matters."},
-  {q:"Post: 'India is poor, end of story'. Top comment?",a:"India's HDI rose over 50% since 1990 and life expectancy hit 72, but states like Bihar still lag Kerala",w:["True, nothing has changed","India is richer than Australia","Life expectancy doesn't matter"],e:"Balanced: shows progress AND uneven wellbeing, with figures."},
-  {q:"Post: 'Is Closing the Gap working?' Top comment?",a:"Partly. Preschool enrolment hit 95% but some targets, like kids in out-of-home care, are getting worse",w:["Yes, it's done, all fixed","No, nothing has improved at all","It's not a real policy"],e:"A judgement backed by evidence on both sides."},
-  {q:"Which comment best explains a CAUSE of low wellbeing?",a:"Remote areas have fewer hospitals, so people travel hours for care and health suffers",w:["Remote areas have low wellbeing","Some places are just worse","It's bad there"],e:"It explains HOW the cause leads to the effect, not just WHAT."},
-  {q:"Post: 'Qualitative data is useless'. Top comment?",a:"It shows things numbers can't, like feeling safe or connected to culture and Country",w:["Agreed, only numbers count","Qualitative means quantity","It's only for English class"],e:"Qualitative indicators capture lived experience."},
-  {q:"Best comment comparing wellbeing in Australia and India?",a:"Australia is very high on HDI and India is medium, but both have big gaps between regions and groups",w:["Australia wins, India loses","They are identical","You can't compare countries"],e:"Compares overall levels AND makes the point about inequality within both."},
-  {q:"Which comment uses the PEEL/TEEL structure best?",a:"Wellbeing varies within India. For example, Kerala's literacy is 94% vs Bihar's 62%. This shows where you live shapes your opportunities",w:["India is unequal","Kerala good, Bihar bad lol","I think India is a big country with lots of people"],e:"Point, evidence with figures, then explain the link."},
-  {q:"Post: 'Wellbeing and standard of living are the same thing'. Top comment?",a:"Standard of living is the material stuff like income and housing. Wellbeing also includes health, happiness and feeling safe",w:["Yep, same thing","Standard of living is about the weather","Wellbeing only means money"],e:"Shows you know the difference between the two terms."},
-  {q:"Post: 'How can a rich region have people with low wellbeing?' Top comment?",a:"Income can be shared unequally, so some groups still miss out on good housing, health care and jobs",w:["It can't, rich means happy","Rich regions have no problems","Because of the weather"],e:"Inequality explains why averages can mislead."}
- ]}
+const BADGES = [
+  {id:"first", name:"First tick", test:s=>s.correct>=1},
+  {id:"hot", name:"Hot streak (3)", test:s=>s.best>=3},
+  {id:"fire", name:"On fire (6)", test:s=>s.best>=6},
+  {id:"doc", name:"Paperwork pro", test:s=>s.roundPerfect[0]},
+  {id:"crdr", name:"CR DR decoder", test:s=>s.roundPerfect[1]},
+  {id:"det", name:"Fraud detective", test:s=>s.roundPerfect[2]},
+  {id:"num", name:"Number cruncher", test:s=>s.roundPerfect[3]}
 ];
-
-var TOTAL=ROUNDS.reduce(function(s,r){return s+r.qs.length;},0);
-var BADGES=[
- {id:"first",n:"First Post",t:function(s){return s.correct>=1;}},
- {id:"fire",n:"On Fire (3 streak)",t:function(s){return s.best>=3;}},
- {id:"viral",n:"Gone Viral (6 streak)",t:function(s){return s.best>=6;}},
- {id:"verified",n:"Verified (50K)",t:function(s){return s.fol>=50000;}},
- {id:"nocap",n:"Cap Detector",t:function(s){return s.capClean;}},
- {id:"brain",n:"Big Brain (52+)",t:function(s){return s.correct>=52;}},
- {id:"writer",n:"Caption King",t:function(s){return s.caption;}}
-];
-var $=function(id){return document.getElementById(id);};
-var L=["A","B","C","D"];
-var st, order, rIdx, qIdx, done;
-
-function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
-function fmt(n){return n>=1000?(n/1000).toFixed(n%1000===0?0:1)+"K":String(n);}
-function reset(){st={fol:0,streak:0,best:0,correct:0,got:{},miss:[],capClean:false,capWrong:0};done=0;hud();}
-function hud(){$("fol").textContent=fmt(st.fol);$("stk").textContent=st.streak;$("prog").style.width=(done/TOTAL*100)+"%";}
-var tt;function toast(m){var t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(function(){t.classList.remove("show");},1700);}
-function burst(){
-  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  var b=$("burst"),cols=["#FF3D8B","#22D3EE","#B6F23A","#FFB020","#8B5CF6"];
-  for(var i=0;i<40;i++){var e=document.createElement("i");e.style.left=Math.random()*100+"vw";e.style.background=cols[i%5];e.style.animationDelay=(Math.random()*.4)+"s";b.appendChild(e);}
-  setTimeout(function(){b.innerHTML="";},2000);
+let st;
+const $ = id => document.getElementById(id);
+const fmt = n => (n<0?"-":"") + "$" + Math.abs(n).toFixed(2);
+function reset(){
+  st = {r:0,i:0,bal:0,streak:0,best:0,correct:0,total:0,mistakes:[],roundWrong:[0,0,0,0],roundPerfect:[false,false,false,false],earned:new Set(),name:""};
+  $("ledger").innerHTML=""; $("badges").innerHTML="";
+  addLine("OPENING BALANCE","",0,true);
 }
-function show(id){["start","intro","play","finale","end"].forEach(function(s){$(s).classList.toggle("hidden",s!==id);});window.scrollTo(0,0);}
-function checkBadges(){BADGES.forEach(function(b){if(!st.got[b.id]&&b.t(st)){st.got[b.id]=true;toast("Badge unlocked: "+b.n);}});}
-
-function startRound(r){
-  rIdx=r;qIdx=0;var R=ROUNDS[r];order=shuffle(R.qs);
-  if(R.type==="tf"){st.capWrong=0;}
-  var t=$("iTag");t.textContent="Round "+(r+1)+" of "+ROUNDS.length;t.style.background=R.color;
-  $("iTitle").textContent=R.key;$("iText").textContent=R.text;
-  show("intro");$("iGo").focus();
+function addLine(desc,type,amt,open){
+  const tr=document.createElement("tr");
+  tr.innerHTML = open ? `<td>${desc}</td><td></td><td>${fmt(0)}</td>` :
+    `<td>${desc}</td><td class="${type==='CR'?'c':'d'}">${type}</td><td class="${type==='CR'?'c':'d'}">${fmt(amt)}</td>`;
+  $("ledger").prepend(tr);
 }
-
-function ask(){
-  var R=ROUNDS[rIdx],Q=order[qIdx],acc=ACCOUNTS[Math.floor(Math.random()*ACCOUNTS.length)];
-  var card=$("postCard");card.style.animation="none";void card.offsetWidth;card.style.animation="";
-  $("pAva").textContent=acc[1];$("pAva").style.background=acc[2];
-  $("pHandle").innerHTML="";var h=document.createElement("span");h.textContent=acc[0]+" ";$("pHandle").appendChild(h);
-  var tk=document.createElement("span");tk.className="tick";tk.textContent="✓";$("pHandle").appendChild(tk);
-  $("pSub").textContent=(Math.floor(Math.random()*58)+2)+"m ago";
-  var tg=$("pTag");tg.textContent=R.key;tg.style.background=R.color;
-  $("pText").textContent=Q.q;
-  var box=$("opts");box.innerHTML="";box.className=R.type==="tf"?"tf":"opts";
-  var options=R.type==="tf"?[["No Cap (true)",true],["Cap (fake)",false]]:(R.type==="fixed"?R.fixed.map(function(o){return [o,o];}):shuffle([Q.a].concat(Q.w)).map(function(o){return [o,o];}));
-  options.forEach(function(o,i){
-    var b=document.createElement("button");b.type="button";b.className="opt";
-    if(R.type!=="tf"){var k=document.createElement("span");k.className="k";k.textContent=L[i];b.appendChild(k);}
-    var s=document.createElement("span");s.textContent=o[0];b.appendChild(s);
-    b._v=o[1];b.addEventListener("click",function(){answer(b);});box.appendChild(b);
-  });
-  $("reply").className="reply";$("heart").className="heart";
-  $("count").textContent=fmt(Math.floor(Math.random()*9000)+400)+" likes";
-  $("next").classList.add("hidden");st.locked=false;
-  show("play");
+function show(){
+  const R=ROUNDS[st.r], it=R.items[st.i];
+  [...$("rbar").children].forEach((s,k)=>s.className = k<st.r?"done":k===st.r?"now":"");
+  $("rlabel").textContent = `Round ${st.r+1} of ${ROUNDS.length}  |  Item ${st.i+1} of ${R.items.length}`;
+  $("rtitle").textContent = R.name; $("rhint").textContent = R.hint;
+  $("item").innerHTML = it.q;
+  const opts = it.opts || R.opts;
+  $("opts").innerHTML="";
+  opts.forEach(o=>{ const b=document.createElement("button"); b.className="opt"; b.textContent=o; b.onclick=()=>answer(b,o); $("opts").appendChild(b); });
+  $("fb").className="feedback"; $("next").className="next";
 }
-
-function answer(btn){
-  if(st.locked)return;st.locked=true;
-  var R=ROUNDS[rIdx],Q=order[qIdx],ok=btn._v===Q.a,gain=0;
-  Array.prototype.forEach.call($("opts").children,function(b){b.disabled=true;if(b._v===Q.a)b.classList.add("right");});
-  if(ok){
-    st.correct++;st.streak++;st.best=Math.max(st.best,st.streak);
-    var mult=st.streak>=6?3:(st.streak>=3?2:1);gain=1000*mult;st.fol+=gain;
-    $("heart").className="heart liked";
-    if(st.streak===3)toast("🔥 You're on fire. Double followers!");
-    if(st.streak===6){toast("🚀 Gone viral. Triple followers!");burst();}
-  }else{
-    btn.classList.add("wrong");
-    if(st.streak>=3)toast("Streak lost. Ratioed 😬");
-    st.streak=0;if(R.type==="tf")st.capWrong++;
-    var shown=R.type==="tf"?(btn._v?"No Cap":"Cap"):btn._v;
-    var right=R.type==="tf"?(Q.a?"No Cap (true)":"Cap (fake)"):Q.a;
-    st.miss.push({q:Q.q,mine:shown,a:right,e:Q.e});
+function answer(btn,o){
+  const R=ROUNDS[st.r], it=R.items[st.i];
+  [...$("opts").children].forEach(b=>{ b.disabled=true; if(b.textContent===it.a) b.classList.add("right"); });
+  st.total++;
+  if(o===it.a){
+    st.correct++; st.streak++; st.best=Math.max(st.best,st.streak);
+    const amt = st.streak>=3 ? 20 : 10;
+    st.bal+=amt; addLine(st.streak>=3?"STREAK BONUS":"CORRECT","CR",amt);
+    $("fb").className="feedback show good"; $("fb").innerHTML = `<b>Tick.</b> ${it.why}` + (st.streak>=3?` <b>Streak ${st.streak}: credit doubled.</b>`:"");
+  } else {
+    btn.classList.add("wrong"); st.streak=0; st.bal-=5; st.roundWrong[st.r]++;
+    addLine("ERROR FEE","DR",5);
+    st.mistakes.push({q:it.q.replace(/<br>/g," ").replace(/<[^>]+>/g,""), you:o, a:it.a, why:it.why});
+    $("fb").className="feedback show bad"; $("fb").innerHTML = `<b>Chase it.</b> The answer is <b>${it.a}</b>. ${it.why}`;
   }
-  var rp=$("replyTxt");rp.innerHTML="";
-  var hd=document.createElement("b");hd.textContent=ok?("W. +"+fmt(gain)+" followers"):"L. Not quite.";rp.appendChild(hd);
-  rp.appendChild(document.createTextNode(Q.e));
-  $("reply").className="reply show";
-  done++;
-  if(R.type==="tf"&&qIdx===order.length-1&&st.capWrong===0)st.capClean=true;
-  hud();checkBadges();
-  var n=$("next");n.classList.remove("hidden");
-  n.textContent=qIdx<order.length-1?"Next post":(rIdx<ROUNDS.length-1?"Next round":"See my stats");
-  n.focus();
+  $("bal").textContent=fmt(st.bal); $("bal").style.color = st.bal<0?"var(--red)":"var(--ink)";
+  $("streak").textContent=`Streak: ${st.streak}   |   Best: ${st.best}`;
+  const last = st.i===R.items.length-1;
+  if(last) st.roundPerfect[st.r] = st.roundWrong[st.r]===0;
+  checkBadges();
+  $("next").textContent = last ? (st.r===ROUNDS.length-1 ? "Close the books" : "Next round") : "Next";
+  $("next").className="next show"; $("next").focus();
 }
-
+function checkBadges(){
+  BADGES.forEach(b=>{ if(!st.earned.has(b.id) && b.test(st)){ st.earned.add(b.id); const s=document.createElement("span"); s.className="badge"; s.textContent=b.name; $("badges").appendChild(s);} });
+}
 function next(){
-  if(qIdx<order.length-1){qIdx++;ask();}
-  else if(rIdx<ROUNDS.length-1){startRound(rIdx+1);}
-  else startFinale();
+  const R=ROUNDS[st.r];
+  if(st.i<R.items.length-1){ st.i++; show(); return; }
+  if(st.r<ROUNDS.length-1){ st.r++; st.i=0; show(); return; }
+  finish();
 }
-
-var CHECKS=[
- ["80 to 150 words",function(t){var n=wc(t);return n>=80&&n<=150;}],
- ["Uses at least one figure (a number)",function(t){return /\d/.test(t);}],
- ["Names a real place",function(t){return /(australia|india|kerala|bihar|mumbai|delhi|northern territory|remote|melbourne|sydney|victoria|rural|urban)/i.test(t);}],
- ["Explains with because, this shows or therefore",function(t){return /(because|this shows|therefore|this means)/i.test(t);}]
-];
-function wc(t){return (t.trim().match(/\S+/g)||[]).length;}
-function renderChecks(){
-  var t=$("cap").value,box=$("checks");box.innerHTML="";
-  var w=document.createElement("div");w.className="muted";w.textContent=wc(t)+" words";box.appendChild(w);
-  CHECKS.forEach(function(c){var d=document.createElement("div");var ok=c[1](t);d.textContent=(ok?"\u2705 ":"\u2B1C ")+c[0];box.appendChild(d);});
-}
-function startFinale(){$("prog").style.width="100%";renderChecks();show("finale");$("cap").focus();}
-function postCaption(){
-  var t=$("cap").value.trim();
-  var passed=CHECKS.filter(function(c){return c[1](t);}).length;
-  st.captionText=t;
-  if(passed===CHECKS.length){st.caption=true;st.fol+=10000;toast("Caption hit every check. +10K followers");burst();}
-  else if(t){st.fol+=passed*2000;toast("Posted. +"+fmt(passed*2000)+" followers");}
-  hud();checkBadges();finish();
-}
-
 function finish(){
-  var title=st.correct>=52?"Certified Geo Influencer":st.correct>=42?"Rising Creator":st.correct>=30?"Micro Influencer":"Lurker (for now)";
-  $("eFol").textContent=fmt(st.fol);
-  $("eText").innerHTML="";var p=document.createElement("span");
-  p.textContent=st.correct+" out of "+TOTAL+" correct. Best streak: "+st.best+". Rank: "+title+".";$("eText").appendChild(p);
-  var eb=$("eBadges");eb.innerHTML="";
-  BADGES.forEach(function(b){var s=document.createElement("span");s.className="badge"+(st.got[b.id]?" got":"");s.textContent=b.n;eb.appendChild(s);});
-  var rv=$("review");rv.innerHTML="";var h=document.createElement("h2");
-  if(st.miss.length){
-    h.textContent="Mistake review ("+st.miss.length+")";rv.appendChild(h);
-    var m=document.createElement("p");m.className="muted";m.textContent="Write the ones you missed into your book.";rv.appendChild(m);
-    st.miss.forEach(function(x){
-      var d=document.createElement("div");d.className="item";
-      var q=document.createElement("div");q.style.fontWeight="700";q.textContent=x.q;d.appendChild(q);
-      var y=document.createElement("div");y.textContent="You said: "+x.mine;d.appendChild(y);
-      var a=document.createElement("div");a.className="ans";a.textContent="Answer: "+x.a;d.appendChild(a);
-      var e=document.createElement("div");e.className="muted";e.textContent=x.e;d.appendChild(e);
-      rv.appendChild(d);
-    });
-  }else{h.textContent="Zero mistakes. Main character energy.";rv.appendChild(h);}
-  var nm=($("name").value||"").trim()||"A Year 10 geographer";
-  $("cName").textContent=nm;
-  $("cLine").textContent="scored "+st.correct+"/"+TOTAL+" in WellbeingTok, reached "+fmt(st.fol)+" followers and earned the rank of "+title+".";
-  var g=BADGES.filter(function(b){return st.got[b.id];}).map(function(b){return b.n;});
-  $("cBadges").textContent=g.length?"Badges: "+g.join(", "):"";
-  $("cDate").textContent=new Date().toLocaleDateString("en-AU",{day:"numeric",month:"long",year:"numeric"});
-  $("cCap").textContent=st.captionText?("My caption:\n"+st.captionText):"";
-  $("cert").style.display="block";
-  $("prog").style.width="100%";
-  show("end");if(st.correct>=45)burst();
+  $("play").style.display="none"; $("end").style.display="block";
+  const pct = Math.round(st.correct/st.total*100);
+  $("endbal").textContent = `${fmt(st.bal)}  (${st.correct} of ${st.total} correct)`;
+  $("endmsg").textContent = pct===100 ? "Perfect books. Every line reconciled." : pct>=75 ? "Solid bookkeeping. Check the lines below that you chased." : "Some lines don't reconcile yet. Read the review, then play again.";
+  $("endbadges").innerHTML = [...st.earned].map(id=>`<span class="badge">${BADGES.find(b=>b.id===id).name}</span>`).join("") || "<span class='rhint'>No badges this time.</span>";
+  $("reviewwrap").innerHTML = st.mistakes.length ? `<h3>Lines to chase</h3><ol class="review">${st.mistakes.map(m=>`<li>${m.q}<br>You said <b>${m.you}</b>. Answer: <span style="color:var(--green);font-weight:700">${m.a}</span>. ${m.why}</li>`).join("")}</ol>` : "";
+  const d = new Date().toLocaleDateString("en-AU",{day:"numeric",month:"long",year:"numeric"});
+  const nm = st.name || "Junior Bookkeeper";
+  $("cert").innerHTML = `<div class="rlabel">Year 10 Business</div><h2>Follow the Money</h2><p style="font-size:18px">This certifies that</p><p style="font-size:30px;font-weight:700;margin:6px 0">${nm.replace(/[<>&]/g,"")}</p><p style="font-size:18px">closed the books with a balance of <b>${fmt(st.bal)}</b><br>scoring ${st.correct} of ${st.total} (${pct}%)</p><p>${[...st.earned].map(id=>BADGES.find(b=>b.id===id).name).join("  |  ")}</p><p style="color:#6B7780">${d}</p>`;
 }
-
-$("go").addEventListener("click",function(){reset();startRound(0);});
-$("iGo").addEventListener("click",ask);
-$("next").addEventListener("click",next);
-$("cap").addEventListener("input",renderChecks);
-$("post").addEventListener("click",postCaption);
-$("skip").addEventListener("click",function(){st.captionText="";finish();});
-$("again").addEventListener("click",function(){$("cert").style.display="none";$("cap").value="";reset();show("start");});
-$("print").addEventListener("click",function(){window.print();});
-document.addEventListener("keydown",function(e){
-  if(e.target&&e.target.tagName==="TEXTAREA")return;
-  if(e.target&&e.target.tagName==="INPUT"){if(e.key==="Enter")$("go").click();return;}
-  if($("play").classList.contains("hidden")||st.locked)return;
-  var opts=$("opts").children,k=e.key.toUpperCase();
-  if(ROUNDS[rIdx].type==="tf"){if(k==="T")opts[0].click();if(k==="F")opts[1].click();return;}
-  var i=L.indexOf(k);if(i>-1&&i<opts.length)opts[i].click();
-});
-reset();
-})();
+$("go").onclick=()=>{ reset(); st.name=$("nm").value.trim(); $("start").style.display="none"; $("play").style.display="grid"; show(); };
+$("next").onclick=next;
+$("print").onclick=()=>window.print();
+$("again").onclick=()=>{ $("end").style.display="none"; $("start").style.display="block"; };
 </script>
 </body>
 </html>
