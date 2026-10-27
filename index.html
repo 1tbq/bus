@@ -3,673 +3,509 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Red Flag Inbox | Lesson 1: What is a scam?</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<title>The Business Autopsy</title>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --ink:#14213D;
-    --ink-soft:#3B4A6B;
-    --paper:#F7F5F0;
-    --card:#FFFFFF;
-    --line:#E2DED4;
-    --red:#D62839;
-    --red-soft:#FCE8EA;
-    --amber:#F2A900;
-    --amber-soft:#FFF4D6;
-    --green:#0F8A5F;
-    --green-soft:#E3F5EC;
-    --blue:#2F6FED;
-    --bubble:#E9E9EF;
-    --shadow:0 2px 0 rgba(20,33,61,.08), 0 8px 24px rgba(20,33,61,.08);
-    --radius:16px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:var(--paper);color:var(--ink)}
-  body{font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-size:17px;line-height:1.5;min-height:100vh}
-  h1,h2,h3,.display{font-family:"Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.01em}
-  button{font:inherit;cursor:pointer}
-  .wrap{max-width:860px;margin:0 auto;padding:16px}
-
-  /* ---------- top bar ---------- */
-  .topbar{position:sticky;top:0;z-index:20;background:var(--ink);color:#fff}
-  .topbar .wrap{display:flex;align-items:center;gap:14px;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
-  .brand{display:flex;align-items:center;gap:10px;font-family:"Bricolage Grotesque";font-weight:800;font-size:18px;margin-right:auto}
-  .brand .flag{width:26px;height:26px}
-  .stat{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1}
-  .stat small{font-size:11px;opacity:.7;text-transform:uppercase;letter-spacing:.08em}
-  .stat b{font-family:"Bricolage Grotesque";font-size:20px}
-  .streak b{color:var(--amber)}
-  .glossbtn{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:999px;padding:6px 14px;font-size:14px;font-weight:700}
-  .glossbtn:hover{background:rgba(255,255,255,.12)}
-  .savings{background:#0d1730}
-  .savings .wrap{padding-top:8px;padding-bottom:10px}
-  .savings-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#cfd6e6;margin-bottom:5px}
-  .savings-row b{color:#fff}
-  .meter{height:10px;background:#2a3657;border-radius:999px;overflow:hidden}
-  .meter i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--green),#3cc48d);transition:width .6s ease, background .3s}
-  .meter.low i{background:linear-gradient(90deg,var(--red),#f0606e)}
-  .meter.mid i{background:linear-gradient(90deg,#d98e00,var(--amber))}
-
-  /* ---------- progress ---------- */
-  .rounds{display:flex;gap:6px;margin:18px 0 6px}
-  .rounds span{flex:1;height:6px;border-radius:999px;background:var(--line)}
-  .rounds span.done{background:var(--ink)}
-  .rounds span.now{background:var(--red)}
-  .qcount{font-size:14px;color:var(--ink-soft);display:flex;justify-content:space-between}
-
-  /* ---------- cards ---------- */
-  .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin:14px 0}
-  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red)}
-  .hero h1{font-size:clamp(34px,7vw,56px);line-height:1;margin:6px 0 12px;font-weight:800}
-  .hero p{color:var(--ink-soft);max-width:60ch}
-  .defbox{margin:18px 0;padding:18px 20px;border-left:6px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;font-size:19px}
-  .defbox u{text-decoration:none;border-bottom:3px solid var(--red);font-weight:700}
-  .howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:18px 0}
-  .howto div{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font-size:15px}
-  .howto b{display:block;font-family:"Bricolage Grotesque";font-size:16px;margin-bottom:2px}
-  label.name{display:block;font-weight:700;margin:14px 0 6px}
-  input[type=text], textarea{width:100%;font:inherit;padding:12px 14px;border-radius:10px;border:2px solid var(--line);background:#fff;color:var(--ink)}
-  input[type=text]:focus, textarea:focus{outline:none;border-color:var(--blue)}
-  .btn{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:999px;padding:13px 24px;font-weight:700;font-size:17px;background:var(--red);color:#fff;box-shadow:0 3px 0 #9e1626;transition:transform .08s}
-  .btn:active{transform:translateY(2px);box-shadow:0 1px 0 #9e1626}
-  .btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
-  .btn.ghost{background:transparent;color:var(--ink);box-shadow:none;border:2px solid var(--ink)}
-  .btn[disabled]{opacity:.4;cursor:not-allowed}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
-
-  /* ---------- round intro ---------- */
-  .roundintro{text-align:center;padding:36px 24px}
-  .roundintro .num{font-family:"Bricolage Grotesque";font-weight:800;font-size:90px;line-height:1;color:var(--red)}
-  .roundintro h2{font-size:32px;margin:6px 0 8px}
-  .roundintro p{color:var(--ink-soft);max-width:52ch;margin:0 auto}
-
-  /* ---------- question ---------- */
-  .prompt{font-size:14px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-  .scenario{font-size:21px;line-height:1.4;font-weight:700}
-  .opts{display:grid;gap:10px;margin-top:20px}
-  .opts.two{grid-template-columns:1fr 1fr}
-  .opts.three{grid-template-columns:repeat(3,1fr)}
-  @media (max-width:640px){.opts.two,.opts.three{grid-template-columns:1fr}}
-  .opt{display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:2px solid var(--line);border-radius:12px;padding:13px 14px;color:var(--ink);font-size:16px;transition:border-color .15s, background .15s}
-  .opt:hover:not([disabled]){border-color:var(--ink)}
-  .opt .k{flex:none;width:28px;height:28px;border-radius:8px;background:var(--paper);display:grid;place-items:center;font-weight:700;font-size:14px;color:var(--ink-soft)}
-  .opt .t{flex:1}
-  .opt .t small{display:block;color:var(--ink-soft);font-size:13px;font-weight:400}
-  .opt.right{border-color:var(--green);background:var(--green-soft)}
-  .opt.right .k{background:var(--green);color:#fff}
-  .opt.wrong{border-color:var(--red);background:var(--red-soft)}
-  .opt.wrong .k{background:var(--red);color:#fff}
-  .opt[disabled]{cursor:default}
-  .feedback{margin-top:18px;border-radius:12px;padding:16px 18px;display:none}
-  .feedback.show{display:block;animation:pop .25s ease}
-  .feedback.good{background:var(--green-soft);border:2px solid var(--green)}
-  .feedback.bad{background:var(--red-soft);border:2px solid var(--red)}
-  .feedback h3{font-size:19px;margin-bottom:4px}
-  .feedback .money{font-weight:700}
-  @keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}
-
-  /* ---------- flag chips ---------- */
-  .flagchip{display:inline-flex;align-items:center;gap:6px;font-weight:700}
-  .flagchip i{font-style:normal;font-size:12px;font-weight:400;color:var(--ink-soft)}
-
-  /* ---------- phone (round 3) ---------- */
-  .phone{max-width:380px;margin:0 auto;border:10px solid var(--ink);border-radius:36px;background:#fff;overflow:hidden;box-shadow:var(--shadow)}
-  .phone .notch{height:22px;background:var(--ink);width:40%;margin:0 auto;border-radius:0 0 14px 14px}
-  .phone .head{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line)}
-  .phone .av{width:34px;height:34px;border-radius:50%;background:var(--bubble);display:grid;place-items:center;font-weight:700;color:var(--ink-soft)}
-  .phone .who{font-weight:700;font-size:15px;line-height:1.2}
-  .phone .who small{display:block;font-weight:400;color:var(--ink-soft);font-size:12px}
-  .phone .body{padding:16px 14px 22px;min-height:150px;background:#fff}
-  .phone .time{text-align:center;font-size:11px;color:#999;margin-bottom:10px}
-  .bubble{background:var(--bubble);border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:15.5px;max-width:92%;line-height:1.4}
-  .bubble + .bubble{margin-top:6px}
-  .bubble .lnk{color:var(--blue);text-decoration:underline;word-break:break-all}
-  .phone.email .bubble{border-radius:8px;background:#fff;border:1px solid var(--line);max-width:100%}
-  .phone.email .subj{font-weight:700;margin-bottom:4px}
-
-  /* ---------- case file (round 4) ---------- */
-  .casefile{position:relative;background:#F3E6C4;border-radius:4px 14px 14px 14px;padding:22px 22px 20px;box-shadow:var(--shadow);margin-top:26px}
-  .casefile:before{content:attr(data-tab);position:absolute;top:-24px;left:0;background:#F3E6C4;padding:4px 16px;border-radius:10px 10px 0 0;font-family:"Bricolage Grotesque";font-weight:700;font-size:14px}
-  .casefile h3{font-size:22px;margin-bottom:8px}
-  .casefile p{font-size:16px}
-  .stamp{display:inline-block;border:2.5px solid var(--red);color:var(--red);font-family:"Bricolage Grotesque";font-weight:800;padding:2px 10px;border-radius:6px;transform:rotate(-4deg);font-size:13px;letter-spacing:.08em;margin-bottom:10px}
-  .subq{font-size:19px;font-weight:700;margin-top:18px}
-
-  /* ---------- round summary / final ---------- */
-  .bigscore{font-family:"Bricolage Grotesque";font-weight:800;font-size:64px;line-height:1}
-  .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:12px}
-  .badge{border:2px dashed var(--line);border-radius:12px;padding:12px;text-align:center;color:#aaa;font-size:14px}
-  .badge .ic{font-size:30px;display:block;filter:grayscale(1);opacity:.4}
-  .badge b{display:block;font-family:"Bricolage Grotesque"}
-  .badge.got{border:2px solid var(--amber);background:var(--amber-soft);color:var(--ink)}
-  .badge.got .ic{filter:none;opacity:1}
-  .review{margin-top:10px}
-  .review details{border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;margin-top:8px;background:#fff}
-  .review summary{cursor:pointer;font-weight:700}
-  .review p{margin-top:6px;font-size:15px}
-  .review .yours{color:var(--red)} .review .ans{color:var(--green)}
-  .frame{background:var(--paper);border-radius:10px;padding:12px 14px;font-style:italic;margin:8px 0 10px;color:var(--ink-soft)}
-
-  /* ---------- glossary drawer ---------- */
-  .drawer{position:fixed;inset:0;background:rgba(20,33,61,.45);display:none;z-index:50}
-  .drawer.open{display:block}
-  .drawer .panel{position:absolute;right:0;top:0;bottom:0;width:min(420px,100%);background:#fff;padding:22px;overflow:auto}
-  .drawer h2{font-size:24px;margin-bottom:4px}
-  .drawer table{width:100%;border-collapse:collapse;margin:10px 0 18px;font-size:15px}
-  .drawer td{border-bottom:1px solid var(--line);padding:8px 6px;vertical-align:top}
-  .drawer td:first-child{font-weight:700;width:38%}
-  .drawer .close{float:right;background:none;border:none;font-size:28px;line-height:1}
-
-  /* ---------- toast ---------- */
-  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-weight:700;z-index:60;transition:transform .35s ease;display:flex;gap:8px;align-items:center;box-shadow:var(--shadow)}
-  .toast.show{transform:translateX(-50%) translateY(0)}
-
-  /* ---------- certificate ---------- */
-  .cert{display:none}
-  @media print{
-    body{background:#fff}
-    .topbar,.savings,#app,.toast,.drawer{display:none !important}
-    .cert{display:block;padding:40px;border:6px double #000;margin:20px;color:#000;font-family:"Atkinson Hyperlegible",sans-serif}
-    .cert h1{font-size:40px;margin:6px 0}
-    .cert .meta{display:flex;gap:30px;margin:20px 0;font-size:18px}
-    .cert .meta b{font-size:26px;display:block}
-    .cert .line{border-bottom:1px solid #000;min-height:28px;margin:6px 0}
-  }
+:root{
+  --paper:#f4efe6; --card:#fffdf8; --ink:#1d1d1f; --muted:#5b6770;
+  --manila:#ead9a8; --manila-dark:#c9b277; --red:#b3261e; --green:#2f6b3a;
+  --steel:#2f3a42; --yellow:#fff3a8; --line:#d8cfbf;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5}
+header{background:var(--steel);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:5}
+.hud{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.brand{font-family:"Special Elite",monospace;font-size:1.25rem;letter-spacing:.5px}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:rgba(255,255,255,.12);border-radius:999px;padding:4px 12px;font-size:.9rem;font-weight:600}
+.progress{max-width:900px;margin:8px auto 0;height:6px;background:rgba(255,255,255,.2);border-radius:6px;overflow:hidden}
+.progress div{height:100%;width:0;background:var(--manila);transition:width .4s}
+main{max-width:900px;margin:0 auto;padding:20px 16px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 2px 0 var(--line);margin-bottom:18px}
+h1,h2,h3{font-family:"Special Elite",monospace;font-weight:400;margin:0 0 10px}
+h1{font-size:2rem} h2{font-size:1.5rem} h3{font-size:1.15rem}
+.folder{background:var(--manila);border:2px solid var(--manila-dark);border-radius:4px 14px 14px 14px;padding:22px;position:relative;margin-top:22px}
+.folder:before{content:attr(data-tab);position:absolute;top:-26px;left:-2px;background:var(--manila);border:2px solid var(--manila-dark);border-bottom:none;border-radius:8px 8px 0 0;padding:2px 14px;font-family:"Special Elite",monospace;font-size:.9rem}
+.folder ul{margin:8px 0 0;padding-left:20px}
+.folder li{margin-bottom:6px}
+.stamp{display:inline-block;border:3px solid var(--red);color:var(--red);font-family:"Special Elite",monospace;padding:4px 12px;transform:rotate(-4deg);font-size:1.05rem;letter-spacing:1px;background:rgba(255,255,255,.4)}
+.stamp.green{border-color:var(--green);color:var(--green)}
+.copy{background:var(--yellow);border-left:6px solid #e0c200;padding:14px 16px;border-radius:8px;margin:14px 0}
+.copy strong{display:block;font-size:.8rem;letter-spacing:1px;margin-bottom:4px}
+.book{background:var(--steel);color:#fff;border-radius:10px;padding:16px;margin:16px 0}
+.book b{color:var(--manila)}
+.book ol{margin:8px 0 0;padding-left:20px}
+.btn{display:inline-block;border:none;background:var(--steel);color:#fff;font:600 1rem Inter,sans-serif;padding:12px 20px;border-radius:10px;cursor:pointer;margin-top:10px}
+.btn:hover{filter:brightness(1.15)}
+.btn.alt{background:var(--red)}
+.btn:disabled{opacity:.4;cursor:default}
+.opts{display:grid;gap:10px;margin-top:12px}
+.opt{text-align:left;background:#fff;border:2px solid var(--line);border-radius:10px;padding:12px 14px;font:1rem Inter,sans-serif;cursor:pointer;color:var(--ink)}
+.opt:hover:not(:disabled){border-color:var(--steel)}
+.opt.sel{border-color:var(--steel);background:#eef1f3}
+.opt.right{border-color:var(--green);background:#e5f1e7}
+.opt.wrong{border-color:var(--red);background:#f8e4e2}
+.opt.missed{border-style:dashed;border-color:var(--green)}
+.feedback{margin-top:12px;padding:12px 14px;border-radius:10px;display:none}
+.feedback.show{display:block}
+.feedback.good{background:#e5f1e7;border-left:5px solid var(--green)}
+.feedback.bad{background:#f8e4e2;border-left:5px solid var(--red)}
+.toetag{display:flex;gap:0;align-items:stretch;margin:16px 0;max-width:620px}
+.toetag .hole{width:46px;background:var(--manila);border-radius:24px 0 0 24px;border:2px solid var(--manila-dark);border-right:none;display:flex;align-items:center;justify-content:center}
+.toetag .hole span{width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--manila-dark)}
+.toetag .body{flex:1;background:var(--manila);border:2px solid var(--manila-dark);border-left:2px dashed var(--manila-dark);border-radius:0 10px 10px 0;padding:14px 18px;font-family:"Special Elite",monospace}
+.guru{font-style:italic;border-left:4px solid var(--steel);padding:6px 12px;margin-top:12px;color:var(--steel)}
+.small{font-size:.9rem;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.biz{background:#fff;border:2px solid var(--line);border-radius:10px;padding:10px;cursor:pointer;font:600 1rem Inter,sans-serif;color:var(--ink)}
+.biz.sel{border-color:var(--red);background:#f8e4e2}
+textarea,input[type=text]{width:100%;border:2px solid var(--line);border-radius:10px;padding:12px;font:1rem Inter,sans-serif;background:#fff}
+textarea{min-height:110px}
+label.tick{display:flex;gap:10px;align-items:flex-start;background:#fff;border:2px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.badge{background:var(--steel);color:#fff;border-radius:10px;padding:8px 12px;font-size:.9rem}
+.badge.off{background:#d9d4ca;color:#7b7468}
+.cert{border:6px double var(--steel);background:#fffdf8;padding:30px 20px;text-align:center;border-radius:6px}
+.cert h1{font-size:1.9rem}
+.review li{margin-bottom:10px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--steel);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;transition:transform .3s;z-index:10}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@media (max-width:560px){h1{font-size:1.6rem}.card{padding:16px}.folder{padding:16px}}
 </style>
 </head>
 <body>
-
-<div class="topbar">
-  <div class="wrap">
-    <div class="brand">
-      <svg class="flag" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 22V3" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M5 4h12l-2.5 4L17 12H5z" fill="#D62839"/></svg>
-      Red Flag Inbox
-    </div>
-    <div class="stat"><small>Points</small><b id="pts">0</b></div>
-    <div class="stat streak"><small>Streak</small><b id="stk">0</b></div>
-    <button class="glossbtn" id="openGloss" aria-label="Open glossary">Glossary</button>
-  </div>
-  <div class="savings">
-    <div class="wrap">
-      <div class="savings-row"><span>Family savings protected</span><b id="sav">$10,000</b></div>
-      <div class="meter" id="meter"><i id="meterbar"></i></div>
+<header>
+  <div class="hud">
+    <div class="brand">THE BUSINESS AUTOPSY</div>
+    <div class="stats">
+      <span class="chip" id="hudCase">Briefing</span>
+      <span class="chip">Score: <span id="hudScore">0</span></span>
+      <span class="chip">Streak: <span id="hudStreak">0</span></span>
     </div>
   </div>
-</div>
-
-<main id="app" class="wrap"></main>
-
-<div class="drawer" id="gloss" role="dialog" aria-label="Glossary">
-  <div class="panel">
-    <button class="close" id="closeGloss" aria-label="Close glossary">&times;</button>
-    <h2>Glossary</h2>
-    <p style="color:var(--ink-soft);font-size:14px">Our working definition, broken down into plain English.</p>
-    <table>
-      <tr><td>deliberate</td><td>intentional, done on purpose</td></tr>
-      <tr><td>deception</td><td>a lie, a trick, pretending</td></tr>
-      <tr><td>designed</td><td>planned ahead</td></tr>
-      <tr><td>take</td><td>steal</td></tr>
-      <tr><td>personal information</td><td>passwords, bank details, date of birth, address, tax file number</td></tr>
-    </table>
-    <h2>Six red flags</h2>
-    <table>
-      <tr><td>Urgency</td><td>Rushes you. "Act now!"</td></tr>
-      <tr><td>Authority</td><td>Pretends to be someone official. "This is the bank."</td></tr>
-      <tr><td>Scarcity</td><td>Says there is not much left. "Limited spots."</td></tr>
-      <tr><td>Fear</td><td>Scares you with a threat. "You'll be arrested."</td></tr>
-      <tr><td>Emotion</td><td>Pulls on your feelings. "My mother is sick."</td></tr>
-      <tr><td>Too good to be true</td><td>Promises something amazing for nothing. "Free $5,000."</td></tr>
-    </table>
-    <h2>Other words</h2>
-    <table>
-      <tr><td>accidental mistake</td><td>an error nobody meant to make</td></tr>
-      <tr><td>bad purchase</td><td>you bought something honest that turned out poor</td></tr>
-      <tr><td>bad investment</td><td>you put money into something real and it lost value</td></tr>
-      <tr><td>phishing</td><td>a fake message that tries to "fish" for your details</td></tr>
-    </table>
-  </div>
-</div>
-
+  <div class="progress"><div id="bar"></div></div>
+</header>
+<main id="app"></main>
 <div class="toast" id="toast"></div>
 
-<div class="cert" id="cert"></div>
-
 <script>
-/* =========================================================
-   CONTENT
-   ========================================================= */
-const FLAGS = [
-  {id:"urgency",  label:"Urgency",  eg:'"Act now!"'},
-  {id:"authority",label:"Authority",eg:'"This is the bank"'},
-  {id:"scarcity", label:"Scarcity", eg:'"Limited spots"'},
-  {id:"fear",     label:"Fear",     eg:'"You\'ll be arrested"'},
-  {id:"emotion",  label:"Emotion",  eg:'"My mother is sick"'},
-  {id:"toogood",  label:"Too good to be true", eg:'"Free $5,000"'}
-];
-
-const ROUNDS = [
+const CASES = [
   {
-    key:"r1",
-    title:"Scam or Not?",
-    blurb:"Not every money problem is a scam. Read each situation carefully and sort it into the right box.",
-    prompt:"What is this?",
-    layout:"two",
-    options:[
-      {id:"scam", label:"Scam", sub:"deliberate deception to take money or info"},
-      {id:"mistake", label:"Accidental mistake", sub:"nobody meant it"},
-      {id:"purchase", label:"Bad purchase", sub:"honest sale, poor product"},
-      {id:"investment", label:"Bad investment", sub:"real investment, lost value"}
+    name:"Kodak", years:"1888 to 2012", tag:"CASE FILE 01",
+    file:[
+      "Founded in 1888. For decades Kodak was the name in photography, selling film, cameras and printing.",
+      "In the 1970s it reportedly sold around 90% of the photographic film bought in the United States.",
+      "In 1975 a Kodak engineer, Steve Sasson, built the first digital camera.",
+      "Managers were reportedly worried that digital cameras would hurt film sales, which made big profits on every roll.",
+      "Other companies like Canon, Sony and later smartphone makers took over digital photography.",
+      "In 2012 Kodak filed for bankruptcy."
     ],
-    items:[
-      {q:"Someone emails pretending to be your bank and asks you to reply with your password.", a:"scam",
-       why:"They are lying about who they are (deception), on purpose (deliberate), to take your personal information. Real banks never ask for your password."},
-      {q:"You buy shoes online. The listing was honest, but they fall apart after a month.", a:"purchase",
-       why:"Nobody lied to you. The seller described them honestly, they just turned out to be poor quality. That is a bad purchase, not a scam."},
-      {q:"Your cousin puts $500 into a real cryptocurrency. The price drops and he loses $200.", a:"investment",
-       why:"The crypto was real and nobody tricked him. Prices go up and down. Losing money on a real investment is a bad investment, not a scam."},
-      {q:"A cashier gives you the wrong change by accident.", a:"mistake",
-       why:"It was not deliberate. A scam needs someone to trick you on purpose."},
-      {q:"A website sells a brand new games console for $150. You pay, nothing arrives and the website disappears.", a:"scam",
-       why:"The shop was fake from the start. It was designed to take your money, and the 'too good to be true' price was the bait."},
-      {q:"Your mum pays the electricity bill twice by mistake.", a:"mistake",
-       why:"Nobody tricked her. She made an error and can ask for the money back."},
-      {q:"You buy shares in a real Australian company. It has a bad year and the shares fall in value.", a:"investment",
-       why:"The company is real and nothing was hidden from you. Shares can fall. That is the risk of investing, not a scam."},
-      {q:"You get a text: 'Your parcel can't be delivered. Pay a $2.99 fee here.' You haven't ordered anything.", a:"scam",
-       why:"This is phishing. The small fee is a trick to get your card details. Once they have them, they can take much more than $2.99."}
-    ]
+    q1:{prompt:"What was the main cause of death?",
+      options:["Ignored changes in technology","Unethical behaviour","Got the price wrong","Expanded into too many unrelated businesses"],
+      answer:0,
+      explain:"Kodak invented the future and then hid it to protect its old product. When customers switched to digital, Kodak was left selling something nobody needed."},
+    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
+      options:["Kodak built the first digital camera in 1975","Managers worried digital would hurt film sales","Kodak was founded in 1888","Other companies took over digital photography"],
+      answers:[0,1,3]},
+    q3:{prompt:"Could Kodak have been saved?",
+      options:["Yes, by going all in on digital early, even if it hurt film sales","Yes, by raising the price of film","No, nobody could have predicted digital cameras","Yes, by opening more film shops"],
+      answer:0,
+      explain:"Kodak had the technology first. Its competitive advantage was sitting in its own lab."},
+    report:"Ignored changes in technology. Protected an old, profitable product instead of backing the new one it had invented.",
+    guru:"If you won't disrupt yourself, someone else will."
   },
   {
-    key:"r2",
-    title:"Break the Definition",
-    blurb:"A scam needs ALL the parts of our definition. If one part is missing, it's not a scam. Find what's missing, or decide it really is a scam.",
-    prompt:"Which part of the definition is MISSING?",
-    layout:"two",
-    options:[
-      {id:"notdel", label:"Not deliberate", sub:"it was an accident"},
-      {id:"nodec", label:"No deception", sub:"nobody lied"},
-      {id:"notake", label:"Not designed to take", sub:"not after money or info"},
-      {id:"isscam", label:"Nothing missing", sub:"it IS a scam"}
+    name:"Dick Smith", years:"1968 to 2016", tag:"CASE FILE 02",
+    file:[
+      "Started in Sydney in 1968 as an electronics store and grew into a household name across Australia.",
+      "In 2012 Woolworths sold the business cheaply to a private equity firm.",
+      "About a year later it was listed on the ASX, valued at over $500 million.",
+      "It bought huge amounts of stock to earn rebates (payments back) from suppliers, which made profits look bigger.",
+      "Much of that stock was products customers didn't want, and it piled up in warehouses.",
+      "In January 2016 it collapsed, with around 3,000 jobs lost. Customers holding gift cards were initially told they couldn't use them."
     ],
-    items:[
-      {q:"A bank system glitch charges you twice for lunch. The bank refunds you the next day.", a:"notdel",
-       why:"No one planned this. It was a computer error, so the 'deliberate' part is missing."},
-      {q:"Your friend honestly thinks a stock will go up and tells you to buy it. It goes down.", a:"nodec",
-       why:"Your friend believed what they said. Bad advice is not the same as a lie, so the 'deception' part is missing."},
-      {q:"A text pretends to be from Australia Post and asks you to click a link. You delete it without clicking.", a:"isscam",
-       why:"Tricky one! You didn't lose anything, but it was still DESIGNED to take your details. A scam that fails is still a scam."},
-      {q:"A magician tricks you with a card trick at a party, then hands the card back.", a:"notake",
-       why:"The magician deceived you on purpose, but just for fun. Nothing was designed to take your money or information."},
-      {q:"A caller says they are from the tax office and you'll be arrested today unless you pay in gift cards.", a:"isscam",
-       why:"Every part is there: it's deliberate, it's a lie, and it's designed to take your money. Government agencies never ask for payment in gift cards."},
-      {q:"A shop clearly labels a jacket 'Final sale, no refunds'. You buy it and later wish you hadn't.", a:"nodec",
-       why:"The shop told you the truth up front. Regret is not deception."},
-      {q:"On April Fools' Day your friend lies and says school is cancelled.", a:"notake",
-       why:"It's a deliberate lie, but it isn't designed to take your money or personal information. It's a prank, not a scam."},
-      {q:"A job ad asks for your tax file number and bank details before you've even had an interview.", a:"isscam",
-       why:"Personal information counts too. A real employer only needs these after you've been hired, so this is designed to take your information."}
-    ]
+    q1:{prompt:"What was the main cause of death?",
+      options:["Ignored changes in technology","Poor financial decisions","Got the place wrong","Grew too slowly"],
+      answer:1,
+      explain:"Dick Smith bought stock to make the numbers look good, not because customers wanted it. The profit was on paper, not in the bank."},
+    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
+      options:["It started in Sydney in 1968","It bought huge amounts of stock to earn supplier rebates","Unwanted stock piled up in warehouses","It sold electronics"],
+      answers:[1,2]},
+    q3:{prompt:"Could Dick Smith have been saved?",
+      options:["Yes, by buying stock customers actually wanted and being honest about profit","Yes, by opening more stores","No, electronics stores were always going to fail","Yes, by selling more gift cards"],
+      answer:0,
+      explain:"JB Hi-Fi sold similar products in the same years and survived. The difference was decisions, not the industry."},
+    report:"Poor financial decisions. Bought stock to boost rebates and reported profit, then ran out of cash. There is an ethical question too: who was left holding the gift cards?",
+    guru:"Profit on paper isn't cash in the bank."
   },
   {
-    key:"r3",
-    title:"Red Flag Detective",
-    blurb:"Messages are landing in your inbox. Each one uses a red flag to fool you. Spot the STRONGEST red flag in each message.",
-    prompt:"What is the strongest red flag?",
-    layout:"three",
-    options: FLAGS.map(f=>({id:f.id,label:f.label,sub:f.eg})),
-    items:[
-      {from:"Unknown", initials:"?", kind:"sms", msgs:["Congratulations!! You've been selected to win a $1,000 gift card. Just pay $4.95 shipping to claim: <span class='lnk'>gift-claim-au.co</span>"], a:"toogood",
-       why:"$1,000 for $4.95, and you never entered a competition. If it sounds too good to be true, it probably is."},
-      {from:"Bank Alert", initials:"B", kind:"sms", msgs:["Your account will be LOCKED in 30 minutes. Verify your details now to avoid losing access: <span class='lnk'>secure-verify-login.net</span>"], a:"urgency",
-       why:"The '30 minutes' countdown is there to rush you, so you don't stop and think. Scammers want you to act before you check."},
-      {from:"CryptoKing Academy", initials:"C", kind:"email", subj:"Only 3 spots left!", msgs:["Our trading course has only 3 spots left this year. Once they're gone, they're gone. Secure yours today."], a:"scarcity",
-       why:"'Only 3 spots left' makes you scared of missing out. Real courses don't vanish because you took a day to think."},
-      {from:"Toll Notice", initials:"T", kind:"sms", msgs:["FINAL NOTICE: Unpaid toll. Pay today or a warrant will be issued for your arrest."], a:"fear",
-       why:"The threat of being arrested is meant to frighten you into paying. An unpaid toll does not lead to an instant arrest warrant by text."},
-      {from:"+61 4XX XXX 218", initials:"?", kind:"sms", msgs:["Hi Mum, I dropped my phone in the toilet, this is my new number.","I'm stuck and need $300 for rent today. Please don't tell Dad x"], a:"emotion",
-       why:"It plays on a parent's love and worry. The 'don't tell Dad' line stops them checking with anyone. Always call the old number first."},
-      {from:"Victoria Police", initials:"VP", kind:"sms", msgs:["This is Senior Constable Hayes. We need to confirm your date of birth and address for our records. Reply now."], a:"authority",
-       why:"Using the police name makes people trust the message and obey. Real police don't collect your personal details by text."},
-      {from:"WealthMax", initials:"W", kind:"email", subj:"Turn $500 into $5,000 by Friday", msgs:["Invest $500 today and receive $5,000 back by Friday. Guaranteed. Zero risk."], a:"toogood",
-       why:"That's 10 times your money in a few days, with 'zero risk'. No real investment is guaranteed, and higher returns always mean higher risk."},
-      {from:"StreetKicks AU", initials:"S", kind:"sms", msgs:["Limited edition sneakers, only 2 pairs left in Australia! Pay by bank transfer to secure yours."], a:"scarcity",
-       why:"'Only 2 pairs left' pushes you to buy before thinking. Notice they also want a bank transfer, which is very hard to get back."},
-      {from:"System Warning", initials:"!", kind:"email", subj:"YOUR COMPUTER HAS BEEN HACKED", msgs:["All your files will be deleted. Call 1800 XXX XXX immediately to stop this."], a:"fear",
-       why:"It tries to scare you about losing everything. Panic makes people call the number and give the scammer access to their computer."},
-      {from:"Daniel", initials:"D", kind:"sms", msgs:["I've never felt this way about anyone before.","My daughter is in hospital overseas and I can't pay the bills. Could you help me just this once? ❤️"], a:"emotion",
-       why:"This is a romance scam. They build a strong feeling first, then use a sad story to ask for money. You've never met this person face to face."}
-    ]
+    name:"Blockbuster", years:"1985 to 2010", tag:"CASE FILE 03",
+    file:[
+      "At its peak Blockbuster had around 9,000 video rental stores around the world.",
+      "A big part of its revenue came from late fees, which customers hated.",
+      "In 2000 Netflix's founders offered to sell their company to Blockbuster for about US$50 million. Blockbuster said no.",
+      "Netflix posted DVDs with no late fees, then moved to streaming.",
+      "The stores sold popcorn and lollies at the counter.",
+      "Blockbuster filed for bankruptcy in 2010."
+    ],
+    q1:{prompt:"What was the main cause of death?",
+      options:["Unethical behaviour","Too few stores","Ignored changes in technology and the market","Poor promotion"],
+      answer:2,
+      explain:"Customers moved online and away from late fees. Blockbuster stayed in its stores and passed on buying the company that replaced it."},
+    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
+      options:["Blockbuster turned down buying Netflix","It relied on late fees customers hated","Stores sold popcorn and lollies","Netflix moved to no late fees and streaming"],
+      answers:[0,1,3]},
+    q3:{prompt:"Could Blockbuster have been saved?",
+      options:["No, streaming was impossible to compete with","Yes, by buying Netflix or building its own streaming service early","Yes, by raising late fees","Yes, by opening more stores"],
+      answer:1,
+      explain:"It had the money, the brand and the customers. It just didn't move."},
+    report:"Ignored changes in technology and the market. Clung to physical stores and late fees while customers moved online.",
+    guru:"Your customers' biggest annoyance is your competitor's biggest opportunity."
   },
   {
-    key:"r4",
-    title:"Case Files",
-    blurb:"Three case files, just like your case study pack. For each one: name the scam, spot the red flags, and give the best advice.",
-    prompt:"",
-    layout:"one",
-    items:[
-      // CASE A
-      {caseId:"A", caseTitle:"The parcel text", caseText:"Mai, 16, is waiting on a hoodie she ordered. She gets a text saying her parcel is 'on hold' and she needs to click a link and pay a $3 redelivery fee within 24 hours, or the parcel will be returned.",
-       q:"What kind of scam is this?", options:["Phishing scam","Romance scam","Fake job scam","Investment scam"], a:0,
-       why:"It's phishing: a fake message 'fishing' for card details. It works on Mai because she really is waiting for a parcel."},
-      {caseId:"A", caseTitle:"The parcel text", caseText:"Mai, 16, is waiting on a hoodie she ordered. She gets a text saying her parcel is 'on hold' and she needs to click a link and pay a $3 redelivery fee within 24 hours, or the parcel will be returned.",
-       q:"Which TWO red flags appear?", options:["Urgency + Authority","Scarcity + Emotion","Too good to be true + Fear","Emotion + Scarcity"], a:0,
-       why:"'Within 24 hours' is urgency, and pretending to be the delivery company is authority."},
-      {caseId:"A", caseTitle:"The parcel text", caseText:"Mai, 16, is waiting on a hoodie she ordered. She gets a text saying her parcel is 'on hold' and she needs to click a link and pay a $3 redelivery fee within 24 hours, or the parcel will be returned.",
-       q:"What is the BEST advice for Mai?", options:["Don't click. Check the tracking on the store's real website or app.","Pay the $3, it's only a small amount.","Reply to the text and ask if it's real.","Click the link but don't enter her card number."], a:0,
-       why:"Go to the source yourself, using a website or app you already trust. Replying or clicking tells the scammer your number is active."},
-      // CASE B
-      {caseId:"B", caseTitle:"The dream job", caseText:"Jordan, 17, sees an online ad: 'Work from home, $900 a week, no experience needed!' After a quick chat on WhatsApp he's 'hired'. He's told to pay $150 for a starter kit and send a photo of his licence and his bank details.",
-       q:"What kind of scam is this?", options:["Fake job scam","Phishing scam","Romance scam","Online shopping scam"], a:0,
-       why:"A fake job scam. Real jobs pay YOU. They don't ask you to pay to start, and they don't hire you after one chat on WhatsApp."},
-      {caseId:"B", caseTitle:"The dream job", caseText:"Jordan, 17, sees an online ad: 'Work from home, $900 a week, no experience needed!' After a quick chat on WhatsApp he's 'hired'. He's told to pay $150 for a starter kit and send a photo of his licence and his bank details.",
-       q:"Which red flag is the BIGGEST here?", options:["Too good to be true","Fear","Emotion","Authority"], a:0,
-       why:"$900 a week with no experience, from home, hired in minutes. That's too good to be true."},
-      {caseId:"B", caseTitle:"The dream job", caseText:"Jordan, 17, sees an online ad: 'Work from home, $900 a week, no experience needed!' After a quick chat on WhatsApp he's 'hired'. He's told to pay $150 for a starter kit and send a photo of his licence and his bank details.",
-       q:"What is the BEST advice for Jordan?", options:["Never pay money or hand over ID to get a job. Stop contact and talk to someone he trusts.","Pay the $150 but keep the receipt.","Send the licence photo but not the bank details.","Ask them to send a contract first, then pay."], a:0,
-       why:"Paying to work is a huge warning sign, and a licence photo plus bank details is enough for identity theft. Stop, and talk it through with someone."},
-      // CASE C
-      {caseId:"C", caseTitle:"The online match", caseText:"Rosa's nan, 72, has been messaging 'Mark' for three months after meeting on Facebook. He says he's an engineer on an oil rig. He always has a reason he can't video call. Now he needs $4,000 for a 'medical emergency' and asks her to keep it between them.",
-       q:"What kind of scam is this?", options:["Romance scam","Fake job scam","Investment scam","Phishing scam"], a:0,
-       why:"A romance scam. The scammer spends months building trust and feelings before asking for money."},
-      {caseId:"C", caseTitle:"The online match", caseText:"Rosa's nan, 72, has been messaging 'Mark' for three months after meeting on Facebook. He says he's an engineer on an oil rig. He always has a reason he can't video call. Now he needs $4,000 for a 'medical emergency' and asks her to keep it between them.",
-       q:"Which red flag is the scam built on?", options:["Emotion","Scarcity","Authority","Too good to be true"], a:0,
-       why:"Emotion. Three months of affection, then a medical emergency. 'Keep it between us' is there to stop family stepping in."},
-      {caseId:"C", caseTitle:"The online match", caseText:"Rosa's nan, 72, has been messaging 'Mark' for three months after meeting on Facebook. He says he's an engineer on an oil rig. He always has a reason he can't video call. Now he needs $4,000 for a 'medical emergency' and asks her to keep it between them.",
-       q:"What is the BEST advice Rosa could give her nan?", options:["Never send money to someone you've only met online. Talk to family, and report it to Scamwatch.","Send half the money to test if he's real.","Ask Mark for a photo of his passport first.","Wait until he can video call, then send it."], a:0,
-       why:"Never send money to someone you haven't met in person. A passport photo can be faked, and 'half' is still money gone. Reporting to Scamwatch helps protect others too."}
-    ]
+    name:"Quibi", years:"April 2020 to December 2020", tag:"CASE FILE 04",
+    file:[
+      "Quibi was a streaming app for short shows, around 10 minutes each, made only for watching on a phone.",
+      "Before launch it raised about US$1.75 billion from investors and paid big Hollywood stars to make shows.",
+      "It charged about US$5 a month with ads, or about US$8 a month without ads.",
+      "At first you couldn't watch on a TV, and you couldn't easily screenshot or share clips with friends.",
+      "It launched in April 2020, right when COVID lockdowns had most people stuck at home with their TVs.",
+      "Meanwhile TikTok and YouTube offered short videos for free, and people shared them everywhere.",
+      "Quibi announced it was shutting down about six months after it launched."
+    ],
+    q1:{prompt:"What was the main cause of death?",
+      options:["Poor financial decisions","Got the 4 Ps wrong","Unethical behaviour","Expanded too far from its strengths"],
+      answer:1,
+      explain:"Quibi had plenty of money. The problem was the marketing mix: the wrong product for the moment, a price when rivals were free, the wrong place (phone only) and promotion that people couldn't share."},
+    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
+      options:["It charged a monthly fee while TikTok and YouTube were free","You couldn't watch on a TV or easily share clips","It raised about US$1.75 billion","It launched when people were at home with their TVs"],
+      answers:[0,1,3]},
+    q3:{prompt:"Could Quibi have been saved?",
+      options:["Yes, by spending even more on celebrities","Yes, by letting people watch on any screen, share clips and try it free first","No, nobody watches short videos","Yes, by raising the price to look more premium"],
+      answer:1,
+      explain:"Short video is hugely popular. Quibi's idea wasn't the problem. Its 4 Ps fought against how people actually watch and share."},
+    report:"Got the 4 Ps wrong. Charged for something rivals gave away free, limited where people could watch, and made sharing hard, which killed word of mouth.",
+    guru:"Money can't buy you customers if the product doesn't fit how they live."
+  },
+  {
+    name:"Theranos", years:"2003 to 2018", tag:"CASE FILE 05",
+    file:[
+      "Theranos was started in the United States in 2003 by Elizabeth Holmes, who was 19 at the time.",
+      "It claimed its machine could run hundreds of medical tests from just a few drops of blood from a finger prick.",
+      "Investors poured in money and at one point the company was valued at about US$9 billion.",
+      "Behind the scenes, the machines didn't work properly. Many tests were secretly run on normal machines from other companies.",
+      "In 2015 a newspaper investigation revealed the problems after workers spoke up.",
+      "Theranos shut down in 2018. In 2022 Holmes was found guilty of fraud and later went to prison."
+    ],
+    q1:{prompt:"What was the main cause of death?",
+      options:["Ignored changes in technology","Got the price wrong","Unethical behaviour","Grew too slowly"],
+      answer:2,
+      explain:"Theranos lied to investors, doctors and patients about what its product could do. Once the truth came out, trust disappeared, and so did the business."},
+    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
+      options:["The machines didn't work properly","Tests were secretly run on other companies' machines","Holmes was 19 when she started it","Holmes was found guilty of fraud"],
+      answers:[0,1,3]},
+    q3:{prompt:"Could Theranos have been saved?",
+      options:["Yes, by hiding the problems better","Yes, by being honest about what the technology could and couldn't do, and keeping it in testing until it worked","No, blood testing is impossible to improve","Yes, by raising more money"],
+      answer:1,
+      explain:"Plenty of businesses take years to get new technology right. Theranos chose to lie instead of wait, and in health that puts real people at risk."},
+    report:"Unethical behaviour. Lied about a product that didn't work, putting patients at risk. When the truth came out, trust and the business both collapsed.",
+    guru:"Trust takes years to build and one headline to lose."
+  },
+  {
+    name:"Borders and Angus & Robertson (REDgroup)", years:"collapsed 2011", tag:"CASE FILE 06",
+    file:[
+      "REDgroup Retail owned Borders and Angus & Robertson bookstores across Australia.",
+      "Angus & Robertson had been selling books in Sydney since the 1880s.",
+      "Books in Australian shops were often much more expensive than the same books on overseas websites.",
+      "Shoppers started buying online from overseas sites like Book Depository and Amazon, often with free shipping.",
+      "REDgroup was slow to build a strong online store of its own.",
+      "In February 2011 REDgroup went into administration and stores across Australia closed."
+    ],
+    q1:{prompt:"What was the main cause of death?",
+      options:["Lost its competitive advantage to global online competitors","Unethical behaviour","Expanded into theme parks","Too many staff"],
+      answer:0,
+      explain:"Globalisation put an overseas website in every Australian's pocket. On price, the shops couldn't compete, and they had no strong online option."},
+    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
+      options:["Books were cheaper on overseas websites","Angus & Robertson dated back to the 1880s","Shoppers bought online from overseas","REDgroup was slow to build its own online store"],
+      answers:[0,2,3]},
+    q3:{prompt:"Could REDgroup have been saved?",
+      options:["No, bookshops are dead","Yes, by building a strong online store early and competing on service and experience, not just price","Yes, by raising prices","Yes, by banning overseas websites"],
+      answer:1,
+      explain:"Plenty of independent bookshops survived by being a place people want to visit. Price wasn't the only way to win."},
+    report:"Lost its competitive advantage. Global online competitors were cheaper and more convenient, and it was slow to go online.",
+    guru:"Globalisation means your biggest competitor might be a website on the other side of the world."
+  },
+  {
+    name:"LEGO", years:"STILL ALIVE", tag:"CASE FILE 07: THE TWIST", survivor:true,
+    file:[
+      "LEGO started making plastic bricks in Denmark in 1949.",
+      "In the late 1990s and early 2000s it expanded into theme parks, clothing, video games and TV shows.",
+      "Sets used thousands of different unique pieces, which pushed costs up.",
+      "By 2003 to 2004 it was losing a lot of money and was reportedly close to running out of cash.",
+      "In 2004 a new CEO, Jørgen Vig Knudstorp, took over.",
+      "Today LEGO is one of the most profitable toy companies in the world."
+    ],
+    q1:{prompt:"This patient survived. What nearly killed it?",
+      options:["Ignored changes in technology","Expanded too far from its strengths","Unethical behaviour","Prices too low"],
+      answer:1,
+      explain:"Theme parks, clothes and video games pulled LEGO away from what made it special: the brick."},
+    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
+      options:["Expanded into theme parks, clothing, video games and TV","Thousands of unique pieces pushed costs up","LEGO is based in Denmark","It started making bricks in 1949"],
+      answers:[0,1]},
+    q3:{prompt:"What did the new CEO most likely do to save it?",
+      options:["Opened even more theme parks","Cut back to the core brick, cut costs and listened to fans","Lowered quality to save money","Stopped making toys"],
+      answer:1,
+      explain:"LEGO sold off most of its theme park business, cut the number of unique pieces and went back to the brick, working closely with its most loyal fans."},
+    report:"Near death from expanding too far from its strengths. Saved by going back to its competitive advantage: the brick.",
+    guru:"Know what you're great at, then do more of it."
   }
 ];
 
-const BADGES = [
-  {id:"first",   ic:"🎣", name:"First Catch",        desc:"Get your first answer right"},
-  {id:"streak5", ic:"🔥", name:"Hot Streak",         desc:"5 correct in a row"},
-  {id:"streak10",ic:"⚡", name:"Unstoppable",        desc:"10 correct in a row"},
-  {id:"r1",      ic:"🗂️", name:"Sorted",             desc:"Perfect Round 1"},
-  {id:"r2",      ic:"🛡️", name:"Definition Defender",desc:"Perfect Round 2"},
-  {id:"r3",      ic:"🚩", name:"Red Flag Radar",     desc:"8 or more in Round 3"},
-  {id:"r4",      ic:"🔎", name:"Case Closed",        desc:"Perfect Round 4"},
-  {id:"saver",   ic:"🏦", name:"Savings Guardian",   desc:"Finish with $8,000 or more protected"}
-];
+const BIZ = ["Kmart","Bunnings","Uber Eats","Myer","Netflix","JB Hi-Fi","Westfield shopping centres","Woolworths","Your choice"];
+const CAUSES = ["Ignored changes in technology or the market","Lost its competitive advantage","Poor financial decisions","Unethical behaviour","Got the 4 Ps wrong","Expanded too fast or away from its strengths"];
 
-/* =========================================================
-   STATE
-   ========================================================= */
-const START_SAVINGS = 10000, LOSS = 250, BASE = 100;
-const S = {name:"", round:0, idx:0, points:0, streak:0, best:0, savings:START_SAVINGS,
-           roundRight:[0,0,0,0], mistakes:[], badges:new Set(), order:[], answered:false, total:0, right:0, ticket:""};
+let S = {screen:"intro", c:0, step:"file", score:0, streak:0, best:0, mistakes:[], causeRight:0, evidencePerfect:0, savedRight:0, pm:{biz:null,causes:[],text:""}, name:""};
+const app = document.getElementById("app");
 
-const $ = s => document.querySelector(s);
-const app = $("#app");
-const esc = t => String(t).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const money = n => "$" + n.toLocaleString("en-AU");
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-
-function updateHUD(){
-  $("#pts").textContent = S.points;
-  $("#stk").textContent = S.streak + (S.streak>=3 ? " ×2" : "");
-  $("#sav").textContent = money(S.savings);
-  const pct = Math.max(0, S.savings/START_SAVINGS*100);
-  $("#meterbar").style.width = pct + "%";
-  const m = $("#meter"); m.classList.remove("low","mid");
-  if(pct < 50) m.classList.add("low"); else if(pct < 80) m.classList.add("mid");
+function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1600);}
+function hud(){
+  document.getElementById("hudScore").textContent=S.score;
+  document.getElementById("hudStreak").textContent=S.streak;
+  let label="Briefing", pct=0;
+  if(S.screen==="case"){label="Case "+(S.c+1)+" of "+CASES.length; pct=(S.c/(CASES.length+1))*100;}
+  if(S.screen==="premortem"){label="Pre-mortem"; pct=(CASES.length/(CASES.length+1))*100;}
+  if(S.screen==="end"){label="Case closed"; pct=100;}
+  document.getElementById("hudCase").textContent=label;
+  document.getElementById("bar").style.width=pct+"%";
 }
-function toast(msg){const t=$("#toast");t.innerHTML=msg;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),2600)}
-function award(id){
-  if(S.badges.has(id)) return;
-  S.badges.add(id);
-  const b = BADGES.find(x=>x.id===id);
-  toast(`${b.ic} Badge unlocked: ${b.name}`);
+function award(pts,correct){
+  if(correct){S.streak++; S.best=Math.max(S.best,S.streak); let bonus=S.streak>=3?5:0; S.score+=pts+bonus; if(bonus) toast("Streak bonus +5");}
+  else{S.streak=0;}
+  hud();
 }
-function progressBar(){
-  return `<div class="rounds">${ROUNDS.map((r,i)=>`<span class="${i<S.round?'done':i===S.round?'now':''}"></span>`).join("")}</div>`;
-}
+function go(fn){fn(); window.scrollTo({top:0,behavior:"smooth"});}
 
-/* =========================================================
-   SCREENS
-   ========================================================= */
-function startScreen(){
-  app.innerHTML = `
-  <section class="card hero">
-    <div class="eyebrow">Year 10 Business · Financial Scams · Lesson 1</div>
-    <h1>Red Flag Inbox</h1>
-    <p>Your family has <b>${money(START_SAVINGS)}</b> in savings. Scammers want it. Every wrong call costs ${money(LOSS)}. Every right call earns points, and a streak of 3 or more doubles them.</p>
-    <div class="defbox">A scam is a <u>deliberate</u> <u>deception</u> <u>designed</u> to <u>take</u> money or personal information from someone.</div>
-    <div class="howto">
-      <div><b>1 · Scam or Not?</b>Sort scams from mistakes and bad buys.</div>
-      <div><b>2 · Break the Definition</b>Find the missing part.</div>
-      <div><b>3 · Red Flag Detective</b>Spot the trick in each message.</div>
-      <div><b>4 · Case Files</b>Name it, flag it, give advice.</div>
-    </div>
-    <label class="name" for="nm">Your name (for your certificate)</label>
-    <input type="text" id="nm" maxlength="40" placeholder="First name and last initial" autocomplete="off">
-    <div class="row">
-      <button class="btn" id="go">Open the inbox →</button>
-      <span style="font-size:14px;color:var(--ink-soft)">Tip: tap <b>Glossary</b> at the top any time.</span>
-    </div>
-  </section>`;
-  const nm = $("#nm");
-  $("#go").onclick = () => { S.name = nm.value.trim() || "Scam Spotter"; roundIntro(); };
-  nm.addEventListener("keydown", e => { if(e.key==="Enter") $("#go").click(); });
+function intro(){
+  S.screen="intro"; hud();
+  app.innerHTML=`
+  <div class="card">
+    <span class="stamp">CONFIDENTIAL</span>
+    <h1 style="margin-top:14px">The Business Autopsy</h1>
+    <p>You are a business coroner. Your job is to examine businesses that died (and one that nearly did) and work out the cause of death using everything you've learnt in Business this year.</p>
+  </div>
+  <div class="copy"><strong>COPY THIS INTO YOUR BOOK</strong>
+    <b>Possible causes of death</b>
+    <ol>${CAUSES.map(c=>`<li>${c}</li>`).join("")}</ol>
+    <b>Every autopsy has three lines:</b><br>
+    Cause of death: ...<br>Evidence: ...<br>Could it have been saved? ...
+  </div>
+  <div class="card">
+    <h3>How this works</h3>
+    <p>For each case file you will:</p>
+    <ol>
+      <li>Read the file.</li>
+      <li><b>Write your three lines in your book first.</b> Be ready to read them out.</li>
+      <li>Then answer the coroner's questions here to check your thinking.</li>
+    </ol>
+    <p class="small">Points: 10 for the right cause, 5 for each correct piece of evidence, 10 for the best rescue plan. Three right in a row earns a streak bonus.</p>
+    <button class="btn alt" onclick="go(()=>{S.screen='case';S.c=0;S.step='file';render()})">Open the first case file</button>
+  </div>`;
 }
 
-function roundIntro(){
-  const r = ROUNDS[S.round];
-  S.idx = 0;
-  // Round 4 keeps case order (A, B, C) so the case reads in sequence
-  S.order = r.key==="r4" ? r.items.map((_,i)=>i) : shuffle(r.items.map((_,i)=>i));
-  app.innerHTML = `${progressBar()}
-  <section class="card roundintro">
-    <div class="num">${S.round+1}</div>
-    <h2>${r.title}</h2>
-    <p>${r.blurb}</p>
-    <div class="row" style="justify-content:center"><button class="btn" id="go">Start round →</button></div>
-  </section>`;
-  $("#go").onclick = showQuestion;
-  $("#go").focus();
+function caseFile(){
+  const K=CASES[S.c];
+  app.innerHTML=`
+  <div class="folder" data-tab="${K.tag}">
+    <h2>${K.name}</h2>
+    <p class="small" style="margin:0">${K.years}</p>
+    <ul>${K.file.map(f=>`<li>${f}</li>`).join("")}</ul>
+  </div>
+  <div class="book">
+    <b>IN YOUR BOOK FIRST</b> (about 4 minutes)
+    <ol>
+      <li>${K.survivor?"What nearly killed it":"Cause of death"}: ...</li>
+      <li>Evidence: two clues from the file</li>
+      <li>${K.survivor?"How was it saved":"Could it have been saved"}? ...</li>
+    </ol>
+  </div>
+  <button class="btn" onclick="go(()=>{S.step='q1';render()})">I've written mine. Start the examination</button>`;
 }
 
-function showQuestion(){
-  const r = ROUNDS[S.round];
-  const item = r.items[S.order[S.idx]];
-  S.answered = false;
-  let stage = "", optsHTML = "", prompt = r.prompt;
-
-  if(r.key==="r3"){
-    const isEmail = item.kind==="email";
-    stage = `<div class="phone ${isEmail?'email':''}">
-      <div class="notch"></div>
-      <div class="head"><div class="av">${esc(item.initials)}</div><div class="who">${esc(item.from)}<small>${isEmail?'Email':'Text message'}</small></div></div>
-      <div class="body"><div class="time">Today ${8+Math.floor(Math.random()*10)}:${String(Math.floor(Math.random()*60)).padStart(2,"0")}</div>
-        ${item.msgs.map((m,i)=>`<div class="bubble">${isEmail && i===0 && item.subj?`<div class="subj">${esc(item.subj)}</div>`:''}${m}</div>`).join("")}
-      </div></div>`;
-  } else if(r.key==="r4"){
-    stage = `<div class="casefile" data-tab="Case File ${item.caseId}">
-      <div class="stamp">CASE ${item.caseId}</div>
-      <h3>${esc(item.caseTitle)}</h3>
-      <p>${esc(item.caseText)}</p>
-    </div>
-    <div class="subq">${esc(item.q)}</div>`;
-    prompt = "";
-  } else {
-    stage = `<div class="scenario">${esc(item.q)}</div>`;
-  }
-
-  let opts;
-  if(r.key==="r4"){
-    // shuffle the case options, remember where the right one landed
-    const perm = shuffle(item.options.map((_,i)=>i));
-    item._perm = perm;
-    opts = perm.map(i => ({id:String(i), label:item.options[i]}));
-  } else {
-    opts = r.options;
-  }
-  optsHTML = opts.map((o,i)=>`<button class="opt" data-id="${o.id}"><span class="k">${i+1}</span><span class="t">${esc(o.label)}${o.sub?`<small>${esc(o.sub)}</small>`:''}</span></button>`).join("");
-
-  app.innerHTML = `${progressBar()}
-  <div class="qcount"><span>Round ${S.round+1}: ${r.title}</span><span>${S.idx+1} of ${r.items.length}</span></div>
-  <section class="card">
-    ${prompt?`<div class="prompt">${prompt}</div>`:''}
-    ${stage}
-    <div class="opts ${r.key==='r4'?'':r.layout}">${optsHTML}</div>
+function q1(){
+  const K=CASES[S.c], Q=K.q1;
+  app.innerHTML=`
+  <div class="card"><h3>${K.name}: Question 1</h3><p><b>${Q.prompt}</b></p>
+    <div class="opts">${Q.options.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join("")}</div>
     <div class="feedback" id="fb"></div>
-  </section>`;
-
-  app.querySelectorAll(".opt").forEach(b => b.onclick = () => answer(b.dataset.id));
-}
-
-function answer(choice){
-  if(S.answered) return;
-  S.answered = true;
-  const r = ROUNDS[S.round];
-  const item = r.items[S.order[S.idx]];
-  const correctId = r.key==="r4" ? String(item.a) : item.a;
-  const ok = choice === correctId;
-  S.total++;
-
-  app.querySelectorAll(".opt").forEach(b=>{
-    b.disabled = true;
-    if(b.dataset.id===correctId) b.classList.add("right");
-    else if(b.dataset.id===choice) b.classList.add("wrong");
+    <div id="next"></div>
+  </div>`;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i, ok=i===Q.answer;
+    app.querySelectorAll(".opt").forEach(x=>{x.disabled=true; if(+x.dataset.i===Q.answer)x.classList.add("right");});
+    if(!ok){b.classList.add("wrong"); S.mistakes.push({c:K.name,q:Q.prompt,a:Q.options[Q.answer],why:Q.explain});}
+    else S.causeRight++;
+    award(10,ok);
+    const fb=document.getElementById("fb"); fb.className="feedback show "+(ok?"good":"bad");
+    fb.innerHTML=(ok?"<b>Correct diagnosis.</b> ":"<b>Not quite.</b> ")+Q.explain;
+    document.getElementById("next").innerHTML=`<button class="btn" onclick="go(()=>{S.step='q2';render()})">Next: gather the evidence</button>`;
   });
-
-  const labelOf = id => r.key==="r4" ? item.options[+id] : r.options.find(o=>o.id===id).label;
-  let gained = 0;
-  if(ok){
-    S.right++; S.roundRight[S.round]++;
-    S.streak++; S.best = Math.max(S.best, S.streak);
-    gained = BASE * (S.streak>=3 ? 2 : 1);
-    S.points += gained;
-    award("first");
-    if(S.streak===5) award("streak5");
-    if(S.streak===10) award("streak10");
-  } else {
-    S.streak = 0;
-    S.savings = Math.max(0, S.savings - LOSS);
-    S.mistakes.push({round:r.title, q: r.key==="r4" ? `Case ${item.caseId}: ${item.q}` : (item.q || (item.subj ? item.subj+": " : "") + item.msgs.join(" ").replace(/<[^>]+>/g,"")),
-                     yours: labelOf(choice), ans: labelOf(correctId), why:item.why});
-  }
-  updateHUD();
-
-  const fb = $("#fb");
-  fb.className = "feedback show " + (ok?"good":"bad");
-  const last = S.idx === r.items.length-1;
-  fb.innerHTML = `<h3>${ok ? (S.streak>=3?"Spotted it! Streak bonus ×2":"Spotted it!") : "The scammer got you that time"}</h3>
-    <p>${ok ? "" : `The answer was <b>${esc(labelOf(correctId))}</b>. `}${esc(item.why)}</p>
-    <p class="money" style="margin-top:6px;color:${ok?'var(--green)':'var(--red)'}">${ok?`+${gained} points`:`−${money(LOSS)} from the family savings`}</p>
-    <div class="row" style="margin-top:12px"><button class="btn dark" id="next">${last?"Finish round →":"Next →"}</button></div>`;
-  $("#next").onclick = next;
-  $("#next").focus();
 }
 
-function next(){
-  const r = ROUNDS[S.round];
-  if(S.idx < r.items.length-1){ S.idx++; showQuestion(); return; }
-  roundSummary();
+function q2(){
+  const K=CASES[S.c], Q=K.q2;
+  app.innerHTML=`
+  <div class="card"><h3>${K.name}: Question 2</h3><p><b>${Q.prompt}</b></p>
+    <p class="small">Careful: a fact can be true without being evidence for the cause.</p>
+    <div class="opts">${Q.options.map((o,i)=>`<label class="tick"><input type="checkbox" value="${i}"> <span>${o}</span></label>`).join("")}</div>
+    <button class="btn" id="chk">Check evidence</button>
+    <div class="feedback" id="fb"></div>
+    <div id="next"></div>
+  </div>`;
+  document.getElementById("chk").onclick=()=>{
+    const boxes=[...app.querySelectorAll("input[type=checkbox]")];
+    const picked=boxes.filter(b=>b.checked).map(b=>+b.value);
+    if(!picked.length){toast("Tick at least one clue");return;}
+    let hits=0, wrong=0;
+    boxes.forEach(b=>{
+      const i=+b.value, should=Q.answers.includes(i), lab=b.parentElement; b.disabled=true;
+      if(b.checked&&should){hits++;lab.classList.add("opt","right");}
+      else if(b.checked&&!should){wrong++;lab.classList.add("opt","wrong");}
+      else if(!b.checked&&should){lab.classList.add("opt","missed");}
+    });
+    const perfect=hits===Q.answers.length&&wrong===0;
+    S.score+=hits*5; if(perfect){S.evidencePerfect++;}
+    award(0,perfect);
+    if(!perfect) S.mistakes.push({c:K.name,q:"Evidence",a:Q.answers.map(i=>Q.options[i]).join("; "),why:"Evidence must explain WHY the business died, not just describe it."});
+    document.getElementById("chk").disabled=true;
+    const fb=document.getElementById("fb"); fb.className="feedback show "+(perfect?"good":"bad");
+    fb.innerHTML=perfect?`<b>Sharp eye.</b> All the evidence, nothing extra. +${hits*5}`:`<b>${hits} of ${Q.answers.length} found${wrong?", plus "+wrong+" that isn't evidence":""}.</b> Dashed green boxes are clues you missed. +${hits*5}`;
+    document.getElementById("next").innerHTML=`<button class="btn" onclick="go(()=>{S.step='q3';render()})">Next: the rescue question</button>`;
+  };
 }
 
-function roundSummary(){
-  const r = ROUNDS[S.round];
-  const got = S.roundRight[S.round], n = r.items.length;
-  if(r.key==="r1" && got===n) award("r1");
-  if(r.key==="r2" && got===n) award("r2");
-  if(r.key==="r3" && got>=8) award("r3");
-  if(r.key==="r4" && got===n) award("r4");
-  const lastRound = S.round === ROUNDS.length-1;
-  const msg = got===n ? "Perfect round. Nothing got past you." : got>=n*0.75 ? "Strong round. A couple slipped through." : got>=n*0.5 ? "Getting there. Read each one slowly next time." : "Scammers had a good day. Check the glossary and keep going.";
-  app.innerHTML = `${progressBar()}
-  <section class="card roundintro">
-    <div class="eyebrow">Round ${S.round+1} complete</div>
-    <div class="bigscore" style="margin-top:10px">${got}/${n}</div>
-    <p style="margin-top:8px">${msg}</p>
-    <p style="margin-top:6px"><b>${money(S.savings)}</b> still protected · <b>${S.points}</b> points</p>
-    <div class="row" style="justify-content:center"><button class="btn" id="go">${lastRound?"See my results →":"Next round →"}</button></div>
-  </section>`;
-  $("#go").onclick = () => { if(lastRound) finalScreen(); else { S.round++; roundIntro(); } };
-  $("#go").focus();
+function q3(){
+  const K=CASES[S.c], Q=K.q3;
+  app.innerHTML=`
+  <div class="card"><h3>${K.name}: Question 3</h3><p><b>${Q.prompt}</b></p>
+    <div class="opts">${Q.options.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join("")}</div>
+    <div class="feedback" id="fb"></div>
+    <div id="next"></div>
+  </div>`;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i, ok=i===Q.answer;
+    app.querySelectorAll(".opt").forEach(x=>{x.disabled=true; if(+x.dataset.i===Q.answer)x.classList.add("right");});
+    if(!ok){b.classList.add("wrong"); S.mistakes.push({c:K.name,q:Q.prompt,a:Q.options[Q.answer],why:Q.explain});}
+    else S.savedRight++;
+    award(10,ok);
+    const fb=document.getElementById("fb"); fb.className="feedback show "+(ok?"good":"bad");
+    fb.innerHTML=(ok?"<b>Good call.</b> ":"<b>Not quite.</b> ")+Q.explain;
+    document.getElementById("next").innerHTML=`<button class="btn alt" onclick="go(()=>{S.step='report';render()})">Read the coroner's report</button>`;
+  });
 }
 
-function finalScreen(){
-  S.round = ROUNDS.length;
-  if(S.savings >= 8000) award("saver");
-  const pct = Math.round(S.right/S.total*100);
-  app.innerHTML = `${progressBar()}
-  <section class="card hero">
-    <div class="eyebrow">Inbox cleared</div>
-    <h1 style="font-size:clamp(30px,6vw,46px)">Nice work, ${esc(S.name)}.</h1>
-    <div class="howto">
-      <div><b>Score</b><span class="bigscore" style="font-size:40px">${S.right}/${S.total}</span><br>${pct}% correct</div>
-      <div><b>Points</b><span class="bigscore" style="font-size:40px">${S.points}</span><br>best streak ${S.best}</div>
-      <div><b>Savings protected</b><span class="bigscore" style="font-size:40px;color:${S.savings>=8000?'var(--green)':S.savings>=5000?'#b07a00':'var(--red)'}">${money(S.savings)}</span><br>of ${money(START_SAVINGS)}</div>
+function report(){
+  const K=CASES[S.c], last=S.c===CASES.length-1;
+  app.innerHTML=`
+  <div class="card">
+    <span class="stamp ${K.survivor?"green":""}">${K.survivor?"PATIENT SURVIVED":"CASE CLOSED"}</span>
+    <h2 style="margin-top:14px">Coroner's report: ${K.name}</h2>
+    <div class="toetag"><div class="hole"><span></span></div>
+      <div class="body"><b>${K.survivor?"NEAR-DEATH CAUSE":"CAUSE OF DEATH"}:</b><br>${K.report}</div></div>
+    <div class="guru">${K.guru}</div>
+    <div class="book" style="margin-top:16px"><b>CHECK YOUR BOOK</b><br>Compare your three lines with the report. Add anything you missed in a different colour.</div>
+    <button class="btn" onclick="go(()=>{${last?"S.screen='premortem'":"S.c++;S.step='file'"};render()})">${last?"Final task: the pre-mortem":"Open the next case file"}</button>
+  </div>`;
+}
+
+function premortem(){
+  S.screen="premortem"; hud();
+  app.innerHTML=`
+  <div class="card">
+    <span class="stamp">FUTURE CASE</span>
+    <h2 style="margin-top:14px">The Pre-mortem</h2>
+    <p>Pick a business that exists today. Imagine it is 2036 and the business has died. Your job is to write the autopsy before it happens, then explain what it should do NOW to survive.</p>
+    <h3>1. Choose your patient</h3>
+    <div class="grid2">${BIZ.map((b,i)=>`<button class="biz" data-i="${i}">${b}</button>`).join("")}</div>
+    <div id="own" style="display:none;margin-top:10px"><input type="text" id="ownName" placeholder="Type the business name"></div>
+    <h3 style="margin-top:20px">2. What could kill it? Tick one or two</h3>
+    <div class="opts">${CAUSES.map((c,i)=>`<label class="tick"><input type="checkbox" class="pc" value="${i}"> <span>${c}</span></label>`).join("")}</div>
+    <h3 style="margin-top:20px">3. Write the autopsy (also in your book)</h3>
+    <p class="small">Sentence starters: "In 2036, ___ died because..." "The early warning signs were..." "To survive, ___ should start..."</p>
+    <textarea id="pmText" placeholder="In 2036, ..."></textarea>
+    <button class="btn alt" id="pmGo">Seal the future case file</button>
+    <div id="pmOut"></div>
+  </div>`;
+  app.querySelectorAll(".biz").forEach(b=>b.onclick=()=>{
+    app.querySelectorAll(".biz").forEach(x=>x.classList.remove("sel")); b.classList.add("sel");
+    S.pm.biz=BIZ[+b.dataset.i]; document.getElementById("own").style.display=S.pm.biz==="Your choice"?"block":"none";
+  });
+  document.getElementById("pmGo").onclick=()=>{
+    let biz=S.pm.biz; if(biz==="Your choice") biz=document.getElementById("ownName").value.trim();
+    const causes=[...app.querySelectorAll(".pc:checked")].map(x=>CAUSES[+x.value]);
+    const txt=document.getElementById("pmText").value.trim();
+    if(!biz){toast("Choose a business first");return;}
+    if(!causes.length){toast("Tick at least one cause");return;}
+    if(txt.length<40){toast("Write a bit more first");return;}
+    S.pm={biz,causes,text:txt};
+    document.getElementById("pmOut").innerHTML=`
+      <div class="toetag" style="margin-top:20px"><div class="hole"><span></span></div>
+      <div class="body"><b>${biz.toUpperCase()}</b> (predicted 2036)<br><b>Cause:</b> ${causes.join("; ")}<br><br>${txt.replace(/</g,"&lt;")}</div></div>
+      <p class="small">Be ready to read this out.</p>
+      <button class="btn" onclick="go(()=>{S.screen='end';render()})">Exit ticket and results</button>`;
+  };
+}
+
+function end(){
+  hud();
+  const max=CASES.length*10*2+CASES.reduce((a,k)=>a+k.q2.answers.length*5,0);
+  const B=[
+    ["First Incision","Finished your first case",true],
+    ["Chief Coroner","Correct cause for every case",S.causeRight===CASES.length],
+    ["Sharp Eye","Perfect evidence on 5 or more cases",S.evidencePerfect>=5],
+    ["Rescue Specialist","Best rescue plan on 6 or more cases",S.savedRight>=6],
+    ["Hot Streak","5 correct in a row",S.best>=5],
+    ["Untouchable","10 correct in a row",S.best>=10],
+    ["Future Seer","Sealed a pre-mortem",!!S.pm.text]
+  ];
+  app.innerHTML=`
+  <div class="card">
+    <h2>Exit ticket</h2>
+    <div class="book"><b>IN YOUR BOOK</b><br>Which cause of death on our checklist do you think is the most common? Explain using one case from today.</div>
+  </div>
+  <div class="card">
+    <h2>Your results</h2>
+    <p style="font-size:1.3rem"><b>${S.score}</b> points <span class="small">(base maximum ${max}, plus streak bonuses)</span></p>
+    <p>Best streak: <b>${S.best}</b></p>
+    <div class="badges">${B.map(b=>`<div class="badge ${b[2]?"":"off"}" title="${b[1]}">${b[2]?"&#9733; ":""}${b[0]}<br><span style="font-size:.75rem;opacity:.85">${b[1]}</span></div>`).join("")}</div>
+  </div>
+  <div class="card">
+    <h2>Mistake review</h2>
+    ${S.mistakes.length?`<ul class="review">${S.mistakes.map(m=>`<li><b>${m.c}: ${m.q}</b><br>Best answer: ${m.a}<br><span class="small">${m.why}</span></li>`).join("")}</ul>`:"<p>No mistakes. Clean examination.</p>"}
+  </div>
+  <div class="card">
+    <h3>Your certificate</h3>
+    <input type="text" id="nm" placeholder="Type your name" value="${S.name}">
+    <div class="cert" style="margin-top:14px">
+      <span class="stamp">OFFICIAL</span>
+      <h1 style="margin-top:14px">Certified Business Coroner</h1>
+      <p>This certifies that</p>
+      <h2 id="certName">${S.name||"Your name"}</h2>
+      <p>examined ${CASES.length} business case files and scored <b>${S.score}</b> points.</p>
+      <p class="small">Year 10 Business · The Business Autopsy</p>
     </div>
-  </section>
-
-  <section class="card">
-    <h2 style="font-size:22px">Badges</h2>
-    <div class="badges">${BADGES.map(b=>`<div class="badge ${S.badges.has(b.id)?'got':''}"><span class="ic">${b.ic}</span><b>${b.name}</b>${b.desc}</div>`).join("")}</div>
-  </section>
-
-  <section class="card">
-    <h2 style="font-size:22px">Practise your exit ticket</h2>
-    <p style="color:var(--ink-soft);font-size:15px">Use the sentence frame. This goes on your certificate. You'll still fill in the paper slip at the door.</p>
-    <div class="frame">"A scam is ___ . One red flag is ___ , which appears when ___ ."</div>
-    <textarea id="ticket" rows="3" placeholder="A scam is..."></textarea>
-  </section>
-
-  <section class="card">
-    <h2 style="font-size:22px">${S.mistakes.length ? `Review: ${S.mistakes.length} to look at again` : "Review"}</h2>
-    ${S.mistakes.length ? `<div class="review">${S.mistakes.map(m=>`<details><summary>${esc(m.round)}: ${esc(m.q.length>90?m.q.slice(0,90)+"...":m.q)}</summary>
-      <p class="yours">You chose: ${esc(m.yours)}</p><p class="ans">Answer: ${esc(m.ans)}</p><p>${esc(m.why)}</p></details>`).join("")}</div>`
-      : `<p>No mistakes to review. Flawless.</p>`}
-    <div class="row">
-      <button class="btn" id="print">Print certificate</button>
-      <button class="btn ghost" id="again">Play again</button>
-    </div>
-  </section>`;
-  $("#ticket").oninput = e => S.ticket = e.target.value;
-  $("#print").onclick = () => { buildCert(); window.print(); };
-  $("#again").onclick = () => location.reload();
+    <button class="btn" onclick="if(confirm('Start again from the beginning?')){location.reload()}">Start again</button>
+  </div>`;
+  document.getElementById("nm").oninput=e=>{S.name=e.target.value;document.getElementById("certName").textContent=S.name||"Your name";};
 }
 
-function buildCert(){
-  const d = new Date().toLocaleDateString("en-AU",{day:"numeric",month:"long",year:"numeric"});
-  const got = BADGES.filter(b=>S.badges.has(b.id)).map(b=>b.name).join(", ") || "None yet";
-  $("#cert").innerHTML = `
-    <div style="text-transform:uppercase;letter-spacing:.15em;font-size:13px">Year 10 Business · Financial Scams · Lesson 1</div>
-    <h1>Red Flag Inbox Certificate</h1>
-    <p style="font-size:20px">Awarded to <b>${esc(S.name)}</b> on ${d}</p>
-    <div class="meta">
-      <div>Score<b>${S.right}/${S.total}</b></div>
-      <div>Points<b>${S.points}</b></div>
-      <div>Best streak<b>${S.best}</b></div>
-      <div>Savings protected<b>${money(S.savings)}</b></div>
-    </div>
-    <p><b>Badges:</b> ${esc(got)}</p>
-    <p style="margin-top:18px"><b>My exit ticket:</b></p>
-    <div class="line">${esc(S.ticket)}</div><div class="line"></div>
-    <p style="margin-top:24px;font-size:13px">A scam is a deliberate deception designed to take money or personal information from someone.</p>`;
+function render(){
+  hud();
+  if(S.screen==="intro") return intro();
+  if(S.screen==="premortem") return premortem();
+  if(S.screen==="end") return end();
+  ({file:caseFile,q1,q2,q3,report})[S.step]();
 }
-
-/* =========================================================
-   GLOBAL CONTROLS
-   ========================================================= */
-$("#openGloss").onclick = () => $("#gloss").classList.add("open");
-$("#closeGloss").onclick = () => $("#gloss").classList.remove("open");
-$("#gloss").onclick = e => { if(e.target.id==="gloss") $("#gloss").classList.remove("open"); };
-document.addEventListener("keydown", e=>{
-  if(e.key==="Escape") $("#gloss").classList.remove("open");
-  if(document.activeElement && ["INPUT","TEXTAREA"].includes(document.activeElement.tagName)) return;
-  const n = parseInt(e.key,10);
-  if(n>=1 && n<=9 && !S.answered){
-    const btns = app.querySelectorAll(".opt");
-    if(btns[n-1]) btns[n-1].click();
-  }
-});
-
-updateHUD();
-startScreen();
+render();
 </script>
 </body>
 </html>
