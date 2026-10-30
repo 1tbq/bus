@@ -1,511 +1,450 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-AU">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Business Autopsy</title>
-<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blow the Whistle | Lesson 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#f4efe6; --card:#fffdf8; --ink:#1d1d1f; --muted:#5b6770;
-  --manila:#ead9a8; --manila-dark:#c9b277; --red:#b3261e; --green:#2f6b3a;
-  --steel:#2f3a42; --yellow:#fff3a8; --line:#d8cfbf;
+  --ink:#14213D; --red:#D62828; --yellow:#F7B801; --pale:#FFF4CC; --teal:#1F8A70;
+  --grey:#F2F4F7; --mid:#5B6573; --white:#fff; --line:#DDE2E8;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5}
-header{background:var(--steel);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:5}
-.hud{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
-.brand{font-family:"Special Elite",monospace;font-size:1.25rem;letter-spacing:.5px}
-.stats{display:flex;gap:8px;flex-wrap:wrap}
-.chip{background:rgba(255,255,255,.12);border-radius:999px;padding:4px 12px;font-size:.9rem;font-weight:600}
-.progress{max-width:900px;margin:8px auto 0;height:6px;background:rgba(255,255,255,.2);border-radius:6px;overflow:hidden}
-.progress div{height:100%;width:0;background:var(--manila);transition:width .4s}
-main{max-width:900px;margin:0 auto;padding:20px 16px 60px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 2px 0 var(--line);margin-bottom:18px}
-h1,h2,h3{font-family:"Special Elite",monospace;font-weight:400;margin:0 0 10px}
-h1{font-size:2rem} h2{font-size:1.5rem} h3{font-size:1.15rem}
-.folder{background:var(--manila);border:2px solid var(--manila-dark);border-radius:4px 14px 14px 14px;padding:22px;position:relative;margin-top:22px}
-.folder:before{content:attr(data-tab);position:absolute;top:-26px;left:-2px;background:var(--manila);border:2px solid var(--manila-dark);border-bottom:none;border-radius:8px 8px 0 0;padding:2px 14px;font-family:"Special Elite",monospace;font-size:.9rem}
-.folder ul{margin:8px 0 0;padding-left:20px}
-.folder li{margin-bottom:6px}
-.stamp{display:inline-block;border:3px solid var(--red);color:var(--red);font-family:"Special Elite",monospace;padding:4px 12px;transform:rotate(-4deg);font-size:1.05rem;letter-spacing:1px;background:rgba(255,255,255,.4)}
-.stamp.green{border-color:var(--green);color:var(--green)}
-.copy{background:var(--yellow);border-left:6px solid #e0c200;padding:14px 16px;border-radius:8px;margin:14px 0}
-.copy strong{display:block;font-size:.8rem;letter-spacing:1px;margin-bottom:4px}
-.book{background:var(--steel);color:#fff;border-radius:10px;padding:16px;margin:16px 0}
-.book b{color:var(--manila)}
-.book ol{margin:8px 0 0;padding-left:20px}
-.btn{display:inline-block;border:none;background:var(--steel);color:#fff;font:600 1rem Inter,sans-serif;padding:12px 20px;border-radius:10px;cursor:pointer;margin-top:10px}
-.btn:hover{filter:brightness(1.15)}
-.btn.alt{background:var(--red)}
-.btn:disabled{opacity:.4;cursor:default}
-.opts{display:grid;gap:10px;margin-top:12px}
-.opt{text-align:left;background:#fff;border:2px solid var(--line);border-radius:10px;padding:12px 14px;font:1rem Inter,sans-serif;cursor:pointer;color:var(--ink)}
-.opt:hover:not(:disabled){border-color:var(--steel)}
-.opt.sel{border-color:var(--steel);background:#eef1f3}
-.opt.right{border-color:var(--green);background:#e5f1e7}
-.opt.wrong{border-color:var(--red);background:#f8e4e2}
-.opt.missed{border-style:dashed;border-color:var(--green)}
-.feedback{margin-top:12px;padding:12px 14px;border-radius:10px;display:none}
-.feedback.show{display:block}
-.feedback.good{background:#e5f1e7;border-left:5px solid var(--green)}
-.feedback.bad{background:#f8e4e2;border-left:5px solid var(--red)}
-.toetag{display:flex;gap:0;align-items:stretch;margin:16px 0;max-width:620px}
-.toetag .hole{width:46px;background:var(--manila);border-radius:24px 0 0 24px;border:2px solid var(--manila-dark);border-right:none;display:flex;align-items:center;justify-content:center}
-.toetag .hole span{width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--manila-dark)}
-.toetag .body{flex:1;background:var(--manila);border:2px solid var(--manila-dark);border-left:2px dashed var(--manila-dark);border-radius:0 10px 10px 0;padding:14px 18px;font-family:"Special Elite",monospace}
-.guru{font-style:italic;border-left:4px solid var(--steel);padding:6px 12px;margin-top:12px;color:var(--steel)}
-.small{font-size:.9rem;color:var(--muted)}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
-.biz{background:#fff;border:2px solid var(--line);border-radius:10px;padding:10px;cursor:pointer;font:600 1rem Inter,sans-serif;color:var(--ink)}
-.biz.sel{border-color:var(--red);background:#f8e4e2}
-textarea,input[type=text]{width:100%;border:2px solid var(--line);border-radius:10px;padding:12px;font:1rem Inter,sans-serif;background:#fff}
-textarea{min-height:110px}
-label.tick{display:flex;gap:10px;align-items:flex-start;background:#fff;border:2px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
-.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-.badge{background:var(--steel);color:#fff;border-radius:10px;padding:8px 12px;font-size:.9rem}
-.badge.off{background:#d9d4ca;color:#7b7468}
-.cert{border:6px double var(--steel);background:#fffdf8;padding:30px 20px;text-align:center;border-radius:6px}
-.cert h1{font-size:1.9rem}
-.review li{margin-bottom:10px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--steel);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;transition:transform .3s;z-index:10}
-.toast.show{transform:translateX(-50%) translateY(0)}
-@media (max-width:560px){h1{font-size:1.6rem}.card{padding:16px}.folder{padding:16px}}
+html,body{margin:0}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--grey);color:var(--ink);min-height:100vh}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:860px;margin:0 auto;padding:16px}
+
+/* Scoreboard */
+.board{background:var(--ink);color:var(--white);border-radius:14px;padding:12px 16px;display:grid;grid-template-columns:auto 1fr auto auto auto;gap:14px;align-items:center;position:sticky;top:8px;z-index:5;box-shadow:0 6px 20px rgba(20,33,61,.25)}
+.board .logo{display:flex;align-items:center;gap:10px}
+.whistle{width:38px;height:38px;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:none}
+.whistle svg{width:22px;height:22px;fill:#fff}
+.board h1{font-family:Anton,Impact,sans-serif;font-weight:400;letter-spacing:.5px;font-size:22px;margin:0;line-height:1}
+.board small{display:block;color:#AEB8C7;font-size:11px;margin-top:3px}
+.stat{text-align:center;min-width:64px}
+.stat .lbl{font-size:10px;letter-spacing:1.5px;color:#AEB8C7;text-transform:uppercase}
+.stat .val{font-family:Anton,Impact,sans-serif;font-size:28px;line-height:1.1;color:var(--yellow);font-variant-numeric:tabular-nums}
+.stat.streak .val{color:#fff}
+.stat.streak.hot .val{color:var(--yellow);text-shadow:0 0 12px rgba(247,184,1,.7)}
+
+/* Progress */
+.rounds{display:flex;gap:6px;margin:14px 0 6px}
+.rounds div{flex:1;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.rounds div span{display:block;height:100%;width:0;background:var(--red);transition:width .3s}
+
+/* Cards */
+.card{background:var(--white);border-radius:14px;padding:22px;margin-top:12px;box-shadow:0 2px 8px rgba(20,33,61,.06)}
+.tag{display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:12px;letter-spacing:1px;padding:4px 10px;border-radius:6px;text-transform:uppercase}
+.tag.y{background:var(--yellow);color:var(--ink)}
+h2{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:34px;margin:10px 0 6px;letter-spacing:.3px}
+.lead{color:var(--mid);margin:0 0 6px;line-height:1.5}
+.q{font-size:20px;font-weight:800;line-height:1.4;margin:6px 0 18px}
+.counter{font-size:13px;color:var(--mid);font-weight:600}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opts.five{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.opt{background:var(--grey);border:2px solid transparent;border-radius:12px;padding:14px 16px;text-align:left;font-weight:600;font-size:16px;color:var(--ink);line-height:1.4;transition:transform .08s,border-color .15s,background .15s}
+.opt:hover:not(:disabled){border-color:var(--ink);transform:translateY(-1px)}
+.opt:disabled{cursor:default}
+.opt.big{text-align:center;font-size:18px;font-weight:800;padding:20px}
+.opt.right{background:#E3F4EE;border-color:var(--teal)}
+.opt.wrong{background:#FDE8E8;border-color:var(--red)}
+.opt.fade{opacity:.45}
+
+.feedback{margin-top:16px;border-radius:12px;padding:14px 16px;display:none;gap:14px;align-items:flex-start}
+.feedback.show{display:flex}
+.feedback.good{background:#E3F4EE}
+.feedback.bad{background:var(--pale)}
+.fb-icon{flex:none;width:44px;height:58px;border-radius:6px;display:grid;place-items:center;font-family:Anton,Impact,sans-serif;font-size:13px;color:#fff;text-align:center;line-height:1.05;transform:rotate(-6deg)}
+.good .fb-icon{background:var(--teal);width:58px;height:44px;border-radius:50%;transform:none}
+.bad .fb-icon{background:var(--yellow);color:var(--ink)}
+.fb-text b{display:block;font-size:17px;margin-bottom:2px}
+.fb-text{line-height:1.5}
+.next{margin-top:16px;background:var(--ink);color:#fff;border:0;border-radius:10px;padding:12px 22px;font-weight:800;font-size:16px;display:none}
+.next.show{display:inline-block}
+.next:hover{background:#22325a}
+
+.btn{background:var(--red);color:#fff;border:0;border-radius:12px;padding:14px 26px;font-weight:800;font-size:17px}
+.btn:hover{background:#b81f1f}
+.btn.ghost{background:var(--white);color:var(--ink);border:2px solid var(--ink)}
+input[type=text]{font:inherit;font-size:17px;padding:12px 14px;border:2px solid var(--line);border-radius:10px;width:100%;max-width:340px}
+input[type=text]:focus{outline:none;border-color:var(--ink)}
+
+.roundlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:18px 0}
+.roundlist div{background:var(--grey);border-radius:12px;padding:12px 14px}
+.roundlist b{display:block;color:var(--red);font-size:12px;letter-spacing:1px;text-transform:uppercase}
+.roundlist span{font-weight:800;font-size:16px}
+
+/* Verdict meter */
+.meter{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:6px 0 18px}
+.meter button{background:var(--grey);border:2px solid transparent;border-radius:12px;padding:12px 4px;font-weight:800}
+.meter button span{display:block;font-size:11px;font-weight:600;color:var(--mid);margin-top:2px}
+.meter button.sel{background:var(--ink);color:#fff}
+.meter button.sel span{color:#C9D1DD}
+.bg{background:var(--grey);border-radius:12px;padding:12px 14px;margin:0 0 14px;line-height:1.5;color:var(--ink);font-size:15px}
+.step{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--red);text-transform:uppercase;margin:6px 0 8px}
+
+/* Results */
+.big{font-family:Anton,Impact,sans-serif;font-size:72px;line-height:1;color:var(--red)}
+.badges{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.badge{border-radius:12px;padding:12px;background:var(--grey);opacity:.45;text-align:center}
+.badge.on{opacity:1;background:var(--pale);border:2px solid var(--yellow)}
+.badge .e{font-size:26px}
+.badge b{display:block;font-size:14px;margin-top:4px}
+.badge small{color:var(--mid);font-size:12px}
+.verdict{background:var(--pale);border:2px solid var(--yellow);border-radius:12px;padding:16px;font-size:18px;font-weight:600;line-height:1.5}
+.review{margin-top:10px}
+.review div{border-left:0;background:var(--grey);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:14px;line-height:1.45}
+.review b{color:var(--red)}
+.rowbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.bonus{display:inline-block;margin-left:6px;background:var(--yellow);color:var(--ink);font-size:12px;font-weight:800;border-radius:6px;padding:2px 7px}
+.pop{animation:pop .35s}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+@media (max-width:640px){
+  .board{grid-template-columns:1fr auto auto auto;gap:8px;padding:10px 12px}
+  .board .logo small{display:none}
+  .board h1{font-size:17px}
+  .stat{min-width:46px}
+  .stat .val{font-size:22px}
+  .stat.rnd{display:none}
+  h2{font-size:28px}
+  .q{font-size:18px}
+  .opts.two{grid-template-columns:1fr}
+  .meter{grid-template-columns:repeat(5,1fr);gap:4px}
+  .meter button span{display:none}
+  .card{padding:16px}
+}
 </style>
 </head>
 <body>
-<header>
-  <div class="hud">
-    <div class="brand">THE BUSINESS AUTOPSY</div>
-    <div class="stats">
-      <span class="chip" id="hudCase">Briefing</span>
-      <span class="chip">Score: <span id="hudScore">0</span></span>
-      <span class="chip">Streak: <span id="hudStreak">0</span></span>
+<div class="wrap">
+  <header class="board" aria-label="Scoreboard">
+    <div class="logo">
+      <div class="whistle" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 6C5.4 6 2 9.4 2 13.5S5.4 21 9.5 21c3.2 0 6-2.1 7-5H22V9h-7.4C13.5 7.2 11.6 6 9.5 6zm0 4a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM16 4h2v4h-2z"/></svg></div>
+      <div><h1>BLOW THE WHISTLE</h1><small>Lesson 3 | Scams, the law and who pays</small></div>
     </div>
-  </div>
-  <div class="progress"><div id="bar"></div></div>
-</header>
-<main id="app"></main>
-<div class="toast" id="toast"></div>
+    <div></div>
+    <div class="stat rnd"><div class="lbl">Round</div><div class="val" id="sRound">0/4</div></div>
+    <div class="stat streak" id="streakBox"><div class="lbl">Streak</div><div class="val" id="sStreak">0</div></div>
+    <div class="stat"><div class="lbl">Score</div><div class="val" id="sScore">0</div></div>
+  </header>
+  <div class="rounds" aria-hidden="true"><div><span id="p1"></span></div><div><span id="p2"></span></div><div><span id="p3"></span></div><div><span id="p4"></span></div></div>
+  <main id="app"></main>
+</div>
 
 <script>
-const CASES = [
-  {
-    name:"Kodak", years:"1888 to 2012", tag:"CASE FILE 01",
-    file:[
-      "Founded in 1888. For decades Kodak was the name in photography, selling film, cameras and printing.",
-      "In the 1970s it reportedly sold around 90% of the photographic film bought in the United States.",
-      "In 1975 a Kodak engineer, Steve Sasson, built the first digital camera.",
-      "Managers were reportedly worried that digital cameras would hurt film sales, which made big profits on every roll.",
-      "Other companies like Canon, Sony and later smartphone makers took over digital photography.",
-      "In 2012 Kodak filed for bankruptcy."
-    ],
-    q1:{prompt:"What was the main cause of death?",
-      options:["Ignored changes in technology","Unethical behaviour","Got the price wrong","Expanded into too many unrelated businesses"],
-      answer:0,
-      explain:"Kodak invented the future and then hid it to protect its old product. When customers switched to digital, Kodak was left selling something nobody needed."},
-    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
-      options:["Kodak built the first digital camera in 1975","Managers worried digital would hurt film sales","Kodak was founded in 1888","Other companies took over digital photography"],
-      answers:[0,1,3]},
-    q3:{prompt:"Could Kodak have been saved?",
-      options:["Yes, by going all in on digital early, even if it hurt film sales","Yes, by raising the price of film","No, nobody could have predicted digital cameras","Yes, by opening more film shops"],
-      answer:0,
-      explain:"Kodak had the technology first. Its competitive advantage was sitting in its own lab."},
-    report:"Ignored changes in technology. Protected an old, profitable product instead of backing the new one it had invented.",
-    guru:"If you won't disrupt yourself, someone else will."
-  },
-  {
-    name:"Dick Smith", years:"1968 to 2016", tag:"CASE FILE 02",
-    file:[
-      "Started in Sydney in 1968 as an electronics store and grew into a household name across Australia.",
-      "In 2012 Woolworths sold the business cheaply to a private equity firm.",
-      "About a year later it was listed on the ASX, valued at over $500 million.",
-      "It bought huge amounts of stock to earn rebates (payments back) from suppliers, which made profits look bigger.",
-      "Much of that stock was products customers didn't want, and it piled up in warehouses.",
-      "In January 2016 it collapsed, with around 3,000 jobs lost. Customers holding gift cards were initially told they couldn't use them."
-    ],
-    q1:{prompt:"What was the main cause of death?",
-      options:["Ignored changes in technology","Poor financial decisions","Got the place wrong","Grew too slowly"],
-      answer:1,
-      explain:"Dick Smith bought stock to make the numbers look good, not because customers wanted it. The profit was on paper, not in the bank."},
-    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
-      options:["It started in Sydney in 1968","It bought huge amounts of stock to earn supplier rebates","Unwanted stock piled up in warehouses","It sold electronics"],
-      answers:[1,2]},
-    q3:{prompt:"Could Dick Smith have been saved?",
-      options:["Yes, by buying stock customers actually wanted and being honest about profit","Yes, by opening more stores","No, electronics stores were always going to fail","Yes, by selling more gift cards"],
-      answer:0,
-      explain:"JB Hi-Fi sold similar products in the same years and survived. The difference was decisions, not the industry."},
-    report:"Poor financial decisions. Bought stock to boost rebates and reported profit, then ran out of cash. There is an ethical question too: who was left holding the gift cards?",
-    guru:"Profit on paper isn't cash in the bank."
-  },
-  {
-    name:"Blockbuster", years:"1985 to 2010", tag:"CASE FILE 03",
-    file:[
-      "At its peak Blockbuster had around 9,000 video rental stores around the world.",
-      "A big part of its revenue came from late fees, which customers hated.",
-      "In 2000 Netflix's founders offered to sell their company to Blockbuster for about US$50 million. Blockbuster said no.",
-      "Netflix posted DVDs with no late fees, then moved to streaming.",
-      "The stores sold popcorn and lollies at the counter.",
-      "Blockbuster filed for bankruptcy in 2010."
-    ],
-    q1:{prompt:"What was the main cause of death?",
-      options:["Unethical behaviour","Too few stores","Ignored changes in technology and the market","Poor promotion"],
-      answer:2,
-      explain:"Customers moved online and away from late fees. Blockbuster stayed in its stores and passed on buying the company that replaced it."},
-    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
-      options:["Blockbuster turned down buying Netflix","It relied on late fees customers hated","Stores sold popcorn and lollies","Netflix moved to no late fees and streaming"],
-      answers:[0,1,3]},
-    q3:{prompt:"Could Blockbuster have been saved?",
-      options:["No, streaming was impossible to compete with","Yes, by buying Netflix or building its own streaming service early","Yes, by raising late fees","Yes, by opening more stores"],
-      answer:1,
-      explain:"It had the money, the brand and the customers. It just didn't move."},
-    report:"Ignored changes in technology and the market. Clung to physical stores and late fees while customers moved online.",
-    guru:"Your customers' biggest annoyance is your competitor's biggest opportunity."
-  },
-  {
-    name:"Quibi", years:"April 2020 to December 2020", tag:"CASE FILE 04",
-    file:[
-      "Quibi was a streaming app for short shows, around 10 minutes each, made only for watching on a phone.",
-      "Before launch it raised about US$1.75 billion from investors and paid big Hollywood stars to make shows.",
-      "It charged about US$5 a month with ads, or about US$8 a month without ads.",
-      "At first you couldn't watch on a TV, and you couldn't easily screenshot or share clips with friends.",
-      "It launched in April 2020, right when COVID lockdowns had most people stuck at home with their TVs.",
-      "Meanwhile TikTok and YouTube offered short videos for free, and people shared them everywhere.",
-      "Quibi announced it was shutting down about six months after it launched."
-    ],
-    q1:{prompt:"What was the main cause of death?",
-      options:["Poor financial decisions","Got the 4 Ps wrong","Unethical behaviour","Expanded too far from its strengths"],
-      answer:1,
-      explain:"Quibi had plenty of money. The problem was the marketing mix: the wrong product for the moment, a price when rivals were free, the wrong place (phone only) and promotion that people couldn't share."},
-    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
-      options:["It charged a monthly fee while TikTok and YouTube were free","You couldn't watch on a TV or easily share clips","It raised about US$1.75 billion","It launched when people were at home with their TVs"],
-      answers:[0,1,3]},
-    q3:{prompt:"Could Quibi have been saved?",
-      options:["Yes, by spending even more on celebrities","Yes, by letting people watch on any screen, share clips and try it free first","No, nobody watches short videos","Yes, by raising the price to look more premium"],
-      answer:1,
-      explain:"Short video is hugely popular. Quibi's idea wasn't the problem. Its 4 Ps fought against how people actually watch and share."},
-    report:"Got the 4 Ps wrong. Charged for something rivals gave away free, limited where people could watch, and made sharing hard, which killed word of mouth.",
-    guru:"Money can't buy you customers if the product doesn't fit how they live."
-  },
-  {
-    name:"Theranos", years:"2003 to 2018", tag:"CASE FILE 05",
-    file:[
-      "Theranos was started in the United States in 2003 by Elizabeth Holmes, who was 19 at the time.",
-      "It claimed its machine could run hundreds of medical tests from just a few drops of blood from a finger prick.",
-      "Investors poured in money and at one point the company was valued at about US$9 billion.",
-      "Behind the scenes, the machines didn't work properly. Many tests were secretly run on normal machines from other companies.",
-      "In 2015 a newspaper investigation revealed the problems after workers spoke up.",
-      "Theranos shut down in 2018. In 2022 Holmes was found guilty of fraud and later went to prison."
-    ],
-    q1:{prompt:"What was the main cause of death?",
-      options:["Ignored changes in technology","Got the price wrong","Unethical behaviour","Grew too slowly"],
-      answer:2,
-      explain:"Theranos lied to investors, doctors and patients about what its product could do. Once the truth came out, trust disappeared, and so did the business."},
-    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
-      options:["The machines didn't work properly","Tests were secretly run on other companies' machines","Holmes was 19 when she started it","Holmes was found guilty of fraud"],
-      answers:[0,1,3]},
-    q3:{prompt:"Could Theranos have been saved?",
-      options:["Yes, by hiding the problems better","Yes, by being honest about what the technology could and couldn't do, and keeping it in testing until it worked","No, blood testing is impossible to improve","Yes, by raising more money"],
-      answer:1,
-      explain:"Plenty of businesses take years to get new technology right. Theranos chose to lie instead of wait, and in health that puts real people at risk."},
-    report:"Unethical behaviour. Lied about a product that didn't work, putting patients at risk. When the truth came out, trust and the business both collapsed.",
-    guru:"Trust takes years to build and one headline to lose."
-  },
-  {
-    name:"Borders and Angus & Robertson (REDgroup)", years:"collapsed 2011", tag:"CASE FILE 06",
-    file:[
-      "REDgroup Retail owned Borders and Angus & Robertson bookstores across Australia.",
-      "Angus & Robertson had been selling books in Sydney since the 1880s.",
-      "Books in Australian shops were often much more expensive than the same books on overseas websites.",
-      "Shoppers started buying online from overseas sites like Book Depository and Amazon, often with free shipping.",
-      "REDgroup was slow to build a strong online store of its own.",
-      "In February 2011 REDgroup went into administration and stores across Australia closed."
-    ],
-    q1:{prompt:"What was the main cause of death?",
-      options:["Lost its competitive advantage to global online competitors","Unethical behaviour","Expanded into theme parks","Too many staff"],
-      answer:0,
-      explain:"Globalisation put an overseas website in every Australian's pocket. On price, the shops couldn't compete, and they had no strong online option."},
-    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
-      options:["Books were cheaper on overseas websites","Angus & Robertson dated back to the 1880s","Shoppers bought online from overseas","REDgroup was slow to build its own online store"],
-      answers:[0,2,3]},
-    q3:{prompt:"Could REDgroup have been saved?",
-      options:["No, bookshops are dead","Yes, by building a strong online store early and competing on service and experience, not just price","Yes, by raising prices","Yes, by banning overseas websites"],
-      answer:1,
-      explain:"Plenty of independent bookshops survived by being a place people want to visit. Price wasn't the only way to win."},
-    report:"Lost its competitive advantage. Global online competitors were cheaper and more convenient, and it was slow to go online.",
-    guru:"Globalisation means your biggest competitor might be a website on the other side of the world."
-  },
-  {
-    name:"LEGO", years:"STILL ALIVE", tag:"CASE FILE 07: THE TWIST", survivor:true,
-    file:[
-      "LEGO started making plastic bricks in Denmark in 1949.",
-      "In the late 1990s and early 2000s it expanded into theme parks, clothing, video games and TV shows.",
-      "Sets used thousands of different unique pieces, which pushed costs up.",
-      "By 2003 to 2004 it was losing a lot of money and was reportedly close to running out of cash.",
-      "In 2004 a new CEO, Jørgen Vig Knudstorp, took over.",
-      "Today LEGO is one of the most profitable toy companies in the world."
-    ],
-    q1:{prompt:"This patient survived. What nearly killed it?",
-      options:["Ignored changes in technology","Expanded too far from its strengths","Unethical behaviour","Prices too low"],
-      answer:1,
-      explain:"Theme parks, clothes and video games pulled LEGO away from what made it special: the brick."},
-    q2:{prompt:"Which clues from the file are EVIDENCE for that cause? Tick all that apply.",
-      options:["Expanded into theme parks, clothing, video games and TV","Thousands of unique pieces pushed costs up","LEGO is based in Denmark","It started making bricks in 1949"],
-      answers:[0,1]},
-    q3:{prompt:"What did the new CEO most likely do to save it?",
-      options:["Opened even more theme parks","Cut back to the core brick, cut costs and listened to fans","Lowered quality to save money","Stopped making toys"],
-      answer:1,
-      explain:"LEGO sold off most of its theme park business, cut the number of unique pieces and went back to the brick, working closely with its most loyal fans."},
-    report:"Near death from expanding too far from its strengths. Saved by going back to its competitive advantage: the brick.",
-    guru:"Know what you're great at, then do more of it."
-  }
+(function(){
+"use strict";
+
+/* ---------- Content ---------- */
+const TEAM = ["ACL","ASIC","ACCC","Scamwatch","IDCARE"];
+const R1 = [
+  {q:"The rulebook that says businesses can't mislead or deceive customers.", a:"ACL", why:"The Australian Consumer Law is the rulebook. It sets out what businesses can and can't do."},
+  {q:"A fake crypto trading app is taking people's savings. Which umpire steps in?", a:"ASIC", why:"Investments, crypto trading, banks and super are ASIC's patch. S for Securities: money that grows."},
+  {q:"A fake sneaker website takes your money and never sends the shoes. Which umpire?", a:"ACCC", why:"Shopping and businesses selling to consumers are the ACCC's patch. The extra C is for Consumer."},
+  {q:"The website where you report a scam so it can be shut down.", a:"Scamwatch", why:"Scamwatch is the whistle. It's run by the ACCC at scamwatch.gov.au."},
+  {q:"Someone stole your identity and opened a phone plan in your name. Who helps you for free?", a:"IDCARE", why:"IDCARE is Australia's free identity and cyber support service."},
+  {q:"This umpire runs Scamwatch.", a:"ACCC", why:"Scamwatch is the ACCC's reporting service."},
+  {q:"This umpire watches banks, super funds and insurance companies.", a:"ASIC", why:"ASIC regulates financial services: banks, super, insurance and investments."},
+  {q:"Bans conduct that is misleading, deceptive or unconscionable.", a:"ACL", why:"The ACL is the law that bans this conduct. The umpires then enforce it."}
 ];
+const R2 = [
+  {q:"A store gives you a refund for headphones that broke after a week.", a:"Fair play", why:"That's the ACL working. Faulty products get a repair, replacement or refund."},
+  {q:"A salesperson pressures an elderly man who can't read English into signing a $9,000 contract on the spot.", a:"Red card", why:"Taking serious advantage of someone's vulnerability is unconscionable conduct."},
+  {q:"An online ad promises \"guaranteed 40% returns, zero risk\".", a:"Red card", why:"No real investment is guaranteed with zero risk. This is misleading and a classic scam hook."},
+  {q:"Your bank texts you to check a strange $5,000 transfer before it goes through.", a:"Fair play", why:"That's the bank taking its duty of care seriously: reasonable steps to protect you."},
+  {q:"An ad uses a famous Australian's face saying they invest in a crypto app, but they never agreed to it.", a:"Red card", why:"A fake celebrity endorsement is misleading and deceptive. This is one of the most common scam ads."},
+  {q:"A phone shop clearly shows the price, the contract length and the cancellation fee before you sign.", a:"Fair play", why:"Clear, honest information is exactly what the ACL expects."},
+  {q:"A website says \"Only 1 left in stock!\" when there are 200 in the warehouse.", a:"Red card", why:"A false claim to rush you into buying is misleading conduct."},
+  {q:"A business keeps pushing a confused, upset customer: \"Sign today or the deal is gone forever.\"", a:"Red card", why:"Pressuring someone who is clearly vulnerable can cross into unconscionable conduct."}
+];
+const R3 = [
+  {q:"Should Sam have checked the website was real before paying?", a:"Fault", why:"This asks whether Sam made a good choice. That's ethics: right and wrong, not rules."},
+  {q:"Does the bank have to refund Sam under the rules?", a:"Law", why:"\"Does the bank HAVE to\" is about what the rules require. That's liability."},
+  {q:"Was it silly of Priya to click the link in the text?", a:"Fault", why:"Judging Priya's choice is a fault question."},
+  {q:"Is Instagram required to take down the scam ad once it's reported?", a:"Law", why:"\"Is it required\" means you're asking what the law says. Law question."},
+  {q:"Did ASIC have the power to shut down the fake investment website?", a:"Law", why:"A regulator's legal powers are a law question."},
+  {q:"Should Priya feel embarrassed about what happened?", a:"Fault", why:"Feelings and blame are fault. And no, she shouldn't: scammers are professionals."},
+  {q:"Did the seller's behaviour break the ACL?", a:"Law", why:"Whether a rule was broken is always a law question."},
+  {q:"Should Dad have asked the family before sending the money?", a:"Fault", why:"This judges Dad's choice. Fault, not law."}
+];
+const R4 = [
+  {title:"Social media apps",
+   q:"Should social media apps have to refund people scammed by ads they ran?",
+   bg:"Scam investment ads run on big social media apps every day, often using fake celebrity endorsements. The apps get paid for every ad. The apps say checking millions of ads is impossible.",
+   reasons:[
+     {t:"The app was paid to run the ad, so it profited from the scam and was in the best position to check it.", strong:true, side:"yes"},
+     {t:"Apps can't check millions of ads a day, so the scammer should be held responsible, not the platform.", strong:true, side:"no"},
+     {t:"People who click on ads like that are just gullible.", strong:false, note:"That's a fault answer. It blames the victim instead of asking what the rules should be."},
+     {t:"Social media is annoying anyway.", strong:false, note:"That's an opinion about apps, not a reason about responsibility or law."}
+   ]},
+  {title:"Banks",
+   q:"Should banks have to refund people who were tricked into sending money themselves?",
+   bg:"Right now most Australian banks treat this as the customer's responsibility. The UK makes banks refund most victims, up to £85,000. Australia's new Scams Prevention Framework is considering automatic payback for losses under $3,000.",
+   reasons:[
+     {t:"Banks can see suspicious transfers before the customer can, so they have a duty of care to pause them.", strong:true, side:"yes"},
+     {t:"If refunds were automatic, some people might fake being scammed, which pushes up costs for every customer.", strong:true, side:"no"},
+     {t:"It's their own fault for sending it.", strong:false, note:"Careless or not, that's fault. The question is what the LAW should require."},
+     {t:"Banks are rich so they can afford it.", strong:false, note:"Being rich isn't a reason. Strong answers talk about duty of care, risk or who can stop the scam."}
+   ]},
+  {title:"Ad networks",
+   q:"Should ad networks have to verify every advertiser's identity before allowing financial ads?",
+   bg:"Many scam ads use fake business names and stolen logos. ASIC has pushed platforms to check financial advertisers. Checking takes time and money, and some platforms only do it voluntarily.",
+   reasons:[
+     {t:"ID checks would stop many fake advertisers before their ads ever run, and regulators like ASIC have asked for it.", strong:true, side:"yes"},
+     {t:"Checking every advertiser costs money and slows things down, which hurts small honest businesses trying to advertise.", strong:true, side:"no"},
+     {t:"Ads are annoying, so get rid of them all.", strong:false, note:"That doesn't answer the question about verification."},
+     {t:"Scammers always win, so there's no point.", strong:false, note:"Giving up isn't a reason. Strong answers weigh costs and benefits."}
+   ]}
+];
+const METER = [["1","Strongly disagree"],["2","Disagree"],["3","Unsure"],["4","Agree"],["5","Strongly agree"]];
 
-const BIZ = ["Kmart","Bunnings","Uber Eats","Myer","Netflix","JB Hi-Fi","Westfield shopping centres","Woolworths","Your choice"];
-const CAUSES = ["Ignored changes in technology or the market","Lost its competitive advantage","Poor financial decisions","Unethical behaviour","Got the 4 Ps wrong","Expanded too fast or away from its strengths"];
+/* ---------- State ---------- */
+const S = {name:"", score:0, streak:0, best:0, round:0, i:0, items:[], correctByRound:[0,0,0,0], mistakes:[], verdicts:[]};
+const $ = id => document.getElementById(id);
+const app = $("app");
+const shuffle = a => { const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-let S = {screen:"intro", c:0, step:"file", score:0, streak:0, best:0, mistakes:[], causeRight:0, evidencePerfect:0, savedRight:0, pm:{biz:null,causes:[],text:""}, name:""};
-const app = document.getElementById("app");
-
-function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1600);}
-function hud(){
-  document.getElementById("hudScore").textContent=S.score;
-  document.getElementById("hudStreak").textContent=S.streak;
-  let label="Briefing", pct=0;
-  if(S.screen==="case"){label="Case "+(S.c+1)+" of "+CASES.length; pct=(S.c/(CASES.length+1))*100;}
-  if(S.screen==="premortem"){label="Pre-mortem"; pct=(CASES.length/(CASES.length+1))*100;}
-  if(S.screen==="end"){label="Case closed"; pct=100;}
-  document.getElementById("hudCase").textContent=label;
-  document.getElementById("bar").style.width=pct+"%";
+function updateBoard(bump){
+  $("sScore").textContent = S.score;
+  $("sStreak").textContent = S.streak;
+  $("sRound").textContent = Math.min(S.round,4) + "/4";
+  $("streakBox").classList.toggle("hot", S.streak >= 3);
+  if(bump){ const el=$(bump); el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop"); }
 }
-function award(pts,correct){
-  if(correct){S.streak++; S.best=Math.max(S.best,S.streak); let bonus=S.streak>=3?5:0; S.score+=pts+bonus; if(bonus) toast("Streak bonus +5");}
-  else{S.streak=0;}
-  hud();
-}
-function go(fn){fn(); window.scrollTo({top:0,behavior:"smooth"});}
+function setProgress(r, frac){ $("p"+r).style.width = Math.round(frac*100)+"%"; }
 
-function intro(){
-  S.screen="intro"; hud();
-  app.innerHTML=`
-  <div class="card">
-    <span class="stamp">CONFIDENTIAL</span>
-    <h1 style="margin-top:14px">The Business Autopsy</h1>
-    <p>You are a business coroner. Your job is to examine businesses that died (and one that nearly did) and work out the cause of death using everything you've learnt in Business this year.</p>
-  </div>
-  <div class="copy"><strong>COPY THIS INTO YOUR BOOK</strong>
-    <b>Possible causes of death</b>
-    <ol>${CAUSES.map(c=>`<li>${c}</li>`).join("")}</ol>
-    <b>Every autopsy has three lines:</b><br>
-    Cause of death: ...<br>Evidence: ...<br>Could it have been saved? ...
-  </div>
-  <div class="card">
-    <h3>How this works</h3>
-    <p>For each case file you will:</p>
-    <ol>
-      <li>Read the file.</li>
-      <li><b>Write your three lines in your book first.</b> Be ready to read them out.</li>
-      <li>Then answer the coroner's questions here to check your thinking.</li>
-    </ol>
-    <p class="small">Points: 10 for the right cause, 5 for each correct piece of evidence, 10 for the best rescue plan. Three right in a row earns a streak bonus.</p>
-    <button class="btn alt" onclick="go(()=>{S.screen='case';S.c=0;S.step='file';render()})">Open the first case file</button>
-  </div>`;
-}
-
-function caseFile(){
-  const K=CASES[S.c];
-  app.innerHTML=`
-  <div class="folder" data-tab="${K.tag}">
-    <h2>${K.name}</h2>
-    <p class="small" style="margin:0">${K.years}</p>
-    <ul>${K.file.map(f=>`<li>${f}</li>`).join("")}</ul>
-  </div>
-  <div class="book">
-    <b>IN YOUR BOOK FIRST</b> (about 4 minutes)
-    <ol>
-      <li>${K.survivor?"What nearly killed it":"Cause of death"}: ...</li>
-      <li>Evidence: two clues from the file</li>
-      <li>${K.survivor?"How was it saved":"Could it have been saved"}? ...</li>
-    </ol>
-  </div>
-  <button class="btn" onclick="go(()=>{S.step='q1';render()})">I've written mine. Start the examination</button>`;
-}
-
-function q1(){
-  const K=CASES[S.c], Q=K.q1;
-  app.innerHTML=`
-  <div class="card"><h3>${K.name}: Question 1</h3><p><b>${Q.prompt}</b></p>
-    <div class="opts">${Q.options.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join("")}</div>
-    <div class="feedback" id="fb"></div>
-    <div id="next"></div>
-  </div>`;
-  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
-    const i=+b.dataset.i, ok=i===Q.answer;
-    app.querySelectorAll(".opt").forEach(x=>{x.disabled=true; if(+x.dataset.i===Q.answer)x.classList.add("right");});
-    if(!ok){b.classList.add("wrong"); S.mistakes.push({c:K.name,q:Q.prompt,a:Q.options[Q.answer],why:Q.explain});}
-    else S.causeRight++;
-    award(10,ok);
-    const fb=document.getElementById("fb"); fb.className="feedback show "+(ok?"good":"bad");
-    fb.innerHTML=(ok?"<b>Correct diagnosis.</b> ":"<b>Not quite.</b> ")+Q.explain;
-    document.getElementById("next").innerHTML=`<button class="btn" onclick="go(()=>{S.step='q2';render()})">Next: gather the evidence</button>`;
-  });
+/* scoring: 10 a correct answer, +5 bonus when you are on a streak of 3 or more */
+function award(ok){
+  if(ok){
+    S.streak++; S.best=Math.max(S.best,S.streak);
+    const bonus = S.streak>=3 ? 5 : 0;
+    S.score += 10 + bonus;
+    S.correctByRound[S.round-1]++;
+    updateBoard("sScore");
+    return bonus;
+  }
+  S.streak=0; updateBoard(); return 0;
 }
 
-function q2(){
-  const K=CASES[S.c], Q=K.q2;
-  app.innerHTML=`
-  <div class="card"><h3>${K.name}: Question 2</h3><p><b>${Q.prompt}</b></p>
-    <p class="small">Careful: a fact can be true without being evidence for the cause.</p>
-    <div class="opts">${Q.options.map((o,i)=>`<label class="tick"><input type="checkbox" value="${i}"> <span>${o}</span></label>`).join("")}</div>
-    <button class="btn" id="chk">Check evidence</button>
-    <div class="feedback" id="fb"></div>
-    <div id="next"></div>
-  </div>`;
-  document.getElementById("chk").onclick=()=>{
-    const boxes=[...app.querySelectorAll("input[type=checkbox]")];
-    const picked=boxes.filter(b=>b.checked).map(b=>+b.value);
-    if(!picked.length){toast("Tick at least one clue");return;}
-    let hits=0, wrong=0;
-    boxes.forEach(b=>{
-      const i=+b.value, should=Q.answers.includes(i), lab=b.parentElement; b.disabled=true;
-      if(b.checked&&should){hits++;lab.classList.add("opt","right");}
-      else if(b.checked&&!should){wrong++;lab.classList.add("opt","wrong");}
-      else if(!b.checked&&should){lab.classList.add("opt","missed");}
-    });
-    const perfect=hits===Q.answers.length&&wrong===0;
-    S.score+=hits*5; if(perfect){S.evidencePerfect++;}
-    award(0,perfect);
-    if(!perfect) S.mistakes.push({c:K.name,q:"Evidence",a:Q.answers.map(i=>Q.options[i]).join("; "),why:"Evidence must explain WHY the business died, not just describe it."});
-    document.getElementById("chk").disabled=true;
-    const fb=document.getElementById("fb"); fb.className="feedback show "+(perfect?"good":"bad");
-    fb.innerHTML=perfect?`<b>Sharp eye.</b> All the evidence, nothing extra. +${hits*5}`:`<b>${hits} of ${Q.answers.length} found${wrong?", plus "+wrong+" that isn't evidence":""}.</b> Dashed green boxes are clues you missed. +${hits*5}`;
-    document.getElementById("next").innerHTML=`<button class="btn" onclick="go(()=>{S.step='q3';render()})">Next: the rescue question</button>`;
-  };
-}
-
-function q3(){
-  const K=CASES[S.c], Q=K.q3;
-  app.innerHTML=`
-  <div class="card"><h3>${K.name}: Question 3</h3><p><b>${Q.prompt}</b></p>
-    <div class="opts">${Q.options.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join("")}</div>
-    <div class="feedback" id="fb"></div>
-    <div id="next"></div>
-  </div>`;
-  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
-    const i=+b.dataset.i, ok=i===Q.answer;
-    app.querySelectorAll(".opt").forEach(x=>{x.disabled=true; if(+x.dataset.i===Q.answer)x.classList.add("right");});
-    if(!ok){b.classList.add("wrong"); S.mistakes.push({c:K.name,q:Q.prompt,a:Q.options[Q.answer],why:Q.explain});}
-    else S.savedRight++;
-    award(10,ok);
-    const fb=document.getElementById("fb"); fb.className="feedback show "+(ok?"good":"bad");
-    fb.innerHTML=(ok?"<b>Good call.</b> ":"<b>Not quite.</b> ")+Q.explain;
-    document.getElementById("next").innerHTML=`<button class="btn alt" onclick="go(()=>{S.step='report';render()})">Read the coroner's report</button>`;
-  });
-}
-
-function report(){
-  const K=CASES[S.c], last=S.c===CASES.length-1;
-  app.innerHTML=`
-  <div class="card">
-    <span class="stamp ${K.survivor?"green":""}">${K.survivor?"PATIENT SURVIVED":"CASE CLOSED"}</span>
-    <h2 style="margin-top:14px">Coroner's report: ${K.name}</h2>
-    <div class="toetag"><div class="hole"><span></span></div>
-      <div class="body"><b>${K.survivor?"NEAR-DEATH CAUSE":"CAUSE OF DEATH"}:</b><br>${K.report}</div></div>
-    <div class="guru">${K.guru}</div>
-    <div class="book" style="margin-top:16px"><b>CHECK YOUR BOOK</b><br>Compare your three lines with the report. Add anything you missed in a different colour.</div>
-    <button class="btn" onclick="go(()=>{${last?"S.screen='premortem'":"S.c++;S.step='file'"};render()})">${last?"Final task: the pre-mortem":"Open the next case file"}</button>
-  </div>`;
-}
-
-function premortem(){
-  S.screen="premortem"; hud();
-  app.innerHTML=`
-  <div class="card">
-    <span class="stamp">FUTURE CASE</span>
-    <h2 style="margin-top:14px">The Pre-mortem</h2>
-    <p>Pick a business that exists today. Imagine it is 2036 and the business has died. Your job is to write the autopsy before it happens, then explain what it should do NOW to survive.</p>
-    <h3>1. Choose your patient</h3>
-    <div class="grid2">${BIZ.map((b,i)=>`<button class="biz" data-i="${i}">${b}</button>`).join("")}</div>
-    <div id="own" style="display:none;margin-top:10px"><input type="text" id="ownName" placeholder="Type the business name"></div>
-    <h3 style="margin-top:20px">2. What could kill it? Tick one or two</h3>
-    <div class="opts">${CAUSES.map((c,i)=>`<label class="tick"><input type="checkbox" class="pc" value="${i}"> <span>${c}</span></label>`).join("")}</div>
-    <h3 style="margin-top:20px">3. Write the autopsy (also in your book)</h3>
-    <p class="small">Sentence starters: "In 2036, ___ died because..." "The early warning signs were..." "To survive, ___ should start..."</p>
-    <textarea id="pmText" placeholder="In 2036, ..."></textarea>
-    <button class="btn alt" id="pmGo">Seal the future case file</button>
-    <div id="pmOut"></div>
-  </div>`;
-  app.querySelectorAll(".biz").forEach(b=>b.onclick=()=>{
-    app.querySelectorAll(".biz").forEach(x=>x.classList.remove("sel")); b.classList.add("sel");
-    S.pm.biz=BIZ[+b.dataset.i]; document.getElementById("own").style.display=S.pm.biz==="Your choice"?"block":"none";
-  });
-  document.getElementById("pmGo").onclick=()=>{
-    let biz=S.pm.biz; if(biz==="Your choice") biz=document.getElementById("ownName").value.trim();
-    const causes=[...app.querySelectorAll(".pc:checked")].map(x=>CAUSES[+x.value]);
-    const txt=document.getElementById("pmText").value.trim();
-    if(!biz){toast("Choose a business first");return;}
-    if(!causes.length){toast("Tick at least one cause");return;}
-    if(txt.length<40){toast("Write a bit more first");return;}
-    S.pm={biz,causes,text:txt};
-    document.getElementById("pmOut").innerHTML=`
-      <div class="toetag" style="margin-top:20px"><div class="hole"><span></span></div>
-      <div class="body"><b>${biz.toUpperCase()}</b> (predicted 2036)<br><b>Cause:</b> ${causes.join("; ")}<br><br>${txt.replace(/</g,"&lt;")}</div></div>
-      <p class="small">Be ready to read this out.</p>
-      <button class="btn" onclick="go(()=>{S.screen='end';render()})">Exit ticket and results</button>`;
-  };
-}
-
-function end(){
-  hud();
-  const max=CASES.length*10*2+CASES.reduce((a,k)=>a+k.q2.answers.length*5,0);
-  const B=[
-    ["First Incision","Finished your first case",true],
-    ["Chief Coroner","Correct cause for every case",S.causeRight===CASES.length],
-    ["Sharp Eye","Perfect evidence on 5 or more cases",S.evidencePerfect>=5],
-    ["Rescue Specialist","Best rescue plan on 6 or more cases",S.savedRight>=6],
-    ["Hot Streak","5 correct in a row",S.best>=5],
-    ["Untouchable","10 correct in a row",S.best>=10],
-    ["Future Seer","Sealed a pre-mortem",!!S.pm.text]
-  ];
-  app.innerHTML=`
-  <div class="card">
-    <h2>Exit ticket</h2>
-    <div class="book"><b>IN YOUR BOOK</b><br>Which cause of death on our checklist do you think is the most common? Explain using one case from today.</div>
-  </div>
-  <div class="card">
-    <h2>Your results</h2>
-    <p style="font-size:1.3rem"><b>${S.score}</b> points <span class="small">(base maximum ${max}, plus streak bonuses)</span></p>
-    <p>Best streak: <b>${S.best}</b></p>
-    <div class="badges">${B.map(b=>`<div class="badge ${b[2]?"":"off"}" title="${b[1]}">${b[2]?"&#9733; ":""}${b[0]}<br><span style="font-size:.75rem;opacity:.85">${b[1]}</span></div>`).join("")}</div>
-  </div>
-  <div class="card">
-    <h2>Mistake review</h2>
-    ${S.mistakes.length?`<ul class="review">${S.mistakes.map(m=>`<li><b>${m.c}: ${m.q}</b><br>Best answer: ${m.a}<br><span class="small">${m.why}</span></li>`).join("")}</ul>`:"<p>No mistakes. Clean examination.</p>"}
-  </div>
-  <div class="card">
-    <h3>Your certificate</h3>
-    <input type="text" id="nm" placeholder="Type your name" value="${S.name}">
-    <div class="cert" style="margin-top:14px">
-      <span class="stamp">OFFICIAL</span>
-      <h1 style="margin-top:14px">Certified Business Coroner</h1>
-      <p>This certifies that</p>
-      <h2 id="certName">${S.name||"Your name"}</h2>
-      <p>examined ${CASES.length} business case files and scored <b>${S.score}</b> points.</p>
-      <p class="small">Year 10 Business · The Business Autopsy</p>
+/* ---------- Screens ---------- */
+function start(){
+  app.innerHTML = `
+  <section class="card">
+    <span class="tag">Kick off</span>
+    <h2>Who has your back when scams happen?</h2>
+    <p class="lead">You're the umpire today. Four quick rounds. Get answers right in a row to build a streak: 3 in a row and every answer is worth bonus points.</p>
+    <div class="roundlist">
+      <div><b>Round 1</b><span>Know the team</span></div>
+      <div><b>Round 2</b><span>Fair play or red card?</span></div>
+      <div><b>Round 3</b><span>Fault or law?</span></div>
+      <div><b>Round 4</b><span>Your verdict</span></div>
     </div>
-    <button class="btn" onclick="if(confirm('Start again from the beginning?')){location.reload()}">Start again</button>
-  </div>`;
-  document.getElementById("nm").oninput=e=>{S.name=e.target.value;document.getElementById("certName").textContent=S.name||"Your name";};
+    <label for="nm" style="font-weight:800;display:block;margin-bottom:6px">Your first name</label>
+    <input id="nm" type="text" maxlength="30" autocomplete="off" placeholder="First name">
+    <div class="rowbtns"><button class="btn" id="go">Blow the whistle</button></div>
+  </section>`;
+  const go = () => { S.name = $("nm").value.trim() || "Umpire"; beginRound(1); };
+  $("go").onclick = go;
+  $("nm").addEventListener("keydown", e => { if(e.key==="Enter") go(); });
 }
 
-function render(){
-  hud();
-  if(S.screen==="intro") return intro();
-  if(S.screen==="premortem") return premortem();
-  if(S.screen==="end") return end();
-  ({file:caseFile,q1,q2,q3,report})[S.step]();
+const ROUND_INFO = {
+  1:{tag:"Round 1", title:"Know the team", lead:"Rulebook, umpires, whistle or helper? Pick who does the job.", data:R1, opts:TEAM, cls:"five"},
+  2:{tag:"Round 2", title:"Fair play or red card?", lead:"Is this business playing fair, or does it break the rules (misleading or unconscionable)?", data:R2, opts:["Fair play","Red card"], cls:"two big"},
+  3:{tag:"Round 3", title:"Fault or law?", lead:"Is this question about FAULT (was someone careless?) or LAW (what do the rules require?)", data:R3, opts:["Fault","Law"], cls:"two big"}
+};
+
+function beginRound(r){
+  S.round=r; S.i=0; updateBoard();
+  if(r===4){ S.items=R4.slice(); return verdictIntro(); }
+  S.items = shuffle(ROUND_INFO[r].data);
+  roundIntro(r);
 }
-render();
+
+function roundIntro(r){
+  const R=ROUND_INFO[r];
+  app.innerHTML = `<section class="card"><span class="tag">${R.tag}</span><h2>${R.title}</h2><p class="lead">${R.lead}</p><p class="lead">${R.data.length} questions.</p><div class="rowbtns"><button class="btn" id="go">Start round</button></div></section>`;
+  $("go").onclick = () => ask();
+  $("go").focus();
+}
+
+function ask(){
+  const r=S.round, R=ROUND_INFO[r], it=S.items[S.i];
+  setProgress(r, S.i/S.items.length);
+  const isBig = R.cls.includes("big");
+  const opts = r===1 ? shuffle(R.opts) : R.opts;
+  app.innerHTML = `
+  <section class="card">
+    <span class="tag">${R.tag}: ${R.title}</span>
+    <p class="counter" style="margin-top:12px">Question ${S.i+1} of ${S.items.length}</p>
+    <p class="q">${esc(it.q)}</p>
+    <div class="opts ${R.cls.split(" ")[0]}">${opts.map(o=>`<button class="opt${isBig?" big":""}" data-v="${esc(o)}">${esc(o)}</button>`).join("")}</div>
+    <div class="feedback" id="fb"></div>
+    <button class="next" id="nx">Next</button>
+  </section>`;
+  app.querySelectorAll(".opt").forEach(b => b.onclick = () => answer(b, it));
+}
+
+function answer(btn, it){
+  const ok = btn.dataset.v === it.a;
+  app.querySelectorAll(".opt").forEach(b => {
+    b.disabled = true;
+    if(b.dataset.v === it.a) b.classList.add("right");
+    else if(b===btn) b.classList.add("wrong");
+    else b.classList.add("fade");
+  });
+  const bonus = award(ok);
+  if(!ok){ btn.classList.add("shake"); S.mistakes.push({round:S.round, q:it.q, you:btn.dataset.v, a:it.a, why:it.why}); }
+  showFeedback(ok, ok ? (bonus?`Play on! <span class="bonus">+${10+bonus} streak bonus</span>`:"Play on! +10") : `Yellow card. It's ${esc(it.a)}.`, it.why);
+  const nx=$("nx"); nx.classList.add("show"); nx.focus();
+  nx.textContent = S.i+1 < S.items.length ? "Next" : "Finish round";
+  nx.onclick = () => { S.i++; if(S.i < S.items.length) ask(); else endRound(); };
+}
+
+function showFeedback(ok, head, body){
+  const fb=$("fb");
+  fb.className = "feedback show " + (ok?"good":"bad");
+  fb.innerHTML = `<div class="fb-icon" aria-hidden="true">${ok?"PLAY<br>ON":"YELLOW<br>CARD"}</div><div class="fb-text"><b>${head}</b>${esc(body)}</div>`;
+}
+
+function endRound(){
+  const r=S.round; setProgress(r,1);
+  const total = r===4 ? R4.length : ROUND_INFO[r].data.length;
+  const got = S.correctByRound[r-1];
+  const titles = {1:"Know the team",2:"Fair play or red card?",3:"Fault or law?"};
+  const msg = got===total ? "Perfect round. Badge unlocked." : got>=total-2 ? "Solid round." : "Check the mistake review at the end.";
+  app.innerHTML = `<section class="card"><span class="tag y">Round ${r} done</span><h2>${titles[r]}: ${got}/${total}</h2><p class="lead">${msg}</p><div class="rowbtns"><button class="btn" id="go">Next round</button></div></section>`;
+  $("go").onclick = () => beginRound(r+1);
+  $("go").focus();
+}
+
+/* ---------- Round 4 ---------- */
+function verdictIntro(){
+  app.innerHTML = `<section class="card"><span class="tag">Round 4</span><h2>Your verdict</h2>
+  <p class="lead">Three real debates happening in Australia right now. For each one:</p>
+  <p class="lead"><b>1.</b> Vote 1 to 5. There is no wrong vote.<br><b>2.</b> Pick the STRONGEST reason. Strong reasons use law or business thinking (duty of care, risk, costs, who profits, who can stop it). Weak reasons just blame someone or give a feeling. Both sides have a strong reason.</p>
+  <div class="rowbtns"><button class="btn" id="go">Start round</button></div></section>`;
+  $("go").onclick = () => verdict();
+  $("go").focus();
+}
+
+function verdict(){
+  const it=S.items[S.i]; let vote=null;
+  setProgress(4, S.i/S.items.length);
+  const reasons = shuffle(it.reasons);
+  app.innerHTML = `
+  <section class="card">
+    <span class="tag">Round 4: ${esc(it.title)}</span>
+    <p class="counter" style="margin-top:12px">Debate ${S.i+1} of ${S.items.length}</p>
+    <p class="q">${esc(it.q)}</p>
+    <div class="bg">${esc(it.bg)}</div>
+    <div class="step">Step 1: your vote</div>
+    <div class="meter">${METER.map(([n,l])=>`<button data-n="${n}">${n}<span>${l}</span></button>`).join("")}</div>
+    <div id="s2" style="display:none">
+      <div class="step">Step 2: pick the strongest reason</div>
+      <div class="opts">${reasons.map((x,k)=>`<button class="opt" data-k="${it.reasons.indexOf(x)}">${esc(x.t)}</button>`).join("")}</div>
+    </div>
+    <div class="feedback" id="fb"></div>
+    <button class="next" id="nx">Next</button>
+  </section>`;
+  app.querySelectorAll(".meter button").forEach(b => b.onclick = () => {
+    if(app.querySelector(".opt:disabled")) return;
+    app.querySelectorAll(".meter button").forEach(x=>x.classList.remove("sel"));
+    b.classList.add("sel"); vote=+b.dataset.n;
+    $("s2").style.display="block";
+  });
+  app.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    const pick = it.reasons[+b.dataset.k];
+    app.querySelectorAll(".opt").forEach(x => {
+      x.disabled=true;
+      const r = it.reasons[+x.dataset.k];
+      if(r.strong) x.classList.add("right"); else if(x===b) x.classList.add("wrong"); else x.classList.add("fade");
+    });
+    app.querySelectorAll(".meter button").forEach(x=>x.disabled=true);
+    const ok = pick.strong;
+    const bonus = award(ok);
+    let extra = "";
+    if(ok && vote!==3 && ((vote>3 && pick.side==="no")||(vote<3 && pick.side==="yes"))) extra = " Strong reason, but it argues the other side to your vote. In your own answer, match your reason to your vote.";
+    if(!ok){ b.classList.add("shake"); S.mistakes.push({round:4, q:it.q, you:pick.t, a:"Either reason highlighted in green", why:pick.note}); }
+    S.verdicts.push({title:it.title, q:it.q, vote, reason:pick.t, strong:ok, side:pick.side});
+    showFeedback(ok, ok ? (bonus?`Strong reason! <span class="bonus">+${10+bonus} streak bonus</span>`:"Strong reason! +10") : "Yellow card. That reason is weak.",
+      ok ? "This uses business or law thinking, not blame. Both green answers are strong, one for each side." + extra : pick.note + " The green ones are the strong reasons, one for each side.");
+    const nx=$("nx"); nx.classList.add("show"); nx.focus();
+    nx.textContent = S.i+1 < S.items.length ? "Next debate" : "See my results";
+    nx.onclick = () => { S.i++; if(S.i < S.items.length) verdict(); else results(); };
+  });
+}
+
+/* ---------- Results ---------- */
+function bankSentence(){
+  const v = S.verdicts.find(x=>x.title==="Banks");
+  if(!v) return "";
+  const should = v.vote>=4 ? "should" : v.vote<=2 ? "should not" : "might need to";
+  let reason;
+  if(v.strong && ((v.vote>=4 && v.side==="yes")||(v.vote<=2 && v.side==="no")||v.vote===3)) reason = v.reason.charAt(0).toLowerCase()+v.reason.slice(1).replace(/\.$/,"");
+  else if(v.vote<=2) reason = "if refunds were automatic, some people might fake being scammed, which pushes up costs for every customer";
+  else reason = "banks can see suspicious transfers before the customer can, so they have a duty of care to pause them";
+  return `I think banks ${should} refund people who were tricked into sending money, because ${reason}.`;
+}
+
+function results(){
+  setProgress(4,1); S.round=5; updateBoard();
+  const totals=[R1.length,R2.length,R3.length,R4.length];
+  const right = S.correctByRound.reduce((a,b)=>a+b,0), all = totals.reduce((a,b)=>a+b,0);
+  const badges = [
+    ["📘","Rulebook Pro","Perfect Round 1", S.correctByRound[0]===totals[0]],
+    ["🟥","Fair Umpire","Perfect Round 2", S.correctByRound[1]===totals[1]],
+    ["⚖️","Law Brain","Perfect Round 3", S.correctByRound[2]===totals[2]],
+    ["🧠","Clear Verdict","Strong reason in every debate", S.correctByRound[3]===totals[3]],
+    ["🔥","Hot Whistle","Streak of 8 or more", S.best>=8]
+  ];
+  const earned = badges.filter(b=>b[3]).length;
+  const rank = right>=all-1 ? "Grand Final Umpire" : right>=all-5 ? "AFL Umpire" : right>=all-10 ? "Local League Umpire" : "Umpire in Training";
+  const sentence = bankSentence();
+  app.innerHTML = `
+  <section class="card">
+    <span class="tag y">Full time</span>
+    <h2>${esc(S.name)}, your rank: ${rank}</h2>
+    <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end;margin:10px 0 6px">
+      <div><div class="big">${S.score}</div><div class="counter">points</div></div>
+      <div><div class="big" style="color:var(--ink)">${right}/${all}</div><div class="counter">correct</div></div>
+      <div><div class="big" style="color:var(--teal)">${S.best}</div><div class="counter">best streak</div></div>
+    </div>
+    <p class="counter">Round by round: ${S.correctByRound.map((c,k)=>`R${k+1} ${c}/${totals[k]}`).join("  |  ")}</p>
+    <div class="badges">${badges.map(b=>`<div class="badge${b[3]?" on":""}"><div class="e">${b[0]}</div><b>${b[1]}</b><small>${b[2]}</small></div>`).join("")}</div>
+    <p class="counter">${earned} of ${badges.length} badges earned</p>
+  </section>
+  <section class="card">
+    <span class="tag">Exit ticket</span>
+    <h2>Your verdict sentence</h2>
+    <p class="lead">Built from your bank vote. Copy it into your book, then add one word from today if it's not already there (ACL, ASIC, ACCC, regulator, unconscionable, duty of care).</p>
+    <div class="verdict" id="vs">${esc(sentence)}</div>
+  </section>
+  ${S.mistakes.length ? `<section class="card"><span class="tag">Mistake review</span><h2>Learn from the yellow cards</h2><div class="review">${S.mistakes.map(m=>`<div><b>Round ${m.round}:</b> ${esc(m.q)}<br>You said: ${esc(m.you)}<br>Answer: <strong>${esc(m.a)}</strong>. ${esc(m.why)}</div>`).join("")}</div></section>`
+    : `<section class="card"><span class="tag y">Mistake review</span><h2>No yellow cards</h2><p class="lead">Flawless match. Try writing a second verdict sentence arguing the opposite side.</p></section>`}
+  <section class="card">
+    <p class="lead"><b>Show your teacher this screen.</b> Then play again to beat your score.</p>
+    <div class="rowbtns"><button class="btn" id="again">Play again</button></div>
+  </section>`;
+  $("again").onclick = () => {
+    Object.assign(S,{score:0,streak:0,best:0,round:0,i:0,items:[],correctByRound:[0,0,0,0],mistakes:[],verdicts:[]});
+    [1,2,3,4].forEach(r=>setProgress(r,0)); updateBoard(); beginRound(1); window.scrollTo(0,0);
+  };
+  window.scrollTo(0,0);
+}
+
+updateBoard();
+start();
+})();
 </script>
 </body>
 </html>
