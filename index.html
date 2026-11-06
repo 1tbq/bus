@@ -40,7 +40,10 @@
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
-body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
+[hidden]{display:none!important}
+html{height:100%;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
 .gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .wrap{max-width:1160px;margin:0 auto}
