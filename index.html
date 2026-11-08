@@ -1,1311 +1,621 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-AU">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Year 10 Business Arcade</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Martian+Mono:wdth,wght@75..112.5,400..700&display=swap">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borrow or Bust | Lesson 1</title>
 <style>
-/* Layout: a classroom game hub. Sticky scoreboard band, a hero that looks like a marked-up bank statement,
-   round cards with chunky arcade-button shadows, and paper documents (receipts, pay slips, statements) as the play surface. */
-:root{
-  --paper:#F2F4F8; --card:#FFFFFF; --sunk:#E7EBF3; --ink:#121C45; --muted:#56607F; --line:#D2D8E6;
-  --biro:#2A4FD0; --flag:#C42F1C; --ok:#127A4B; --amber:#9A5800;
-  --hi:#FFE14D; --on-hi:#121C45;
-  --thermal:#FFFFFF; --thermal-ink:#24262C; --bubble:#E4E9F2;
-  --shadow:0 1px 0 rgba(18,28,69,.06),0 10px 26px -14px rgba(18,28,69,.35);
-  --display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;
-  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --mono:"Martian Mono",ui-monospace,"Cascadia Mono",Consolas,Menlo,monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --paper:#0E1330; --card:#171E44; --sunk:#10163A; --ink:#E9EDFA; --muted:#A3ACCB; --line:#2C3566;
-    --biro:#86A2FF; --flag:#FF7A66; --ok:#4AD39A; --amber:#FFB54A;
-    --hi:#F7D544; --on-hi:#121C45;
-    --thermal:#ECEEF3; --thermal-ink:#24262C; --bubble:#232B5A;
-    --shadow:0 1px 0 rgba(0,0,0,.3),0 12px 28px -14px rgba(0,0,0,.7);
-    color-scheme:dark;
+  :root {
+    --ink: #14213D; --accent: #0E7C66; --accent-soft: #E6F4F1;
+    --good: #0E7C66; --good-soft: #E6F4F1; --bad: #B42318; --bad-soft: #FCEBEA;
+    --yellow: #FFE14D; --tint: #F1F5F9; --muted: #64748B; --line: #CBD5E1;
   }
-}
-:root[data-theme="dark"]{
-  --paper:#0E1330; --card:#171E44; --sunk:#10163A; --ink:#E9EDFA; --muted:#A3ACCB; --line:#2C3566;
-  --biro:#86A2FF; --flag:#FF7A66; --ok:#4AD39A; --amber:#FFB54A;
-  --hi:#F7D544; --on-hi:#121C45;
-  --thermal:#ECEEF3; --thermal-ink:#24262C; --bubble:#232B5A;
-  --shadow:0 1px 0 rgba(0,0,0,.3),0 12px 28px -14px rgba(0,0,0,.7);
-  color-scheme:dark;
-}
-*,*::before,*::after{box-sizing:border-box}
-[hidden]{display:none!important}
-html{height:100%;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-img{max-width:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
-.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.wrap{max-width:1160px;margin:0 auto}
-a{color:inherit}
-h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
-p{margin:0}
-.eyebrow{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-:focus-visible{outline:3px solid var(--biro);outline-offset:2px;border-radius:6px}
-button{font:inherit;color:inherit}
-
-/* Header band */
-.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1.5px solid var(--line)}
-.bar .wrap{display:flex;align-items:center;gap:14px;padding-block:10px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:8px;text-decoration:none;font-family:var(--display);font-weight:800;font-size:1.15rem;white-space:nowrap}
-.brand-mark{background:var(--hi);color:var(--on-hi);padding:.05em .35em;border-radius:.2em .45em .25em .5em;transform:rotate(-2deg);display:inline-block}
-.board{display:flex;gap:8px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:thin;padding:3px 2px}
-.team{display:inline-flex;align-items:baseline;gap:8px;padding:5px 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);cursor:pointer;white-space:nowrap}
-.team .tname{font-weight:700;font-size:.9rem}
-.team .tscore{font-family:var(--mono);font-size:.85rem;font-variant-numeric:tabular-nums}
-.team.on{background:var(--hi);color:var(--on-hi);border-color:var(--hi)}
-.team.bump{animation:bump .6s ease}
-@keyframes bump{0%{transform:scale(1)}30%{transform:scale(1.18)}100%{transform:scale(1)}}
-.actions{display:flex;gap:8px}
-.small-btn{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:5px 12px;font-weight:700;font-size:.85rem;cursor:pointer;white-space:nowrap}
-.small-btn:hover{border-color:var(--ink)}
-@media (max-width:700px){
-  .board{order:3;flex-basis:100%}
-  .actions{margin-left:auto}
-}
-
-/* Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;text-decoration:none;cursor:pointer;
-  border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:12px;padding:12px 18px;box-shadow:0 4px 0 var(--ink);transition:transform .08s,box-shadow .08s}
-.btn:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--ink)}
-.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
-.btn.primary{background:var(--ink);color:var(--paper)}
-.btn.ghost{border-color:transparent;box-shadow:none;background:transparent;text-decoration:underline;text-underline-offset:4px}
-.btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:0 4px 0 var(--ink)}
-.cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-
-main{padding-block:28px 56px}
-
-/* Home */
-.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:44px;align-items:center;padding-block:18px 36px}
-.hero h1{font-size:clamp(2.7rem,7vw,5.4rem);font-weight:800;letter-spacing:-.02em;line-height:.95;margin-block:12px 18px;font-variation-settings:"opsz" 96}
-.hl{background:linear-gradient(transparent 10%,var(--hi) 10%,var(--hi) 90%,transparent 90%);color:var(--on-hi);padding:0 .12em;border-radius:.15em .5em .2em .45em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.lead{font-size:1.15rem;color:var(--muted);max-width:34em}
-.hero .cta{margin-top:24px}
-.hero-art{display:grid;gap:18px;justify-items:start}
-.art-sms{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);max-width:340px;transform:rotate(-1.5deg)}
-.art-sms .art-from{font-weight:700;font-size:.85rem;color:var(--muted)}
-.art-sms p{background:var(--bubble);border-radius:16px 16px 16px 4px;padding:10px 12px;margin-top:8px}
-.art-sms mark{background:linear-gradient(transparent 8%,var(--hi) 8%,var(--hi) 92%,transparent 92%);color:var(--on-hi);text-decoration:underline wavy var(--flag) 1.5px;text-underline-offset:4px}
-.art-stmt{background:var(--thermal);color:var(--thermal-ink);font-family:var(--mono);font-stretch:87.5%;font-size:.74rem;border-radius:6px;padding:14px 16px;box-shadow:var(--shadow);width:100%;max-width:440px;justify-self:end;transform:rotate(1deg)}
-.art-stmt .art-h{font-weight:700;letter-spacing:.06em;border-bottom:1.5px dashed #9096a3;padding-bottom:6px;margin-bottom:4px}
-.art-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #dde0e6}
-.art-row:last-child{border-bottom:0}
-.stamp{font-family:var(--display);font-style:normal;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:.72rem;border:2.5px solid currentColor;border-radius:4px;padding:.1em .45em;transform:rotate(-5deg);white-space:nowrap;display:inline-block}
-.s-match{color:#127A4B}.s-wrong{color:#9A5800}.s-dupe{color:#2A4FD0}.s-chase{color:#C42F1C}
-.coverage{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding-block:14px;border-block:1.5px solid var(--line);margin-bottom:28px;color:var(--muted)}
-.coverage b{color:var(--ink)}
-.rounds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-@media (max-width:980px){.rounds{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{grid-template-columns:1fr;gap:28px}.art-stmt{justify-self:start}}
-@media (max-width:620px){.rounds{grid-template-columns:1fr}}
-.card{display:flex;flex-direction:column;gap:10px;text-decoration:none;background:var(--card);border:2px solid var(--ink);border-radius:16px;padding:20px;box-shadow:0 5px 0 var(--ink);transition:transform .1s,box-shadow .1s}
-.card:hover{transform:translateY(-2px);box-shadow:0 7px 0 var(--ink)}
-.card:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
-.card h2{font-size:1.65rem;font-weight:800}
-.card p{color:var(--muted)}
-.card-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.card-foot{margin-top:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding-top:8px;font-size:.88rem}
-.card-foot .meta{font-family:var(--mono);font-stretch:87.5%;font-size:.75rem;color:var(--muted)}
-.card-foot .best{font-family:var(--mono);font-size:.75rem;background:var(--sunk);padding:2px 8px;border-radius:99px}
-.card-foot .go{margin-left:auto;font-weight:700}
-.card.boss{grid-column:1/-1;background:var(--ink);color:var(--paper);box-shadow:0 5px 0 var(--hi);border-color:var(--ink)}
-.card.boss:hover{box-shadow:0 7px 0 var(--hi)}
-.card.boss h2{font-size:clamp(1.8rem,4vw,2.6rem)}
-.card.boss p,.card.boss .eyebrow,.card.boss .meta{color:var(--paper);opacity:.85}
-.card.boss .best{background:transparent;border:1px solid var(--paper)}
-.chip{display:inline-flex;align-items:center;font-family:var(--display);font-weight:700;font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--u);color:var(--u);white-space:nowrap}
-.u-scams{--u:var(--flag)} .u-money{--u:var(--biro)} .u-enterprise{--u:var(--ok)} .u-all{--u:var(--hi)}
-.chip.u-all{background:var(--hi);color:var(--on-hi)}
-.howto{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:40px;padding-top:24px;border-top:1.5px solid var(--line)}
-.howto h3{font-size:1.1rem;margin-bottom:6px}
-.howto p{color:var(--muted);font-size:.95rem}
-@media (max-width:760px){.howto{grid-template-columns:1fr}}
-.foot{margin-top:32px;color:var(--muted);font-size:.85rem}
-
-/* Round view */
-.round-head{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
-.back{font-weight:700;text-decoration:none;color:var(--muted);width:max-content}
-.back:hover{color:var(--ink)}
-.round-title{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.round-title h1{font-size:clamp(1.9rem,4.5vw,3rem);font-weight:800;letter-spacing:-.01em}
-.round-meta{display:flex;gap:10px 18px;align-items:center;flex-wrap:wrap;font-size:.92rem;color:var(--muted);min-height:30px}
-.round-meta .roundpts{font-family:var(--mono);font-size:.8rem;margin-left:auto}
-.turn{display:inline-flex;gap:6px;align-items:center;background:var(--hi);color:var(--on-hi);font-weight:700;padding:3px 12px;border-radius:99px}
-.turn .dot{width:8px;height:8px;border-radius:50%;background:var(--on-hi);animation:pulse 1.2s infinite}
-@keyframes pulse{50%{opacity:.25}}
-.progress{height:6px;background:var(--sunk);border-radius:99px;overflow:hidden;margin:10px 0 26px}
-.progress span{display:block;height:100%;width:0;background:var(--ink);transition:width .4s ease}
-.split{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px;align-items:start}
-@media (max-width:880px){.split{grid-template-columns:1fr;gap:22px}}
-.side{display:flex;flex-direction:column;gap:14px;min-width:0}
-.prompt{font-family:var(--display);font-size:1.45rem;font-weight:700;line-height:1.2;text-wrap:balance}
-.hint{color:var(--muted);font-size:.92rem}
-.choices{display:grid;gap:10px}
-.choices.two{grid-template-columns:1fr 1fr}
-.choices.grid{grid-template-columns:1fr 1fr}
-@media (max-width:520px){.choices.grid{grid-template-columns:1fr}}
-.choice{display:flex;gap:12px;align-items:center;text-align:left;font-weight:700;background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:12px 14px;box-shadow:0 4px 0 var(--ink);cursor:pointer;transition:transform .08s,box-shadow .08s,opacity .2s}
-.choice:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 5px 0 var(--ink)}
-.choice:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
-.choice:disabled{cursor:default}
-.choice .key{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:7px;background:var(--sunk);font-family:var(--mono);font-size:.78rem}
-.choice .ctext{min-width:0}
-.choice small{display:block;font-weight:400;color:var(--muted);font-size:.85rem;margin-top:2px}
-.choice.big{font-family:var(--display);font-size:1.7rem;font-weight:800;justify-content:center;padding:20px 14px}
-.choice.correct{background:color-mix(in srgb,var(--ok) 16%,var(--card));border-color:var(--ok);box-shadow:0 4px 0 var(--ok)}
-.choice.wrong{background:color-mix(in srgb,var(--flag) 14%,var(--card));border-color:var(--flag);box-shadow:0 4px 0 var(--flag)}
-.choice.meh{background:color-mix(in srgb,var(--amber) 14%,var(--card));border-color:var(--amber);box-shadow:0 4px 0 var(--amber)}
-.choice.dim{opacity:.45}
-.feedback{border:2px solid var(--line);background:var(--card);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;animation:rise .25s ease}
-.feedback.good{border-color:var(--ok)}
-.feedback.bad{border-color:var(--flag)}
-@keyframes rise{from{transform:translateY(6px);opacity:.4}to{transform:none;opacity:1}}
-.fb-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.fb-head strong{font-family:var(--display);font-size:1.3rem;font-weight:800}
-.good .fb-head strong{color:var(--ok)} .bad .fb-head strong{color:var(--flag)}
-.pts{font-family:var(--mono);font-size:.8rem;font-weight:700;background:var(--hi);color:var(--on-hi);padding:3px 10px;border-radius:99px}
-.fb-line{font-weight:700}
-.tip{background:var(--sunk);padding:10px 12px;border-radius:10px;font-size:.95rem}
-.working{font-family:var(--mono);font-stretch:87.5%;font-size:.88rem;background:var(--sunk);padding:8px 12px;border-radius:8px}
-.reasons ol{margin:6px 0 0;padding-left:1.6em;display:grid;gap:6px}
-.reasons li::marker{font-family:var(--mono);font-weight:700;color:var(--flag)}
-.reasons li.o::marker{color:var(--ok)}
-.nextrow{display:flex;justify-content:flex-end}
-.mini{font-size:.9rem;font-weight:700;margin-top:6px}
-.mini.good{color:var(--ok)} .mini.bad{color:var(--flag)}
-
-/* Message mock-ups */
-.mock{background:var(--card);border:1.5px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;font-size:1.06rem;min-width:0}
-.ph-top{display:flex;gap:10px;align-items:center;padding:12px 16px;border-bottom:1.5px solid var(--line)}
-.avatar{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--sunk);font-weight:700}
-.ph-name{font-weight:700;overflow-wrap:anywhere}
-.ph-meta{font-size:.82rem;color:var(--muted)}
-.bubble{margin:18px 16px 22px;padding:12px 15px;background:var(--bubble);border-radius:18px 18px 18px 4px;max-width:94%;white-space:pre-line;overflow-wrap:anywhere}
-.email-row{display:flex;gap:12px;padding:10px 16px;border-bottom:1.5px solid var(--line);align-items:baseline;overflow-wrap:anywhere}
-.email-row .lbl{flex:none;width:62px;font-family:var(--mono);font-stretch:87.5%;font-size:.72rem;text-transform:uppercase;color:var(--muted)}
-.email-row .subj{font-weight:700}
-.email-body{padding:16px;white-space:pre-line;overflow-wrap:anywhere}
-.call-top{display:flex;gap:10px;align-items:center;background:var(--ink);color:var(--paper);padding:12px 16px;font-weight:700}
-.call-dot{width:10px;height:10px;border-radius:50%;background:var(--ok);animation:pulse 1s infinite}
-.call-label{padding:14px 16px 0;font-size:.82rem;color:var(--muted)}
-.call-body{margin:8px 16px 20px;padding-left:14px;border-left:3px solid var(--line);font-style:italic}
-.ad-creative{background:var(--biro);color:var(--paper);font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,5vw,2.6rem);padding:28px 16px;text-align:center}
-.ad-body{padding:14px 16px}
-.ad-cta{margin:0 16px 16px;padding:8px;text-align:center;border-radius:8px;background:var(--sunk);font-weight:700;font-size:.9rem}
-.shop-top{background:var(--sunk);padding:8px 14px;font-family:var(--mono);font-stretch:87.5%;font-size:.78rem;overflow-wrap:anywhere}
-.shop-name{font-size:1.5rem;font-weight:800;padding:14px 16px 4px}
-.shop-lines{list-style:none;margin:0;padding:4px 16px 14px}
-.shop-lines li{padding:9px 0;border-bottom:1px dashed var(--line)}
-.shop-lines li:last-child{border-bottom:0}
-.seg{border-radius:.2em;transition:background .2s}
-.revealed .seg.flag,.hunt .seg.found{background:linear-gradient(transparent 6%,var(--hi) 6%,var(--hi) 94%,transparent 94%);color:var(--on-hi);-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .1em}
-.revealed .seg.flag{text-decoration:underline wavy var(--flag) 1.5px;text-underline-offset:4px}
-.revealed .seg.okseg{background:color-mix(in srgb,var(--ok) 20%,transparent);text-decoration:underline var(--ok) 2px;text-underline-offset:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.hunt .seg.tap{cursor:pointer}
-.hunt:not(.over) .seg.tap:not(.found):not(.nope):hover{background:var(--sunk);outline:1.5px dashed var(--muted)}
-.hunt .seg.nope{text-decoration:line-through var(--flag) 2px;opacity:.6}
-.hunt .seg.missed{outline:2px dashed var(--flag);outline-offset:1px}
-.seg .num{font-family:var(--mono);font-style:normal;font-size:.6em;font-weight:700;background:var(--flag);color:var(--paper);border-radius:99px;padding:.1em .45em;margin-left:.25em;vertical-align:super;text-decoration:none;display:inline-block;line-height:1.3}
-.seg.okseg .num{background:var(--ok)}
-.counter{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
-.counter .big{font-family:var(--display);font-weight:800;font-size:2.4rem;line-height:1}
-.counter .miss{color:var(--muted)}
-
-/* Paper documents */
-.stage{display:flex;justify-content:center;min-width:0}
-.receipt{position:relative;width:min(100%,320px);background:var(--thermal);color:var(--thermal-ink);font-family:var(--mono);font-stretch:87.5%;font-size:.8rem;line-height:1.6;padding:20px 20px 24px;margin-bottom:14px;box-shadow:var(--shadow)}
-.receipt::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:10px;background:linear-gradient(45deg,transparent 33.33%,var(--thermal) 33.33%,var(--thermal) 66.66%,transparent 66.66%),linear-gradient(-45deg,transparent 33.33%,var(--thermal) 33.33%,var(--thermal) 66.66%,transparent 66.66%);background-size:20px 40px;background-position:0 -20px}
-.r-title{text-align:center;font-weight:700;font-size:1.05em;letter-spacing:.04em}
-.r-line{text-align:center}
-.r-row{display:flex;justify-content:space-between;gap:14px}
-.r-row span:last-child{text-align:right;font-variant-numeric:tabular-nums}
-.r-div{border-top:1.5px dashed #9096a3;margin:8px 0}
-.payslip{width:min(100%,460px);background:var(--thermal);color:var(--thermal-ink);font-family:var(--mono);font-stretch:87.5%;font-size:.82rem;padding:22px;border-radius:6px;box-shadow:var(--shadow);display:grid;gap:6px}
-.ps-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap;border-bottom:2px solid var(--thermal-ink);padding-bottom:8px}
-.ps-head strong{font-size:1.2em;letter-spacing:.08em}
-.ps-row{display:flex;justify-content:space-between;gap:14px;align-items:center}
-.ps-row.strong{font-weight:700;font-size:1.05em}
-.ps-row span:last-child{text-align:right;font-variant-numeric:tabular-nums}
-.ps-hr{border-top:1.5px dashed #9096a3;margin:4px 0}
-.blank{display:inline-block;min-width:5.5em;text-align:center;border:1.5px dashed currentColor;border-radius:4px;padding:0 .4em}
-.blank.now{background:#FFE14D;border-style:solid;color:#121C45;animation:pulse 1.4s infinite}
-.numform{display:flex;flex-direction:column;gap:12px}
-.numrow{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
-.num-wrap{display:flex;align-items:center;border:2px solid var(--ink);border-radius:12px;background:var(--card);padding-left:12px;flex:1;min-width:160px}
-.num-wrap span{font-family:var(--mono);font-weight:700}
-.num-in{font:inherit;font-family:var(--mono);font-size:1.25rem;border:0;background:transparent;color:var(--ink);padding:10px 12px 10px 6px;width:100%;min-width:0}
-.num-in:focus{outline:none}
-.num-wrap:focus-within{outline:3px solid var(--biro);outline-offset:2px}
-.shake{animation:shake .35s}
-@keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
-.pricecard{background:var(--card);border:2px solid var(--ink);border-radius:16px;padding:24px;box-shadow:0 5px 0 var(--ink);display:grid;gap:10px}
-.tag{font-family:var(--display);font-weight:800;font-size:clamp(3rem,10vw,5.4rem);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.timer{height:12px;background:var(--sunk);border-radius:99px;overflow:hidden}
-.timer span{display:block;height:100%;width:100%;background:var(--biro)}
-.timer.low span{background:var(--flag)}
-.secs{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
-.checklist{margin:4px 0 0;padding-left:1.3em;font-size:.92rem;display:grid;gap:3px}
-
-/* Statement */
-.prompt.wide{margin-bottom:6px}
-.legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin:10px 0 20px;font-size:.88rem;color:var(--muted)}
-.legend .stamp{margin-right:6px;transform:rotate(-3deg)}
-.detective{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:26px;align-items:start}
-@media (max-width:980px){.detective{grid-template-columns:1fr}}
-.records{display:grid;gap:12px}
-@media (max-width:980px){.records{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}}
-.rec{background:var(--thermal);color:var(--thermal-ink);font-family:var(--mono);font-stretch:87.5%;font-size:.74rem;padding:10px 12px;border-radius:4px;box-shadow:var(--shadow);transform:rotate(var(--r,0deg))}
-.rec b{display:block;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
-.tablewrap{overflow-x:auto;border:1.5px solid var(--line);border-radius:12px;background:var(--card)}
-table.stmt{border-collapse:collapse;width:100%;min-width:820px;font-family:var(--mono);font-stretch:87.5%;font-size:.76rem;font-variant-numeric:tabular-nums}
-.stmt th{text-align:left;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:10px;border-bottom:1.5px solid var(--line);white-space:nowrap}
-.stmt td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
-.stmt .num{text-align:right;white-space:nowrap}
-.stmt tr.open td{color:var(--muted)}
-.stmt tr.is-right td:first-child{box-shadow:inset 4px 0 0 var(--ok)}
-.stmt tr.is-wrong td:first-child{box-shadow:inset 4px 0 0 var(--flag)}
-.stmt tr.reason td{font-family:var(--body);font-stretch:100%;font-size:.88rem;background:var(--sunk)}
-.stmt tr.reason.r-ok b{color:var(--ok)} .stmt tr.reason.r-bad b{color:var(--flag)}
-.stamps{display:flex;gap:5px}
-.st{font-family:var(--display);font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border:1.5px solid var(--line);background:transparent;color:var(--muted);border-radius:5px;padding:4px 7px;cursor:pointer;white-space:nowrap;transition:transform .1s}
-.st:hover:not(:disabled){border-color:var(--ink);color:var(--ink)}
-.st[aria-pressed="true"]{border:2.5px solid currentColor;transform:rotate(-4deg)}
-.st-match[aria-pressed="true"]{color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,transparent)}
-.st-wrong[aria-pressed="true"]{color:var(--amber);background:color-mix(in srgb,var(--amber) 12%,transparent)}
-.st-dupe[aria-pressed="true"]{color:var(--biro);background:color-mix(in srgb,var(--biro) 12%,transparent)}
-.st-chase[aria-pressed="true"]{color:var(--flag);background:color-mix(in srgb,var(--flag) 12%,transparent)}
-.st:disabled{cursor:default}
-.checkrow{display:flex;flex-direction:column;gap:14px;margin-top:18px}
-.checkrow .btn{align-self:flex-end}
-.casefile{background:var(--thermal);color:var(--thermal-ink);font-family:var(--mono);font-stretch:87.5%;font-size:.8rem;padding:18px 20px;border-radius:6px;box-shadow:var(--shadow)}
-.casefile .eyebrow{color:#56607F}
-.casefile ul{list-style:none;margin:10px 0;padding:0}
-.casefile li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 10px;padding:8px 0;border-bottom:1px dashed #b9bec9}
-.casefile li small{grid-column:2/-1;color:#9A3A12}
-.casefile .closing{display:flex;justify-content:space-between;font-weight:700;padding-top:6px}
-
-/* Enterprise */
-.quote{background:var(--card);border:2px solid var(--ink);border-radius:16px;padding:24px;box-shadow:0 5px 0 var(--ink);display:grid;gap:12px}
-.quote p.q{font-family:var(--display);font-weight:600;font-size:1.35rem;line-height:1.4}
-.bee{background:var(--card);border:2px solid var(--ink);border-radius:16px;padding:24px;box-shadow:0 5px 0 var(--ink);display:grid;gap:12px}
-.bee-text{font-size:1.3rem;line-height:1.75}
-.gap{border-bottom:2px dashed var(--muted);color:var(--muted);padding:0 .2em}
-.gap.filled{border-bottom:0;color:var(--on-hi);background:linear-gradient(transparent 6%,var(--hi) 6%,var(--hi) 94%,transparent 94%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.step{display:flex;flex-direction:column;gap:10px}
-.answers{display:grid;gap:12px}
-.ans{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px}
-.ans b{font-family:var(--display);font-size:1.4rem;line-height:1}
-
-/* Boss */
-.meters{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:22px}
-.meter{position:relative;background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:10px 16px;display:flex;flex-direction:column;min-width:160px}
-.meter b{font-family:var(--mono);font-size:1.35rem;font-variant-numeric:tabular-nums}
-.meter .of{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
-.delta{position:absolute;right:10px;top:8px;font-family:var(--mono);font-size:.8rem;font-weight:700;animation:floatup 1.6s ease forwards}
-.delta.up{color:var(--ok)} .delta.down{color:var(--flag)}
-@keyframes floatup{0%{opacity:0;transform:translateY(8px)}20%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0;transform:translateY(-10px)}}
-.scene{background:var(--card);border:2px solid var(--ink);border-radius:16px;padding:22px;box-shadow:0 5px 0 var(--ink);display:grid;gap:14px;min-width:0}
-.scene h2{font-size:1.9rem;font-weight:800}
-.scene .mock{box-shadow:none}
-
-/* Results */
-.done{display:grid;gap:16px;max-width:760px}
-.done h2{font-size:clamp(2.4rem,7vw,4.2rem);font-weight:800}
-.standings{list-style:none;margin:0;padding:0;display:grid;gap:8px;max-width:460px}
-.standings li{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);font-weight:700}
-.standings li:first-child{background:var(--hi);color:var(--on-hi);border-color:var(--hi)}
-.standings span:last-child{font-family:var(--mono)}
-.rank{font-family:var(--display);font-weight:800;font-size:1.6rem}
-.learned{margin:0;padding-left:1.2em;display:grid;gap:6px}
-
-/* Overlay, toast, fx */
-.overlay{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:16px;background:color-mix(in srgb,#060a1c 55%,transparent)}
-.panel{background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:24px;width:min(560px,100%);max-height:calc(100% - 32px);overflow:auto;display:grid;gap:16px;box-shadow:0 6px 0 var(--ink)}
-.panel h2{font-size:1.8rem;font-weight:800}
-.seg-toggle{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink);border-radius:12px;overflow:hidden}
-.seg-toggle button{border:0;background:var(--card);padding:10px;font-weight:700;cursor:pointer}
-.seg-toggle button.on{background:var(--ink);color:var(--paper)}
-.field{display:grid;gap:4px}
-.field label{font-weight:700;font-size:.88rem}
-.field input,.field select{font:inherit;border:2px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card);color:var(--ink)}
-.field input:focus,.field select:focus{border-color:var(--ink);outline:none}
-.names{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media (max-width:460px){.names{grid-template-columns:1fr}}
-.panel-foot{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center}
-#toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translate(-50%,10px);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;font-weight:700;max-width:calc(100% - 32px);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:30;text-align:center}
-#toast.show{opacity:1;transform:translate(-50%,0)}
-#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Calibri, Arial, sans-serif; color: var(--ink); background: #F8FAFC; min-height: 100vh; }
+  button { font-family: inherit; }
+  header { background: var(--ink); color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  header .logo { font-size: 30px; }
+  header h1 { font-size: 20px; margin: 0; letter-spacing: .5px; }
+  header .sub { font-size: 13px; color: #CBD5E1; }
+  header .hud { margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+  .chip { background: rgba(255,255,255,.12); border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 600; white-space: nowrap; }
+  .chip b { color: var(--yellow); }
+  .meter { padding: 10px 20px 0; max-width: 900px; margin: 0 auto; }
+  .meter-track { height: 14px; background: #E2E8F0; border-radius: 999px; overflow: hidden; }
+  .meter-fill { height: 100%; background: var(--accent); width: 50%; transition: width .4s, background .4s; }
+  .meter-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 4px; }
+  main { max-width: 900px; margin: 0 auto; padding: 18px 20px 40px; }
+  .card { background: #fff; border-radius: 16px; box-shadow: 0 2px 10px rgba(20,33,61,.08); padding: 26px; margin-bottom: 18px; }
+  .tag { display: inline-block; background: var(--ink); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 2px; padding: 5px 12px; border-radius: 999px; text-transform: uppercase; }
+  .tag.accent { background: var(--accent); }
+  h2 { font-size: 28px; margin: 12px 0 8px; }
+  p { line-height: 1.5; }
+  .muted { color: var(--muted); }
+  .big-btn { background: var(--accent); color: #fff; border: 0; border-radius: 12px; padding: 14px 26px; font-size: 18px; font-weight: 700; cursor: pointer; }
+  .big-btn:hover { filter: brightness(1.08); }
+  .big-btn.ghost { background: var(--tint); color: var(--ink); }
+  input[type=text], input[type=number] { font-size: 18px; padding: 12px 14px; border: 2px solid var(--line); border-radius: 10px; width: 100%; max-width: 360px; font-family: inherit; }
+  input:focus { outline: none; border-color: var(--accent); }
+  .rounds-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 18px 0; }
+  .round-pill { background: var(--tint); border-radius: 12px; padding: 12px 14px; }
+  .round-pill .n { display: inline-flex; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; align-items: center; justify-content: center; font-weight: 700; margin-right: 8px; }
+  .progress { display: flex; gap: 4px; margin: 14px 0 4px; }
+  .progress span { flex: 1; height: 6px; border-radius: 3px; background: #E2E8F0; }
+  .progress span.done-ok { background: var(--good); }
+  .progress span.done-bad { background: var(--bad); }
+  .progress span.now { background: var(--accent); }
+  .prompt { font-size: 24px; font-weight: 700; line-height: 1.35; margin: 18px 0; min-height: 66px; }
+  .opts { display: grid; gap: 12px; }
+  .opts.two { grid-template-columns: 1fr 1fr; }
+  .opt { text-align: left; background: var(--tint); border: 2px solid transparent; border-radius: 12px; padding: 16px 18px; font-size: 18px; cursor: pointer; color: var(--ink); line-height: 1.35; }
+  .opts.two .opt { text-align: center; font-weight: 700; font-size: 20px; padding: 22px; }
+  .opt:hover:not(:disabled) { border-color: var(--accent); }
+  .opt:disabled { cursor: default; }
+  .opt.right { background: var(--good-soft); border-color: var(--good); }
+  .opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .opt .k { display: inline-flex; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 14px; }
+  .feedback { margin-top: 16px; border-radius: 12px; padding: 14px 18px; display: none; font-size: 17px; line-height: 1.45; }
+  .feedback.ok { display: block; background: var(--good-soft); }
+  .feedback.no { display: block; background: var(--bad-soft); }
+  .feedback strong { display: block; margin-bottom: 4px; }
+  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 16px; }
+  .float { position: fixed; top: 80px; right: 30px; font-size: 26px; font-weight: 800; color: var(--good); pointer-events: none; animation: up 1s forwards; }
+  .float.neg { color: var(--bad); }
+  @keyframes up { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-50px); } }
+  .streak-flash { animation: pulse .5s; }
+  @keyframes pulse { 50% { transform: scale(1.15); } }
+  .badges { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 16px 0; }
+  .badge { border-radius: 12px; padding: 14px; text-align: center; background: var(--tint); opacity: .45; }
+  .badge.earned { opacity: 1; background: #FFF6BF; }
+  .badge .i { font-size: 34px; }
+  .badge .t { font-weight: 700; margin-top: 6px; }
+  .badge .d { font-size: 13px; color: var(--muted); }
+  .review-item { border-left: 0; background: var(--bad-soft); border-radius: 10px; padding: 12px 14px; margin: 10px 0; }
+  .review-item .q { font-weight: 700; }
+  .score-big { font-size: 64px; font-weight: 800; color: var(--accent); margin: 6px 0; }
+  table.rounds { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  table.rounds td, table.rounds th { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+  #cert { display: none; }
+  @media (max-width: 640px) { .opts.two { grid-template-columns: 1fr; } .prompt { font-size: 20px; } header .hud { margin-left: 0; } }
+  @media print {
+    body { background: #fff; }
+    header, .meter, main { display: none !important; }
+    #cert { display: block !important; padding: 40px; text-align: center; border: 6px double #000; margin: 30px; color: #000; }
+    #cert h1 { font-size: 40px; margin: 10px 0; }
+    #cert .name { font-size: 34px; font-weight: 800; border-bottom: 2px solid #000; display: inline-block; padding: 0 30px 6px; margin: 16px 0; }
+    #cert table { margin: 14px auto; border-collapse: collapse; }
+    #cert td { border: 1px solid #000; padding: 6px 14px; }
+  }
 </style>
 </head>
 <body>
-
-<header class="bar">
-  <div class="wrap gutter">
-    <a class="brand" href="#"><span class="brand-mark">Y10</span> Business Arcade</a>
-    <div class="board" id="board" aria-label="Scores"></div>
-    <div class="actions">
-      <button class="small-btn" id="teams-btn" type="button">Teams</button>
-      <button class="small-btn" id="sound-btn" type="button" aria-pressed="true">Sound on</button>
-    </div>
+<header>
+  <div class="logo" aria-hidden="true">🏦</div>
+  <div><h1 id="gTitle"></h1><div class="sub" id="gSub"></div></div>
+  <div class="hud">
+    <span class="chip">Score <b id="hScore">0</b></span>
+    <span class="chip" id="hStreakChip">Streak <b id="hStreak">0</b></span>
+    <span class="chip">Round <b id="hRound">-</b></span>
   </div>
 </header>
-<main id="app" class="wrap gutter"></main>
-<div class="overlay" id="setup" hidden></div>
-<div id="toast" role="status" aria-live="polite"></div>
-<canvas id="fx" hidden></canvas>
+<div class="meter" id="meterWrap" hidden>
+  <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
+  <div class="meter-labels"><span id="meterMin"></span><span id="meterName"></span><span id="meterMax"></span></div>
+</div>
+<main id="app"></main>
+<div id="cert"></div>
 
 <script>
-(() => {
-'use strict';
-/* ---------- helpers ---------- */
-const $ = (s, r = document) => r.querySelector(s);
-function h(tag, props, ...kids) {
-  const el = document.createElement(tag);
-  if (props) for (const [k, v] of Object.entries(props)) {
-    if (v == null || v === false) continue;
-    if (k === 'class') el.className = v;
-    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
-    else el.setAttribute(k, v === true ? '' : v);
+const CONFIG = {
+ "lesson": 1,
+ "title": "Borrow or Bust",
+ "tagline": "Debt basics and good vs bad debt",
+ "icon": "🏦",
+ "accent": "0E7C66",
+ "accentSoft": "E6F4F1",
+ "intro": "You're a new borrower with a credit score of 500. Every smart call pushes your score up. Every bad call drags it down. Four rounds, then your results and certificate.",
+ "meter": {
+  "name": "Credit score",
+  "start": 500,
+  "up": 15,
+  "down": 30,
+  "min": 0,
+  "max": 1000,
+  "blurb": "Your credit score starts at 500 out of 1000.",
+  "badge": {
+   "icon": "💳",
+   "title": "Prime borrower",
+   "desc": "Finish with a credit score of 800+",
+   "atLeast": 800
   }
-  for (const k of kids.flat(Infinity)) {
-    if (k == null || k === false) continue;
-    el.append(k.nodeType ? k : document.createTextNode(String(k)));
+ },
+ "verdicts": [
+  {
+   "min": 90,
+   "text": "Lender's dream. You'd get the best rate in the bank."
+  },
+  {
+   "min": 70,
+   "text": "Solid borrower. Check your mistake review and you're there."
+  },
+  {
+   "min": 50,
+   "text": "Approved, but at a higher rate. Go back over the mistakes."
+  },
+  {
+   "min": 0,
+   "text": "Application declined for now. Copy your mistakes, then play again."
   }
-  return el;
-}
-const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-const pick = a => a[Math.floor(Math.random() * a.length)];
-const r2 = n => Math.round(n * 100) / 100;
-const money = n => (n < 0 ? '−$' : '$') + Math.abs(r2(n)).toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-const store = {
-  get(k, d) { try { const v = localStorage.getItem('y10arcade:' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
-  set(k, v) { try { localStorage.setItem('y10arcade:' + k, JSON.stringify(v)); } catch (e) {} }
-};
-const DEFAULT_NAMES = ['Gross', 'Net', 'Super', 'GST', 'PAYG', 'BPAY'];
-const S = {
-  mode: store.get('mode', 'solo'),
-  teams: store.get('teams', [{ name: 'You', score: 0 }]),
-  turn: 0,
-  sound: store.get('sound', true),
-  best: store.get('best', {})
-};
-if (!Array.isArray(S.teams) || !S.teams.length) S.teams = [{ name: 'You', score: 0 }];
-function persist() { store.set('mode', S.mode); store.set('teams', S.teams); store.set('sound', S.sound); store.set('best', S.best); }
-
-/* ---------- sound ---------- */
-let ac;
-function tone(freq, dur, type = 'sine', when = 0, vol = .14) {
-  if (!S.sound) return;
-  try {
-    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
-    const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime + when;
-    o.type = type; o.frequency.value = freq;
-    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
-    o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + .02);
-  } catch (e) {}
-}
-const sfx = {
-  good() { tone(660, .12, 'triangle'); tone(990, .2, 'triangle', .1); },
-  bad() { tone(190, .28, 'sawtooth', 0, .07); },
-  win() { [523, 659, 784, 1046].forEach((f, i) => tone(f, .22, 'triangle', i * .12)); }
-};
-
-/* ---------- scoreboard ---------- */
-const teamSuffix = () => S.teams.length > 1 ? ' to ' + S.teams[S.turn].name : '';
-function renderBoard(bumpIdx) {
-  const b = $('#board'); b.innerHTML = '';
-  S.teams.forEach((t, i) => {
-    b.append(h('button', {
-      class: 'team' + (S.teams.length > 1 && i === S.turn ? ' on' : '') + (i === bumpIdx ? ' bump' : ''),
-      type: 'button',
-      title: S.teams.length > 1 ? 'Give ' + t.name + ' the turn' : 'Your score',
-      onclick: () => { if (S.teams.length > 1) { S.turn = i; renderBoard(); const tn = $('.turn-name'); if (tn) tn.textContent = t.name; } }
-    }, h('span', { class: 'tname' }, t.name), h('span', { class: 'tscore' }, t.score.toLocaleString('en-AU'))));
-  });
-}
-function award(pts) { const i = S.turn; S.teams[i].score += pts; persist(); renderBoard(i); }
-function passTurn() { if (S.teams.length > 1) { S.turn = (S.turn + 1) % S.teams.length; renderBoard(); } }
-
-let toastT;
-function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2600); }
-
-function confetti() {
-  if (reduced()) return;
-  const c = $('#fx'), x = c.getContext('2d'), dpr = Math.min(2, devicePixelRatio || 1);
-  c.hidden = false; c.width = innerWidth * dpr; c.height = innerHeight * dpr;
-  const cs = getComputedStyle(document.documentElement);
-  const cols = ['--hi', '--flag', '--biro', '--ok'].map(v => cs.getPropertyValue(v).trim() || '#FFE14D');
-  const P = Array.from({ length: 150 }, () => ({ x: innerWidth / 2 + (Math.random() - .5) * 240, y: innerHeight * .35, vx: (Math.random() - .5) * 15, vy: -Math.random() * 14 - 4, s: 6 + Math.random() * 7, r: Math.random() * 6, vr: (Math.random() - .5) * .3, c: pick(cols) }));
-  const t0 = performance.now();
-  (function f(now) {
-    const t = now - t0;
-    x.setTransform(dpr, 0, 0, dpr, 0, 0); x.clearRect(0, 0, innerWidth, innerHeight);
-    for (const p of P) {
-      p.vy += .35; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
-      x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.globalAlpha = Math.max(0, 1 - t / 2600); x.fillStyle = p.c; x.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); x.restore();
-    }
-    if (t < 2600) requestAnimationFrame(f); else { x.clearRect(0, 0, innerWidth, innerHeight); c.hidden = true; }
-  })(t0);
-}
-
-/* ---------- shared UI ---------- */
-const UNITS = { scams: 'Scams', money: 'Follow the Money', enterprise: 'Enterprise', all: 'Everything' };
-const unitChip = u => h('span', { class: 'chip u-' + u }, UNITS[u]);
-
-function feedback({ ok, pts = 0, head, line, text, extra, tip }) {
-  return h('div', { class: 'feedback ' + (ok ? 'good' : 'bad') },
-    h('div', { class: 'fb-head' }, h('strong', {}, head || (ok ? 'Correct' : 'Not quite')), pts > 0 ? h('span', { class: 'pts' }, '+' + pts + teamSuffix()) : null),
-    line ? h('p', { class: 'fb-line' }, line) : null,
-    text ? h('p', {}, text) : null,
-    extra || null,
-    tip ? h('p', { class: 'tip' }, h('b', {}, 'Do this: '), tip) : null);
-}
-
-function mcq(side, it, ctx, opt = {}) {
-  if (it.prompt) side.append(h('p', { class: 'prompt' }, it.prompt));
-  const idx = it.options.map((_, i) => i);
-  const order = it.fixed ? idx : shuffle(idx);
-  const wrap = h('div', { class: 'choices' + (it.options.length > 4 ? ' grid' : '') });
-  const base = it.points || 100;
-  order.forEach((oi, k) => {
-    const b = h('button', { class: 'choice', type: 'button', 'data-i': oi }, h('span', { class: 'key' }, String(k + 1)), h('span', { class: 'ctext' }, it.options[oi]));
-    b.addEventListener('click', () => {
-      opt.onAnswer && opt.onAnswer();
-      wrap.querySelectorAll('button').forEach(x => { x.disabled = true; if (+x.dataset.i === it.answer) x.classList.add('correct'); else if (x !== b) x.classList.add('dim'); });
-      const ok = oi === it.answer;
-      if (!ok) b.classList.add('wrong');
-      ok ? sfx.good() : sfx.bad();
-      const pts = ok ? (opt.scoreFn ? opt.scoreFn() : base) : 0;
-      side.append(feedback({ ok, pts, text: it.why, extra: it.extra ? it.extra() : null }));
-      ctx.resolve(pts, side);
-    });
-    wrap.append(b);
-  });
-  side.append(wrap);
-  return wrap;
-}
-
-function numQ(side, it, ctx, onDone) {
-  const input = h('input', { id: 'answer', class: 'num-in', type: 'text', inputmode: 'decimal', autocomplete: 'off', placeholder: '0.00' });
-  const btn = h('button', { class: 'btn primary', type: 'submit' }, 'Check');
-  const msg = h('p', { class: 'hint' }, 'Two tries. First try +100, second try +50.');
-  const form = h('form', { class: 'numform' },
-    h('label', { for: 'answer', class: 'prompt' }, it.prompt),
-    h('div', { class: 'numrow' }, h('div', { class: 'num-wrap' }, h('span', {}, '$'), input), btn), msg);
-  let tries = 0, over = false;
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    if (over) return;
-    const val = parseFloat(input.value.replace(/[$,\s]/g, ''));
-    if (isNaN(val)) { msg.textContent = 'Type a number, like 480 or 57.60.'; return; }
-    const ok = Math.abs(val - it.answer) < 0.011;
-    if (ok || tries >= 1) {
-      over = true; input.disabled = true; btn.disabled = true;
-      const pts = ok ? (tries ? 50 : 100) : 0;
-      ok ? sfx.good() : sfx.bad();
-      onDone && onDone();
-      side.append(feedback({ ok, pts, line: ok ? null : 'The answer is ' + money(it.answer) + '.', extra: h('p', { class: 'working' }, it.working), text: it.why }));
-      ctx.resolve(pts, side);
-    } else {
-      tries++; sfx.bad();
-      const w = input.parentNode; w.classList.add('shake'); setTimeout(() => w.classList.remove('shake'), 400);
-      msg.textContent = 'Not quite. One more try. Check your working.';
-      input.select();
-    }
-  });
-  side.append(form);
-  setTimeout(() => { try { input.focus({ preventScroll: true }); } catch (e) {} }, 60);
-}
-
-/* ---------- message mock-ups ---------- */
-function segs(arr, reg) {
-  const frag = document.createDocumentFragment();
-  (Array.isArray(arr) ? arr : [arr]).forEach(s => {
-    const seg = typeof s === 'string' ? { t: s } : s;
-    const span = h('span', { class: 'seg' }, seg.t);
-    reg.push({ el: span, seg });
-    frag.append(span);
-  });
-  return frag;
-}
-const initial = s => ((String(s).match(/[A-Za-z0-9]/) || ['?'])[0]).toUpperCase();
-function renderMsg(m) {
-  const reg = [], X = a => segs(a, reg);
-  let el;
-  if (m.kind === 'email') {
-    el = h('article', { class: 'mock email' },
-      h('div', { class: 'email-row' }, h('span', { class: 'lbl' }, 'From'), h('span', {}, X(m.from))),
-      h('div', { class: 'email-row' }, h('span', { class: 'lbl' }, 'Subject'), h('span', { class: 'subj' }, X(m.subject))),
-      h('div', { class: 'email-body' }, X(m.body)));
-  } else if (m.kind === 'call') {
-    el = h('article', { class: 'mock call' },
-      h('div', { class: 'call-top' }, h('span', { class: 'call-dot' }), h('span', {}, m.from)),
-      h('p', { class: 'call-label' }, 'What the caller says'),
-      h('blockquote', { class: 'call-body' }, X(m.body)));
-  } else if (m.kind === 'shop') {
-    el = h('article', { class: 'mock shop' },
-      h('div', { class: 'shop-top' }, X(m.url)),
-      h('h3', { class: 'shop-name' }, m.from),
-      h('ul', { class: 'shop-lines' }, m.body.map(line => h('li', {}, X(line)))));
-  } else if (m.kind === 'ad') {
-    el = h('article', { class: 'mock ad' },
-      h('div', { class: 'ph-top' }, h('span', { class: 'avatar' }, initial(m.from)), h('div', {}, h('div', { class: 'ph-name' }, m.from), h('div', { class: 'ph-meta' }, 'Sponsored'))),
-      h('div', { class: 'ad-creative' }, m.creative),
-      h('div', { class: 'ad-body' }, X(m.body)),
-      h('div', { class: 'ad-cta' }, m.cta || 'Learn more'));
-  } else {
-    el = h('article', { class: 'mock phone ' + m.kind },
-      h('div', { class: 'ph-top' }, h('span', { class: 'avatar' }, initial(m.from)), h('div', {}, h('div', { class: 'ph-name' }, m.from), h('div', { class: 'ph-meta' }, m.meta || ''))),
-      h('div', { class: 'bubble' }, X(m.body)));
-  }
-  el._reg = reg;
-  return el;
-}
-function revealMsg(el) {
-  let n = 0; el.classList.add('revealed');
-  el._reg.forEach(r => { if (r.seg.f || r.seg.ok) { n++; r.el.classList.add(r.seg.f ? 'flag' : 'okseg'); r.el.append(h('span', { class: 'num' }, n)); } });
-}
-function reasonsList(el) {
-  const items = el._reg.filter(r => r.seg.f || r.seg.ok);
-  if (!items.length) return null;
-  const isOk = !items.some(r => r.seg.f);
-  return h('div', { class: 'reasons' }, h('p', { class: 'eyebrow' }, isOk ? 'Why you can trust it' : 'Red flags'),
-    h('ol', {}, items.map(r => h('li', { class: r.seg.f ? 'f' : 'o' }, r.seg.f || r.seg.ok))));
-}
-
-/* =========================================================
-   ROUND 1 · Scam or Legit?
-   ========================================================= */
-const SCAMLEGIT = [
-  { kind: 'sms', from: 'TOLLROAD', meta: 'Today 7:42 am', verdict: 'scam',
-    body: [{ t: 'URGENT:', f: 'Shouty urgency is there to stop you thinking.' }, ' Your account has an unpaid toll of ', { t: '$4.85', f: 'A tiny amount makes paying feel harmless. They want your card details, not $4.85.' }, '. ', { t: 'Pay within 24 hrs to avoid a $180 penalty', f: 'A deadline plus a threat. Real toll companies send a notice and give you time.' }, ': ', { t: 'tollpay-au.help/x7', f: 'An odd web address. Go to the real website yourself, never through a text link.' }],
-    why: 'Fake toll texts are one of the most common scams in Australia. The link leads to a fake payment page that steals your card number.',
-    tip: 'Delete it. If you think you owe a toll, log in through the toll company’s own app or website.' },
-  { kind: 'chat', from: '+61 4XX XXX 218', meta: 'Unknown number', verdict: 'scam',
-    body: [{ t: 'Hi Mum', f: 'A generic “Hi Mum” or “Hi Dad”. Your real kid would use their usual name for you.' }, ', ', { t: 'I dropped my phone in the toilet 🙈 this is my new number', f: 'A “new number” stops you checking with the real person.' }, '. ', { t: 'Can you help me pay a bill today?', f: 'Asking for money straight after making contact.' }, ' I’ll pay you back tomorrow. ', { t: 'Can’t talk on the phone rn, just text', f: 'Avoids a call, because the voice would give it away.' }],
-    why: 'This is the “Hi Mum” scam. Scammers pretend to be a family member with a new number and an urgent bill.',
-    tip: 'Call your family member on the number you already have before doing anything.' },
-  { kind: 'sms', from: 'Red Gum Bank', meta: 'Today 1:05 pm', verdict: 'legit',
-    body: ['A card payment of $54.00 at KMART WERRIBEE was made on your card ending 4821. ', { t: 'Not you? Call us on the number on the back of your card.', ok: 'It sends you to a number you already trust, not one in the message.' }, ' ', { t: 'We will never send you a link to log in.', ok: 'No link, and no request for passwords or codes.' }],
-    why: 'It tells you about a purchase you can check, has no link, and points you to contact details you already have.',
-    tip: 'Not sure? Open your banking app yourself and look at the transaction.' },
-  { kind: 'email', verdict: 'scam',
-    from: [{ t: 'Parcel Post AU <noreply@parcelpost-redelivery.info>', f: 'The sender’s address isn’t the delivery company’s real website.' }],
-    subject: 'Delivery attempt failed – action required',
-    body: [{ t: 'Dear Customer', f: 'No name. They don’t know who you are.' }, ',\n\nWe tried to deliver your parcel today but ', { t: 'your address was incomplete', f: 'A vague problem that could fit almost anyone.' }, '.\n\n', { t: 'Pay a $2.99 redelivery fee within 12 hours', f: 'A small fee and a short deadline.' }, ' or your parcel will be returned to the sender.\n\n', { t: '[ Pay now ]', f: 'The button goes to a fake payment page.' }],
-    why: 'Fake delivery messages work because most people are waiting on a parcel. The “fee” is a trick to get your card details.',
-    tip: 'Track parcels in the delivery company’s own app, using the tracking number from the shop.' },
-  { kind: 'dm', from: '@remote.jobs.aus.official', meta: 'Message request', verdict: 'scam',
-    body: ['Hey! 👋 ', { t: 'We’re hiring remote “product reviewers”', f: 'A job offer from a stranger, out of nowhere, in your DMs.' }, '. ', { t: 'Earn $300–$800 a day just liking videos', f: 'Huge pay for almost no work.' }, ' on your phone. No experience needed! ', { t: 'Pay a $50 starter deposit to unlock your tasks', f: 'Real jobs pay you. They never make you pay to start.' }, ' 💸'],
-    why: 'This is a task-based job scam. You get small “earnings” at first, then you’re asked to deposit more and more.',
-    tip: 'Block and report the account. Real employers don’t charge you to work.' },
-  { kind: 'sms', from: 'myGov', meta: 'Yesterday', verdict: 'legit',
-    body: ['You have a new message in your myGov Inbox. ', { t: 'To read it, sign in to myGov directly.', ok: 'No link. It tells you to go there yourself, through the app or by typing my.gov.au.' }],
-    why: 'myGov says it will never send you a link to sign in. This message has no link and asks for nothing.',
-    tip: 'Open the myGov app, or type my.gov.au into your browser yourself.' },
-  { kind: 'call', from: 'Incoming call · Private number', verdict: 'scam',
-    body: ['“Hello, this is the Australian Taxation Office. ', { t: 'There is a warrant for your arrest', f: 'Fear. The ATO does not threaten you with arrest over the phone.' }, ' over unpaid tax. ', { t: 'Pay $1,200 in gift cards today', f: 'No government agency takes gift cards. Gift cards can’t be traced or refunded.' }, ' ', { t: 'or police will come to your house. Do not hang up.', f: 'Keeping you on the line so you can’t check with anyone.' }, '”'],
-    why: 'Impersonating the ATO is a classic scam, especially around tax time.',
-    tip: 'Hang up. If you’re worried, call the ATO yourself using the number on ato.gov.au.' },
-  { kind: 'chat', from: 'Marketplace · Chris', meta: 'About your listing: PS5, $650', verdict: 'scam',
-    body: ['Hi, still available? ', { t: 'I’ll take it without seeing it', f: 'Real buyers usually want to check the item first.' }, '. ', { t: 'I’ve sent you $850 by mistake', f: 'The “overpayment” is fake. The payment email or screenshot is forged.' }, ', my courier will pick it up. ', { t: 'Just send me back the extra $200 😊', f: 'You send real money back for money that never arrived.' }],
-    why: 'This is an overpayment scam. The extra money never existed.',
-    tip: 'Only hand over an item once the money is actually in your account. Check your banking app, not an email.' },
-  { kind: 'email', verdict: 'legit',
-    from: 'Sam Nguyen <sam@wvbikerepair.com.au>',
-    subject: 'Welcome to the team!',
-    body: ['Hi Jordan,\n\nWelcome to Wyndham Vale Bike Repair! Your first shift is Saturday at 9 am.\n\n', { t: 'Please complete a TFN declaration so we can withhold the right amount of tax.', ok: 'Your employer is one of the few who genuinely need your TFN.' }, ' ', { t: 'You can do it in ATO online services through myGov, or bring the paper form to your shift.', ok: 'It uses official channels. Nobody asks you to text or email your TFN.' }, '\n\nSee you Saturday,\nSam'],
-    why: 'It comes from the business you applied to, about a job you already have, and it uses the official TFN declaration.',
-    tip: 'Never send your TFN by text, DM or email, even to someone you know.' },
-  { kind: 'ad', from: 'CryptoProfit AI', creative: '$250 → $5,000', verdict: 'scam', cta: 'Claim my spot',
-    body: [{ t: 'Famous billionaire reveals his AI trading bot', f: 'A fake celebrity endorsement. Scammers use famous faces without permission.' }, '. ', { t: 'Turn $250 into $5,000 in one week', f: 'Guaranteed huge returns. Real investments carry risk.' }, '. ', { t: '“Government approved.”', f: 'Fake authority. You can check a company on ASIC’s Moneysmart website.' }, ' ', { t: 'Only 12 spots left!', f: 'Fake scarcity, to make you act now.' }],
-    why: 'This is an investment scam. Australians lose more money to investment scams than to almost any other type.',
-    tip: 'Scroll past. Before investing anywhere, check the company on ASIC’s Moneysmart website.' }
-];
-function buildScamLegit() {
-  return {
-    label: 'Message',
-    items: shuffle(SCAMLEGIT),
-    render(body, m, ctx) {
-      const msg = renderMsg(m);
-      const side = h('div', { class: 'side' }, h('p', { class: 'prompt' }, 'Scam or legit?'));
-      const choices = h('div', { class: 'choices two' });
-      [['scam', 'Scam'], ['legit', 'Legit']].forEach(([v, label], k) => {
-        const b = h('button', { class: 'choice big', type: 'button', 'data-v': v }, h('span', { class: 'key' }, String(k + 1)), h('span', {}, label));
-        b.addEventListener('click', () => {
-          choices.querySelectorAll('button').forEach(x => { x.disabled = true; if (x.dataset.v === m.verdict) x.classList.add('correct'); });
-          const ok = v === m.verdict;
-          if (!ok) b.classList.add('wrong');
-          ok ? sfx.good() : sfx.bad();
-          revealMsg(msg);
-          const pts = ok ? 100 : 0;
-          side.append(feedback({ ok, pts, line: m.verdict === 'scam' ? 'It’s a scam.' : 'It’s legit.', text: m.why, extra: reasonsList(msg), tip: m.tip }));
-          ctx.resolve(pts, side);
-        });
-        choices.append(b);
-      });
-      side.append(choices, h('p', { class: 'hint' }, 'Call it, then look for the clues.'));
-      body.append(h('div', { class: 'split' }, msg, side));
-    }
-  };
-}
-
-/* =========================================================
-   ROUND 2 · Red Flag Hunt
-   ========================================================= */
-const HUNT = [
-  { kind: 'email',
-    from: [{ t: 'ATO Refunds <refunds@ato-gov-au.co>', f: 'Look closely at the address. Real ATO emails come from ato.gov.au.' }],
-    subject: [{ t: 'URGENT', f: 'Shouty urgency, to stop you thinking.' }, { t: ': You are owed a $612.40 tax refund', n: 'Tax refunds are real, so this part alone isn’t the flag. How they want you to claim it is.' }],
-    body: [{ t: 'Dear Customer', f: 'The ATO knows your name. “Dear Customer” means they don’t.' }, ',\n\n', { t: 'Our records show you are eligible for a refund of $612.40.', n: 'Sounds official, but not a red flag on its own.' }, ' ', { t: 'To receive your funds you must verify your identity within 24 hours.', f: 'A short deadline to rush you.' }, '\n\n', { t: 'Click here: www.ato-refund-claim.co/verify', f: 'A lookalike link. Go to myGov yourself instead.' }, '\n\n', { t: 'Please have the following ready: ', n: 'On its own this is just an instruction. Look at what they want.' }, { t: 'your TFN, internet banking password and driver licence', f: 'Nobody legitimate asks for your banking password. This is identity theft.' }, '.\n\n', { t: 'Failure to respond will result in your refund being cancelled.', f: 'A threat of losing money.' }, '\n\nKind regards,\nAustralian Taxation Office'],
-    tip: 'Delete it, and report it to the ATO and Scamwatch. Check real refunds through myGov.' },
-  { kind: 'dm', from: '@jake.offshore.eng', meta: 'Message request',
-    body: [{ t: 'Hey beautiful 😍 your smile caught my eye', f: 'Flattery from a stranger, out of nowhere.' }, '. ', { t: 'I’m Jake, I’m 24 and from Perth.', n: 'An ordinary intro. Not a flag by itself.' }, ' ', { t: 'I work on an oil rig so I can’t video call', f: 'A ready-made excuse to never show their real face.' }, '. ', { t: 'I feel like we have a real connection already', f: 'Moving fast on feelings, to build trust quickly.' }, '. ', { t: 'I’ve made huge money on a crypto app and I can teach you', f: 'Romance turning into “investing” is a very common scam pattern.' }, '. ', { t: 'Start with $500 and you’ll double it in a week', f: 'Guaranteed, fast returns don’t exist.' }, '. ', { t: 'Don’t tell your family, they won’t understand us', f: 'Secrecy cuts you off from the people who would warn you.' }],
-    tip: 'Block and report. Never send money or crypto to someone you’ve only met online.' },
-  { kind: 'shop', from: 'BudsWorld Outlet',
-    url: [{ t: 'budsworld-outlet.shop', n: 'An unusual address isn’t proof of a scam on its own. Check what else the site shows.' }],
-    body: [
-      [{ t: 'Wireless Pro Earbuds — $39 (RRP $399)', f: '90% off a brand-new product is too good to be true.' }],
-      [{ t: 'Free shipping on orders over $50', n: 'Real shops do this too.' }],
-      [{ t: 'SALE ENDS IN 04:59', f: 'A countdown timer is there to rush you.' }],
-      [{ t: 'Pay by bank transfer or gift card only', f: 'No card or PayPal means no way to get your money back.' }],
-      [{ t: 'All sales final. No refunds or returns.', f: 'Under Australian Consumer Law you can get a refund for faulty items. “No refunds, ever” is a warning sign.' }],
-      [{ t: 'Ships from our Melbourne warehouse', n: 'Could be true or false. On its own, not a red flag.' }],
-      [{ t: '★★★★★ “Great!!” · “very good product” · “Great!!” (all posted today)', f: 'Copy-paste reviews, all posted on the same day.' }],
-      [{ t: 'Contact us: budsworld.outlet2026@gmail.com', f: 'Only a free email address. No phone number, street address or ABN.' }]
-    ],
-    tip: 'Search the shop’s name with “scam” or “reviews”, look for an ABN, and pay by card so you can ask your bank for a chargeback.' }
-];
-function buildHunt() {
-  return {
-    label: 'Message',
-    items: HUNT,
-    render(body, m, ctx) {
-      const el = renderMsg(m); el.classList.add('hunt');
-      const total = el._reg.filter(r => r.seg.f).length;
-      let found = 0, miss = 0, over = false;
-      const counter = h('div', { class: 'counter' });
-      const upd = () => { counter.innerHTML = ''; counter.append(h('span', { class: 'big' }, found + '/' + total), h('span', {}, ' found'), h('span', { class: 'miss' }, ' · ' + miss + ' wrong tap' + (miss === 1 ? '' : 's'))); };
-      upd();
-      const done = h('button', { class: 'btn', type: 'button' }, 'I’m done, show the rest');
-      const side = h('div', { class: 'side' },
-        h('p', { class: 'prompt' }, 'Tap every red flag. There are ' + total + '.'),
-        counter, h('p', { class: 'hint' }, 'Each find +40. Each wrong tap −15. Tap the words themselves.'), done);
-      el._reg.forEach(r => {
-        if (!r.seg.f && /^[\s.,:;!?'"“”’()\-–—]*$/.test(r.seg.t)) return;
-        if (!r.seg.f && !r.seg.n && r.seg.t.trim().length < 3) return;
-        r.el.classList.add('tap'); r.el.tabIndex = 0; r.el.setAttribute('role', 'button');
-        const go = () => {
-          if (over) return;
-          if (r.seg.f) {
-            if (r.el.classList.contains('found')) return;
-            r.el.classList.add('found'); found++; sfx.good(); toast('Red flag: ' + r.seg.f);
-          } else {
-            if (r.el.classList.contains('nope')) return;
-            r.el.classList.add('nope'); miss++; sfx.bad(); toast('Not a red flag. ' + (r.seg.n || 'That part looks normal.'));
-          }
-          upd();
-          if (found === total) finish();
-        };
-        r.el.addEventListener('click', go);
-        r.el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
-      });
-      function finish() {
-        if (over) return; over = true; done.remove(); el.classList.add('over');
-        let n = 0;
-        el._reg.forEach(r => { if (r.seg.f) { n++; if (!r.el.classList.contains('found')) r.el.classList.add('missed'); r.el.append(h('span', { class: 'num' }, n)); } });
-        const pts = Math.max(0, found * 40 - miss * 15);
-        side.append(feedback({ ok: found === total, head: found === total ? 'All found' : found + ' of ' + total + ' found', pts,
-          text: miss ? miss + ' wrong tap' + (miss === 1 ? '' : 's') + ' cost ' + (miss * 15) + ' points.' : 'No wrong taps. Sharp eyes.',
-          extra: reasonsList(el), tip: m.tip }));
-        ctx.resolve(pts, side);
-      }
-      done.addEventListener('click', finish);
-      body.append(h('div', { class: 'split' }, el, side));
-    }
-  };
-}
-
-/* =========================================================
-   ROUND 3 · Payday
-   ========================================================= */
-function paySlip(st, current) {
-  const v = (f, val, prefix = '') => st.shown.has(f) ? prefix + money(val) : h('span', { class: 'blank' + (current === f ? ' now' : '') }, '?');
-  const row = (a, b, cls) => h('div', { class: 'ps-row' + (cls ? ' ' + cls : '') }, h('span', {}, a), h('span', {}, b));
-  return h('article', { class: 'payslip', 'aria-label': 'Pay slip' },
-    h('div', { class: 'ps-head' }, h('strong', {}, 'PAY SLIP'), h('span', {}, 'Wyndham Vale Bike Repair')),
-    row('ABN', '12 345 678 901'), row('Employee', 'Jordan Lee'), row('Pay period', '26 Oct – 1 Nov 2026'), row('Paid', '2 Nov 2026'),
-    h('div', { class: 'ps-hr' }),
-    row('Ordinary hours ' + st.hrs + ' × ' + money(st.rate), ''),
-    row('GROSS PAY', v('gross', st.gross), 'strong'),
-    row('PAYG tax withheld (' + st.taxPct + '%)', v('tax', st.tax, '− ')),
-    row('NET PAY to BSB 063-XXX', v('net', st.net), 'strong'),
-    h('div', { class: 'ps-hr' }),
-    row('Super (12%) to fund, on top', v('sup', st.sup)));
-}
-function buildPayday() {
-  const hrs = pick([12, 15, 16, 18, 20, 24, 25]), rate = pick([24, 25, 26, 28, 30]), taxPct = pick([10, 15, 20]);
-  const gross = hrs * rate, tax = r2(gross * taxPct / 100), net = r2(gross - tax), sup = r2(gross * .12), noTfn = r2(gross * .47);
-  const st = { hrs, rate, taxPct, gross, tax, net, sup, shown: new Set() };
-  const items = [
-    { type: 'num', field: 'gross', prompt: 'Jordan worked ' + hrs + ' hours at ' + money(rate) + ' an hour. What is the gross pay?', answer: gross, working: hrs + ' × ' + money(rate) + ' = ' + money(gross), why: 'Gross pay is everything you earn before anything comes out.' },
-    { type: 'num', field: 'tax', prompt: 'PAYG tax withheld is ' + taxPct + '% of gross pay. How much tax comes out?', answer: tax, working: money(gross) + ' × ' + (taxPct / 100) + ' = ' + money(tax), why: 'Your employer takes PAYG tax out of your pay and sends it to the ATO for you.' },
-    { type: 'num', field: 'net', prompt: 'What is Jordan’s net pay?', answer: net, working: money(gross) + ' − ' + money(tax) + ' = ' + money(net), why: 'Gross pay − PAYG tax = net pay. Net pay is what lands in the bank.' },
-    { type: 'num', field: 'sup', prompt: 'The employer pays super at 12%. How much goes into Jordan’s super fund?', answer: sup, working: money(gross) + ' × 0.12 = ' + money(sup), why: 'Shortcut: 12% is 10% plus 2%. ' + money(gross * .1) + ' + ' + money(gross * .02) + ' = ' + money(sup) + '.' },
-    { type: 'mcq', prompt: 'Which is true about Jordan’s super?', options: ['The employer pays it on top of gross pay, into Jordan’s super fund', 'It is taken out of Jordan’s net pay after tax', 'It goes to the ATO, which keeps it until Jordan retires', 'It is added to Jordan’s bank account each week'], answer: 0, why: 'Super is extra money from the employer. It is not a deduction from the ' + money(net) + '.' },
-    { type: 'mcq', prompt: 'Jordan’s bank statement shows the wage credit for this pay. What amount should it be?', options: [money(net), money(gross), money(net + sup), money(gross + sup)], answer: 0, why: 'The bank only ever sees net pay. If the credit doesn’t match the pay slip, ask your employer.' },
-    { type: 'mcq', prompt: 'Imagine Jordan never gave the boss a TFN. The employer must withhold 47% tax. What would Jordan take home?', options: [money(gross - noTfn), money(net), money(noTfn), money(gross - gross * .147)], answer: 0, why: '47% of ' + money(gross) + ' is ' + money(noTfn) + ', leaving ' + money(gross - noTfn) + ' instead of ' + money(net) + '. Give your employer your TFN on the official form.' }
-  ];
-  return {
-    items,
-    render(body, it, ctx) {
-      let slip = paySlip(st, it.field);
-      const side = h('div', { class: 'side' });
-      body.append(h('div', { class: 'split' }, h('div', { class: 'stage' }, slip), side));
-      if (it.type === 'num') numQ(side, it, ctx, () => { st.shown.add(it.field); const n = paySlip(st, null); slip.replaceWith(n); slip = n; });
-      else mcq(side, it, ctx);
-    }
-  };
-}
-
-/* =========================================================
-   ROUND 4 · Paper Trail
-   ========================================================= */
-const DOC_OPTS = ['Receipt', 'Tax invoice', 'Tax invoice, but something is missing'];
-const TI_CHECK = () => h('div', {}, h('p', { class: 'eyebrow' }, 'A tax invoice must show'), h('ul', { class: 'checklist' },
-  h('li', {}, 'the words “Tax invoice”'), h('li', {}, 'the seller’s name and ABN'), h('li', {}, 'the date it was issued'), h('li', {}, 'what was sold'), h('li', {}, 'the GST amount, or “price includes GST”'), h('li', {}, 'the buyer’s name, if the sale is $1,000 or more')));
-const DOCS = [
-  { lines: ['## BURRITO BAR', 'Tarneit', '10/10/26  12:41', '--', '1 x Burrito|$14.00', '1 x Drink|$2.50', '--', 'TOTAL|$16.50', 'PAID CARD', '--', 'Thanks, see you soon!'], answer: 0, why: 'No ABN, no GST shown and it isn’t called a tax invoice. It’s proof you paid: a receipt.' },
-  { lines: ['## TAX INVOICE', 'Werribee Print Co', 'ABN 98 765 432 109', 'Date: 10/10/26', 'To: Tarneit Barbers', '--', 'Flyers x 500|$100.00', 'GST (10%)|$10.00', '--', 'TOTAL (inc GST)|$110.00'], answer: 1, why: 'It has the words “Tax invoice”, the seller’s name and ABN, the date, what was sold and the GST.' },
-  { lines: ['## TAX INVOICE', 'Tarneit Tyres', 'Date: 14/10/26', '--', '2 x Bike tyres|$88.00', 'Includes GST of|$8.00', '--', 'TOTAL|$88.00'], answer: 2, why: 'No ABN. A tax invoice must show the seller’s ABN.' },
-  { lines: ['## THE BEAN CART', 'Werribee Station', '15/10/26  07:58', '--', 'Large flat white|$5.50', '--', 'TOTAL|$5.50', 'TAP & GO  APPROVED'], answer: 0, why: 'A simple proof of payment. No ABN, no GST line, not called a tax invoice.' },
-  { lines: ['## TAX INVOICE', 'Hoppers Laptop Repairs', 'ABN 51 824 753 556', 'Date: 18/10/26', 'To: Tarneit Barbers Pty Ltd', '--', 'Screen + keyboard repair|$1,320.00', '--', 'TOTAL (inc GST)|$1,320.00', 'GST included|$120.00'], answer: 1, why: 'It’s over $1,000, so it also needs the buyer’s name. It has it: Tarneit Barbers Pty Ltd.' },
-  { lines: ['## TAX INVOICE', 'Point Cook Signs', 'ABN 33 610 482 917', 'Date: 21/10/26', '--', 'Shopfront sign|$1,650.00', '--', 'TOTAL (inc GST)|$1,650.00', 'GST included|$150.00'], answer: 2, why: 'It’s $1,000 or more, so it must show the buyer’s name. Who bought this sign? It doesn’t say.' }
-];
-function receipt(lines) {
-  return h('article', { class: 'receipt' }, lines.map(l =>
-    l === '--' ? h('div', { class: 'r-div' }) :
-    l.startsWith('## ') ? h('div', { class: 'r-title' }, l.slice(3)) :
-    l.includes('|') ? h('div', { class: 'r-row' }, h('span', {}, l.split('|')[0]), h('span', {}, l.split('|')[1])) :
-    h('div', { class: 'r-line' }, l)));
-}
-const GST_PRICES = [55, 22, 82.5, 1100, 16.5, 249.7];
-function buildPaper() {
-  const docs = shuffle(DOCS).map(d => ({ type: 'doc', ...d }));
-  const gst = shuffle(GST_PRICES).map((p, k) => ({
-    type: 'gst', p,
-    options: [money(p / 11), money(p * .1), money(p - p / 11), money(p / 110)], answer: 0,
-    why: money(p) + ' ÷ 11 = ' + money(p / 11) + '. The price before GST was ' + money(p - p / 11) + '.' + (k === 0 ? ' Why not 10% of the total? The 10% was added to the price before GST, not to the total.' : '')
-  }));
-  return {
-    items: [...docs, ...gst],
-    render(body, it, ctx) {
-      const side = h('div', { class: 'side' });
-      if (it.type === 'doc') {
-        body.append(h('div', { class: 'split' }, h('div', { class: 'stage' }, receipt(it.lines)), side));
-        mcq(side, { prompt: 'Receipt or tax invoice?', options: DOC_OPTS, answer: it.answer, fixed: true, why: it.why, extra: it.answer ? TI_CHECK : null }, ctx);
-      } else {
-        const bar = h('span'), timer = h('div', { class: 'timer' }, bar), secs = h('span', { class: 'secs' }, '15s');
-        body.append(h('div', { class: 'split' }, h('article', { class: 'pricecard' },
-          h('p', { class: 'eyebrow' }, 'GST Snap · price includes GST'), h('p', { class: 'tag' }, money(it.p)),
-          h('p', { class: 'hint' }, 'How much of this price is GST? Faster answers score more.'), timer, secs), side));
-        const T = 15000, t0 = performance.now();
-        let left = T, stopped = false;
-        const wrap = mcq(side, { prompt: 'How much GST?', options: it.options, answer: 0, why: it.why }, ctx, { scoreFn: () => Math.round(50 + 50 * left / T), onAnswer: () => { stopped = true; } });
-        const tick = now => {
-          if (stopped || !document.body.contains(bar)) return;
-          left = Math.max(0, T - (now - t0));
-          bar.style.width = (left / T * 100) + '%';
-          secs.textContent = Math.ceil(left / 1000) + 's';
-          if (left < 5000) timer.classList.add('low');
-          if (left <= 0) {
-            stopped = true;
-            wrap.querySelectorAll('button').forEach(x => { x.disabled = true; x.classList.add(+x.dataset.i === 0 ? 'correct' : 'dim'); });
-            sfx.bad();
-            side.append(feedback({ ok: false, head: 'Time’s up', text: it.why }));
-            ctx.resolve(0, side);
-            return;
-          }
-          requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }
-    }
-  };
-}
-
-/* =========================================================
-   ROUND 5 · Statement Detective
-   ========================================================= */
-const STAMPS = [['match', 'Match'], ['wrong', 'Wrong amount'], ['dupe', 'Duplicate'], ['chase', 'Chase it']];
-const OPEN_BAL = 150;
-const STMT = [
-  { d: '02 Oct', desc: 'EFTPOS COLES HOPPERS CROSSING', dr: 38.40, a: 'match', why: 'Matches the Coles receipt: same date, shop and amount.' },
-  { d: '04 Oct', desc: 'DIRECT DEBIT FITZONE GYM', dr: 19.95, a: 'match', why: 'Jordan signed the FitZone direct debit form for $19.95 a week.' },
-  { d: '05 Oct', desc: 'WAGE WYNDHAM VALE BIKE REPAIR', cr: 960.00, a: 'match', why: 'Matches the net pay on the pay slip. The bank only sees net pay.' },
-  { d: '06 Oct', desc: 'BPAY TELCO MOBILE', dr: 45.00, a: 'match', why: 'Matches the phone bill Jordan paid by BPAY.' },
-  { d: '07 Oct', desc: 'EFTPOS KMART WERRIBEE', dr: 54.00, a: 'wrong', why: 'The receipt says $45.00. The digits were swapped, so Jordan was charged $9.00 too much.' },
-  { d: '08 Oct', desc: 'XYZ TECH SVCS SINGAPORE', dr: 0.50, a: 'chase', why: 'No record, and an overseas company Jordan has never heard of. Tiny charges like this are often scammers testing a stolen card.' },
-  { d: '09 Oct', desc: 'STREAMING SUB AUTO-RENEW', dr: 6.99, a: 'chase', why: 'Jordan cancelled this trial on 1 Oct. Chase the company for a refund and check the cancellation went through.' },
-  { d: '10 Oct', desc: 'EFTPOS BURRITO BAR TARNEIT', dr: 16.50, a: 'match', why: 'Matches the Burrito Bar receipt.' },
-  { d: '10 Oct', desc: 'EFTPOS BURRITO BAR TARNEIT', dr: 16.50, a: 'dupe', why: 'Same shop, same day, same amount, but only one receipt. Jordan was charged twice.' }
-];
-const CLOSE_BAL = STMT.reduce((b, l) => r2(b - (l.dr || 0) + (l.cr || 0)), OPEN_BAL);
-const RECORDS = [
-  ['Receipt · Coles', '02/10/26', 'TOTAL $38.40'],
-  ['Direct debit form · FitZone Gym', '$19.95 per week', 'Starts 04/10/26'],
-  ['Pay slip · Wyndham Vale Bike Repair', 'Paid 05/10/26', 'NET PAY $960.00'],
-  ['Phone bill · Telco Mobile', 'Due 06/10/26', '$45.00, paid by BPAY'],
-  ['Receipt · Kmart Werribee', '07/10/26', 'TOTAL $45.00'],
-  ['Receipt · Burrito Bar', '10/10/26', 'TOTAL $16.50'],
-  ['Screenshot · Streaming app', 'Free trial cancelled', '01/10/26']
-];
-const TILT = ['-1.2deg', '.8deg', '-.5deg', '1deg', '-.9deg', '.6deg', '-1deg'];
-function caseFile() {
-  return h('article', { class: 'casefile' }, h('p', { class: 'eyebrow' }, 'Case file · lines to chase'),
-    h('ul', {}, [['07 Oct', 'KMART WERRIBEE', '$54.00', 'receipt says $45.00'], ['08 Oct', 'XYZ TECH SVCS SINGAPORE', '$0.50', 'no record'], ['09 Oct', 'STREAMING SUB AUTO-RENEW', '$6.99', 'trial cancelled 01/10'], ['10 Oct', 'BURRITO BAR TARNEIT', '$16.50', 'charged twice']]
-      .map(([d, s, a, n]) => h('li', {}, h('span', {}, d), h('span', {}, s), h('span', {}, a), h('small', {}, n)))),
-    h('p', { class: 'closing' }, h('span', {}, 'Closing balance'), h('span', {}, money(CLOSE_BAL))));
-}
-function buildStatement() {
-  const items = [
-    { type: 'stamp' },
-    { type: 'mcq', prompt: 'Add it up. How much money is Jordan chasing in total?', options: ['$32.99', '$23.99', '$77.99', '$9.00'], answer: 0, fixed: true, why: 'Kmart overcharge $54.00 − $45.00 = $9.00, plus the duplicate $16.50, the $0.50 test charge and the $6.99 subscription. $9.00 + $16.50 + $0.50 + $6.99 = $32.99.' },
-    { type: 'mcq', prompt: 'The $0.50 charge from XYZ TECH SVCS SINGAPORE. What should Jordan do first?', options: ['Call the bank on the number on the back of the card and ask them to block it', 'Ignore it. It’s only 50 cents', 'Email XYZ Tech and ask for a refund', 'Post about it on social media to warn friends'], answer: 0, why: 'A tiny charge from an unknown company is often a scammer checking that a stolen card works before spending big. Block the card first.' },
-    { type: 'num', prompt: 'The closing balance is ' + money(CLOSE_BAL) + '. If all four problems get fixed, what should Jordan’s balance be?', answer: r2(CLOSE_BAL + 32.99), working: money(CLOSE_BAL) + ' + $32.99 = ' + money(CLOSE_BAL + 32.99), why: 'That’s the money Jordan gets back just by reading the statement line by line.' }
-  ];
-  return {
-    label: 'Task',
-    items,
-    render(body, it, ctx) {
-      if (it.type === 'stamp') return renderStamping(body, ctx);
-      const side = h('div', { class: 'side' });
-      body.append(h('div', { class: 'split' }, caseFile(), side));
-      if (it.type === 'num') numQ(side, it, ctx); else mcq(side, it, ctx);
-    }
-  };
-}
-function renderStamping(body, ctx) {
-  body.append(h('p', { class: 'prompt wide' }, 'Jordan’s records are on the left. Stamp every line of the statement: tick it, or chase it.'),
-    h('div', { class: 'legend' },
-      h('span', {}, h('i', { class: 'stamp s-match' }, 'Match'), 'a record agrees exactly'),
-      h('span', {}, h('i', { class: 'stamp s-wrong' }, 'Wrong amount'), 'there’s a record, but the amount is different'),
-      h('span', {}, h('i', { class: 'stamp s-dupe' }, 'Duplicate'), 'charged twice for one record'),
-      h('span', {}, h('i', { class: 'stamp s-chase' }, 'Chase it'), 'no record, or something you didn’t agree to')));
-  const sel = Array(STMT.length).fill(null);
-  let checked = false, bal = OPEN_BAL;
-  const tbody = h('tbody', {}, h('tr', { class: 'open' }, h('td', {}, '01 Oct'), h('td', {}, 'OPENING BALANCE'), h('td'), h('td'), h('td', { class: 'num' }, money(OPEN_BAL)), h('td')));
-  const check = h('button', { class: 'btn primary', type: 'button', disabled: true }, '');
-  const updCheck = () => { const left = sel.filter(x => !x).length; check.disabled = left > 0; check.textContent = left ? 'Stamp ' + left + ' more line' + (left === 1 ? '' : 's') : 'Check my stamps'; };
-  const rows = STMT.map((ln, k) => {
-    bal = r2(bal - (ln.dr || 0) + (ln.cr || 0));
-    const stamps = h('div', { class: 'stamps', role: 'group', 'aria-label': 'Stamp for ' + ln.desc });
-    STAMPS.forEach(([v, l]) => {
-      const b = h('button', { type: 'button', class: 'st st-' + v, 'aria-pressed': 'false' }, l);
-      b.addEventListener('click', () => { if (checked) return; sel[k] = v; stamps.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); updCheck(); });
-      stamps.append(b);
-    });
-    const tr = h('tr', {}, h('td', {}, ln.d), h('td', {}, ln.desc), h('td', { class: 'num' }, ln.dr ? money(ln.dr) : ''), h('td', { class: 'num' }, ln.cr ? money(ln.cr) : ''), h('td', { class: 'num' }, money(bal)), h('td', {}, stamps));
-    tbody.append(tr);
-    return tr;
-  });
-  updCheck();
-  const table = h('div', { class: 'tablewrap' }, h('table', { class: 'stmt' },
-    h('thead', {}, h('tr', {}, ['Date', 'Description', 'Debit (DR)', 'Credit (CR)', 'Balance', 'Your stamp'].map((t, i) => h('th', { class: i >= 2 && i <= 4 ? 'num' : null }, t)))), tbody));
-  const records = h('div', { class: 'records' }, RECORDS.map(([t, a, b], i) => h('div', { class: 'rec', style: '--r:' + TILT[i] }, h('b', {}, t), h('div', {}, a), h('div', {}, b))));
-  const foot = h('div', { class: 'checkrow' }, check);
-  body.append(h('div', { class: 'detective' }, records, h('div', { style: 'min-width:0' }, table, foot)));
-  check.addEventListener('click', () => {
-    checked = true; check.remove();
-    let right = 0;
-    rows.forEach((tr, k) => {
-      const ln = STMT[k], ok = sel[k] === ln.a;
-      if (ok) right++;
-      tr.classList.add(ok ? 'is-right' : 'is-wrong');
-      tr.querySelectorAll('.st').forEach(b => b.disabled = true);
-      const label = STAMPS.find(s => s[0] === ln.a)[1];
-      tr.after(h('tr', { class: 'reason ' + (ok ? 'r-ok' : 'r-bad') }, h('td', { colspan: '6' }, h('b', {}, ok ? '✓ ' + label + '. ' : '✗ This one is “' + label + '”. '), ln.why)));
-    });
-    const pts = right * 30, ok = right === STMT.length;
-    ok ? sfx.good() : sfx.bad();
-    foot.append(feedback({ ok, pts, head: right + ' of ' + STMT.length + ' stamps right', text: 'Every line should have a record behind it, or a reason to chase it. Matching your records to the bank’s is called reconciliation.' }));
-    ctx.resolve(pts, foot);
-  });
-}
-
-/* =========================================================
-   ROUND 6 · Enterprise Moves
-   ========================================================= */
-const BEHAV = [
-  ['Initiative', 'acting without waiting to be told'],
-  ['Creativity', 'thinking of new or unusual ideas'],
-  ['Innovation', 'turning a new idea into a useful product'],
-  ['Problem-solving', 'finding ways to overcome challenges'],
-  ['Persistence', 'keeping going after setbacks'],
-  ['Collaboration', 'working with others towards a goal']
-];
-const MOVES = [
-  { q: 'Bowerman thought the running shoes on sale were too heavy. Instead of waiting for shoe companies to fix them, he started redesigning shoes himself.', answer: 0, why: 'He acted without waiting for someone else to solve the problem.' },
-  { q: 'He noticed the grid pattern on a waffle iron and wondered if it could work as the sole of a running shoe.', answer: 1, why: 'Seeing a shoe sole in a kitchen appliance is a new, unusual idea.' },
-  { q: 'The waffle idea became a light, grippy sole, which led to Nike’s Waffle Trainer.', answer: 2, why: 'Innovation is turning the new idea into a real product people use.' },
-  { q: 'Runners said their shoes lacked grip and support, so he changed the sole and cut out unnecessary weight.', answer: 3, why: 'He found a way to overcome the challenge his runners described.' },
-  { q: 'His first attempt failed. The rubber stuck to the waffle iron and ruined it. He kept experimenting with different materials.', answer: 4, why: 'He didn’t give up when the first attempt went wrong.' },
-  { q: 'Bowerman focused on design while his former student Phil Knight focused on selling. Together they started Blue Ribbon Sports in 1964.', answer: 5, why: 'Each played to their strengths to reach a shared goal.' }
-];
-const BEE = [
-  { behaviour: 'Persistence',
-    evidence: ['kept experimenting with new materials after the rubber stuck to and ruined the waffle iron', 'started Blue Ribbon Sports with Phil Knight in 1964', 'became famous once Nike grew into a huge company'],
-    explain: ['This shows persistence because he did not give up when his first attempt failed.', 'This shows persistence because Nike now makes a lot of money.', 'This shows persistence because waffle irons have a grid pattern.'] },
-  { behaviour: 'Innovation',
-    evidence: ['turned the waffle pattern into a light, grippy sole that led to the Waffle Trainer', 'worked as a university athletics coach', 'thought running shoes were too heavy'],
-    explain: ['This shows innovation because he turned a new idea into a product runners could actually use.', 'This shows innovation because he worked very hard.', 'This shows innovation because shoes are important to runners.'] }
-];
-const MARKS = {
-  answers: [
-    ['A', 'Bill Bowerman showed persistence, creativity and innovation.'],
-    ['B', 'Bill Bowerman showed persistence when he kept experimenting after the rubber ruined the waffle iron.'],
-    ['C', 'Bill Bowerman demonstrated persistence when he kept experimenting with new materials after the rubber ruined the waffle iron. This shows persistence because he did not give up when his first attempt failed, and it led to the Waffle Trainer.']
-  ],
-  why: 'A only names behaviours. B adds evidence but never explains the link. C has all three parts: behaviour, evidence from the case study, and an explanation.'
-};
-function buildEnterprise() {
-  const items = [...shuffle(MOVES).map(m => ({ type: 'move', ...m })), ...BEE.map(b => ({ type: 'bee', ...b })), { type: 'marks' }];
-  return {
-    items,
-    render(body, it, ctx) {
-      const side = h('div', { class: 'side' });
-      if (it.type === 'move') {
-        body.append(h('div', { class: 'split' }, h('article', { class: 'quote' }, h('p', { class: 'eyebrow' }, 'From the Bill Bowerman case study'), h('p', { class: 'q' }, it.q)), side));
-        mcq(side, { prompt: 'Which enterprising behaviour is this?', options: BEHAV.map(([n, d]) => h('span', {}, n, h('small', {}, d))), answer: it.answer, fixed: true, why: it.why }, ctx);
-      } else if (it.type === 'bee') {
-        renderBEE(body, side, it, ctx);
-      } else {
-        body.append(h('div', { class: 'split' }, h('div', { class: 'answers' }, MARKS.answers.map(([k, t]) => h('div', { class: 'ans' }, h('b', {}, k), h('p', {}, t)))), side));
-        mcq(side, { prompt: 'Three students answered “Explain the enterprising behaviours demonstrated by Bill Bowerman.” Which answer earns the most marks?', options: ['Answer A', 'Answer B', 'Answer C'], answer: 2, fixed: true, why: MARKS.why }, ctx);
-      }
-    }
-  };
-}
-function renderBEE(body, side, it, ctx) {
-  const ev = h('span', { class: 'gap' }, '…'), ex = h('span', { class: 'gap' }, '…');
-  const card = h('article', { class: 'bee' }, h('p', { class: 'eyebrow' }, 'Behaviour + Evidence + Explanation'),
-    h('p', { class: 'bee-text' }, 'Bill Bowerman demonstrated ', h('span', { class: 'gap filled' }, it.behaviour.toLowerCase()), ' when he ', ev, '. ', ex));
-  body.append(h('div', { class: 'split' }, card, side));
-  let pts = 0;
-  const step = n => {
-    const list = n === 1 ? it.evidence : it.explain, target = n === 1 ? ev : ex;
-    const box = h('div', { class: 'step' }, h('p', { class: 'prompt' }, n === 1 ? 'Pick the best evidence from the case study.' : 'Now pick the explanation that links it back.'));
-    const wrap = h('div', { class: 'choices' });
-    shuffle(list.map((_, i) => i)).forEach((oi, k) => {
-      const b = h('button', { class: 'choice', type: 'button', 'data-i': oi }, h('span', { class: 'key' }, String(k + 1)), h('span', { class: 'ctext' }, n === 1 ? '…when he ' + list[oi] : list[oi]));
-      b.addEventListener('click', () => {
-        wrap.querySelectorAll('button').forEach(x => { x.disabled = true; if (x.dataset.i === '0') x.classList.add('correct'); else if (x !== b) x.classList.add('dim'); });
-        const ok = oi === 0;
-        if (!ok) b.classList.add('wrong');
-        ok ? sfx.good() : sfx.bad();
-        if (ok) pts += 50;
-        target.textContent = list[0]; target.classList.add('filled');
-        box.append(h('p', { class: 'mini ' + (ok ? 'good' : 'bad') }, ok ? '+50. That’s the one.' : 'The best one is in green.'));
-        if (n === 1) setTimeout(() => step(2), 450);
-        else {
-          side.append(feedback({ ok: pts === 100, pts, head: pts === 100 ? 'Full structure' : 'Check the finished answer', text: 'Name the behaviour, give evidence from the case study, then explain how the evidence shows the behaviour. That’s the structure for the 3-mark question.' }));
-          ctx.resolve(pts, side);
-        }
-      });
-      wrap.append(b);
-    });
-    box.append(wrap); side.append(box);
-  };
-  step(1);
-}
-
-/* =========================================================
-   ROUND 7 · Boss Round
-   ========================================================= */
-const BOSS = [
-  { week: 'Week 1', unit: 'enterprise', title: 'The flat-tyre queue', text: 'Jordan starts a casual job at Wyndham Vale Bike Repair. Customers keep asking if they can wait while a flat tyre is fixed, but the shop always says “come back tomorrow”.', q: 'What does Jordan do?',
-    options: [
-      { t: 'Pitch Sam, the owner, a 15-minute express puncture service, and offer to run it on Saturdays', pts: 150, bal: 120, r: 'Sam loves it. Jordan gets an extra Saturday shift. That’s initiative and problem-solving, the Bowerman way.' },
-      { t: 'Say nothing. It’s not Jordan’s job to fix the business', pts: 0, bal: 0, r: 'Nothing changes. A month later the shop down the road starts offering express repairs.' },
-      { t: 'Tell customers the shop is slow and they should go elsewhere', pts: 0, bal: 0, r: 'Sam overhears. Jordan is lucky to keep the job.' }] },
-  { week: 'Week 1', unit: 'scams', title: 'The TFN text', text: 'Before the first shift, this text arrives.', msg: { kind: 'sms', from: 'ATO-Verify', meta: 'Today 8:02 pm', body: ['Your Tax File Number must be verified before your employer can pay you. Verify now: ato-tfn-check.com'] }, q: 'What does Jordan do?',
-    options: [
-      { t: 'Delete it, and fill in the TFN declaration Sam handed over', pts: 150, bal: 0, r: 'Right call. Jordan’s employer genuinely needs the TFN, and the official TFN declaration is the safe way to give it.' },
-      { t: 'Tap the link and type in the TFN so the pay isn’t held up', pts: 0, bal: -50, r: 'Scammers now have Jordan’s TFN. Jordan misses a shift sorting it out with the ATO and IDCARE.' },
-      { t: 'Don’t give anyone the TFN, ever', pts: 50, bal: -100, r: 'Safe from scammers, but with no TFN the employer must withhold 47% tax. Jordan’s first pay is tiny. Some may come back at tax time.' }] },
-  { week: 'Week 2', unit: 'money', title: 'The first pay', text: 'Jordan’s pay slip says 16 hours × $30.00 = $480.00 gross, with $48.00 PAYG tax withheld. The bank app shows a wage credit of $402.00.', q: 'What does Jordan do?',
-    options: [
-      { t: 'Work out the net pay, then show Sam the pay slip and the statement and ask politely', pts: 150, bal: 30, r: 'Net pay should be $480 − $48 = $432. The credit was $30 short. Sam apologises and fixes it in the next pay.' },
-      { t: 'Assume it’s right. The bank would know', pts: 0, bal: 0, r: 'Jordan loses $30 without noticing. Gross is what you earn, net is what you get. Check it every time.' },
-      { t: 'Leave Sam a one-star review for underpaying', pts: 0, bal: 30, r: 'Sam fixes the $30, but things are awkward at work now. Ask first.' }] },
-  { week: 'Week 2', unit: 'money', title: 'The 50-cent mystery', text: 'Reading the statement line by line, Jordan spots “08 Oct  XYZ TECH SVCS SINGAPORE  DR $0.50”. Jordan has never heard of this company.', q: 'What does Jordan do?',
-    options: [
-      { t: 'Call the bank on the number on the back of the card and ask them to block it', pts: 150, bal: 0, r: 'The bank cancels the card and sends a new one. The next day someone tries to spend $389 with the old card number. Blocked.' },
-      { t: 'Ignore it. It’s only 50 cents', pts: 0, bal: -389, r: 'The 50 cents was a test to see if the stolen card number works. A week later $389 disappears.' },
-      { t: 'Reply to an email from “XYZ Tech Refunds” that asks for the card details', pts: 0, bal: -389, r: 'That email was part of the same scam. Now they have the expiry date and security code too.' }] },
-  { week: 'Week 3', unit: 'scams', title: 'A new number', text: 'A WhatsApp message arrives from a number Jordan doesn’t know.', msg: { kind: 'chat', from: '+61 4XX XXX 907', meta: 'Unknown number', body: ['hey it’s Alex, new phone 😩 stuck at the servo and my card got declined. can u PayID me $80? pay u back tmrw'] }, q: 'What does Jordan do?',
-    options: [
-      { t: 'Call Alex on the old number Jordan already has', pts: 150, bal: 0, r: 'Alex answers from home, phone working fine. It was a scam. Jordan reports the number.' },
-      { t: 'Send the $80. Alex would do the same', pts: 0, bal: -80, r: 'The money is gone. PayID payments are instant and hard to get back.' },
-      { t: 'Ask a question only Alex would know, then decide', pts: 50, bal: 0, r: 'Good instinct, but scammers dodge questions or guess from social media. Calling the real number is the surest check.' }] },
-  { week: 'Week 3', unit: 'scams', title: 'Easy money', text: 'An Instagram account DMs Jordan: “Earn $500 a week from your phone. We send money into your account, you keep $100 and transfer the rest on.”', q: 'What does Jordan do?',
-    options: [
-      { t: 'Block and report the account', pts: 150, bal: 0, r: 'Correct. That “job” is being a money mule: moving stolen money for criminals. It’s a crime, even if you didn’t steal it yourself.' },
-      { t: 'Say yes. It’s only moving money around', pts: 0, bal: -150, r: 'The bank freezes Jordan’s account and the police get in touch. The money was stolen from scam victims.' },
-      { t: 'Ask for more details first', pts: 25, bal: 0, r: 'Talking to them keeps the door open, and they’ll make it sound legit. Block and report.' }] },
-  { week: 'Week 4', unit: 'money', title: 'The leaky account', text: 'Jordan’s statement shows four subscriptions every month: streaming $6.99, music $11.99, game pass $14.99 and cloud storage $4.49. Jordan only uses the music one.', q: 'What does Jordan do?',
-    options: [
-      { t: 'Cancel the three unused ones today', pts: 150, bal: 26.47, r: 'That’s $26.47 a month back, or about $318 a year. Small taps add up.' },
-      { t: 'Keep them all. They’re only a few dollars each', pts: 0, bal: 0, r: 'Together they cost $38.46 a month. That’s $461.52 a year, mostly for things Jordan doesn’t use.' },
-      { t: 'Cancel the music one, even though it’s the only one Jordan uses', pts: 0, bal: 11.99, r: 'That saves $11.99, but Jordan keeps paying $26.47 a month for things never opened.' }] },
-  { week: 'Week 4', unit: 'all', title: 'The $39 earbuds', text: 'Jordan wants new wireless earbuds. A shop that popped up two weeks ago sells them for $39 (RRP $399). Bank transfer or gift card only. No ABN on the site.', q: 'What does Jordan do?',
-    options: [
-      { t: 'Skip it. Check reviews and the ABN, and buy from a known store that takes card payments', pts: 150, bal: 0, r: 'Smart. Too good to be true, no ABN and no card payments: three red flags in one. Paying by card also means Jordan can ask the bank for a chargeback if something goes wrong.' },
-      { t: 'Pay by bank transfer before the sale ends', pts: 0, bal: -39, r: 'Nothing arrives, and the website vanishes a week later.' },
-      { t: 'Buy a $39 gift card and send the code', pts: 0, bal: -39, r: 'Gift cards are like cash. Once the code is sent, it’s gone.' }] }
-];
-function buildBoss() {
-  const st = { bal: 150, smarts: 0 };
-  const meter = (label, val, of) => h('div', { class: 'meter' }, h('span', { class: 'eyebrow' }, label), h('b', {}, val), of ? h('span', { class: 'of' }, of) : null);
-  return {
-    label: 'Decision',
-    items: BOSS,
-    render(body, sc, ctx) {
-      const balM = meter('Jordan’s bank balance', money(st.bal)), smM = meter('Money smarts', String(st.smarts), 'out of 1,200');
-      const side = h('div', { class: 'side' }, h('p', { class: 'prompt' }, sc.q));
-      const scene = h('article', { class: 'scene' }, h('div', { class: 'card-top' }, h('span', { class: 'eyebrow' }, sc.week), unitChip(sc.unit)), h('h2', {}, sc.title), h('p', {}, sc.text), sc.msg ? renderMsg(sc.msg) : null);
-      body.append(h('div', { class: 'meters' }, balM, smM), h('div', { class: 'split' }, scene, side));
-      const best = Math.max(...sc.options.map(o => o.pts));
-      const wrap = h('div', { class: 'choices' });
-      shuffle(sc.options.map((_, i) => i)).forEach((oi, k) => {
-        const o = sc.options[oi];
-        const b = h('button', { class: 'choice', type: 'button', 'data-i': oi }, h('span', { class: 'key' }, String(k + 1)), h('span', { class: 'ctext' }, o.t));
-        b.addEventListener('click', () => {
-          wrap.querySelectorAll('button').forEach(x => { x.disabled = true; const xo = sc.options[+x.dataset.i]; if (xo.pts === best) x.classList.add('correct'); else if (x !== b) x.classList.add('dim'); });
-          const ok = o.pts === best;
-          if (!ok) b.classList.add(o.pts > 0 ? 'meh' : 'wrong');
-          ok ? sfx.good() : sfx.bad();
-          st.bal = r2(st.bal + o.bal); st.smarts += o.pts;
-          balM.querySelector('b').textContent = money(st.bal);
-          smM.querySelector('b').textContent = String(st.smarts);
-          if (o.bal) balM.append(h('span', { class: 'delta ' + (o.bal > 0 ? 'up' : 'down') }, (o.bal > 0 ? '+' : '−') + money(Math.abs(o.bal))));
-          side.append(feedback({ ok, pts: o.pts, head: ok ? 'Best move' : o.pts > 0 ? 'Not the best move' : 'Ouch', text: o.r }));
-          ctx.resolve(o.pts, side);
-        });
-        wrap.append(b);
-      });
-      side.append(wrap);
+ ],
+ "rounds": [
+  {
+   "type": "sort",
+   "name": "Good debt or bad debt?",
+   "buckets": [
+    "Good debt",
+    "Bad debt"
+   ],
+   "intro": "Decide if each loan is more likely good debt (it grows in value or helps you earn) or bad debt (it loses value or gets used up).",
+   "items": [
+    {
+     "t": "A home loan to buy a house to live in",
+     "a": 0,
+     "why": "Property has generally grown in value over time, and you live in it while you pay."
     },
-    summary() {
-      const rank = st.smarts >= 1050 ? 'Scam-proof boss' : st.smarts >= 700 ? 'Mostly money-smart' : 'Jordan needs a do-over';
-      return h('div', { class: 'done' },
-        h('div', { class: 'meters' }, meter('Started with', money(150)), meter('Finished with', money(st.bal)), meter('Money smarts', String(st.smarts), 'out of 1,200')),
-        h('p', { class: 'rank' }, rank),
-        h('ul', { class: 'learned' },
-          h('li', {}, h('b', {}, 'Enterprise: '), 'spot a problem and act on it, like Bowerman did.'),
-          h('li', {}, h('b', {}, 'Money: '), 'check net pay against the bank, read every line, and plug the leaks.'),
-          h('li', {}, h('b', {}, 'Scams: '), 'stop, check using contact details you already have, and never hand your TFN, codes or money to a message.')));
+    {
+     "t": "A credit card holiday paid off over two years",
+     "a": 1,
+     "why": "The holiday is over in a week. The 20% interest keeps going for two years."
+    },
+    {
+     "t": "HECS-HELP for a teaching degree",
+     "a": 0,
+     "why": "It builds skills that raise your income, has no normal interest, and you only repay once you earn enough."
+    },
+    {
+     "t": "Afterpay for clothes for one party",
+     "a": 1,
+     "why": "Clothes lose value straight away and late fees can stack up."
+    },
+    {
+     "t": "A loan for tools to start a plumbing business",
+     "a": 0,
+     "why": "The tools help you earn income, so the loan can pay itself back."
+    },
+    {
+     "t": "A personal loan for the newest phone on release day",
+     "a": 1,
+     "why": "Phones depreciate quickly. You're paying interest on something worth less every month."
+    },
+    {
+     "t": "A payday loan for a night out",
+     "a": 1,
+     "why": "Payday loans have very high fees and the night out is gone by morning."
+    },
+    {
+     "t": "A small loan for a laptop you need for a TAFE course",
+     "a": 0,
+     "why": "It depreciates, but it's a tool that helps you study and earn later."
+    },
+    {
+     "t": "Financing a $60,000 luxury car on a $45,000 salary",
+     "a": 1,
+     "why": "Huge depreciating asset compared with income. The repayments would swallow the budget."
+    },
+    {
+     "t": "Buy now pay later for concert tickets",
+     "a": 1,
+     "why": "It's a one-off experience, and missing a payment can mean fees and a credit report mark."
     }
-  };
+   ]
+  },
+  {
+   "type": "mcq",
+   "name": "Key terms",
+   "intro": "Pick the best answer.",
+   "items": [
+    {
+     "q": "What is the principal of a loan?",
+     "options": [
+      "The amount you originally borrow",
+      "The interest you pay each year",
+      "The person who approves the loan",
+      "The final repayment"
+     ],
+     "a": 0,
+     "why": "Principal is what you borrowed before interest is added."
+    },
+    {
+     "q": "What is interest?",
+     "options": [
+      "A discount for paying early",
+      "The cost of borrowing someone else's money",
+      "A government tax on loans",
+      "Money the bank gives you for free"
+     ],
+     "a": 1,
+     "why": "Interest is what the lender charges you for using their money."
+    },
+    {
+     "q": "Which word means 'goes down in value over time'?",
+     "options": [
+      "Appreciate",
+      "Compound",
+      "Depreciate",
+      "Principal"
+     ],
+     "a": 2,
+     "why": "Cars, phones and clothes depreciate."
+    },
+    {
+     "q": "Which of these is a lender?",
+     "options": [
+      "A credit union",
+      "A car",
+      "A pay slip",
+      "A budget"
+     ],
+     "a": 0,
+     "why": "Banks, credit unions and BNPL companies all lend money."
+    },
+    {
+     "q": "Which government body regulates lenders and runs the Moneysmart website?",
+     "options": [
+      "The ATO",
+      "ASIC",
+      "The RBA",
+      "Centrelink"
+     ],
+     "a": 1,
+     "why": "ASIC is the Australian Securities and Investments Commission. Moneysmart is its free help site."
+    },
+    {
+     "q": "What does 'appreciate' mean for an asset?",
+     "options": [
+      "It loses value",
+      "It gains value",
+      "It needs insurance",
+      "It can't be sold"
+     ],
+     "a": 1,
+     "why": "Appreciating assets go up in value, like property or shares over the long run."
+    },
+    {
+     "q": "Total to repay on a loan equals...",
+     "options": [
+      "Principal minus interest",
+      "Interest only",
+      "Principal plus interest",
+      "Principal times interest"
+     ],
+     "a": 2,
+     "why": "You pay back what you borrowed plus the cost of borrowing it."
+    },
+    {
+     "q": "What makes debt 'good' debt?",
+     "options": [
+      "It has a low weekly repayment",
+      "It buys something likely to grow in value or help you earn",
+      "A friend recommended it",
+      "It is approved quickly"
+     ],
+     "a": 1,
+     "why": "The key question: will this grow in value or help me earn more?"
+    }
+   ]
+  },
+  {
+   "type": "tf",
+   "name": "Myth or fact?",
+   "buckets": [
+    "Fact",
+    "Myth"
+   ],
+   "intro": "Decide if each statement is a fact or a myth.",
+   "items": [
+    {
+     "t": "Borrowing to buy property is a guaranteed way to get rich.",
+     "a": false,
+     "why": "Property prices can fall, and you still owe the full loan."
+    },
+    {
+     "t": "A shorter loan term usually means less total interest.",
+     "a": true,
+     "why": "Fewer years of owing money means fewer years of interest."
+    },
+    {
+     "t": "Good debt has no risk at all.",
+     "a": false,
+     "why": "Good debt still has risk. It just has a chance of paying you back."
+    },
+    {
+     "t": "Missing loan repayments can hurt your credit report.",
+     "a": true,
+     "why": "Lenders see missed payments, which can make future loans harder or dearer."
+    },
+    {
+     "t": "If the weekly repayment is small, the loan must be cheap.",
+     "a": false,
+     "why": "A long loan with small repayments can cost far more in total."
+    },
+    {
+     "t": "HECS-HELP debts were cut by 20% in 2025.",
+     "a": true,
+     "why": "The government legislated a 20% cut to all HELP debts in July 2025."
+    },
+    {
+     "t": "A car usually goes up in value after you buy it.",
+     "a": false,
+     "why": "Most cars depreciate, especially in the first few years."
+    }
+   ]
+  },
+  {
+   "type": "num",
+   "name": "Run the numbers",
+   "intro": "Use Interest = Principal x Rate x Time. Rate as a decimal. Type the dollar amount only.",
+   "items": [
+    {
+     "q": "You borrow $1,000 at 10% for 1 year. How much interest?",
+     "a": 100,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "1,000 x 0.10 x 1 = $100"
+    },
+    {
+     "q": "You borrow $2,000 at 5% for 3 years. How much interest?",
+     "a": 300,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "2,000 x 0.05 x 3 = $300"
+    },
+    {
+     "q": "You borrow $4,000 at 12% for 3 years. How much interest?",
+     "a": 1440,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "4,000 x 0.12 x 3 = $1,440"
+    },
+    {
+     "q": "Same $4,000 loan at 12% for 3 years. What is the TOTAL you repay?",
+     "a": 5440,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$4,000 principal + $1,440 interest = $5,440"
+    },
+    {
+     "q": "You borrow $500 at 20% for 1 year. How much interest?",
+     "a": 100,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "500 x 0.20 x 1 = $100"
+    },
+    {
+     "q": "You borrow $3,000 at 8% for 2 years. How much interest?",
+     "a": 480,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "3,000 x 0.08 x 2 = $480"
+    },
+    {
+     "q": "A car costs $9,000. You pay a $5,000 deposit. How much do you need to borrow?",
+     "a": 4000,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$9,000 minus $5,000 = $4,000. You'll do this exact step in the assessment."
+    }
+   ]
+  }
+ ]
+};
+
+const $ = (id) => document.getElementById(id);
+const app = $("app");
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+const S = { name: "", score: 0, streak: 0, best: 0, round: 0, idx: 0, items: [], roundStats: [], mistakes: [], meter: CONFIG.meter ? CONFIG.meter.start : 0, answered: false, total: 0, correct: 0 };
+
+$("gTitle").textContent = CONFIG.title;
+$("gSub").textContent = CONFIG.tagline || "";
+
+function setHud() {
+  $("hScore").textContent = S.score;
+  $("hStreak").textContent = S.streak + (S.streak >= 3 ? " x2" : "");
+  $("hRound").textContent = S.round < CONFIG.rounds.length ? `${S.round + 1}/${CONFIG.rounds.length}` : "Done";
+  if (CONFIG.meter) {
+    const m = CONFIG.meter;
+    const pct = Math.max(0, Math.min(100, ((S.meter - m.min) / (m.max - m.min)) * 100));
+    $("meterFill").style.width = pct + "%";
+    $("meterFill").style.background = pct < 35 ? "var(--bad)" : pct < 65 ? "#F2B705" : "var(--good)";
+    $("meterName").textContent = `${m.name}: ${m.prefix || ""}${S.meter.toLocaleString("en-AU")}${m.suffix || ""}`;
+  }
 }
 
-/* ---------- rounds registry ---------- */
-const ROUNDS = [
-  { id: 'scam-or-legit', unit: 'scams', title: 'Scam or Legit?', blurb: 'Ten realistic texts, emails, DMs, ads and calls. Make the call, then see the red flags.', meta: '10 messages · about 8 min', build: buildScamLegit },
-  { id: 'red-flag-hunt', unit: 'scams', title: 'Red Flag Hunt', blurb: 'Tap every red flag in a fake tax refund, a romance DM and a dodgy online shop. Wrong taps cost points.', meta: '3 messages · about 6 min', build: buildHunt },
-  { id: 'payday', unit: 'money', title: 'Payday', blurb: 'Fill in Jordan’s pay slip: gross pay, PAYG tax, net pay and super. New numbers every game.', meta: '7 questions · about 8 min', build: buildPayday },
-  { id: 'paper-trail', unit: 'money', title: 'Paper Trail', blurb: 'Receipt or tax invoice? Then GST Snap: find the GST hiding in a price, against the clock.', meta: '12 questions · about 7 min', build: buildPaper },
-  { id: 'statement-detective', unit: 'money', title: 'Statement Detective', blurb: 'Match Jordan’s receipts to the bank statement and stamp every line. Find the duplicate, the overcharge and the scam.', meta: '4 tasks · about 10 min', build: buildStatement },
-  { id: 'enterprise-moves', unit: 'enterprise', title: 'Enterprise Moves', blurb: 'Match Bill Bowerman’s moves to enterprising behaviours, then build a full Behaviour + Evidence + Explanation answer.', meta: '9 questions · about 8 min', build: buildEnterprise },
-  { id: 'boss-round', unit: 'all', title: 'Boss Round: Jordan’s First Month', blurb: 'A new job, a first pay, a dodgy text, a 50-cent charge and a $39 “bargain”. Eight decisions that use every unit at once. Watch Jordan’s bank balance.', meta: '8 decisions · about 10 min', build: buildBoss }
-];
-
-/* ---------- views ---------- */
-const app = $('#app');
-function heroArt() {
-  const art = h('div', { class: 'hero-art', 'aria-hidden': 'true' });
-  art.innerHTML =
-    '<div class="art-sms"><span class="art-from">TOLLROAD · 7:42 am</span><p><mark>URGENT:</mark> Your account has an unpaid toll of $4.85. Pay within 24 hrs: <mark>tollpay-au.help/x7</mark></p></div>' +
-    '<div class="art-stmt"><div class="art-h">STATEMENT · JORDAN LEE · OCT 2026</div>' +
-    '<div class="art-row"><span>07 Oct</span><span>EFTPOS KMART WERRIBEE</span><span>$54.00</span><i class="stamp s-wrong">Wrong amount</i></div>' +
-    '<div class="art-row"><span>08 Oct</span><span>XYZ TECH SVCS SINGAPORE</span><span>$0.50</span><i class="stamp s-chase">Chase it</i></div>' +
-    '<div class="art-row"><span>10 Oct</span><span>EFTPOS BURRITO BAR</span><span>$16.50</span><i class="stamp s-match">Match</i></div></div>';
-  return art;
-}
-function renderHome() {
-  app.innerHTML = '';
-  const hero = h('section', { class: 'hero' },
-    h('div', {},
-      h('p', { class: 'eyebrow' }, 'Year 10 Economics and Business · Review'),
-      h('h1', {}, 'Tick it or ', h('span', { class: 'hl' }, 'chase it.')),
-      h('p', { class: 'lead' }, 'Seven rounds on everything so far: scams, pay slips, tax invoices, GST, bank statements and Bill Bowerman’s waffle iron. Play solo, or split the class into teams and battle it out on the projector.'),
-      h('div', { class: 'cta' },
-        h('a', { class: 'btn primary', href: '#scam-or-legit' }, 'Start with Scam or Legit?'),
-        h('button', { class: 'btn', type: 'button', onclick: openSetup }, S.mode === 'teams' ? 'Edit class teams' : 'Set up class teams'))),
-    heroArt());
-  const cover = h('div', { class: 'coverage' },
-    h('span', {}, h('b', {}, 'Scams'), ' red flags, phishing, money mules'),
-    h('span', {}, h('b', {}, 'Follow the Money'), ' pay slips, GST, tax invoices, statements'),
-    h('span', {}, h('b', {}, 'Enterprise'), ' Bowerman and the waffle iron'));
-  const grid = h('section', { class: 'rounds', 'aria-label': 'Rounds' }, ROUNDS.map((r, i) =>
-    h('a', { class: 'card u-' + r.unit + (r.id === 'boss-round' ? ' boss' : ''), href: '#' + r.id },
-      h('div', { class: 'card-top' }, h('span', { class: 'eyebrow' }, 'Round ' + (i + 1)), unitChip(r.unit)),
-      h('h2', {}, r.title), h('p', {}, r.blurb),
-      h('div', { class: 'card-foot' }, h('span', { class: 'meta' }, r.meta), S.best[r.id] != null ? h('span', { class: 'best' }, 'Best ' + S.best[r.id]) : null, h('span', { class: 'go' }, 'Play →')))));
-  const how = h('section', { class: 'howto' },
-    h('div', {}, h('h3', {}, 'On the projector'), h('p', {}, 'Set up 2 to 6 teams. Each question passes to the next team, and points go to whoever’s turn it is. Tap a team’s score to hand them the turn.')),
-    h('div', {}, h('h3', {}, 'On a laptop'), h('p', {}, 'Play solo and chase your best score in each round. Payday makes new numbers every game, and the questions shuffle.')),
-    h('div', {}, h('h3', {}, 'Shortcuts'), h('p', {}, 'Press 1 to 6 to pick an answer. Scores stay in this browser until you reset them in Teams.')));
-  const foot = h('p', { class: 'foot' }, 'All scam messages here are made up for practice. Report real ones at ', h('a', { href: 'https://www.scamwatch.gov.au', target: '_blank', rel: 'noopener' }, 'scamwatch.gov.au'), '.');
-  app.append(hero, cover, grid, how, foot);
+function floatText(txt, neg) {
+  const d = document.createElement("div");
+  d.className = "float" + (neg ? " neg" : "");
+  d.textContent = txt;
+  document.body.appendChild(d);
+  setTimeout(() => d.remove(), 1000);
 }
 
-function playRound(r) {
-  app.innerHTML = ''; window.scrollTo(0, 0);
-  const spec = r.build(), items = spec.items;
-  let i = 0, total = 0;
-  const nextR = ROUNDS[ROUNDS.indexOf(r) + 1];
-  const head = h('div', { class: 'round-head' }, h('a', { class: 'back', href: '#' }, '← All rounds'), h('div', { class: 'round-title' }, unitChip(r.unit), h('h1', {}, r.title)));
-  const meta = h('div', { class: 'round-meta' });
-  const prog = h('div', { class: 'progress', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': String(items.length), 'aria-label': 'Round progress' }, h('span'));
-  const body = h('section', { class: 'qbody' });
-  app.append(head, meta, prog, body);
-  function show() {
-    meta.innerHTML = '';
-    meta.append(h('span', { class: 'count' }, (spec.label || 'Question') + ' ' + (i + 1) + ' of ' + items.length),
-      S.teams.length > 1 ? h('span', { class: 'turn' }, h('span', { class: 'dot' }), h('span', { class: 'turn-name' }, S.teams[S.turn].name), ' to answer') : null,
-      h('span', { class: 'roundpts' }, total + ' pts this round'));
-    prog.firstChild.style.width = (i / items.length * 100) + '%';
-    prog.setAttribute('aria-valuenow', String(i));
-    body.innerHTML = '';
-    let resolved = false;
-    const ctx = {
-      resolve(pts, target) {
-        if (resolved) return; resolved = true;
-        pts = Math.max(0, Math.round(pts)); total += pts;
-        if (pts > 0) award(pts);
-        const rp = meta.querySelector('.roundpts'); if (rp) rp.textContent = total + ' pts this round';
-        const btn = h('button', { class: 'btn primary', type: 'button', onclick: next }, i + 1 < items.length ? 'Next →' : 'See results →');
-        const row = h('div', { class: 'nextrow' }, btn);
-        (target || body).append(row);
-        setTimeout(() => { try { btn.focus({ preventScroll: true }); row.scrollIntoView({ block: 'nearest', behavior: reduced() ? 'auto' : 'smooth' }); } catch (e) {} }, 40);
-      }
+function start() {
+  const rounds = CONFIG.rounds.map((r, i) => `<div class="round-pill"><span class="n">${i + 1}</span><b>${esc(r.name)}</b><div class="muted" style="font-size:14px;margin-top:6px">${r.items.length} items</div></div>`).join("");
+  app.innerHTML = `
+    <div class="card">
+      <span class="tag accent">Lesson ${CONFIG.lesson}</span>
+      <h2>${esc(CONFIG.title)}</h2>
+      <p>${esc(CONFIG.intro)}</p>
+      <div class="rounds-list">${rounds}</div>
+      <p class="muted">Get 3 in a row and every correct answer is worth double until you miss. ${CONFIG.meter ? esc(CONFIG.meter.blurb || "") : ""}</p>
+      <label for="nm"><b>Your first name</b> (goes on your certificate)</label><br><br>
+      <input type="text" id="nm" maxlength="30" autocomplete="off" placeholder="First name">
+      <div class="row"><button class="big-btn" id="go">Start</button></div>
+    </div>`;
+  $("nm").addEventListener("keydown", (e) => { if (e.key === "Enter") $("go").click(); });
+  $("go").onclick = () => { S.name = $("nm").value.trim() || "Student"; if (CONFIG.meter) $("meterWrap").hidden = false; roundIntro(); };
+  setHud();
+}
+
+function roundIntro() {
+  const r = CONFIG.rounds[S.round];
+  S.items = r.shuffle === false ? r.items.slice() : shuffle(r.items);
+  S.idx = 0;
+  S.roundStats[S.round] = { name: r.name, correct: 0, total: S.items.length };
+  setHud();
+  app.innerHTML = `
+    <div class="card">
+      <span class="tag">Round ${S.round + 1} of ${CONFIG.rounds.length}</span>
+      <h2>${esc(r.name)}</h2>
+      <p>${esc(r.intro)}</p>
+      ${r.type === "num" ? `<p class="muted">Type a number only. No $ sign or commas needed.</p>` : ""}
+      <div class="row"><button class="big-btn" id="go">Let's go</button></div>
+    </div>`;
+  $("go").onclick = showItem;
+  $("go").focus();
+}
+
+function progressBar() {
+  return `<div class="progress">${S.items.map((it, i) => `<span class="${i < S.idx ? (it._ok ? "done-ok" : "done-bad") : i === S.idx ? "now" : ""}"></span>`).join("")}</div>`;
+}
+
+function showItem() {
+  const r = CONFIG.rounds[S.round];
+  const it = S.items[S.idx];
+  S.answered = false;
+  let body = "";
+  if (r.type === "sort" || r.type === "tf") {
+    const labels = r.type === "tf" ? (r.buckets || ["Fact", "Myth"]) : r.buckets;
+    body = `<div class="prompt">${esc(it.t)}</div><div class="opts two">${labels.map((b, i) => `<button class="opt" data-i="${i}">${esc(b)}</button>`).join("")}</div>`;
+  } else if (r.type === "mcq") {
+    const order = shuffle(it.options.map((o, i) => i));
+    body = `<div class="prompt">${esc(it.q)}</div><div class="opts">${order.map((oi, k) => `<button class="opt" data-i="${oi}"><span class="k">${"ABCD"[k]}</span>${esc(it.options[oi])}</button>`).join("")}</div>`;
+  } else if (r.type === "num") {
+    body = `<div class="prompt">${esc(it.q)}</div><div class="row"><span style="font-size:22px;font-weight:700">${esc(it.unit || "")}</span><input type="number" step="any" id="numIn" inputmode="decimal" placeholder="Your answer"><button class="big-btn" id="numGo">Check</button></div>`;
+  }
+  app.innerHTML = `
+    <div class="card">
+      <span class="tag accent">${esc(r.name)}</span>
+      <span class="muted" style="float:right">${S.idx + 1} / ${S.items.length}</span>
+      ${progressBar()}
+      ${body}
+      <div class="feedback" id="fb"></div>
+      <div class="row" id="nextRow" hidden><button class="big-btn" id="next">Next</button></div>
+    </div>`;
+  if (r.type === "num") {
+    const inp = $("numIn");
+    inp.focus();
+    inp.addEventListener("keydown", (e) => { if (e.key === "Enter") $("numGo").click(); });
+    $("numGo").onclick = () => {
+      if (S.answered) return;
+      const v = parseFloat(String(inp.value).replace(/[$,\s]/g, ""));
+      if (isNaN(v)) { inp.focus(); return; }
+      const tol = it.tol !== undefined ? it.tol : 0.5;
+      answer(Math.abs(v - it.a) <= tol, `Answer: ${it.unit || ""}${Number(it.a).toLocaleString("en-AU", Number.isInteger(it.a) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, String(v));
+      inp.disabled = true;
     };
-    spec.render(body, items[i], ctx);
+  } else {
+    app.querySelectorAll(".opt").forEach((b) => (b.onclick = () => {
+      if (S.answered) return;
+      const pick = +b.dataset.i;
+      let correctIdx;
+      if (r.type === "tf") correctIdx = it.a ? 0 : 1; else correctIdx = it.a;
+      const ok = pick === correctIdx;
+      app.querySelectorAll(".opt").forEach((x) => { x.disabled = true; if (+x.dataset.i === correctIdx) x.classList.add("right"); });
+      if (!ok) b.classList.add("wrong");
+      const labels = r.type === "tf" ? (r.buckets || ["Fact", "Myth"]) : r.type === "sort" ? r.buckets : it.options;
+      answer(ok, `Correct answer: ${labels[correctIdx]}`, labels[pick]);
+    }));
   }
-  function next() {
-    passTurn(); i++;
-    if (i < items.length) { show(); const y = head.getBoundingClientRect().top + scrollY - 90; if (scrollY > y) window.scrollTo(0, Math.max(0, y)); }
-    else done();
-  }
-  function done() {
-    prog.firstChild.style.width = '100%'; meta.innerHTML = '';
-    const prev = S.best[r.id];
-    S.best[r.id] = Math.max(prev || 0, total); persist();
-    sfx.win(); confetti(); window.scrollTo(0, 0);
-    body.innerHTML = '';
-    const teams = S.teams.length > 1;
-    body.append(h('div', { class: 'done' },
-      h('p', { class: 'eyebrow' }, 'Round complete'),
-      h('h2', {}, total.toLocaleString('en-AU') + ' points'),
-      h('p', { class: 'lead' }, (teams ? 'Earned across all teams. ' : '') + (prev == null ? 'First run of this round in this browser.' : total > prev ? 'New best for this round.' : 'Best so far: ' + S.best[r.id] + '.')),
-      spec.summary ? spec.summary() : null,
-      teams ? h('div', {}, h('p', { class: 'eyebrow' }, 'Standings'), h('ol', { class: 'standings' }, [...S.teams].sort((a, b) => b.score - a.score).map(t => h('li', {}, h('span', {}, t.name), h('span', {}, t.score.toLocaleString('en-AU')))))) : null,
-      h('div', { class: 'cta' },
-        h('button', { class: 'btn primary', type: 'button', onclick: () => playRound(r) }, 'Play again'),
-        nextR ? h('a', { class: 'btn', href: '#' + nextR.id }, 'Next: ' + nextR.title) : null,
-        h('a', { class: 'btn ghost', href: '#' }, 'All rounds'))));
-  }
-  show();
 }
 
-/* ---------- teams setup ---------- */
-function openSetup() {
-  const ov = $('#setup'); ov.innerHTML = '';
-  let mode = S.mode, count = S.mode === 'teams' ? S.teams.length : 4;
-  const names = S.mode === 'teams' ? S.teams.map(t => t.name) : [];
-  const content = h('div', { class: 'setup-body', style: 'display:grid;gap:14px' });
-  const draw = () => {
-    content.innerHTML = '';
-    const toggle = h('div', { class: 'seg-toggle', role: 'radiogroup', 'aria-label': 'Play mode' });
-    [['solo', 'Solo'], ['teams', 'Class teams']].forEach(([v, l]) => toggle.append(h('button', { type: 'button', role: 'radio', 'aria-checked': String(mode === v), class: mode === v ? 'on' : null, onclick: () => { mode = v; draw(); } }, l)));
-    content.append(toggle);
-    if (mode === 'teams') {
-      content.append(h('div', { class: 'field' }, h('label', { for: 'team-count' }, 'Number of teams'),
-        h('select', { id: 'team-count', onchange: e => { count = +e.target.value; draw(); } }, [2, 3, 4, 5, 6].map(n => h('option', { value: String(n), selected: n === count }, n + ' teams')))));
-      const grid = h('div', { class: 'names' });
-      for (let i = 0; i < count; i++) {
-        const id = 'team-name-' + (i + 1);
-        grid.append(h('div', { class: 'field' }, h('label', { for: id }, 'Team ' + (i + 1)), h('input', { id, type: 'text', maxlength: '18', value: names[i] || DEFAULT_NAMES[i], oninput: e => { names[i] = e.target.value; } })));
-      }
-      content.append(grid, h('p', { class: 'hint' }, 'Each question passes to the next team. Tap a team’s score in the top bar to hand them the turn.'));
-    } else content.append(h('p', { class: 'hint' }, 'One player, one score. Good for revision at home or on a laptop.'));
+function answer(ok, correctText, picked) {
+  const r = CONFIG.rounds[S.round];
+  const it = S.items[S.idx];
+  S.answered = true;
+  it._ok = ok;
+  S.total++;
+  const fb = $("fb");
+  if (ok) {
+    S.correct++;
+    S.roundStats[S.round].correct++;
+    const pts = S.streak >= 3 ? 20 : 10;
+    S.streak++;
+    S.best = Math.max(S.best, S.streak);
+    S.score += pts;
+    if (CONFIG.meter) S.meter = Math.min(CONFIG.meter.max, S.meter + CONFIG.meter.up);
+    floatText(`+${pts}`);
+    if (S.streak === 3) { const c = $("hStreakChip"); c.classList.remove("streak-flash"); void c.offsetWidth; c.classList.add("streak-flash"); }
+    fb.className = "feedback ok";
+    fb.innerHTML = `<strong>${esc(pick(CONFIG.praise || ["Nice.", "Correct.", "Spot on.", "That's it."]))}${S.streak >= 3 ? ` Streak x${S.streak}: double points.` : ""}</strong>${esc(it.why || "")}`;
+  } else {
+    S.streak = 0;
+    if (CONFIG.meter) S.meter = Math.max(CONFIG.meter.min, S.meter - CONFIG.meter.down);
+    if (CONFIG.meter) floatText(`-${CONFIG.meter.prefix || ""}${CONFIG.meter.down.toLocaleString("en-AU")}${CONFIG.meter.suffix || ""}`, true);
+    S.mistakes.push({ round: r.name, q: it.t || it.q, picked, correct: correctText, why: it.why || "" });
+    fb.className = "feedback no";
+    fb.innerHTML = `<strong>Not quite. ${esc(correctText)}</strong>${esc(it.why || "")}`;
+  }
+  setHud();
+  $("nextRow").hidden = false;
+  $("next").focus();
+  $("next").onclick = () => {
+    S.idx++;
+    if (S.idx < S.items.length) showItem();
+    else { S.round++; if (S.round < CONFIG.rounds.length) roundIntro(); else finish(); }
   };
-  draw();
-  const close = () => { ov.hidden = true; ov.innerHTML = ''; $('#teams-btn').focus(); };
-  let armed = false;
-  const reset = h('button', { class: 'btn ghost', type: 'button' }, 'Reset all scores');
-  reset.addEventListener('click', () => {
-    if (!armed) { armed = true; reset.textContent = 'Tap again to reset'; return; }
-    S.teams.forEach(t => t.score = 0); S.best = {}; persist(); renderBoard(); toast('Scores reset'); close();
-    if (!location.hash || location.hash === '#') renderHome();
-  });
-  const saveBtn = h('button', { class: 'btn primary', type: 'button' }, 'Save');
-  saveBtn.addEventListener('click', () => {
-    if (mode === 'solo') S.teams = [{ name: 'You', score: S.mode === 'solo' ? S.teams[0].score : 0 }];
-    else {
-      const old = S.mode === 'teams' ? S.teams : [];
-      S.teams = Array.from({ length: count }, (_, i) => ({ name: ((names[i] || DEFAULT_NAMES[i]).trim() || DEFAULT_NAMES[i]).slice(0, 18), score: old[i] ? old[i].score : 0 }));
-    }
-    S.mode = mode; S.turn = 0; persist(); renderBoard();
-    toast(mode === 'teams' ? S.teams.length + ' teams ready. ' + S.teams[0].name + ' goes first.' : 'Solo mode');
-    close();
-    if (!location.hash || location.hash === '#') renderHome();
-  });
-  const panel = h('div', { class: 'panel', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'setup-title' },
-    h('h2', { id: 'setup-title' }, 'Teams'), content,
-    h('div', { class: 'panel-foot' }, reset, h('div', { class: 'cta' }, h('button', { class: 'btn', type: 'button', onclick: close }, 'Cancel'), saveBtn)));
-  ov.append(panel);
-  ov.onclick = e => { if (e.target === ov) close(); };
-  ov.hidden = false;
-  setTimeout(() => saveBtn.focus(), 30);
+}
+function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+
+function badges() {
+  const pct = S.total ? S.correct / S.total : 0;
+  const clean = S.roundStats.some((r) => r.correct === r.total);
+  const list = [
+    { i: "🏁", t: "Finisher", d: "Completed every round", ok: true },
+    { i: "🔥", t: "Hot streak", d: "5 correct in a row", ok: S.best >= 5 },
+    { i: "⚡", t: "Unstoppable", d: "10 correct in a row", ok: S.best >= 10 },
+    { i: "🧹", t: "Clean round", d: "A perfect round", ok: clean },
+    { i: "🎯", t: "Sharp shooter", d: "90% or better overall", ok: pct >= 0.9 },
+  ];
+  if (CONFIG.meter && CONFIG.meter.badge) list.push({ i: CONFIG.meter.badge.icon, t: CONFIG.meter.badge.title, d: CONFIG.meter.badge.desc, ok: S.meter >= CONFIG.meter.badge.atLeast });
+  return list;
 }
 
-/* ---------- wiring ---------- */
-function syncSound() { const b = $('#sound-btn'); b.setAttribute('aria-pressed', String(S.sound)); b.textContent = S.sound ? 'Sound on' : 'Sound off'; }
-$('#sound-btn').addEventListener('click', () => { S.sound = !S.sound; persist(); syncSound(); if (S.sound) sfx.good(); });
-$('#teams-btn').addEventListener('click', openSetup);
-document.addEventListener('keydown', e => {
-  const ov = $('#setup');
-  if (!ov.hidden) { if (e.key === 'Escape') { ov.hidden = true; ov.innerHTML = ''; } return; }
-  if (e.target.matches('input,select,textarea') || e.altKey || e.ctrlKey || e.metaKey) return;
-  const n = parseInt(e.key, 10);
-  if (n >= 1 && n <= 9) {
-    const btns = [...app.querySelectorAll('.choices .choice:not(:disabled)')];
-    if (btns[n - 1]) { e.preventDefault(); btns[n - 1].click(); }
-  }
-});
-function route() {
-  const id = location.hash.slice(1);
-  const r = ROUNDS.find(x => x.id === id);
-  if (r) playRound(r); else { renderHome(); window.scrollTo(0, 0); }
+function finish() {
+  setHud();
+  const pct = Math.round((S.correct / S.total) * 100);
+  const b = badges();
+  const verdict = (CONFIG.verdicts || []).find((v) => pct >= v.min) || { text: "Keep practising." };
+  app.innerHTML = `
+    <div class="card">
+      <span class="tag accent">Results</span>
+      <h2>${esc(S.name)}, you finished ${esc(CONFIG.title)}</h2>
+      <div class="score-big">${S.score} pts</div>
+      <p><b>${S.correct} / ${S.total} correct (${pct}%)</b>. Best streak: ${S.best}.${CONFIG.meter ? ` Final ${esc(CONFIG.meter.name.toLowerCase())}: ${CONFIG.meter.prefix || ""}${S.meter.toLocaleString("en-AU")}${CONFIG.meter.suffix || ""}.` : ""}</p>
+      <p>${esc(verdict.text)}</p>
+      <table class="rounds"><tr><th>Round</th><th>Correct</th></tr>${S.roundStats.map((r) => `<tr><td>${esc(r.name)}</td><td>${r.correct} / ${r.total}</td></tr>`).join("")}</table>
+      <h3>Badges</h3>
+      <div class="badges">${b.map((x) => `<div class="badge ${x.ok ? "earned" : ""}"><div class="i">${x.i}</div><div class="t">${esc(x.t)}</div><div class="d">${esc(x.d)}</div></div>`).join("")}</div>
+      <div class="row"><button class="big-btn" id="cert-btn">Print certificate</button><button class="big-btn ghost" id="again">Play again</button></div>
+    </div>
+    <div class="card">
+      <span class="tag">Mistake review</span>
+      ${S.mistakes.length ? `<p>Copy the ones you got wrong into your book with the correct answer.</p>` + S.mistakes.map((m) => `<div class="review-item"><div class="q">${esc(m.q)}</div><div>You said: ${esc(m.picked)}. ${esc(m.correct)}</div><div class="muted">${esc(m.why)}</div></div>`).join("") : `<p>No mistakes. Nothing to review.</p>`}
+    </div>`;
+  $("again").onclick = () => location.reload();
+  $("cert-btn").onclick = () => {
+    $("cert").innerHTML = `<div style="font-size:18px;letter-spacing:3px">YEAR 10 BUSINESS  |  LESSON ${CONFIG.lesson}</div>
+      <h1>${esc(CONFIG.title)}</h1><div>This certifies that</div><div class="name">${esc(S.name)}</div>
+      <div>completed every round with ${S.correct} / ${S.total} correct (${pct}%) and ${S.score} points.</div>
+      <table>${S.roundStats.map((r) => `<tr><td>${esc(r.name)}</td><td>${r.correct} / ${r.total}</td></tr>`).join("")}</table>
+      <div>Badges: ${b.filter((x) => x.ok).map((x) => esc(x.t)).join(", ")}</div>
+      <div style="margin-top:30px">${new Date().toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" })}</div>`;
+    window.print();
+  };
 }
-addEventListener('hashchange', route);
-syncSound(); renderBoard(); route();
-})();
+
+start();
 </script>
 </body>
 </html>
