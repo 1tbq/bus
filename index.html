@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Borrow or Bust | Lesson 1</title>
+<title>Swipe Smart | Lesson 2</title>
 <style>
   :root {
-    --ink: #14213D; --accent: #0E7C66; --accent-soft: #E6F4F1;
+    --ink: #14213D; --accent: #6D28D9; --accent-soft: #EDE9FE;
     --good: #0E7C66; --good-soft: #E6F4F1; --bad: #B42318; --bad-soft: #FCEBEA;
     --yellow: #FFE14D; --tint: #F1F5F9; --muted: #64748B; --line: #CBD5E1;
   }
@@ -90,7 +90,7 @@
 </head>
 <body>
 <header>
-  <div class="logo" aria-hidden="true">🏦</div>
+  <div class="logo" aria-hidden="true">💳</div>
   <div><h1 id="gTitle"></h1><div class="sub" id="gSub"></div></div>
   <div class="hud">
     <span class="chip">Score <b id="hScore">0</b></span>
@@ -107,200 +107,201 @@
 
 <script>
 const CONFIG = {
- "lesson": 1,
- "title": "Borrow or Bust",
- "tagline": "Debt basics and good vs bad debt",
- "icon": "🏦",
- "accent": "0E7C66",
- "accentSoft": "E6F4F1",
- "intro": "You're a new borrower with a credit score of 500. Every smart call pushes your score up. Every bad call drags it down. Four rounds, then your results and certificate.",
+ "lesson": 2,
+ "title": "Swipe Smart",
+ "tagline": "Credit cards, BNPL and compound interest",
+ "icon": "💳",
+ "accent": "6D28D9",
+ "accentSoft": "EDE9FE",
+ "intro": "You've just been handed a credit card with a $2,000 balance on it. Every correct answer pays $80 off the card. Every wrong answer costs you $40 in interest. Four rounds. Can you pay the whole thing off?",
  "meter": {
-  "name": "Credit score",
-  "start": 500,
-  "up": 15,
-  "down": 30,
+  "name": "Card paid off",
+  "prefix": "$",
+  "start": 0,
+  "up": 80,
+  "down": 40,
   "min": 0,
-  "max": 1000,
-  "blurb": "Your credit score starts at 500 out of 1000.",
+  "max": 2000,
+  "blurb": "Your meter shows how much of the $2,000 card you've paid off.",
   "badge": {
-   "icon": "💳",
-   "title": "Prime borrower",
-   "desc": "Finish with a credit score of 800+",
-   "atLeast": 800
+   "icon": "🎉",
+   "title": "Debt free",
+   "desc": "Pay off the whole $2,000 card",
+   "atLeast": 2000
   }
  },
  "verdicts": [
   {
    "min": 90,
-   "text": "Lender's dream. You'd get the best rate in the bank."
+   "text": "Card cleared, zero interest. The bank makes no money out of you."
   },
   {
    "min": 70,
-   "text": "Solid borrower. Check your mistake review and you're there."
+   "text": "Nearly debt free. Check your mistake review and you're there."
   },
   {
    "min": 50,
-   "text": "Approved, but at a higher rate. Go back over the mistakes."
+   "text": "You're paying a fair bit of interest. Go back over the mistakes."
   },
   {
    "min": 0,
-   "text": "Application declined for now. Copy your mistakes, then play again."
+   "text": "The minimum repayment trap got you this time. Copy your mistakes, then play again."
   }
  ],
  "rounds": [
   {
    "type": "sort",
-   "name": "Good debt or bad debt?",
+   "name": "Debit or credit?",
    "buckets": [
-    "Good debt",
-    "Bad debt"
+    "Debit (your money)",
+    "Credit (borrowed)"
    ],
-   "intro": "Decide if each loan is more likely good debt (it grows in value or helps you earn) or bad debt (it loses value or gets used up).",
+   "intro": "Is each one spending your own money (debit) or borrowed money (credit)? Remember: BNPL is borrowed money.",
    "items": [
     {
-     "t": "A home loan to buy a house to live in",
+     "t": "Tapping a card linked to your everyday bank account",
      "a": 0,
-     "why": "Property has generally grown in value over time, and you live in it while you pay."
+     "why": "A debit card spends money already in your account."
     },
     {
-     "t": "A credit card holiday paid off over two years",
+     "t": "Using a card with a $3,000 limit from the bank",
      "a": 1,
-     "why": "The holiday is over in a week. The 20% interest keeps going for two years."
+     "why": "A credit limit is how much of the bank's money you can borrow."
     },
     {
-     "t": "HECS-HELP for a teaching degree",
+     "t": "Paying for a $400 jacket in 4 Afterpay instalments",
+     "a": 1,
+     "why": "BNPL is a loan: the provider pays the shop and you owe them."
+    },
+    {
+     "t": "Money leaves your account straight away",
      "a": 0,
-     "why": "It builds skills that raise your income, has no normal interest, and you only repay once you earn enough."
+     "why": "That's debit. Credit is paid back later."
     },
     {
-     "t": "Afterpay for clothes for one party",
+     "t": "You get a monthly statement with a minimum repayment",
      "a": 1,
-     "why": "Clothes lose value straight away and late fees can stack up."
+     "why": "Minimum repayments only exist when you owe money."
     },
     {
-     "t": "A loan for tools to start a plumbing business",
+     "t": "You can't spend more than is in your account",
      "a": 0,
-     "why": "The tools help you earn income, so the loan can pay itself back."
+     "why": "Debit stops when your money runs out."
     },
     {
-     "t": "A personal loan for the newest phone on release day",
+     "t": "Interest is charged if you don't pay the full balance by the due date",
      "a": 1,
-     "why": "Phones depreciate quickly. You're paying interest on something worth less every month."
+     "why": "That's how credit cards charge interest."
     },
     {
-     "t": "A payday loan for a night out",
-     "a": 1,
-     "why": "Payday loans have very high fees and the night out is gone by morning."
-    },
-    {
-     "t": "A small loan for a laptop you need for a TAFE course",
+     "t": "EFTPOS with your savings at a Werribee supermarket",
      "a": 0,
-     "why": "It depreciates, but it's a tool that helps you study and earn later."
+     "why": "EFTPOS from savings is your own money."
     },
     {
-     "t": "Financing a $60,000 luxury car on a $45,000 salary",
+     "t": "Zip Pay for a gaming headset",
      "a": 1,
-     "why": "Huge depreciating asset compared with income. The repayments would swallow the budget."
+     "why": "Zip is buy now pay later, which is borrowed money."
     },
     {
-     "t": "Buy now pay later for concert tickets",
-     "a": 1,
-     "why": "It's a one-off experience, and missing a payment can mean fees and a credit report mark."
+     "t": "Your phone bill comes straight out of your bank account",
+     "a": 0,
+     "why": "A direct debit from your account uses your own money."
     }
    ]
   },
   {
    "type": "mcq",
-   "name": "Key terms",
+   "name": "Card and BNPL basics",
    "intro": "Pick the best answer.",
    "items": [
     {
-     "q": "What is the principal of a loan?",
+     "q": "When does a credit card's interest-free period actually save you interest?",
      "options": [
-      "The amount you originally borrow",
-      "The interest you pay each year",
-      "The person who approves the loan",
-      "The final repayment"
-     ],
-     "a": 0,
-     "why": "Principal is what you borrowed before interest is added."
-    },
-    {
-     "q": "What is interest?",
-     "options": [
-      "A discount for paying early",
-      "The cost of borrowing someone else's money",
-      "A government tax on loans",
-      "Money the bank gives you for free"
+      "Always, on every purchase",
+      "Only if you pay the full balance by the due date",
+      "Only if you pay the minimum",
+      "Only on purchases over $100"
      ],
      "a": 1,
-     "why": "Interest is what the lender charges you for using their money."
+     "why": "Pay the whole closing balance by the due date, or interest is charged."
     },
     {
-     "q": "Which word means 'goes down in value over time'?",
+     "q": "What is the average standard credit card interest rate in Australia, roughly?",
      "options": [
-      "Appreciate",
-      "Compound",
-      "Depreciate",
-      "Principal"
+      "About 2% a year",
+      "About 7% a year",
+      "About 20% a year",
+      "About 50% a year"
      ],
      "a": 2,
-     "why": "Cars, phones and clothes depreciate."
+     "why": "RBA data puts the average standard card rate around 20% a year."
     },
     {
-     "q": "Which of these is a lender?",
+     "q": "What is compound interest?",
      "options": [
-      "A credit union",
-      "A car",
-      "A pay slip",
-      "A budget"
-     ],
-     "a": 0,
-     "why": "Banks, credit unions and BNPL companies all lend money."
-    },
-    {
-     "q": "Which government body regulates lenders and runs the Moneysmart website?",
-     "options": [
-      "The ATO",
-      "ASIC",
-      "The RBA",
-      "Centrelink"
+      "Interest on the original amount only",
+      "Interest charged on interest",
+      "A fee for paying early",
+      "A discount for good customers"
      ],
      "a": 1,
-     "why": "ASIC is the Australian Securities and Investments Commission. Moneysmart is its free help site."
+     "why": "Interest is added to what you owe, then you're charged interest on the bigger amount."
     },
     {
-     "q": "What does 'appreciate' mean for an asset?",
+     "q": "Why is paying only the minimum repayment a trap?",
      "options": [
-      "It loses value",
-      "It gains value",
-      "It needs insurance",
-      "It can't be sold"
+      "It hurts your credit score straight away",
+      "Most of the payment goes on interest, so the debt barely drops",
+      "The bank cancels your card",
+      "It's illegal"
      ],
      "a": 1,
-     "why": "Appreciating assets go up in value, like property or shares over the long run."
+     "why": "At the minimum, a $2,000 balance at 20% can take close to 20 years to clear."
     },
     {
-     "q": "Total to repay on a loan equals...",
+     "q": "How does Afterpay make most of its money?",
      "options": [
-      "Principal minus interest",
-      "Interest only",
-      "Principal plus interest",
-      "Principal times interest"
+      "Charging shoppers interest",
+      "Fees paid by shops on each sale, plus late fees",
+      "Government grants",
+      "Selling phones"
+     ],
+     "a": 1,
+     "why": "Shops pay a fee on every sale. Late payers pay late fees."
+    },
+    {
+     "q": "Since 10 June 2025, BNPL providers in Australia must...",
+     "options": [
+      "Charge 20% interest",
+      "Hold a credit licence and check you can afford it",
+      "Only sell to people over 25",
+      "Stop charging late fees"
+     ],
+     "a": 1,
+     "why": "BNPL is now regulated as credit under the National Credit Act."
+    },
+    {
+     "q": "Which number gives free financial counselling through the National Debt Helpline?",
+     "options": [
+      "000",
+      "131 450",
+      "1800 007 007",
+      "13 11 14"
      ],
      "a": 2,
-     "why": "You pay back what you borrowed plus the cost of borrowing it."
+     "why": "1800 007 007 is the free, confidential National Debt Helpline."
     },
     {
-     "q": "What makes debt 'good' debt?",
+     "q": "What helps build a good credit score?",
      "options": [
-      "It has a low weekly repayment",
-      "It buys something likely to grow in value or help you earn",
-      "A friend recommended it",
-      "It is approved quickly"
+      "Applying for lots of cards at once",
+      "Paying every bill and repayment on time",
+      "Maxing out your limit",
+      "Missing a BNPL payment"
      ],
      "a": 1,
-     "why": "The key question: will this grow in value or help me earn more?"
+     "why": "On-time repayments are the biggest thing lenders look for."
     }
    ]
   },
@@ -314,95 +315,102 @@ const CONFIG = {
    "intro": "Decide if each statement is a fact or a myth.",
    "items": [
     {
-     "t": "Borrowing to buy property is a guaranteed way to get rich.",
+     "t": "Paying only the minimum is the fastest way to clear a credit card.",
      "a": false,
-     "why": "Property prices can fall, and you still owe the full loan."
+     "why": "It's the slowest way. Most of the payment is interest."
     },
     {
-     "t": "A shorter loan term usually means less total interest.",
+     "t": "Buy now pay later is always cheaper than a credit card.",
+     "a": false,
+     "why": "Late fees can make BNPL dearer than a low-rate card."
+    },
+    {
+     "t": "A missed BNPL payment can show up on your credit report.",
      "a": true,
-     "why": "Fewer years of owing money means fewer years of interest."
+     "why": "Lenders can see repayment history, including BNPL."
     },
     {
-     "t": "Good debt has no risk at all.",
-     "a": false,
-     "why": "Good debt still has risk. It just has a chance of paying you back."
-    },
-    {
-     "t": "Missing loan repayments can hurt your credit report.",
+     "t": "Afterpay was started in Sydney in 2014.",
      "a": true,
-     "why": "Lenders see missed payments, which can make future loans harder or dearer."
+     "why": "Nick Molnar and Anthony Eisen founded it in Sydney in 2014."
     },
     {
-     "t": "If the weekly repayment is small, the loan must be cheap.",
+     "t": "Your credit limit is a spending target you should aim for.",
      "a": false,
-     "why": "A long loan with small repayments can cost far more in total."
+     "why": "The limit is the most you can owe, not a goal."
     },
     {
-     "t": "HECS-HELP debts were cut by 20% in 2025.",
+     "t": "Banks generally refund fraud on a stolen card if you report it quickly.",
      "a": true,
-     "why": "The government legislated a 20% cut to all HELP debts in July 2025."
+     "why": "Unauthorised transactions are usually refunded if you weren't careless."
     },
     {
-     "t": "A car usually goes up in value after you buy it.",
+     "t": "The National Debt Helpline charges a fee for advice.",
      "a": false,
-     "why": "Most cars depreciate, especially in the first few years."
+     "why": "It's free and confidential."
     }
    ]
   },
   {
    "type": "num",
-   "name": "Run the numbers",
-   "intro": "Use Interest = Principal x Rate x Time. Rate as a decimal. Type the dollar amount only.",
+   "name": "Compounding maths",
+   "intro": "Use a calculator. Compound yearly means multiply by 1.2 for 20% each year. Type the number only.",
    "items": [
     {
-     "q": "You borrow $1,000 at 10% for 1 year. How much interest?",
-     "a": 100,
+     "q": "You owe $1,000 at 20% per year, no repayments. What do you owe after 1 year?",
+     "a": 1200,
      "unit": "$",
      "tol": 0.5,
-     "why": "1,000 x 0.10 x 1 = $100"
+     "why": "$1,000 x 1.2 = $1,200"
     },
     {
-     "q": "You borrow $2,000 at 5% for 3 years. How much interest?",
-     "a": 300,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "2,000 x 0.05 x 3 = $300"
-    },
-    {
-     "q": "You borrow $4,000 at 12% for 3 years. How much interest?",
+     "q": "Same $1,000 at 20%, interest compounding yearly. What do you owe after 2 years?",
      "a": 1440,
      "unit": "$",
      "tol": 0.5,
-     "why": "4,000 x 0.12 x 3 = $1,440"
+     "why": "$1,200 x 1.2 = $1,440"
     },
     {
-     "q": "Same $4,000 loan at 12% for 3 years. What is the TOTAL you repay?",
-     "a": 5440,
+     "q": "Same $1,000 at 20%, compounding yearly. What do you owe after 3 years?",
+     "a": 1728,
      "unit": "$",
      "tol": 0.5,
-     "why": "$4,000 principal + $1,440 interest = $5,440"
+     "why": "$1,440 x 1.2 = $1,728"
     },
     {
-     "q": "You borrow $500 at 20% for 1 year. How much interest?",
+     "q": "You owe $500 at 20% per year, compounding yearly, no repayments. What do you owe after 2 years?",
+     "a": 720,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$500 x 1.2 = $600, then $600 x 1.2 = $720"
+    },
+    {
+     "q": "A card has a $2,000 balance at 20% a year. Roughly how much interest is charged in ONE month? (Yearly interest / 12)",
+     "a": 33.33,
+     "unit": "$",
+     "tol": 0.05,
+     "why": "$2,000 x 0.20 = $400 a year. $400 / 12 = $33.33"
+    },
+    {
+     "q": "The minimum repayment is 2% of a $2,000 balance. How much is it?",
+     "a": 40,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$2,000 x 0.02 = $40"
+    },
+    {
+     "q": "A $400 purchase is split into 4 equal BNPL payments. How much is each payment?",
      "a": 100,
      "unit": "$",
      "tol": 0.5,
-     "why": "500 x 0.20 x 1 = $100"
+     "why": "$400 / 4 = $100"
     },
     {
-     "q": "You borrow $3,000 at 8% for 2 years. How much interest?",
-     "a": 480,
+     "q": "Afterpay charges $10 for a late payment, then $7 more if it's still unpaid 7 days later. Total late fees on that one payment?",
+     "a": 17,
      "unit": "$",
      "tol": 0.5,
-     "why": "3,000 x 0.08 x 2 = $480"
-    },
-    {
-     "q": "A car costs $9,000. You pay a $5,000 deposit. How much do you need to borrow?",
-     "a": 4000,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$9,000 minus $5,000 = $4,000. You'll do this exact step in the assessment."
+     "why": "$10 + $7 = $17"
     }
    ]
   }
