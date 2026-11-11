@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Swipe Smart | Lesson 2</title>
+<title>Fully Covered | Lesson 4</title>
 <style>
   :root {
-    --ink: #14213D; --accent: #6D28D9; --accent-soft: #EDE9FE;
+    --ink: #14213D; --accent: #1D4E89; --accent-soft: #E8EEF7;
     --good: #0E7C66; --good-soft: #E6F4F1; --bad: #B42318; --bad-soft: #FCEBEA;
     --yellow: #FFE14D; --tint: #F1F5F9; --muted: #64748B; --line: #CBD5E1;
   }
@@ -90,7 +90,7 @@
 </head>
 <body>
 <header>
-  <div class="logo" aria-hidden="true">💳</div>
+  <div class="logo" aria-hidden="true">🚗</div>
   <div><h1 id="gTitle"></h1><div class="sub" id="gSub"></div></div>
   <div class="hud">
     <span class="chip">Score <b id="hScore">0</b></span>
@@ -107,201 +107,140 @@
 
 <script>
 const CONFIG = {
- "lesson": 2,
- "title": "Swipe Smart",
- "tagline": "Credit cards, BNPL and compound interest",
- "icon": "💳",
- "accent": "6D28D9",
- "accentSoft": "EDE9FE",
- "intro": "You've just been handed a credit card with a $2,000 balance on it. Every correct answer pays $80 off the card. Every wrong answer costs you $40 in interest. Four rounds. Can you pay the whole thing off?",
+ "lesson": 4,
+ "title": "Fully Covered",
+ "tagline": "Insurance and the true cost of a car",
+ "icon": "🚗",
+ "accent": "1D4E89",
+ "accentSoft": "E8EEF7",
+ "intro": "You've just bought your first car and have $3,000 in your car fund. Every smart call adds to it. Every bad call costs you, like an uninsured crash. Four rounds, then your results and certificate.",
  "meter": {
-  "name": "Card paid off",
+  "name": "Car fund",
   "prefix": "$",
-  "start": 0,
-  "up": 80,
-  "down": 40,
+  "start": 3000,
+  "up": 150,
+  "down": 250,
   "min": 0,
-  "max": 2000,
-  "blurb": "Your meter shows how much of the $2,000 card you've paid off.",
+  "max": 8000,
+  "blurb": "Your car fund starts at $3,000.",
   "badge": {
-   "icon": "🎉",
-   "title": "Debt free",
-   "desc": "Pay off the whole $2,000 card",
-   "atLeast": 2000
+   "icon": "🛡️",
+   "title": "Fully covered",
+   "desc": "Finish with a car fund of $6,000+",
+   "atLeast": 6000
   }
  },
  "verdicts": [
   {
    "min": 90,
-   "text": "Card cleared, zero interest. The bank makes no money out of you."
+   "text": "Insurer's dream customer. You know exactly what you're paying for."
   },
   {
    "min": 70,
-   "text": "Nearly debt free. Check your mistake review and you're there."
+   "text": "Well covered. Check your mistake review and you're there."
   },
   {
    "min": 50,
-   "text": "You're paying a fair bit of interest. Go back over the mistakes."
+   "text": "Some gaps in your cover. Go back over the mistakes."
   },
   {
    "min": 0,
-   "text": "The minimum repayment trap got you this time. Copy your mistakes, then play again."
+   "text": "Underinsured for now. Copy your mistakes, then play again."
   }
  ],
  "rounds": [
   {
-   "type": "sort",
-   "name": "Debit or credit?",
-   "buckets": [
-    "Debit (your money)",
-    "Credit (borrowed)"
-   ],
-   "intro": "Is each one spending your own money (debit) or borrowed money (credit)? Remember: BNPL is borrowed money.",
-   "items": [
-    {
-     "t": "Tapping a card linked to your everyday bank account",
-     "a": 0,
-     "why": "A debit card spends money already in your account."
-    },
-    {
-     "t": "Using a card with a $3,000 limit from the bank",
-     "a": 1,
-     "why": "A credit limit is how much of the bank's money you can borrow."
-    },
-    {
-     "t": "Paying for a $400 jacket in 4 Afterpay instalments",
-     "a": 1,
-     "why": "BNPL is a loan: the provider pays the shop and you owe them."
-    },
-    {
-     "t": "Money leaves your account straight away",
-     "a": 0,
-     "why": "That's debit. Credit is paid back later."
-    },
-    {
-     "t": "You get a monthly statement with a minimum repayment",
-     "a": 1,
-     "why": "Minimum repayments only exist when you owe money."
-    },
-    {
-     "t": "You can't spend more than is in your account",
-     "a": 0,
-     "why": "Debit stops when your money runs out."
-    },
-    {
-     "t": "Interest is charged if you don't pay the full balance by the due date",
-     "a": 1,
-     "why": "That's how credit cards charge interest."
-    },
-    {
-     "t": "EFTPOS with your savings at a Werribee supermarket",
-     "a": 0,
-     "why": "EFTPOS from savings is your own money."
-    },
-    {
-     "t": "Zip Pay for a gaming headset",
-     "a": 1,
-     "why": "Zip is buy now pay later, which is borrowed money."
-    },
-    {
-     "t": "Your phone bill comes straight out of your bank account",
-     "a": 0,
-     "why": "A direct debit from your account uses your own money."
-    }
-   ]
-  },
-  {
    "type": "mcq",
-   "name": "Card and BNPL basics",
-   "intro": "Pick the best answer.",
+   "name": "Which insurance covers this?",
+   "intro": "Pick the insurance you would claim on.",
    "items": [
     {
-     "q": "When does a credit card's interest-free period actually save you interest?",
+     "q": "Your laptop and phone are stolen from the unit you rent in Werribee.",
      "options": [
-      "Always, on every purchase",
-      "Only if you pay the full balance by the due date",
-      "Only if you pay the minimum",
-      "Only on purchases over $100"
+      "Contents",
+      "Home (building)",
+      "Car",
+      "Life"
      ],
-     "a": 1,
-     "why": "Pay the whole closing balance by the due date, or interest is charged."
+     "a": 0,
+     "why": "Contents covers your belongings. The landlord insures the building."
     },
     {
-     "q": "What is the average standard credit card interest rate in Australia, roughly?",
+     "q": "A storm rips the roof off a house you own in Manor Lakes.",
      "options": [
-      "About 2% a year",
-      "About 7% a year",
-      "About 20% a year",
-      "About 50% a year"
+      "Contents",
+      "Home (building)",
+      "Travel",
+      "Income protection"
+     ],
+     "a": 1,
+     "why": "Building insurance covers the structure: roof, walls, floors."
+    },
+    {
+     "q": "You break your leg on holiday in Bali and need hospital care there.",
+     "options": [
+      "Medicare",
+      "Travel",
+      "Contents",
+      "CTP"
+     ],
+     "a": 1,
+     "why": "Medicare doesn't cover you in most countries. Travel insurance covers overseas medical bills."
+    },
+    {
+     "q": "An injury stops you working for 6 months and you need most of your pay replaced.",
+     "options": [
+      "Income protection",
+      "Life",
+      "Contents",
+      "Comprehensive car"
+     ],
+     "a": 0,
+     "why": "Income protection replaces part of your pay while you can't work."
+    },
+    {
+     "q": "You want your family paid a lump sum if you die.",
+     "options": [
+      "Health",
+      "Travel",
+      "Life",
+      "Building"
      ],
      "a": 2,
-     "why": "RBA data puts the average standard card rate around 20% a year."
+     "why": "Life insurance pays a lump sum to the people you leave behind."
     },
     {
-     "q": "What is compound interest?",
+     "q": "You want to choose your own surgeon and avoid some public waiting lists.",
      "options": [
-      "Interest on the original amount only",
-      "Interest charged on interest",
-      "A fee for paying early",
-      "A discount for good customers"
+      "Private health",
+      "CTP",
+      "Contents",
+      "Travel"
+     ],
+     "a": 0,
+     "why": "Private hospital cover gives you choice of doctor and hospital. Medicare is the free public system."
+    },
+    {
+     "q": "You cause a crash in Victoria and the other driver is injured. What pays for the injuries?",
+     "options": [
+      "Contents",
+      "The TAC (CTP charge in your rego)",
+      "Third party property damage",
+      "Travel"
      ],
      "a": 1,
-     "why": "Interest is added to what you owe, then you're charged interest on the bigger amount."
+     "why": "CTP covers injuries to people. In Victoria it's the TAC charge paid with your rego."
     },
     {
-     "q": "Why is paying only the minimum repayment a trap?",
+     "q": "You crash into a fence and dent your own car. Which car policy fixes YOUR car?",
      "options": [
-      "It hurts your credit score straight away",
-      "Most of the payment goes on interest, so the debt barely drops",
-      "The bank cancels your card",
-      "It's illegal"
+      "CTP",
+      "Third party property damage",
+      "Third party, fire and theft",
+      "Comprehensive"
      ],
-     "a": 1,
-     "why": "At the minimum, a $2,000 balance at 20% can take close to 20 years to clear."
-    },
-    {
-     "q": "How does Afterpay make most of its money?",
-     "options": [
-      "Charging shoppers interest",
-      "Fees paid by shops on each sale, plus late fees",
-      "Government grants",
-      "Selling phones"
-     ],
-     "a": 1,
-     "why": "Shops pay a fee on every sale. Late payers pay late fees."
-    },
-    {
-     "q": "Since 10 June 2025, BNPL providers in Australia must...",
-     "options": [
-      "Charge 20% interest",
-      "Hold a credit licence and check you can afford it",
-      "Only sell to people over 25",
-      "Stop charging late fees"
-     ],
-     "a": 1,
-     "why": "BNPL is now regulated as credit under the National Credit Act."
-    },
-    {
-     "q": "Which number gives free financial counselling through the National Debt Helpline?",
-     "options": [
-      "000",
-      "131 450",
-      "1800 007 007",
-      "13 11 14"
-     ],
-     "a": 2,
-     "why": "1800 007 007 is the free, confidential National Debt Helpline."
-    },
-    {
-     "q": "What helps build a good credit score?",
-     "options": [
-      "Applying for lots of cards at once",
-      "Paying every bill and repayment on time",
-      "Maxing out your limit",
-      "Missing a BNPL payment"
-     ],
-     "a": 1,
-     "why": "On-time repayments are the biggest thing lenders look for."
+     "a": 3,
+     "why": "Only comprehensive covers your own car in a crash you caused."
     }
    ]
   },
@@ -315,102 +254,165 @@ const CONFIG = {
    "intro": "Decide if each statement is a fact or a myth.",
    "items": [
     {
-     "t": "Paying only the minimum is the fastest way to clear a credit card.",
-     "a": false,
-     "why": "It's the slowest way. Most of the payment is interest."
-    },
-    {
-     "t": "Buy now pay later is always cheaper than a credit card.",
-     "a": false,
-     "why": "Late fees can make BNPL dearer than a low-rate card."
-    },
-    {
-     "t": "A missed BNPL payment can show up on your credit report.",
+     "t": "Risk pooling means many people pay premiums so the few who have a loss are covered.",
      "a": true,
-     "why": "Lenders can see repayment history, including BNPL."
+     "why": "That's the whole idea of insurance: many pay a little, the few with a loss are paid."
     },
     {
-     "t": "Afterpay was started in Sydney in 2014.",
+     "t": "The excess is the amount you pay toward a claim before the insurer pays the rest.",
      "a": true,
-     "why": "Nick Molnar and Anthony Eisen founded it in Sydney in 2014."
+     "why": "Your share of each claim. It stops people claiming for every small scratch."
     },
     {
-     "t": "Your credit limit is a spending target you should aim for.",
+     "t": "Choosing a higher excess usually makes your premium higher.",
      "a": false,
-     "why": "The limit is the most you can owe, not a goal."
+     "why": "It's the other way round. Higher excess = lower premium, because you carry more of the risk."
     },
     {
-     "t": "Banks generally refund fraud on a stolen card if you report it quickly.",
+     "t": "CTP insurance covers damage to other people's cars.",
+     "a": false,
+     "why": "CTP only covers injuries to people. Damage to cars needs third party property or comprehensive."
+    },
+    {
+     "t": "In Victoria, CTP is paid through your rego as the TAC charge.",
      "a": true,
-     "why": "Unauthorised transactions are usually refunded if you weren't careless."
+     "why": "The TAC charge is built into Victorian registration."
     },
     {
-     "t": "The National Debt Helpline charges a fee for advice.",
+     "t": "Third party, fire and theft pays to fix your own car after you cause a crash.",
      "a": false,
-     "why": "It's free and confidential."
+     "why": "It covers other people's property, plus your car if stolen or burnt. Not your own crash damage."
+    },
+    {
+     "t": "Lenders usually want comprehensive insurance on a car bought with a loan.",
+     "a": true,
+     "why": "The car is the loan's security, so the lender wants it protected."
+    },
+    {
+     "t": "Telling the insurer Mum is the main driver of your car is fine if it saves money.",
+     "a": false,
+     "why": "That's 'fronting', a misrepresentation. The insurer can reduce or refuse your claim."
+    }
+   ]
+  },
+  {
+   "type": "sort",
+   "name": "Fixed or variable cost?",
+   "buckets": [
+    "Fixed cost",
+    "Variable cost"
+   ],
+   "intro": "Fixed costs stay the same however much you drive. Variable costs go up the more you drive.",
+   "items": [
+    {
+     "t": "Yearly rego (including the TAC charge)",
+     "a": 0,
+     "why": "You pay the same rego whether you drive 100 km or 20,000 km."
+    },
+    {
+     "t": "Comprehensive insurance premium",
+     "a": 0,
+     "why": "The premium is set for the year. It doesn't change with each trip."
+    },
+    {
+     "t": "Monthly car loan repayment",
+     "a": 0,
+     "why": "Set by your loan amount, rate and term."
+    },
+    {
+     "t": "Fuel",
+     "a": 1,
+     "why": "More kilometres, more litres, more dollars. The biggest variable cost."
+    },
+    {
+     "t": "Tyres wearing out",
+     "a": 1,
+     "why": "Tyres wear with every kilometre, so more driving means replacing them sooner."
+    },
+    {
+     "t": "Tolls on CityLink",
+     "a": 1,
+     "why": "You only pay tolls for the trips you take on toll roads."
+    },
+    {
+     "t": "Servicing every 10,000 km",
+     "a": 1,
+     "why": "Servicing by kilometres comes around faster the more you drive."
+    },
+    {
+     "t": "Yearly roadside assistance membership",
+     "a": 0,
+     "why": "A set yearly fee, whether you break down or not."
     }
    ]
   },
   {
    "type": "num",
-   "name": "Compounding maths",
-   "intro": "Use a calculator. Compound yearly means multiply by 1.2 for 20% each year. Type the number only.",
+   "name": "Policy and fuel maths",
+   "intro": "Use a calculator. Type the number only. Fuel formula: 1,000 / km per tank = tanks; tanks x tank litres = litres; litres x price = cost.",
    "items": [
     {
-     "q": "You owe $1,000 at 20% per year, no repayments. What do you owe after 1 year?",
-     "a": 1200,
+     "q": "Repair bill $3,000. Your excess is $800. How much does the insurer pay?",
+     "a": 2200,
      "unit": "$",
      "tol": 0.5,
-     "why": "$1,000 x 1.2 = $1,200"
+     "why": "$3,000 minus your $800 excess = $2,200"
     },
     {
-     "q": "Same $1,000 at 20%, interest compounding yearly. What do you owe after 2 years?",
-     "a": 1440,
+     "q": "A premium is $3,293 a year. What is that per month, to the nearest dollar?",
+     "a": 274,
+     "unit": "$",
+     "tol": 1,
+     "why": "3,293 / 12 = 274.42, about $274 a month"
+    },
+    {
+     "q": "An insurance quote is $280 a month. What is the yearly cost?",
+     "a": 3360,
      "unit": "$",
      "tol": 0.5,
-     "why": "$1,200 x 1.2 = $1,440"
+     "why": "280 x 12 = $3,360"
     },
     {
-     "q": "Same $1,000 at 20%, compounding yearly. What do you owe after 3 years?",
-     "a": 1728,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$1,440 x 1.2 = $1,728"
+     "q": "A car gets 500 km per tank. How many tanks for 1,000 km a month?",
+     "a": 2,
+     "unit": "",
+     "tol": 0.01,
+     "why": "1,000 / 500 = 2 tanks"
     },
     {
-     "q": "You owe $500 at 20% per year, compounding yearly, no repayments. What do you owe after 2 years?",
-     "a": 720,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$500 x 1.2 = $600, then $600 x 1.2 = $720"
+     "q": "The tank holds 40 L and you use 2 tanks a month. How many litres a month?",
+     "a": 80,
+     "unit": "",
+     "tol": 0.01,
+     "why": "2 x 40 = 80 litres"
     },
     {
-     "q": "A card has a $2,000 balance at 20% a year. Roughly how much interest is charged in ONE month? (Yearly interest / 12)",
-     "a": 33.33,
+     "q": "You use 80 L a month and Unleaded 91 is $1.86 a litre. Monthly fuel cost?",
+     "a": 148.8,
      "unit": "$",
      "tol": 0.05,
-     "why": "$2,000 x 0.20 = $400 a year. $400 / 12 = $33.33"
+     "why": "80 x 1.86 = $148.80"
     },
     {
-     "q": "The minimum repayment is 2% of a $2,000 balance. How much is it?",
-     "a": 40,
-     "unit": "$",
+     "q": "An ad says 50 L tank and 8 L/100km. How many km per tank?",
+     "a": 625,
+     "unit": "",
      "tol": 0.5,
-     "why": "$2,000 x 0.02 = $40"
+     "why": "50 / 8 x 100 = 625 km per tank"
     },
     {
-     "q": "A $400 purchase is split into 4 equal BNPL payments. How much is each payment?",
-     "a": 100,
+     "q": "45 L tank, 6 L/100km, 1,000 km a month, fuel $2.00 a litre. Monthly fuel cost?",
+     "a": 120,
      "unit": "$",
      "tol": 0.5,
-     "why": "$400 / 4 = $100"
+     "why": "45 / 6 x 100 = 750 km per tank. 1,000 / 750 = 1.333 tanks. 1.333 x 45 = 60 L. 60 x $2.00 = $120"
     },
     {
-     "q": "Afterpay charges $10 for a late payment, then $7 more if it's still unpaid 7 days later. Total late fees on that one payment?",
-     "a": 17,
+     "q": "Bought for $20,000, sold 4 years later for $12,000. Depreciation per year?",
+     "a": 2000,
      "unit": "$",
      "tol": 0.5,
-     "why": "$10 + $7 = $17"
+     "why": "($20,000 minus $12,000) / 4 = $2,000 a year"
     }
    ]
   }
