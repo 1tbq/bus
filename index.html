@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Super Stash | Lesson 6</title>
+<title>Keys in Hand | Lesson 7</title>
 <style>
   :root {
     --ink: #14213D; --accent: #1D4E89; --accent-soft: #E3ECF7;
@@ -90,7 +90,7 @@
 </head>
 <body>
 <header>
-  <div class="logo" aria-hidden="true">🪺</div>
+  <div class="logo" aria-hidden="true">🚗</div>
   <div><h1 id="gTitle"></h1><div class="sub" id="gSub"></div></div>
   <div class="hud">
     <span class="chip">Score <b id="hScore">0</b></span>
@@ -107,305 +107,336 @@
 
 <script>
 const CONFIG = {
- "lesson": 6,
- "title": "Super Stash",
- "tagline": "Superannuation: who pays, how it works and why it matters",
- "icon": "🪺",
+ "lesson": 7,
+ "title": "Keys in Hand",
+ "tagline": "Summative dress rehearsal: deposit, fuel, insurance, loans and budget",
+ "icon": "🚗",
  "accent": "1D4E89",
  "accentSoft": "E3ECF7",
- "intro": "You've just started your first full-time job and your super balance is $60,000 (pretend you had a head start). Every right answer grows it. Every wrong answer costs you in fees and lost growth. Four rounds, then your results and certificate.",
+ "intro": "You're 21, you take home $1,000 a week and you've got $2,000 in the bank. Every right answer adds to your bank balance. Every wrong one costs you. Four rounds of the exact maths on tomorrow's paper. Calculators allowed.",
  "meter": {
-  "name": "Super balance",
+  "name": "Bank balance",
   "prefix": "$",
-  "start": 60000,
-  "up": 5000,
-  "down": 6000,
+  "start": 2000,
+  "up": 150,
+  "down": 250,
   "min": 0,
-  "max": 200000,
-  "blurb": "Your super balance starts at $60,000.",
+  "max": 6000,
+  "blurb": "Your bank balance starts at $2,000.",
   "badge": {
-   "icon": "🏖️",
-   "title": "Comfortable Retiree",
-   "desc": "Finish with a super balance of $150,000 or more",
-   "atLeast": 150000
+   "icon": "🔑",
+   "title": "Debt-free driver",
+   "desc": "Finish with a bank balance of $4,000 or more",
+   "atLeast": 4000
   }
  },
  "verdicts": [
   {
    "min": 90,
-   "text": "Super star. You could run your own fund (but please don't, an SMSF at 16 is a bad idea)."
+   "text": "Keys in hand. You're ready for tomorrow."
   },
   {
    "min": 70,
-   "text": "Solid saver. Check your mistake review and you're there."
+   "text": "Nearly there. Copy your mistakes and check the method for each."
   },
   {
    "min": 50,
-   "text": "Your super is growing, but fees are biting. Go back over the mistakes."
+   "text": "Test drive needed. Go back over the worked example slides tonight."
   },
   {
    "min": 0,
-   "text": "Your future self needs a word with you. Copy your mistakes, then play again."
+   "text": "Not road ready yet. Copy every mistake, then play again."
   }
  ],
  "rounds": [
   {
-   "type": "sort",
-   "name": "Who pays it?",
-   "buckets": [
-    "Employer (Super Guarantee)",
-    "You or the government"
-   ],
-   "intro": "Decide who is making each contribution: the employer paying the compulsory Super Guarantee, or someone else (you, or the government).",
+   "type": "num",
+   "name": "Deposit and monthly money",
+   "intro": "Deposit subtraction and weekly to monthly. Weekly to monthly is x 52 / 12. Type numbers only.",
    "items": [
     {
-     "t": "12% of Liam's ordinary wage, paid on top of his pay",
-     "a": 0,
-     "why": "That's the Super Guarantee. It's compulsory and paid by the employer on top of wages."
+     "q": "A car costs $19,990. You use the $5,000 gift as a deposit. How much do you borrow?",
+     "a": 14990,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$19,990 minus $5,000 = $14,990. Show this subtraction in Task 3."
     },
     {
-     "t": "$50 a week Aaliyah sets up through salary sacrifice",
-     "a": 1,
-     "why": "Salary sacrifice is YOUR choice to send some of your before-tax pay to super."
+     "q": "A car costs $12,500. You use the $5,000 gift as a deposit. How much do you borrow?",
+     "a": 7500,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$12,500 minus $5,000 = $7,500. Show this subtraction in Task 3."
     },
     {
-     "t": "A $500 co-contribution for a low-income earner",
-     "a": 1,
-     "why": "The government co-contribution is paid by the government when lower-income earners add after-tax money."
+     "q": "A car costs $27,450. You use the $5,000 gift as a deposit. How much do you borrow?",
+     "a": 22450,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$27,450 minus $5,000 = $22,450. Show this subtraction in Task 3."
     },
     {
-     "t": "Super paid every payday since 1 July 2026",
-     "a": 0,
-     "why": "Payday Super is a rule about when EMPLOYERS must pay the Super Guarantee."
+     "q": "A car costs $8,999. You use the $5,000 gift as a deposit. How much do you borrow?",
+     "a": 3999,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$8,999 minus $5,000 = $3,999. Show this subtraction in Task 3."
     },
     {
-     "t": "$1,000 Noah adds from his savings after tax",
-     "a": 1,
-     "why": "That's a personal after-tax contribution from you."
+     "q": "Take-home pay is $1,000 a week. What is it per month? (2 decimal places)",
+     "a": 4333.33,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$1,000 x 52 = $52,000 a year, / 12 = $4,333.33 a month. Never x 4."
     },
     {
-     "t": "A refund of the 15% contributions tax for someone earning $30,000",
-     "a": 1,
-     "why": "That's the Low Income Super Tax Offset (LISTO), paid by the government."
+     "q": "Take-home pay is $750 a week. What is it per month? (2 decimal places)",
+     "a": 3250,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$750 x 52 = $39,000 a year, / 12 = $3,250.00 a month. Never x 4."
     },
     {
-     "t": "Super for a 17-year-old working 32 hours a week",
-     "a": 0,
-     "why": "Under-18s who work more than 30 hours in a week must get the Super Guarantee."
+     "q": "Take-home pay is $1,200 a week. What is it per month? (2 decimal places)",
+     "a": 5200,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$1,200 x 52 = $62,400 a year, / 12 = $5,200.00 a month. Never x 4."
     },
     {
-     "t": "A tax refund you choose to put into your super fund",
-     "a": 1,
-     "why": "That's your own after-tax money, so it's a personal contribution."
-    }
-   ]
-  },
-  {
-   "type": "mcq",
-   "name": "Super terms",
-   "intro": "Pick the best answer.",
-   "items": [
-    {
-     "q": "What is the Super Guarantee rate in 2026?",
-     "options": [
-      "9%",
-      "11.5%",
-      "12%",
-      "15%"
-     ],
-     "a": 2,
-     "why": "SG has been 12% since 1 July 2025. 11.5% was the 2024-25 rate."
+     "q": "A car insurance premium is $55 a week. What is it per month? (2 decimal places)",
+     "a": 238.33,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$55 x 52 = $2,860 a year, / 12 = $238.33 a month. Never x 4."
     },
     {
-     "q": "What is the preservation age for someone your age?",
-     "options": [
-      "55",
-      "60",
-      "67",
-      "There isn't one"
-     ],
-     "a": 1,
-     "why": "Preservation age is 60 for anyone born after 30 June 1964."
-    },
-    {
-     "q": "Who usually gets the profits of an industry super fund?",
-     "options": [
-      "Shareholders of a bank",
-      "The government",
-      "The members",
-      "The employer"
-     ],
-     "a": 2,
-     "why": "Industry funds are run for members, so profits go back to members."
-    },
-    {
-     "q": "What does consolidating your super mean?",
-     "options": [
-      "Taking it out early",
-      "Rolling several accounts into one",
-      "Switching to cash",
-      "Paying more tax"
-     ],
-     "a": 1,
-     "why": "Consolidating combines accounts so you pay one set of fees, not several."
-    },
-    {
-     "q": "Where can you compare MySuper products for free?",
-     "options": [
-      "A fund's TikTok ad",
-      "The ATO YourSuper comparison tool",
-      "A cold caller",
-      "Your employer's newsletter"
-     ],
-     "a": 1,
-     "why": "YourSuper is the government's own comparison tool on the ATO website."
-    },
-    {
-     "q": "Before-tax (concessional) contributions are usually taxed in super at...",
-     "options": [
-      "0%",
-      "15%",
-      "30%",
-      "45%"
-     ],
-     "a": 1,
-     "why": "15% is lower than most people's income tax rate, which is a key benefit of super."
-    },
-    {
-     "q": "Which is a benefit of super to Australia as a whole?",
-     "options": [
-      "Less reliance on the Age Pension",
-      "Higher petrol prices",
-      "Fewer jobs",
-      "Lower wages for everyone"
-     ],
-     "a": 0,
-     "why": "More retirees paying their own way means less pressure on the Age Pension and the budget."
-    },
-    {
-     "q": "Who led the deal that created compulsory super in 1992?",
-     "options": [
-      "John Howard and Peter Costello",
-      "Paul Keating and Bill Kelty",
-      "Gina Rinehart",
-      "The Reserve Bank"
-     ],
-     "a": 1,
-     "why": "Paul Keating's government and ACTU leader Bill Kelty made the deal. SG began in 1992 at 3% for most employers."
-    }
-   ]
-  },
-  {
-   "type": "tf",
-   "name": "Myth or fact?",
-   "buckets": [
-    "Fact",
-    "Myth"
-   ],
-   "intro": "Decide if each statement is a fact or a myth.",
-   "items": [
-    {
-     "t": "Your boss takes your super out of your take-home pay.",
-     "a": false,
-     "why": "The Super Guarantee is paid on top of your wage."
-    },
-    {
-     "t": "You can access super early to pay for a car.",
-     "a": false,
-     "why": "Super is preserved until 60 and retirement. Offers to release it for a car are scams."
-    },
-    {
-     "t": "Australians hold more than $4 trillion in super.",
-     "a": true,
-     "why": "APRA reported about $4.8 trillion in total super assets at 30 June 2026."
-    },
-    {
-     "t": "Three super accounts can mean paying three sets of fees.",
-     "a": true,
-     "why": "Every account charges fees, which is why consolidating can save money."
-    },
-    {
-     "t": "Retail funds always beat industry funds.",
-     "a": false,
-     "why": "Not always. Compare fees and returns, whoever runs the fund."
-    },
-    {
-     "t": "Insurance inside super is paid from your super balance.",
-     "a": true,
-     "why": "Premiums come out of your balance, which reduces your retirement savings."
-    },
-    {
-     "t": "If you earn $300 a month and you're over 18, you still get super.",
-     "a": true,
-     "why": "The $450 a month threshold was removed in July 2022."
-    },
-    {
-     "t": "About $21 billion of lost and ATO-held super is waiting to be claimed.",
-     "a": true,
-     "why": "The ATO reported about $21.2 billion at 30 June 2026. Check yours on myGov."
+     "q": "An insurance quote is $2,880 a year. What is that per month?",
+     "a": 240,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "Yearly to monthly: $2,880 / 12 = $240.00. Better still, switch the website to monthly."
     }
    ]
   },
   {
    "type": "num",
-   "name": "SG maths",
-   "intro": "Use SG = wage x 0.12. Type the dollar amount only (use decimals for cents).",
+   "name": "Fuel maths",
+   "intro": "km per tank = tank litres / (L per 100km) x 100. Then: 1,000 / km per tank = tanks; tanks x tank size = litres; litres x price = cost.",
    "items": [
     {
-     "q": "Liam earns $55,000 a year. How much SG does his employer pay a year?",
-     "a": 6600,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "55,000 x 0.12 = $6,600"
+     "q": "A car has a 50 L tank and uses 6.0 L/100km. How many km per tank? (nearest km)",
+     "a": 833,
+     "unit": "",
+     "tol": 1,
+     "why": "50 / 6.0 x 100 = 833 km per tank. This is what goes in the fuel economy box."
     },
     {
-     "q": "Aaliyah earns $1,150 a week. How much SG is paid each week?",
-     "a": 138,
+     "q": "A car has a 45 L tank and uses 7.5 L/100km. How many km per tank? (nearest km)",
+     "a": 600,
+     "unit": "",
+     "tol": 1,
+     "why": "45 / 7.5 x 100 = 600 km per tank. This is what goes in the fuel economy box."
+    },
+    {
+     "q": "A car has a 60 L tank and uses 8.0 L/100km. How many km per tank? (nearest km)",
+     "a": 750,
+     "unit": "",
+     "tol": 1,
+     "why": "60 / 8.0 x 100 = 750 km per tank. This is what goes in the fuel economy box."
+    },
+    {
+     "q": "A car has a 56 L tank and uses 7.0 L/100km. How many km per tank? (nearest km)",
+     "a": 800,
+     "unit": "",
+     "tol": 1,
+     "why": "56 / 7.0 x 100 = 800 km per tank. This is what goes in the fuel economy box."
+    },
+    {
+     "q": "You drive 1,000 km a month and get 800 km per tank. How many tanks per month?",
+     "a": 1.25,
+     "unit": "",
+     "tol": 0.01,
+     "why": "1,000 / 800 = 1.25 tanks per month."
+    },
+    {
+     "q": "You use 1.25 tanks a month and the tank holds 48 L. How many litres per month?",
+     "a": 60,
+     "unit": "",
+     "tol": 0.1,
+     "why": "1.25 x 48 = 60 litres per month."
+    },
+    {
+     "q": "You use 60 L a month. Unleaded 91 on the paper is $1.86. Monthly fuel cost?",
+     "a": 111.6,
      "unit": "$",
      "tol": 0.05,
-     "why": "1,150 x 0.12 = $138"
+     "why": "60 x $1.86 = $111.60."
     },
     {
-     "q": "Priya earns $2,000 a month. How much SG is paid each month?",
-     "a": 240,
+     "q": "A diesel car uses 100 L a month. Diesel on the paper is $1.90. Monthly fuel cost?",
+     "a": 190,
      "unit": "$",
      "tol": 0.05,
-     "why": "2,000 x 0.12 = $240"
+     "why": "100 x $1.90 = $190.00."
+    }
+   ]
+  },
+  {
+   "type": "mcq",
+   "name": "Insurance and loans",
+   "intro": "Pick the best answer.",
+   "items": [
+    {
+     "q": "Which type of car insurance covers damage to YOUR OWN car in an accident you caused?",
+     "options": [
+      "CTP",
+      "Third party property damage",
+      "Third party, fire and theft",
+      "Comprehensive"
+     ],
+     "a": 3,
+     "why": "Only comprehensive covers your own car when you're at fault, plus other people's property, fire, theft and more."
     },
     {
-     "q": "Noah earns $640 a week. How much SG is paid each week?",
-     "a": 76.8,
+     "q": "Why is comprehensive the most expensive type of car insurance?",
+     "options": [
+      "It includes your rego",
+      "The insurer promises to pay for the most things, including your own car",
+      "It is required by law for every car",
+      "It has no excess"
+     ],
+     "a": 1,
+     "why": "More cover means more likely and bigger claims, so a higher premium."
+    },
+    {
+     "q": "In Victoria, injury to people in a crash (CTP) is paid through...",
+     "options": [
+      "Comprehensive insurance",
+      "The TAC charge in your rego",
+      "Your health insurance",
+      "The car loan"
+     ],
+     "a": 1,
+     "why": "Victoria's CTP is the TAC charge, which is included in your registration."
+    },
+    {
+     "q": "Two quotes are the same except one has a higher excess. That one will usually have...",
+     "options": [
+      "A higher premium",
+      "A lower premium",
+      "The same premium",
+      "No cover for theft"
+     ],
+     "a": 1,
+     "why": "You agree to pay more of each claim yourself, so the insurer charges you less."
+    },
+    {
+     "q": "What does the comparison rate include that the interest rate doesn't?",
+     "options": [
+      "Most of the loan's fees",
+      "Your insurance",
+      "Your fuel costs",
+      "The deposit"
+     ],
+     "a": 0,
+     "why": "The comparison rate rolls the interest rate and most fees into one yearly percentage."
+    },
+    {
+     "q": "Same loan, same rate. Compared with a 3-year term, a 7-year term has...",
+     "options": [
+      "Higher repayments and lower total cost",
+      "Lower repayments and higher total cost",
+      "Lower repayments and lower total cost",
+      "Exactly the same total cost"
+     ],
+     "a": 1,
+     "why": "Spreading it out lowers each repayment but you pay interest for more years."
+    },
+    {
+     "q": "Why does a bank usually require comprehensive insurance on a car loan?",
+     "options": [
+      "It's cheaper for you",
+      "The car is the bank's security until the loan is paid",
+      "It lowers the interest rate to zero",
+      "It replaces the deposit"
+     ],
+     "a": 1,
+     "why": "If the car is written off uninsured, the bank's security is gone and you still owe the loan."
+    },
+    {
+     "q": "Which car can you NOT choose for the summative?",
+     "options": [
+      "A used petrol hatchback",
+      "A new diesel ute",
+      "An electric vehicle",
+      "A petrol hybrid SUV"
+     ],
+     "a": 2,
+     "why": "The paper bans EVs because the fuel task uses litres and petrol prices."
+    }
+   ]
+  },
+  {
+   "type": "num",
+   "name": "Budget and loan totals",
+   "intro": "Use Jas's numbers from the lesson: income $4,333.33, $14,990 borrowed at 8.5%, $250 application fee, $10 monthly fee.",
+   "items": [
+    {
+     "q": "Income $4,333.33. Rent $1,900, bills $200, groceries $400. How much is left before any car costs?",
+     "a": 1833.33,
      "unit": "$",
      "tol": 0.05,
-     "why": "640 x 0.12 = $76.80"
+     "why": "$4,333.33 minus $2,500 = $1,833.33."
     },
     {
-     "q": "Mia earns $900 a week for 52 weeks. How much SG is paid in the YEAR?",
-     "a": 5616,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "900 x 0.12 = $108 a week. 108 x 52 = $5,616"
-    },
-    {
-     "q": "Jay earns $65,000 a year. How much SG is that per week (52 weeks)?",
-     "a": 150,
+     "q": "Loan repayment is $307.54 a month and the monthly fee is $10. What goes in the budget?",
+     "a": 317.54,
      "unit": "$",
      "tol": 0.05,
-     "why": "65,000 x 0.12 = $7,800. 7,800 / 52 = $150"
+     "why": "$307.54 + $10 = $317.54. Don't forget the fee."
     },
     {
-     "q": "Sam salary sacrifices $1,000. Super takes 15% tax. How much lands in Sam's account?",
-     "a": 850,
+     "q": "Income $4,333.33, total expenses $3,191.54. What are the monthly savings?",
+     "a": 1141.79,
      "unit": "$",
-     "tol": 0.5,
-     "why": "15% of 1,000 = $150 tax. 1,000 minus 150 = $850"
+     "tol": 0.05,
+     "why": "$4,333.33 minus $3,191.54 = $1,141.79."
     },
     {
-     "q": "Zara earns $40,000 and adds $600 after tax. The government adds 50 cents per dollar (max $500). How much does it add?",
-     "a": 300,
+     "q": "Jas used $4,000 as income by mistake. Expenses $3,191.54. What savings would Jas wrongly write?",
+     "a": 808.46,
+     "unit": "$",
+     "tol": 0.05,
+     "why": "$4,000 minus $3,191.54 = $808.46, which is $333.33 too low. Use x 52 / 12."
+    },
+    {
+     "q": "Repayment $307.54 a month for 5 years (60 months). Total of the repayments?",
+     "a": 18452.4,
      "unit": "$",
      "tol": 0.5,
-     "why": "600 x 0.5 = $300, which is under the $500 maximum."
+     "why": "$307.54 x 60 = $18,452.40."
+    },
+    {
+     "q": "Add the $250 application fee and $10 x 60 monthly fees. Total cost of the 5-year loan?",
+     "a": 19302.4,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$18,452.40 + $250 + $600 = $19,302.40."
+    },
+    {
+     "q": "Jas borrowed $14,990. Repayments total $18,452.40. How much interest is that?",
+     "a": 3462.4,
+     "unit": "$",
+     "tol": 0.5,
+     "why": "$18,452.40 minus $14,990 = $3,462.40 interest."
+    },
+    {
+     "q": "A 3-year term costs $473.20 a month. How much more per month than the 5-year $307.54?",
+     "a": 165.66,
+     "unit": "$",
+     "tol": 0.05,
+     "why": "$473.20 minus $307.54 = $165.66 more each month, but less total interest."
     }
    ]
   }
