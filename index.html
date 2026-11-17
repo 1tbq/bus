@@ -3,653 +3,942 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Keys in Hand | Lesson 7</title>
+<title>Building a Narrative | Year 10 English</title>
 <style>
   :root {
-    --ink: #14213D; --accent: #1D4E89; --accent-soft: #E3ECF7;
-    --good: #0E7C66; --good-soft: #E6F4F1; --bad: #B42318; --bad-soft: #FCEBEA;
-    --yellow: #FFE14D; --tint: #F1F5F9; --muted: #64748B; --line: #CBD5E1;
+    --ink: #1f2430;
+    --muted: #5b6475;
+    --paper: #fbf8f3;
+    --card: #ffffff;
+    --line: #e4ddd1;
+    --accent: #c2410c;
+    --accent-soft: #fde7d9;
+    --blue: #1d4ed8;
+    --blue-soft: #dbe6fe;
+    --good: #15803d;
+    --good-soft: #dcfce7;
+    --bad: #b91c1c;
+    --bad-soft: #fee2e2;
+    --radius: 12px;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: "Segoe UI", Calibri, Arial, sans-serif; color: var(--ink); background: #F8FAFC; min-height: 100vh; }
-  button { font-family: inherit; }
-  header { background: var(--ink); color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-  header .logo { font-size: 30px; }
-  header h1 { font-size: 20px; margin: 0; letter-spacing: .5px; }
-  header .sub { font-size: 13px; color: #CBD5E1; }
-  header .hud { margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap; }
-  .chip { background: rgba(255,255,255,.12); border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 600; white-space: nowrap; }
-  .chip b { color: var(--yellow); }
-  .meter { padding: 10px 20px 0; max-width: 900px; margin: 0 auto; }
-  .meter-track { height: 14px; background: #E2E8F0; border-radius: 999px; overflow: hidden; }
-  .meter-fill { height: 100%; background: var(--accent); width: 50%; transition: width .4s, background .4s; }
-  .meter-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 4px; }
-  main { max-width: 900px; margin: 0 auto; padding: 18px 20px 40px; }
-  .card { background: #fff; border-radius: 16px; box-shadow: 0 2px 10px rgba(20,33,61,.08); padding: 26px; margin-bottom: 18px; }
-  .tag { display: inline-block; background: var(--ink); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 2px; padding: 5px 12px; border-radius: 999px; text-transform: uppercase; }
-  .tag.accent { background: var(--accent); }
-  h2 { font-size: 28px; margin: 12px 0 8px; }
-  p { line-height: 1.5; }
-  .muted { color: var(--muted); }
-  .big-btn { background: var(--accent); color: #fff; border: 0; border-radius: 12px; padding: 14px 26px; font-size: 18px; font-weight: 700; cursor: pointer; }
-  .big-btn:hover { filter: brightness(1.08); }
-  .big-btn.ghost { background: var(--tint); color: var(--ink); }
-  input[type=text], input[type=number] { font-size: 18px; padding: 12px 14px; border: 2px solid var(--line); border-radius: 10px; width: 100%; max-width: 360px; font-family: inherit; }
-  input:focus { outline: none; border-color: var(--accent); }
-  .rounds-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 18px 0; }
-  .round-pill { background: var(--tint); border-radius: 12px; padding: 12px 14px; }
-  .round-pill .n { display: inline-flex; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; align-items: center; justify-content: center; font-weight: 700; margin-right: 8px; }
-  .progress { display: flex; gap: 4px; margin: 14px 0 4px; }
-  .progress span { flex: 1; height: 6px; border-radius: 3px; background: #E2E8F0; }
-  .progress span.done-ok { background: var(--good); }
-  .progress span.done-bad { background: var(--bad); }
-  .progress span.now { background: var(--accent); }
-  .prompt { font-size: 24px; font-weight: 700; line-height: 1.35; margin: 18px 0; min-height: 66px; }
-  .opts { display: grid; gap: 12px; }
-  .opts.two { grid-template-columns: 1fr 1fr; }
-  .opt { text-align: left; background: var(--tint); border: 2px solid transparent; border-radius: 12px; padding: 16px 18px; font-size: 18px; cursor: pointer; color: var(--ink); line-height: 1.35; }
-  .opts.two .opt { text-align: center; font-weight: 700; font-size: 20px; padding: 22px; }
-  .opt:hover:not(:disabled) { border-color: var(--accent); }
-  .opt:disabled { cursor: default; }
-  .opt.right { background: var(--good-soft); border-color: var(--good); }
-  .opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
-  .opt .k { display: inline-flex; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 14px; }
-  .feedback { margin-top: 16px; border-radius: 12px; padding: 14px 18px; display: none; font-size: 17px; line-height: 1.45; }
-  .feedback.ok { display: block; background: var(--good-soft); }
-  .feedback.no { display: block; background: var(--bad-soft); }
-  .feedback strong { display: block; margin-bottom: 4px; }
-  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 16px; }
-  .float { position: fixed; top: 80px; right: 30px; font-size: 26px; font-weight: 800; color: var(--good); pointer-events: none; animation: up 1s forwards; }
-  .float.neg { color: var(--bad); }
-  @keyframes up { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-50px); } }
-  .streak-flash { animation: pulse .5s; }
-  @keyframes pulse { 50% { transform: scale(1.15); } }
-  .badges { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 16px 0; }
-  .badge { border-radius: 12px; padding: 14px; text-align: center; background: var(--tint); opacity: .45; }
-  .badge.earned { opacity: 1; background: #FFF6BF; }
-  .badge .i { font-size: 34px; }
-  .badge .t { font-weight: 700; margin-top: 6px; }
-  .badge .d { font-size: 13px; color: var(--muted); }
-  .review-item { border-left: 0; background: var(--bad-soft); border-radius: 10px; padding: 12px 14px; margin: 10px 0; }
-  .review-item .q { font-weight: 700; }
-  .score-big { font-size: 64px; font-weight: 800; color: var(--accent); margin: 6px 0; }
-  table.rounds { width: 100%; border-collapse: collapse; margin: 10px 0; }
-  table.rounds td, table.rounds th { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; }
-  #cert { display: none; }
-  @media (max-width: 640px) { .opts.two { grid-template-columns: 1fr; } .prompt { font-size: 20px; } header .hud { margin-left: 0; } }
-  @media print {
-    body { background: #fff; }
-    header, .meter, main { display: none !important; }
-    #cert { display: block !important; padding: 40px; text-align: center; border: 6px double #000; margin: 30px; color: #000; }
-    #cert h1 { font-size: 40px; margin: 10px 0; }
-    #cert .name { font-size: 34px; font-weight: 800; border-bottom: 2px solid #000; display: inline-block; padding: 0 30px 6px; margin: 16px 0; }
-    #cert table { margin: 14px auto; border-collapse: collapse; }
-    #cert td { border: 1px solid #000; padding: 6px 14px; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    font-size: 17px;
+  }
+  header {
+    background: var(--ink);
+    color: #fff;
+    padding: 18px 24px 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .head-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; max-width: 1100px; margin: 0 auto; }
+  header h1 { margin: 0; font-size: 1.35rem; letter-spacing: 0.2px; }
+  header h1 span { color: #fdba74; }
+  .score-pill { background: rgba(255,255,255,0.12); padding: 6px 14px; border-radius: 999px; font-size: 0.95rem; }
+  nav { display: flex; gap: 4px; overflow-x: auto; max-width: 1100px; margin: 14px auto 0; }
+  nav button {
+    background: transparent; color: #cbd2de; border: 0; padding: 10px 14px; font-size: 0.95rem;
+    border-radius: 10px 10px 0 0; cursor: pointer; white-space: nowrap; font-family: inherit;
+  }
+  nav button:hover { color: #fff; }
+  nav button.active { background: var(--paper); color: var(--ink); font-weight: 600; }
+  nav button .tick { color: #4ade80; margin-left: 4px; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px; }
+  section.panel { display: none; }
+  section.panel.active { display: block; }
+  h2 { font-size: 1.7rem; margin: 0 0 6px; }
+  h3 { font-size: 1.2rem; margin: 0 0 10px; }
+  .lead { color: var(--muted); margin: 0 0 22px; font-size: 1.05rem; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 20px 22px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .card.learn { border-left: 5px solid var(--blue); }
+  .card.task { border-left: 5px solid var(--accent); }
+  .card.write { border-left: 5px solid var(--good); }
+  .tag {
+    display: inline-block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+    padding: 3px 9px; border-radius: 6px; margin-bottom: 10px;
+  }
+  .tag.learn { background: var(--blue-soft); color: var(--blue); }
+  .tag.task { background: var(--accent-soft); color: var(--accent); }
+  .tag.write { background: var(--good-soft); color: var(--good); }
+  .grid { display: grid; gap: 14px; }
+  .grid.two { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .grid.five { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+  .mini {
+    background: #f7f5f0; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px;
+  }
+  .mini b { display: block; margin-bottom: 4px; }
+  .mini i { color: var(--muted); }
+  .btn {
+    background: var(--ink); color: #fff; border: 0; padding: 10px 18px; border-radius: 9px;
+    font-size: 0.98rem; cursor: pointer; font-family: inherit;
+  }
+  .btn:hover { opacity: 0.9; }
+  .btn.alt { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+  .btn.accent { background: var(--accent); }
+  .btn.small { padding: 6px 12px; font-size: 0.88rem; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+  /* Story builder */
+  .slot {
+    background: #fff; border: 2px dashed var(--line); border-radius: var(--radius); padding: 16px;
+    display: flex; flex-direction: column; gap: 10px; min-height: 160px;
+  }
+  .slot.locked { border-style: solid; border-color: var(--accent); background: #fffaf6; }
+  .slot .label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--muted); letter-spacing: 0.6px; }
+  .slot .value { font-size: 1.08rem; font-weight: 600; flex: 1; }
+  .slot input { width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; font-family: inherit; font-size: 0.92rem; }
+
+  /* Sort */
+  .sort-item {
+    border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; background: #fff;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .sort-item .text { margin-bottom: 9px; }
+  .sort-item.correct { background: var(--good-soft); border-color: #86efac; }
+  .sort-item.wrong { background: var(--bad-soft); border-color: #fca5a5; }
+  .choice {
+    background: #f3f1ec; border: 1px solid var(--line); color: var(--ink); padding: 6px 12px; border-radius: 8px;
+    margin: 0 6px 6px 0; cursor: pointer; font-size: 0.9rem; font-family: inherit;
+  }
+  .choice:hover:not(:disabled) { background: var(--accent-soft); border-color: var(--accent); }
+  .choice:disabled { cursor: default; opacity: 0.55; }
+  .choice.picked-right { background: var(--good); color: #fff; border-color: var(--good); opacity: 1; }
+  .choice.picked-wrong { background: var(--bad); color: #fff; border-color: var(--bad); }
+  .feedback { font-size: 0.9rem; margin-top: 4px; }
+  .feedback.good { color: var(--good); }
+  .feedback.bad { color: var(--bad); }
+  .widget-score { margin-top: 10px; font-weight: 600; color: var(--muted); }
+
+  /* Order */
+  .order-pool, .order-seq { display: flex; flex-direction: column; gap: 8px; }
+  .order-chip {
+    text-align: left; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px;
+    cursor: pointer; font-size: 0.97rem; font-family: inherit; color: var(--ink);
+  }
+  .order-chip:hover { border-color: var(--accent); background: #fffaf6; }
+  .order-seq .order-chip { cursor: default; background: #fffaf6; }
+  .order-seq .order-chip .num { display: inline-block; width: 26px; height: 26px; line-height: 26px; text-align: center; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; margin-right: 8px; font-size: 0.85rem; }
+  .order-seq .order-chip.correct { background: var(--good-soft); border-color: #86efac; }
+  .order-seq .order-chip.wrong { background: var(--bad-soft); border-color: #fca5a5; }
+  .order-seq .stage { font-size: 0.8rem; font-weight: 700; color: var(--good); display: block; margin-top: 4px; }
+
+  /* Quiz */
+  .q { margin-bottom: 18px; }
+  .q .stem { font-weight: 600; margin-bottom: 8px; }
+  .q .opt {
+    display: block; width: 100%; text-align: left; background: #fff; border: 1px solid var(--line); border-radius: 9px;
+    padding: 9px 12px; margin-bottom: 7px; cursor: pointer; font-size: 0.96rem; font-family: inherit; color: var(--ink);
+  }
+  .q .opt:hover:not(:disabled) { border-color: var(--accent); background: #fffaf6; }
+  .q .opt:disabled { cursor: default; }
+  .q .opt.right { background: var(--good-soft); border-color: #86efac; }
+  .q .opt.wrongpick { background: var(--bad-soft); border-color: #fca5a5; }
+  .q .explain { font-size: 0.92rem; padding: 8px 12px; border-radius: 8px; background: #f3f1ec; display: none; }
+
+  /* Writing */
+  label.wlabel { font-weight: 600; display: block; margin: 12px 0 6px; }
+  .hint { color: var(--muted); font-size: 0.9rem; margin: -2px 0 6px; }
+  textarea {
+    width: 100%; min-height: 110px; padding: 12px; border: 1px solid var(--line); border-radius: 10px;
+    font-family: Georgia, "Times New Roman", serif; font-size: 1.02rem; line-height: 1.6; resize: vertical; background: #fffdf9;
+  }
+  textarea:focus, input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+  .wc { font-size: 0.82rem; color: var(--muted); text-align: right; }
+  .story-reminder {
+    background: var(--accent-soft); border-radius: 10px; padding: 10px 14px; margin-bottom: 18px; font-size: 0.95rem;
+  }
+  .story-reminder b { color: var(--accent); }
+
+  /* Planner */
+  .planner { display: grid; gap: 12px; }
+  .planner .stage-box { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: #fff; }
+  .planner .stage-box h4 { margin: 0 0 4px; color: var(--accent); }
+  .planner textarea { min-height: 80px; }
+
+  /* Final */
+  #compiled {
+    white-space: pre-wrap; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 18px;
+    font-family: Georgia, "Times New Roman", serif; font-size: 1rem; max-height: 520px; overflow-y: auto;
+  }
+  .copied { color: var(--good); font-weight: 600; margin-left: 8px; }
+  .next-row { display: flex; justify-content: space-between; margin-top: 10px; }
+  table.summary { border-collapse: collapse; width: 100%; margin-top: 6px; }
+  table.summary td, table.summary th { border-bottom: 1px solid var(--line); padding: 8px 6px; text-align: left; }
+
+  @media (max-width: 640px) {
+    main { padding: 16px; }
+    h2 { font-size: 1.4rem; }
   }
 </style>
 </head>
 <body>
+
 <header>
-  <div class="logo" aria-hidden="true">🚗</div>
-  <div><h1 id="gTitle"></h1><div class="sub" id="gSub"></div></div>
-  <div class="hud">
-    <span class="chip">Score <b id="hScore">0</b></span>
-    <span class="chip" id="hStreakChip">Streak <b id="hStreak">0</b></span>
-    <span class="chip">Round <b id="hRound">-</b></span>
+  <div class="head-row">
+    <h1>Building a Narrative <span>| Year 10 English</span></h1>
+    <div class="score-pill">Score: <span id="scoreTotal">0</span> / <span id="scoreMax">0</span></div>
   </div>
+  <nav id="tabs"></nav>
 </header>
-<div class="meter" id="meterWrap" hidden>
-  <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
-  <div class="meter-labels"><span id="meterMin"></span><span id="meterName"></span><span id="meterMax"></span></div>
-</div>
-<main id="app"></main>
-<div id="cert"></div>
+
+<main>
+
+  <!-- 1. STORY BUILDER -->
+  <section class="panel" id="p-builder" data-title="1. Story Builder">
+    <h2>Step 1: Build your story idea</h2>
+    <p class="lead">Every part of today's lesson builds towards one story. Spin for a random idea, lock the parts you like, and spin again until you have a combination you want to write about. You can also type your own.</p>
+
+    <div class="card task">
+      <span class="tag task">Story builder</span>
+      <div class="grid five" id="slots"></div>
+      <div class="row" style="margin-top:16px">
+        <button class="btn accent" id="spinBtn">Spin unlocked parts</button>
+        <button class="btn alt" id="unlockAll">Unlock all</button>
+      </div>
+    </div>
+
+    <div class="card write">
+      <span class="tag write">Quick write</span>
+      <h3>What could happen?</h3>
+      <label class="wlabel" for="w-idea">In 2 or 3 sentences, explain what your story might be about. Who is it about, where are they, and what goes wrong?</label>
+      <textarea id="w-idea" data-save="idea" data-title="My story idea"></textarea>
+      <div class="wc" data-for="w-idea"></div>
+    </div>
+    <div class="next-row"><span></span><button class="btn" data-next>Next: Hooks and openings</button></div>
+  </section>
+
+  <!-- 2. HOOKS -->
+  <section class="panel" id="p-hooks" data-title="2. Hooks">
+    <h2>Step 2: Hooks and openings</h2>
+    <p class="lead">Your first sentence has one job: make the reader want the second sentence.</p>
+    <div class="story-reminder" data-reminder></div>
+
+    <div class="card learn">
+      <span class="tag learn">Learn</span>
+      <h3>Five ways to hook a reader</h3>
+      <div class="grid five">
+        <div class="mini"><b>Action</b>Drop the reader into something happening.<br><i>"The bus swerved, and my lunch flew across the aisle."</i></div>
+        <div class="mini"><b>Dialogue</b>Start with someone speaking.<br><i>"'Don't open the door,' Mum whispered."</i></div>
+        <div class="mini"><b>Mystery statement</b>Say something strange that needs explaining.<br><i>"Nobody in our street had seen Mrs Kowalski for eleven days."</i></div>
+        <div class="mini"><b>Sensory description</b>Put the reader inside the scene using the senses.<br><i>"Rain hammered the tin roof so hard I couldn't think."</i></div>
+        <div class="mini"><b>Question</b>Ask the reader something they can't ignore.<br><i>"Have you ever told a lie you couldn't take back?"</i></div>
+      </div>
+      <p style="margin:14px 0 0"><b>Avoid:</b> "Hi, my name is...", "One day...", "It was a normal day...", or waking up and getting ready for school. Start as close to the problem as you can.</p>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Sort task 1</span>
+      <h3>Strong or weak opening?</h3>
+      <div data-widget="hooksStrength"></div>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Sort task 2</span>
+      <h3>Name the hook</h3>
+      <div data-widget="hookTypes"></div>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Quick check</span>
+      <h3>Hooks quiz</h3>
+      <div data-widget="quizHooks"></div>
+    </div>
+
+    <div class="card write">
+      <span class="tag write">Your turn</span>
+      <h3>Write two hooks for your story</h3>
+      <p class="hint">Use two <b>different</b> hook types. Then decide which one is stronger.</p>
+      <label class="wlabel" for="w-hook1">Hook 1 (name the type in brackets at the end)</label>
+      <textarea id="w-hook1" data-save="hook1" data-title="Hook 1"></textarea>
+      <div class="wc" data-for="w-hook1"></div>
+      <label class="wlabel" for="w-hook2">Hook 2 (a different type)</label>
+      <textarea id="w-hook2" data-save="hook2" data-title="Hook 2"></textarea>
+      <div class="wc" data-for="w-hook2"></div>
+      <label class="wlabel" for="w-hookpick">Which hook is stronger, and why?</label>
+      <textarea id="w-hookpick" data-save="hookpick" data-title="My stronger hook and why" style="min-height:70px"></textarea>
+    </div>
+    <div class="next-row"><button class="btn alt" data-prev>Back</button><button class="btn" data-next>Next: Show, don't tell</button></div>
+  </section>
+
+  <!-- 3. SHOW DON'T TELL -->
+  <section class="panel" id="p-show" data-title="3. Show, Don't Tell">
+    <h2>Step 3: Show, don't tell</h2>
+    <p class="lead">Telling gives the reader the answer. Showing gives them the evidence and lets them work it out.</p>
+    <div class="story-reminder" data-reminder></div>
+
+    <div class="card learn">
+      <span class="tag learn">Learn</span>
+      <div class="grid two">
+        <div class="mini"><b>Telling</b>Names the feeling or quality directly.<br><i>"Mia was nervous."</i></div>
+        <div class="mini"><b>Showing</b>Uses actions, body language, dialogue and the senses.<br><i>"Mia chewed the sleeve of her jumper and checked the door every few seconds."</i></div>
+      </div>
+      <p style="margin:14px 0 0"><b>Tip:</b> If your sentence contains a feeling word like <i>sad, angry, scared, happy, nervous</i>, ask yourself: what would that look like if I filmed it?</p>
+      <p style="margin:8px 0 0"><b>But:</b> telling is still useful for skipping time quickly, like "Three weeks passed." Save showing for the moments that matter.</p>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Sort task</span>
+      <h3>Telling or showing?</h3>
+      <div data-widget="tellShow"></div>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Match task</span>
+      <h3>Pick the best "showing" version</h3>
+      <div data-widget="quizShowMatch"></div>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Quick check</span>
+      <h3>Show, don't tell quiz</h3>
+      <div data-widget="quizShow"></div>
+    </div>
+
+    <div class="card write">
+      <span class="tag write">Your turn</span>
+      <h3>Rewrite the telling sentences</h3>
+      <label class="wlabel" for="w-show1">"Jess was embarrassed."</label>
+      <textarea id="w-show1" data-save="show1" data-title="Showing rewrite: Jess was embarrassed" style="min-height:80px"></textarea>
+      <label class="wlabel" for="w-show2">"The beach was crowded."</label>
+      <textarea id="w-show2" data-save="show2" data-title="Showing rewrite: The beach was crowded" style="min-height:80px"></textarea>
+      <label class="wlabel" for="w-show3">Now show how <b>your</b> main character feels at the start of your story. Don't use the feeling word.</label>
+      <textarea id="w-show3" data-save="show3" data-title="Showing my character's feelings"></textarea>
+      <div class="wc" data-for="w-show3"></div>
+    </div>
+    <div class="next-row"><button class="btn alt" data-prev>Back</button><button class="btn" data-next>Next: Narrative structure</button></div>
+  </section>
+
+  <!-- 4. STRUCTURE -->
+  <section class="panel" id="p-structure" data-title="4. Structure">
+    <h2>Step 4: Narrative structure</h2>
+    <p class="lead">A strong narrative has a shape. Tension builds, peaks, and then something changes.</p>
+    <div class="story-reminder" data-reminder></div>
+
+    <div class="card learn">
+      <span class="tag learn">Learn</span>
+      <h3>The five stages</h3>
+      <div class="grid five">
+        <div class="mini"><b>1. Orientation</b>Who, where, when. Keep it short and get to the problem quickly.</div>
+        <div class="mini"><b>2. Complication</b>The problem that disrupts normal life and starts the story moving.</div>
+        <div class="mini"><b>3. Rising action</b>Things get harder. Choices, obstacles, tension building.</div>
+        <div class="mini"><b>4. Climax</b>The turning point. The moment of highest tension where something has to give.</div>
+        <div class="mini"><b>5. Resolution</b>The aftermath. What has changed, especially in the character?</div>
+      </div>
+      <p style="margin:14px 0 0"><b>Common trap:</b> spending half the story on the orientation, then rushing the climax and ending with "and then I woke up." Give the climax the most detail.</p>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Order task</span>
+      <h3>Put the story in order</h3>
+      <p class="hint">Click the parts in the order they should go. Click "Check order" when you are done.</p>
+      <div data-widget="orderStory"></div>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Match task</span>
+      <h3>Match the stage</h3>
+      <div data-widget="stageMatch"></div>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Quick check</span>
+      <h3>Structure quiz</h3>
+      <div data-widget="quizStructure"></div>
+    </div>
+
+    <div class="card write">
+      <span class="tag write">Your turn</span>
+      <h3>Plan your story</h3>
+      <p class="hint">Use dot points. One or two lines per stage is enough. Your climax box should have the most detail.</p>
+      <div class="planner">
+        <div class="stage-box"><h4>Orientation</h4><textarea id="w-p1" data-save="plan1" data-title="Plan: Orientation"></textarea></div>
+        <div class="stage-box"><h4>Complication</h4><textarea id="w-p2" data-save="plan2" data-title="Plan: Complication"></textarea></div>
+        <div class="stage-box"><h4>Rising action</h4><textarea id="w-p3" data-save="plan3" data-title="Plan: Rising action"></textarea></div>
+        <div class="stage-box"><h4>Climax</h4><textarea id="w-p4" data-save="plan4" data-title="Plan: Climax"></textarea></div>
+        <div class="stage-box"><h4>Resolution</h4><textarea id="w-p5" data-save="plan5" data-title="Plan: Resolution"></textarea></div>
+      </div>
+    </div>
+    <div class="next-row"><button class="btn alt" data-prev>Back</button><button class="btn" data-next>Next: Character and setting</button></div>
+  </section>
+
+  <!-- 5. CHARACTER AND SETTING -->
+  <section class="panel" id="p-character" data-title="5. Character &amp; Setting">
+    <h2>Step 5: Character and setting</h2>
+    <p class="lead">Readers believe in characters they can see and settings they can feel.</p>
+    <div class="story-reminder" data-reminder></div>
+
+    <div class="card learn">
+      <span class="tag learn">Learn</span>
+      <h3>Reveal character with STEAL</h3>
+      <p style="margin-top:0">Instead of telling the reader "Jordan was rude", let them steal clues from the character.</p>
+      <div class="grid five">
+        <div class="mini"><b>S: Speech</b>What they say and how they say it.</div>
+        <div class="mini"><b>T: Thoughts</b>What goes on inside their head.</div>
+        <div class="mini"><b>E: Effect on others</b>How other people react to them.</div>
+        <div class="mini"><b>A: Actions</b>What they do, especially when no one is watching.</div>
+        <div class="mini"><b>L: Looks</b>Appearance, clothing, body language.</div>
+      </div>
+      <h3 style="margin-top:20px">Build setting with the senses</h3>
+      <p style="margin:0">Most students only describe what a place looks like. Add sound, smell, touch and taste and your setting starts to create <b>mood</b>. A hospital at 3 am and a beach at noon should feel completely different to read.</p>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Sort task 1</span>
+      <h3>Which STEAL method is it?</h3>
+      <div data-widget="steal"></div>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Sort task 2</span>
+      <h3>Which sense?</h3>
+      <div data-widget="senses"></div>
+    </div>
+
+    <div class="card task">
+      <span class="tag task">Quick check</span>
+      <h3>Character and setting quiz</h3>
+      <div data-widget="quizCharacter"></div>
+    </div>
+
+    <div class="card write">
+      <span class="tag write">Your turn</span>
+      <label class="wlabel" for="w-char">Introduce your main character in a short paragraph. Use at least <b>two</b> STEAL methods and do not tell us what they are like directly.</label>
+      <textarea id="w-char" data-save="character" data-title="Character paragraph"></textarea>
+      <div class="wc" data-for="w-char"></div>
+      <label class="wlabel" for="w-set">Describe your setting in a short paragraph. Use at least <b>three</b> senses and try to create a mood.</label>
+      <textarea id="w-set" data-save="setting" data-title="Setting paragraph"></textarea>
+      <div class="wc" data-for="w-set"></div>
+    </div>
+    <div class="next-row"><button class="btn alt" data-prev>Back</button><button class="btn" data-next>Next: My writing</button></div>
+  </section>
+
+  <!-- 6. FINAL -->
+  <section class="panel" id="p-final" data-title="6. My Writing">
+    <h2>Step 6: Put it all together</h2>
+    <p class="lead">Here is everything you wrote today. Copy it and paste it into your document so you have it for your full narrative.</p>
+
+    <div class="card">
+      <h3>Your scores</h3>
+      <table class="summary" id="scoreTable"></table>
+    </div>
+
+    <div class="card write">
+      <span class="tag write">Your work</span>
+      <div class="row" style="margin-bottom:12px">
+        <button class="btn accent" id="copyBtn">Copy all my writing</button>
+        <span id="copyMsg"></span>
+      </div>
+      <div id="compiled"></div>
+    </div>
+
+    <div class="card write">
+      <span class="tag write">Challenge</span>
+      <h3>Write your opening scene</h3>
+      <p class="hint">Use your stronger hook as the first line. Then write the orientation and complication using what you planned. Aim for 200 to 300 words.</p>
+      <textarea id="w-opening" data-save="opening" data-title="Opening scene" style="min-height:240px"></textarea>
+      <div class="wc" data-for="w-opening"></div>
+    </div>
+    <div class="next-row"><button class="btn alt" data-prev>Back</button><span></span></div>
+  </section>
+
+</main>
 
 <script>
-const CONFIG = {
- "lesson": 7,
- "title": "Keys in Hand",
- "tagline": "Summative dress rehearsal: deposit, fuel, insurance, loans and budget",
- "icon": "🚗",
- "accent": "1D4E89",
- "accentSoft": "E3ECF7",
- "intro": "You're 21, you take home $1,000 a week and you've got $2,000 in the bank. Every right answer adds to your bank balance. Every wrong one costs you. Four rounds of the exact maths on tomorrow's paper. Calculators allowed.",
- "meter": {
-  "name": "Bank balance",
-  "prefix": "$",
-  "start": 2000,
-  "up": 150,
-  "down": 250,
-  "min": 0,
-  "max": 6000,
-  "blurb": "Your bank balance starts at $2,000.",
-  "badge": {
-   "icon": "🔑",
-   "title": "Debt-free driver",
-   "desc": "Finish with a bank balance of $4,000 or more",
-   "atLeast": 4000
+/* ---------------- Storage helpers ---------------- */
+const STORE_KEY = "y10-narrative-v1";
+function loadStore() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { return {}; }
+}
+function saveStore() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) {}
+}
+const store = loadStore();
+store.writing = store.writing || {};
+store.story = store.story || null;
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
- },
- "verdicts": [
-  {
-   "min": 90,
-   "text": "Keys in hand. You're ready for tomorrow."
-  },
-  {
-   "min": 70,
-   "text": "Nearly there. Copy your mistakes and check the method for each."
-  },
-  {
-   "min": 50,
-   "text": "Test drive needed. Go back over the worked example slides tonight."
-  },
-  {
-   "min": 0,
-   "text": "Not road ready yet. Copy every mistake, then play again."
-  }
- ],
- "rounds": [
-  {
-   "type": "num",
-   "name": "Deposit and monthly money",
-   "intro": "Deposit subtraction and weekly to monthly. Weekly to monthly is x 52 / 12. Type numbers only.",
-   "items": [
-    {
-     "q": "A car costs $19,990. You use the $5,000 gift as a deposit. How much do you borrow?",
-     "a": 14990,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$19,990 minus $5,000 = $14,990. Show this subtraction in Task 3."
-    },
-    {
-     "q": "A car costs $12,500. You use the $5,000 gift as a deposit. How much do you borrow?",
-     "a": 7500,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$12,500 minus $5,000 = $7,500. Show this subtraction in Task 3."
-    },
-    {
-     "q": "A car costs $27,450. You use the $5,000 gift as a deposit. How much do you borrow?",
-     "a": 22450,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$27,450 minus $5,000 = $22,450. Show this subtraction in Task 3."
-    },
-    {
-     "q": "A car costs $8,999. You use the $5,000 gift as a deposit. How much do you borrow?",
-     "a": 3999,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$8,999 minus $5,000 = $3,999. Show this subtraction in Task 3."
-    },
-    {
-     "q": "Take-home pay is $1,000 a week. What is it per month? (2 decimal places)",
-     "a": 4333.33,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$1,000 x 52 = $52,000 a year, / 12 = $4,333.33 a month. Never x 4."
-    },
-    {
-     "q": "Take-home pay is $750 a week. What is it per month? (2 decimal places)",
-     "a": 3250,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$750 x 52 = $39,000 a year, / 12 = $3,250.00 a month. Never x 4."
-    },
-    {
-     "q": "Take-home pay is $1,200 a week. What is it per month? (2 decimal places)",
-     "a": 5200,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$1,200 x 52 = $62,400 a year, / 12 = $5,200.00 a month. Never x 4."
-    },
-    {
-     "q": "A car insurance premium is $55 a week. What is it per month? (2 decimal places)",
-     "a": 238.33,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$55 x 52 = $2,860 a year, / 12 = $238.33 a month. Never x 4."
-    },
-    {
-     "q": "An insurance quote is $2,880 a year. What is that per month?",
-     "a": 240,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "Yearly to monthly: $2,880 / 12 = $240.00. Better still, switch the website to monthly."
+  return a;
+}
+
+/* ---------------- Story builder ---------------- */
+const STORY_PARTS = [
+  { key: "character", label: "Character", options: [
+    "A Year 10 student who never speaks in class",
+    "A delivery driver on her last shift before quitting",
+    "A teenager on their first shift at a fast food place",
+    "A lifeguard who is secretly afraid of deep water",
+    "An elderly man who fixes bikes in his garage",
+    "A twin who has just discovered a family secret",
+    "A new student who has moved from overseas",
+    "A junior footy umpire everyone loves to yell at",
+    "An older sister left in charge for the weekend"
+  ]},
+  { key: "setting", label: "Setting", options: [
+    "A train stuck between stations at night",
+    "A country town during a bushfire warning",
+    "A school camp in the Grampians",
+    "A shopping centre after closing time",
+    "A flooded caravan park on the Murray",
+    "A hospital waiting room at 3 am",
+    "The top of a Ferris wheel at the Royal Melbourne Show",
+    "A small fishing boat off the coast",
+    "An empty school on the first day of the holidays"
+  ]},
+  { key: "problem", label: "Problem", options: [
+    "A phone full of someone else's messages",
+    "A lie that is about to be found out",
+    "Being locked out with no way to call for help",
+    "A younger sibling has gone missing",
+    "A storm cuts the power and the phone signal",
+    "A wrong delivery that contains something valuable",
+    "A competition they cannot afford to lose",
+    "An old letter that reveals a family secret",
+    "A best friend asks them to keep a dangerous secret"
+  ]},
+  { key: "object", label: "Key object", options: [
+    "A cracked phone",
+    "A key with a handwritten tag",
+    "A faded photograph",
+    "A pair of muddy sneakers",
+    "A scratched lottery ticket",
+    "A broken watch stopped at 4:17",
+    "A map drawn on a napkin",
+    "A school ID card that isn't theirs",
+    "A voicemail that was never listened to"
+  ]},
+  { key: "pov", label: "Point of view", options: [
+    "First person (I, me)",
+    "Third person limited (he, she, they)"
+  ]}
+];
+let story = store.story || {};
+let locks = {};
+
+function renderSlots() {
+  const wrap = document.getElementById("slots");
+  wrap.innerHTML = "";
+  STORY_PARTS.forEach(part => {
+    if (!story[part.key]) story[part.key] = part.options[Math.floor(Math.random() * part.options.length)];
+    const div = document.createElement("div");
+    div.className = "slot" + (locks[part.key] ? " locked" : "");
+    div.innerHTML = `
+      <div class="label">${part.label}</div>
+      <div class="value"></div>
+      <input type="text" placeholder="Or type your own..." aria-label="Type your own ${part.label}">
+      <button class="btn small ${locks[part.key] ? "accent" : "alt"}">${locks[part.key] ? "Locked" : "Lock"}</button>`;
+    div.querySelector(".value").textContent = story[part.key];
+    const input = div.querySelector("input");
+    input.addEventListener("change", () => {
+      if (input.value.trim()) {
+        story[part.key] = input.value.trim();
+        locks[part.key] = true;
+        persistStory();
+        renderSlots();
+      }
+    });
+    div.querySelector("button").addEventListener("click", () => {
+      locks[part.key] = !locks[part.key];
+      persistStory();
+      renderSlots();
+    });
+    wrap.appendChild(div);
+  });
+  updateReminders();
+}
+function persistStory() {
+  store.story = story;
+  store.locks = locks;
+  saveStore();
+}
+locks = store.locks || {};
+document.getElementById("spinBtn").addEventListener("click", () => {
+  STORY_PARTS.forEach(part => {
+    if (!locks[part.key]) {
+      let next;
+      do { next = part.options[Math.floor(Math.random() * part.options.length)]; }
+      while (next === story[part.key] && part.options.length > 1);
+      story[part.key] = next;
     }
-   ]
-  },
-  {
-   "type": "num",
-   "name": "Fuel maths",
-   "intro": "km per tank = tank litres / (L per 100km) x 100. Then: 1,000 / km per tank = tanks; tanks x tank size = litres; litres x price = cost.",
-   "items": [
-    {
-     "q": "A car has a 50 L tank and uses 6.0 L/100km. How many km per tank? (nearest km)",
-     "a": 833,
-     "unit": "",
-     "tol": 1,
-     "why": "50 / 6.0 x 100 = 833 km per tank. This is what goes in the fuel economy box."
-    },
-    {
-     "q": "A car has a 45 L tank and uses 7.5 L/100km. How many km per tank? (nearest km)",
-     "a": 600,
-     "unit": "",
-     "tol": 1,
-     "why": "45 / 7.5 x 100 = 600 km per tank. This is what goes in the fuel economy box."
-    },
-    {
-     "q": "A car has a 60 L tank and uses 8.0 L/100km. How many km per tank? (nearest km)",
-     "a": 750,
-     "unit": "",
-     "tol": 1,
-     "why": "60 / 8.0 x 100 = 750 km per tank. This is what goes in the fuel economy box."
-    },
-    {
-     "q": "A car has a 56 L tank and uses 7.0 L/100km. How many km per tank? (nearest km)",
-     "a": 800,
-     "unit": "",
-     "tol": 1,
-     "why": "56 / 7.0 x 100 = 800 km per tank. This is what goes in the fuel economy box."
-    },
-    {
-     "q": "You drive 1,000 km a month and get 800 km per tank. How many tanks per month?",
-     "a": 1.25,
-     "unit": "",
-     "tol": 0.01,
-     "why": "1,000 / 800 = 1.25 tanks per month."
-    },
-    {
-     "q": "You use 1.25 tanks a month and the tank holds 48 L. How many litres per month?",
-     "a": 60,
-     "unit": "",
-     "tol": 0.1,
-     "why": "1.25 x 48 = 60 litres per month."
-    },
-    {
-     "q": "You use 60 L a month. Unleaded 91 on the paper is $1.86. Monthly fuel cost?",
-     "a": 111.6,
-     "unit": "$",
-     "tol": 0.05,
-     "why": "60 x $1.86 = $111.60."
-    },
-    {
-     "q": "A diesel car uses 100 L a month. Diesel on the paper is $1.90. Monthly fuel cost?",
-     "a": 190,
-     "unit": "$",
-     "tol": 0.05,
-     "why": "100 x $1.90 = $190.00."
-    }
-   ]
-  },
-  {
-   "type": "mcq",
-   "name": "Insurance and loans",
-   "intro": "Pick the best answer.",
-   "items": [
-    {
-     "q": "Which type of car insurance covers damage to YOUR OWN car in an accident you caused?",
-     "options": [
-      "CTP",
-      "Third party property damage",
-      "Third party, fire and theft",
-      "Comprehensive"
-     ],
-     "a": 3,
-     "why": "Only comprehensive covers your own car when you're at fault, plus other people's property, fire, theft and more."
-    },
-    {
-     "q": "Why is comprehensive the most expensive type of car insurance?",
-     "options": [
-      "It includes your rego",
-      "The insurer promises to pay for the most things, including your own car",
-      "It is required by law for every car",
-      "It has no excess"
-     ],
-     "a": 1,
-     "why": "More cover means more likely and bigger claims, so a higher premium."
-    },
-    {
-     "q": "In Victoria, injury to people in a crash (CTP) is paid through...",
-     "options": [
-      "Comprehensive insurance",
-      "The TAC charge in your rego",
-      "Your health insurance",
-      "The car loan"
-     ],
-     "a": 1,
-     "why": "Victoria's CTP is the TAC charge, which is included in your registration."
-    },
-    {
-     "q": "Two quotes are the same except one has a higher excess. That one will usually have...",
-     "options": [
-      "A higher premium",
-      "A lower premium",
-      "The same premium",
-      "No cover for theft"
-     ],
-     "a": 1,
-     "why": "You agree to pay more of each claim yourself, so the insurer charges you less."
-    },
-    {
-     "q": "What does the comparison rate include that the interest rate doesn't?",
-     "options": [
-      "Most of the loan's fees",
-      "Your insurance",
-      "Your fuel costs",
-      "The deposit"
-     ],
-     "a": 0,
-     "why": "The comparison rate rolls the interest rate and most fees into one yearly percentage."
-    },
-    {
-     "q": "Same loan, same rate. Compared with a 3-year term, a 7-year term has...",
-     "options": [
-      "Higher repayments and lower total cost",
-      "Lower repayments and higher total cost",
-      "Lower repayments and lower total cost",
-      "Exactly the same total cost"
-     ],
-     "a": 1,
-     "why": "Spreading it out lowers each repayment but you pay interest for more years."
-    },
-    {
-     "q": "Why does a bank usually require comprehensive insurance on a car loan?",
-     "options": [
-      "It's cheaper for you",
-      "The car is the bank's security until the loan is paid",
-      "It lowers the interest rate to zero",
-      "It replaces the deposit"
-     ],
-     "a": 1,
-     "why": "If the car is written off uninsured, the bank's security is gone and you still owe the loan."
-    },
-    {
-     "q": "Which car can you NOT choose for the summative?",
-     "options": [
-      "A used petrol hatchback",
-      "A new diesel ute",
-      "An electric vehicle",
-      "A petrol hybrid SUV"
-     ],
-     "a": 2,
-     "why": "The paper bans EVs because the fuel task uses litres and petrol prices."
-    }
-   ]
-  },
-  {
-   "type": "num",
-   "name": "Budget and loan totals",
-   "intro": "Use Jas's numbers from the lesson: income $4,333.33, $14,990 borrowed at 8.5%, $250 application fee, $10 monthly fee.",
-   "items": [
-    {
-     "q": "Income $4,333.33. Rent $1,900, bills $200, groceries $400. How much is left before any car costs?",
-     "a": 1833.33,
-     "unit": "$",
-     "tol": 0.05,
-     "why": "$4,333.33 minus $2,500 = $1,833.33."
-    },
-    {
-     "q": "Loan repayment is $307.54 a month and the monthly fee is $10. What goes in the budget?",
-     "a": 317.54,
-     "unit": "$",
-     "tol": 0.05,
-     "why": "$307.54 + $10 = $317.54. Don't forget the fee."
-    },
-    {
-     "q": "Income $4,333.33, total expenses $3,191.54. What are the monthly savings?",
-     "a": 1141.79,
-     "unit": "$",
-     "tol": 0.05,
-     "why": "$4,333.33 minus $3,191.54 = $1,141.79."
-    },
-    {
-     "q": "Jas used $4,000 as income by mistake. Expenses $3,191.54. What savings would Jas wrongly write?",
-     "a": 808.46,
-     "unit": "$",
-     "tol": 0.05,
-     "why": "$4,000 minus $3,191.54 = $808.46, which is $333.33 too low. Use x 52 / 12."
-    },
-    {
-     "q": "Repayment $307.54 a month for 5 years (60 months). Total of the repayments?",
-     "a": 18452.4,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$307.54 x 60 = $18,452.40."
-    },
-    {
-     "q": "Add the $250 application fee and $10 x 60 monthly fees. Total cost of the 5-year loan?",
-     "a": 19302.4,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$18,452.40 + $250 + $600 = $19,302.40."
-    },
-    {
-     "q": "Jas borrowed $14,990. Repayments total $18,452.40. How much interest is that?",
-     "a": 3462.4,
-     "unit": "$",
-     "tol": 0.5,
-     "why": "$18,452.40 minus $14,990 = $3,462.40 interest."
-    },
-    {
-     "q": "A 3-year term costs $473.20 a month. How much more per month than the 5-year $307.54?",
-     "a": 165.66,
-     "unit": "$",
-     "tol": 0.05,
-     "why": "$473.20 minus $307.54 = $165.66 more each month, but less total interest."
-    }
-   ]
-  }
- ]
+  });
+  persistStory();
+  renderSlots();
+});
+document.getElementById("unlockAll").addEventListener("click", () => { locks = {}; persistStory(); renderSlots(); });
+
+function storySummary() {
+  return `<b>Your story:</b> ${esc(story.character)} | ${esc(story.setting)} | ${esc(story.problem)} | ${esc(story.object)} | ${esc(story.pov)}`;
+}
+function esc(s) { const d = document.createElement("div"); d.textContent = s || ""; return d.innerHTML; }
+function updateReminders() {
+  document.querySelectorAll("[data-reminder]").forEach(el => el.innerHTML = storySummary());
+}
+
+/* ---------------- Scoring ---------------- */
+const scores = {}; // id -> {got, max, label}
+function setScore(id, got, max, label) {
+  scores[id] = { got, max, label };
+  let g = 0, m = 0;
+  Object.values(scores).forEach(s => { g += s.got; m += s.max; });
+  document.getElementById("scoreTotal").textContent = g;
+  document.getElementById("scoreMax").textContent = m;
+  updateTabTicks();
+}
+
+/* ---------------- Widget data ---------------- */
+const WIDGETS = {
+  hooksStrength: { type: "sort", label: "Strong or weak opening", categories: ["Strong", "Weak"], items: [
+    { t: "Hi, my name is Jake and I am fifteen years old.", c: "Weak", why: "Introducing yourself is not a hook. Nothing is happening yet." },
+    { t: "The last thing I expected to find in my locker was a set of car keys.", c: "Strong", why: "It raises an instant question: whose keys, and why?" },
+    { t: "It was a normal day at school.", c: "Weak", why: "'Normal' tells the reader nothing interesting is happening." },
+    { t: "'Don't open the door,' Mum whispered.", c: "Strong", why: "Dialogue plus danger. We want to know what's behind the door." },
+    { t: "One day I woke up and got ready for school.", c: "Weak", why: "Waking up is one of the most common, least interesting openings." },
+    { t: "The smell of smoke reached the classroom before the alarm did.", c: "Strong", why: "Sensory detail and tension in one sentence." },
+    { t: "This is a story about a girl called Mia.", c: "Weak", why: "It announces the story instead of starting it." },
+    { t: "I was halfway up the Ferris wheel when the power cut out.", c: "Strong", why: "It starts in the middle of the problem." }
+  ]},
+  hookTypes: { type: "sort", label: "Name the hook", categories: ["Action", "Dialogue", "Mystery statement", "Sensory description", "Question"], items: [
+    { t: "I sprinted across the oval as the siren screamed behind me.", c: "Action" },
+    { t: "'If you tell anyone, we're both finished,' Leo said.", c: "Dialogue" },
+    { t: "Nobody in our street had seen Mrs Kowalski for eleven days.", c: "Mystery statement" },
+    { t: "The air in the caravan was thick with damp carpet and old cigarette smoke.", c: "Sensory description" },
+    { t: "What would you do if you found five thousand dollars in a wheelie bin?", c: "Question" },
+    { t: "The bus swerved, and my lunch flew across the aisle.", c: "Action" },
+    { t: "There were only two people who knew where the money was, and one of them was dead.", c: "Mystery statement" },
+    { t: "'You've got ten minutes. After that, I'm calling Dad.'", c: "Dialogue" }
+  ]},
+  quizHooks: { type: "quiz", label: "Hooks quiz", qs: [
+    { s: "What is the main job of an opening hook?", o: ["To introduce every character", "To make the reader want to keep reading", "To explain the setting in full detail", "To tell the reader how the story ends"], a: 1, e: "A hook grabs attention. Details about characters and setting can come a little later." },
+    { s: "Which of these is the weakest opening?", o: ["'Run,' was all the text said.", "It was a normal Tuesday morning.", "The dog came home without Dad.", "I knew the second I saw the ambulance."], a: 1, e: "'A normal Tuesday morning' signals nothing is happening. The others all create a question." },
+    { s: "Starting a story in the middle of the action is often called...", o: ["In medias res", "Flashback", "Foreshadowing", "Resolution"], a: 0, e: "In medias res is Latin for 'into the middle of things'." }
+  ]},
+  tellShow: { type: "sort", label: "Telling or showing", categories: ["Telling", "Showing"], items: [
+    { t: "Mr Patel was tired.", c: "Telling" },
+    { t: "Mr Patel yawned, rubbed his eyes and lost his place in the roll for the second time.", c: "Showing" },
+    { t: "The dog was happy to see us.", c: "Telling" },
+    { t: "The dog's whole back end wagged as it skidded across the floorboards towards us.", c: "Showing" },
+    { t: "I was so excited for the holidays.", c: "Telling" },
+    { t: "My bag had been packed and sitting by the front door for three days.", c: "Showing" },
+    { t: "The classroom was really messy.", c: "Telling" },
+    { t: "Scrunched worksheets covered the floor, and someone's lunch was going mouldy under the heater.", c: "Showing" }
+  ]},
+  quizShowMatch: { type: "quiz", label: "Pick the showing version", qs: [
+    { s: "Telling: \"Sam was nervous before his speech.\"", o: ["Sam was really, really nervous before his speech.", "Sam wiped his palms on his pants for the third time and reread the first line of his cue card.", "Sam felt nervous and scared about his speech."], a: 1, e: "Wiping sweaty palms and rereading the card is evidence of nerves. The other two still name the feeling." },
+    { s: "Telling: \"The house was creepy.\"", o: ["The house was extremely creepy and scary.", "Everyone said the house was creepy.", "The front door groaned on its hinges, and upstairs a floorboard creaked, though nobody else was home."], a: 2, e: "Sounds and the detail 'nobody else was home' create the creepy feeling without saying it." },
+    { s: "Telling: \"Aisha was angry at her brother.\"", o: ["Aisha slammed her laptop shut. 'Get. Out. Of. My. Room.'", "Aisha was furious with her brother.", "Aisha felt a lot of anger towards her brother."], a: 0, e: "An action and the way she speaks show the anger." },
+    { s: "Telling: \"It was a really hot day.\"", o: ["It was the hottest day ever.", "The road shimmered, and the soles of my thongs stuck to the footpath with every step.", "The weather was very hot and sunny."], a: 1, e: "The shimmering road and sticky thongs let the reader feel the heat." }
+  ]},
+  quizShow: { type: "quiz", label: "Show, don't tell quiz", qs: [
+    { s: "'Showing' in writing means...", o: ["Using lots of adjectives like 'very' and 'really'", "Using actions, dialogue and the senses so the reader can work out what is happening", "Adding pictures to your story", "Explaining exactly how a character feels"], a: 1, e: "Showing gives the reader evidence instead of the answer." },
+    { s: "Which sentence shows fear?", o: ["She was terrified.", "Fear filled her.", "Her hand shook as she reached for the door handle.", "She was very scared of the door."], a: 2, e: "A shaking hand is a physical clue the reader can picture." },
+    { s: "When is telling actually useful?", o: ["At the climax", "When you want to skip quickly over time or unimportant moments", "When describing your main character's feelings", "Never"], a: 1, e: "'Three weeks passed' is telling, and that's fine. Save showing for important moments." }
+  ]},
+  orderStory: { type: "order", label: "Story order", items: [
+    { t: "Every Saturday, Lena worked the early shift at her uncle's bakery in Werribee, stacking trays before the sun came up.", stage: "Orientation" },
+    { t: "One morning she found the back door unlocked and the cash tin gone.", stage: "Complication" },
+    { t: "Her uncle blamed the new delivery driver, but Lena noticed floury footprints leading towards the staff lockers.", stage: "Rising action" },
+    { t: "Hands shaking, she opened her cousin's locker. Inside was the tin, and a note: 'Sorry. I'll pay it back.'", stage: "Climax" },
+    { t: "That afternoon, Lena sat beside her cousin while he told their uncle the truth, and the three of them worked out a plan to fix it.", stage: "Resolution" }
+  ]},
+  stageMatch: { type: "sort", label: "Match the stage", categories: ["Orientation", "Complication", "Rising action", "Climax", "Resolution"], items: [
+    { t: "Introduces the main character, the setting and the time.", c: "Orientation" },
+    { t: "The problem that disrupts normal life.", c: "Complication" },
+    { t: "Obstacles and choices make the problem harder and tension builds.", c: "Rising action" },
+    { t: "The moment of highest tension, where the character must act.", c: "Climax" },
+    { t: "Shows what has changed after the turning point.", c: "Resolution" }
+  ]},
+  quizStructure: { type: "quiz", label: "Structure quiz", qs: [
+    { s: "In which stage is the main problem first introduced?", o: ["Orientation", "Complication", "Climax", "Resolution"], a: 1, e: "The complication is what kicks the story into motion." },
+    { s: "The climax of a narrative is...", o: ["The first paragraph", "The turning point, where tension is at its highest", "Where the characters are introduced", "A summary of the story"], a: 1, e: "Everything has been building to this moment." },
+    { s: "Which is a common problem in student narratives?", o: ["Making the climax too detailed", "A long orientation, then a rushed climax and ending", "Having too much tension", "Using dialogue"], a: 1, e: "Get to the problem quickly and give the climax the most space." }
+  ]},
+  steal: { type: "sort", label: "STEAL methods", categories: ["Speech", "Thoughts", "Effect on others", "Actions", "Looks"], items: [
+    { t: "'Leave it. I'll fix it myself,' Jordan snapped.", c: "Speech" },
+    { t: "If I stay quiet, maybe nobody will notice I didn't do the reading, Kai thought.", c: "Thoughts" },
+    { t: "When Nan walked into the kitchen, the grandkids stopped arguing straight away.", c: "Effect on others" },
+    { t: "Priya quietly picked up the rubbish the other students had left behind.", c: "Actions" },
+    { t: "His school jumper was two sizes too big and his shoelaces were held together with tape.", c: "Looks" },
+    { t: "'You can borrow my notes, no stress,' Ella said with a shrug.", c: "Speech" },
+    { t: "The younger kids followed Zara around the playground like she was famous.", c: "Effect on others" },
+    { t: "Tom checked his phone under the desk every thirty seconds.", c: "Actions" }
+  ]},
+  senses: { type: "sort", label: "Senses", categories: ["Sight", "Sound", "Smell", "Touch", "Taste"], items: [
+    { t: "Orange light flickered across the hills.", c: "Sight" },
+    { t: "Cicadas buzzed so loudly it was hard to think.", c: "Sound" },
+    { t: "The air smelt of eucalyptus and smoke.", c: "Smell" },
+    { t: "The car seat burned the backs of my legs.", c: "Touch" },
+    { t: "Salt from the sea spray stung my lips.", c: "Taste" },
+    { t: "A tram bell clanged somewhere down the street.", c: "Sound" },
+    { t: "Grey clouds piled up over the bay.", c: "Sight" },
+    { t: "The fish and chip shop filled the street with the smell of hot oil.", c: "Smell" }
+  ]},
+  quizCharacter: { type: "quiz", label: "Character and setting quiz", qs: [
+    { s: "Indirect characterisation means...", o: ["Telling the reader exactly what a character is like", "Revealing a character through what they say, think, do and look like", "Describing a character's family", "Leaving the character out of the story"], a: 1, e: "Indirect characterisation lets the reader work it out from clues." },
+    { s: "In STEAL, what does the E stand for?", o: ["Emotions", "Effect on others", "Environment", "Expression"], a: 1, e: "How other characters react tells us a lot about someone." },
+    { s: "Why use senses other than sight when describing a setting?", o: ["To make the paragraph longer", "To make the reader feel like they are there and to create mood", "Because sight is not allowed", "To confuse the reader"], a: 1, e: "Sound, smell, touch and taste make a setting feel real and set the mood." }
+  ]}
 };
 
-const $ = (id) => document.getElementById(id);
-const app = $("app");
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+/* ---------------- Widget renderers ---------------- */
+function renderSort(el, id, w) {
+  const items = shuffle(w.items);
+  let firstTry = 0, done = 0;
+  const attempted = new Set();
+  setScore(id, 0, items.length, w.label);
+  items.forEach((it, idx) => {
+    const box = document.createElement("div");
+    box.className = "sort-item";
+    box.innerHTML = `<div class="text"></div><div class="choices"></div><div class="feedback"></div>`;
+    box.querySelector(".text").textContent = it.t;
+    const ch = box.querySelector(".choices");
+    const fb = box.querySelector(".feedback");
+    w.categories.forEach(cat => {
+      const b = document.createElement("button");
+      b.className = "choice";
+      b.textContent = cat;
+      b.addEventListener("click", () => {
+        if (cat === it.c) {
+          if (!attempted.has(idx)) firstTry++;
+          done++;
+          box.className = "sort-item correct";
+          b.classList.add("picked-right");
+          ch.querySelectorAll("button").forEach(x => x.disabled = true);
+          fb.className = "feedback good";
+          fb.textContent = "Correct. " + (it.why || "");
+          setScore(id, firstTry, items.length, w.label);
+          if (done === items.length) scoreLine.textContent = `Finished: ${firstTry} / ${items.length} correct on the first try.`;
+        } else {
+          attempted.add(idx);
+          box.className = "sort-item wrong";
+          b.classList.add("picked-wrong");
+          b.disabled = true;
+          fb.className = "feedback bad";
+          fb.textContent = "Not quite. Have another go." + (it.why ? "" : "");
+        }
+      });
+      ch.appendChild(b);
+    });
+    el.appendChild(box);
+  });
+  const scoreLine = document.createElement("div");
+  scoreLine.className = "widget-score";
+  el.appendChild(scoreLine);
+}
 
-const S = { name: "", score: 0, streak: 0, best: 0, round: 0, idx: 0, items: [], roundStats: [], mistakes: [], meter: CONFIG.meter ? CONFIG.meter.start : 0, answered: false, total: 0, correct: 0 };
+function renderQuiz(el, id, w) {
+  let got = 0;
+  setScore(id, 0, w.qs.length, w.label);
+  w.qs.forEach((q, qi) => {
+    const box = document.createElement("div");
+    box.className = "q";
+    box.innerHTML = `<div class="stem"></div><div class="opts"></div><div class="explain"></div>`;
+    box.querySelector(".stem").textContent = (qi + 1) + ". " + q.s;
+    const opts = box.querySelector(".opts");
+    const ex = box.querySelector(".explain");
+    q.o.forEach((o, oi) => {
+      const b = document.createElement("button");
+      b.className = "opt";
+      b.textContent = o;
+      b.addEventListener("click", () => {
+        const all = opts.querySelectorAll("button");
+        all.forEach(x => x.disabled = true);
+        all[q.a].classList.add("right");
+        if (oi === q.a) { got++; ex.innerHTML = "<b style='color:var(--good)'>Correct.</b> "; }
+        else { b.classList.add("wrongpick"); ex.innerHTML = "<b style='color:var(--bad)'>Not this time.</b> "; }
+        ex.appendChild(document.createTextNode(q.e));
+        ex.style.display = "block";
+        setScore(id, got, w.qs.length, w.label);
+      });
+      opts.appendChild(b);
+    });
+    el.appendChild(box);
+  });
+}
 
-$("gTitle").textContent = CONFIG.title;
-$("gSub").textContent = CONFIG.tagline || "";
+function renderOrder(el, id, w) {
+  setScore(id, 0, w.items.length, w.label);
+  const wrap = document.createElement("div");
+  wrap.className = "grid two";
+  wrap.innerHTML = `<div><h4 style="margin:0 0 8px">Jumbled parts</h4><div class="order-pool"></div></div>
+                    <div><h4 style="margin:0 0 8px">Your order</h4><div class="order-seq"></div></div>`;
+  const pool = wrap.querySelector(".order-pool");
+  const seqEl = wrap.querySelector(".order-seq");
+  const controls = document.createElement("div");
+  controls.className = "row";
+  controls.style.marginTop = "14px";
+  controls.innerHTML = `<button class="btn accent">Check order</button><button class="btn alt">Reset</button><span class="widget-score"></span>`;
+  const [checkBtn, resetBtn] = controls.querySelectorAll("button");
+  const msg = controls.querySelector(".widget-score");
+  let seq = [], checked = false, best = 0;
 
-function setHud() {
-  $("hScore").textContent = S.score;
-  $("hStreak").textContent = S.streak + (S.streak >= 3 ? " x2" : "");
-  $("hRound").textContent = S.round < CONFIG.rounds.length ? `${S.round + 1}/${CONFIG.rounds.length}` : "Done";
-  if (CONFIG.meter) {
-    const m = CONFIG.meter;
-    const pct = Math.max(0, Math.min(100, ((S.meter - m.min) / (m.max - m.min)) * 100));
-    $("meterFill").style.width = pct + "%";
-    $("meterFill").style.background = pct < 35 ? "var(--bad)" : pct < 65 ? "#F2B705" : "var(--good)";
-    $("meterName").textContent = `${m.name}: ${m.prefix || ""}${S.meter.toLocaleString("en-AU")}${m.suffix || ""}`;
+  function draw() {
+    pool.innerHTML = ""; seqEl.innerHTML = "";
+    const remaining = shuffled.filter(i => !seq.includes(i));
+    remaining.forEach(i => {
+      const b = document.createElement("button");
+      b.className = "order-chip";
+      b.textContent = w.items[i].t;
+      b.addEventListener("click", () => { if (!checked) { seq.push(i); draw(); } });
+      pool.appendChild(b);
+    });
+    if (!remaining.length) pool.innerHTML = "<p class='hint'>All parts placed.</p>";
+    seq.forEach((i, pos) => {
+      const d = document.createElement("div");
+      d.className = "order-chip";
+      if (checked) d.classList.add(i === pos ? "correct" : "wrong");
+      d.innerHTML = `<span class="num">${pos + 1}</span>`;
+      d.appendChild(document.createTextNode(w.items[i].t));
+      if (checked && i === pos) {
+        const s = document.createElement("span"); s.className = "stage"; s.textContent = w.items[i].stage; d.appendChild(s);
+      }
+      seqEl.appendChild(d);
+    });
+    if (!seq.length) seqEl.innerHTML = "<p class='hint'>Click a part on the left to start.</p>";
   }
+  let shuffled = shuffle(w.items.map((_, i) => i));
+  checkBtn.addEventListener("click", () => {
+    if (seq.length < w.items.length) { msg.textContent = "Place all the parts first."; return; }
+    checked = true;
+    const right = seq.filter((v, p) => v === p).length;
+    best = Math.max(best, right);
+    setScore(id, best, w.items.length, w.label);
+    msg.textContent = right === w.items.length ? "Perfect order! Each stage is labelled." : `${right} / ${w.items.length} in the right spot. Press Reset and try again.`;
+    draw();
+  });
+  resetBtn.addEventListener("click", () => { seq = []; checked = false; msg.textContent = ""; shuffled = shuffle(shuffled); draw(); });
+  el.appendChild(wrap);
+  el.appendChild(controls);
+  draw();
 }
 
-function floatText(txt, neg) {
-  const d = document.createElement("div");
-  d.className = "float" + (neg ? " neg" : "");
-  d.textContent = txt;
-  document.body.appendChild(d);
-  setTimeout(() => d.remove(), 1000);
+/* ---------------- Writing boxes ---------------- */
+function wordCount(s) { return (s.trim().match(/\S+/g) || []).length; }
+document.querySelectorAll("textarea[data-save]").forEach(ta => {
+  const key = ta.dataset.save;
+  ta.value = store.writing[key] || "";
+  const wc = document.querySelector(`.wc[data-for="${ta.id}"]`);
+  const update = () => { if (wc) wc.textContent = wordCount(ta.value) + " words"; };
+  update();
+  ta.addEventListener("input", () => {
+    store.writing[key] = ta.value;
+    saveStore();
+    update();
+    updateTabTicks();
+  });
+});
+
+/* ---------------- Tabs ---------------- */
+const panels = Array.from(document.querySelectorAll("section.panel"));
+const tabs = document.getElementById("tabs");
+const panelWidgets = panels.map(p => Array.from(p.querySelectorAll("[data-widget]")).map(e => e.dataset.widget));
+panels.forEach((p, i) => {
+  const b = document.createElement("button");
+  b.innerHTML = p.dataset.title;
+  b.addEventListener("click", () => show(i));
+  tabs.appendChild(b);
+});
+function show(i) {
+  panels.forEach((p, j) => p.classList.toggle("active", i === j));
+  Array.from(tabs.children).forEach((b, j) => b.classList.toggle("active", i === j));
+  if (panels[i].id === "p-final") buildFinal();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  try { localStorage.setItem(STORE_KEY + "-tab", i); } catch (e) {}
+}
+panels.forEach((p, i) => {
+  p.querySelectorAll("[data-next]").forEach(b => b.addEventListener("click", () => show(i + 1)));
+  p.querySelectorAll("[data-prev]").forEach(b => b.addEventListener("click", () => show(i - 1)));
+});
+function updateTabTicks() {
+  if (!tabs.children.length) return;
+  panels.forEach((p, i) => {
+    const ws = panelWidgets[i];
+    const tas = Array.from(p.querySelectorAll("textarea[data-save]"));
+    const widgetsDone = ws.every(id => scores[id] && isWidgetDone(id));
+    const writingDone = tas.length === 0 || tas.some(t => t.value.trim().length > 0);
+    const btn = tabs.children[i];
+    const base = p.dataset.title;
+    btn.innerHTML = base + ((ws.length || tas.length) && widgetsDone && writingDone && p.id !== "p-final" ? '<span class="tick">&#10003;</span>' : "");
+  });
+}
+const completed = {};
+function isWidgetDone(id) {
+  const el = document.querySelector(`[data-widget="${id}"]`);
+  const w = WIDGETS[id];
+  if (w.type === "sort") return el.querySelectorAll(".sort-item.correct").length === w.items.length;
+  if (w.type === "quiz") return el.querySelectorAll(".explain[style*='block']").length === w.qs.length;
+  if (w.type === "order") return el.querySelectorAll(".order-seq .order-chip.correct, .order-seq .order-chip.wrong").length > 0;
+  return false;
 }
 
-function start() {
-  const rounds = CONFIG.rounds.map((r, i) => `<div class="round-pill"><span class="n">${i + 1}</span><b>${esc(r.name)}</b><div class="muted" style="font-size:14px;margin-top:6px">${r.items.length} items</div></div>`).join("");
-  app.innerHTML = `
-    <div class="card">
-      <span class="tag accent">Lesson ${CONFIG.lesson}</span>
-      <h2>${esc(CONFIG.title)}</h2>
-      <p>${esc(CONFIG.intro)}</p>
-      <div class="rounds-list">${rounds}</div>
-      <p class="muted">Get 3 in a row and every correct answer is worth double until you miss. ${CONFIG.meter ? esc(CONFIG.meter.blurb || "") : ""}</p>
-      <label for="nm"><b>Your first name</b> (goes on your certificate)</label><br><br>
-      <input type="text" id="nm" maxlength="30" autocomplete="off" placeholder="First name">
-      <div class="row"><button class="big-btn" id="go">Start</button></div>
-    </div>`;
-  $("nm").addEventListener("keydown", (e) => { if (e.key === "Enter") $("go").click(); });
-  $("go").onclick = () => { S.name = $("nm").value.trim() || "Student"; if (CONFIG.meter) $("meterWrap").hidden = false; roundIntro(); };
-  setHud();
-}
+/* ---------------- Final page ---------------- */
+function buildFinal() {
+  const t = document.getElementById("scoreTable");
+  let g = 0, m = 0;
+  let rows = "<tr><th>Task</th><th>Score</th></tr>";
+  Object.values(scores).forEach(s => { rows += `<tr><td>${esc(s.label)}</td><td>${s.got} / ${s.max}</td></tr>`; g += s.got; m += s.max; });
+  rows += `<tr><th>Total</th><th>${g} / ${m}</th></tr>`;
+  t.innerHTML = rows;
 
-function roundIntro() {
-  const r = CONFIG.rounds[S.round];
-  S.items = r.shuffle === false ? r.items.slice() : shuffle(r.items);
-  S.idx = 0;
-  S.roundStats[S.round] = { name: r.name, correct: 0, total: S.items.length };
-  setHud();
-  app.innerHTML = `
-    <div class="card">
-      <span class="tag">Round ${S.round + 1} of ${CONFIG.rounds.length}</span>
-      <h2>${esc(r.name)}</h2>
-      <p>${esc(r.intro)}</p>
-      ${r.type === "num" ? `<p class="muted">Type a number only. No $ sign or commas needed.</p>` : ""}
-      <div class="row"><button class="big-btn" id="go">Let's go</button></div>
-    </div>`;
-  $("go").onclick = showItem;
-  $("go").focus();
+  let out = "BUILDING A NARRATIVE: MY WORK\n\n";
+  out += "MY STORY INGREDIENTS\n";
+  STORY_PARTS.forEach(p => { out += `${p.label}: ${story[p.key]}\n`; });
+  out += "\n";
+  document.querySelectorAll("textarea[data-save]").forEach(ta => {
+    if (ta.id === "w-opening") return;
+    const v = ta.value.trim();
+    out += (ta.dataset.title || ta.dataset.save).toUpperCase() + "\n" + (v || "(not completed)") + "\n\n";
+  });
+  const opening = document.getElementById("w-opening").value.trim();
+  if (opening) out += "OPENING SCENE\n" + opening + "\n\n";
+  out += `Quiz and task score: ${g} / ${m}\n`;
+  document.getElementById("compiled").textContent = out;
 }
-
-function progressBar() {
-  return `<div class="progress">${S.items.map((it, i) => `<span class="${i < S.idx ? (it._ok ? "done-ok" : "done-bad") : i === S.idx ? "now" : ""}"></span>`).join("")}</div>`;
-}
-
-function showItem() {
-  const r = CONFIG.rounds[S.round];
-  const it = S.items[S.idx];
-  S.answered = false;
-  let body = "";
-  if (r.type === "sort" || r.type === "tf") {
-    const labels = r.type === "tf" ? (r.buckets || ["Fact", "Myth"]) : r.buckets;
-    body = `<div class="prompt">${esc(it.t)}</div><div class="opts two">${labels.map((b, i) => `<button class="opt" data-i="${i}">${esc(b)}</button>`).join("")}</div>`;
-  } else if (r.type === "mcq") {
-    const order = shuffle(it.options.map((o, i) => i));
-    body = `<div class="prompt">${esc(it.q)}</div><div class="opts">${order.map((oi, k) => `<button class="opt" data-i="${oi}"><span class="k">${"ABCD"[k]}</span>${esc(it.options[oi])}</button>`).join("")}</div>`;
-  } else if (r.type === "num") {
-    body = `<div class="prompt">${esc(it.q)}</div><div class="row"><span style="font-size:22px;font-weight:700">${esc(it.unit || "")}</span><input type="number" step="any" id="numIn" inputmode="decimal" placeholder="Your answer"><button class="big-btn" id="numGo">Check</button></div>`;
+document.getElementById("w-opening").addEventListener("input", () => {
+  if (document.getElementById("p-final").classList.contains("active")) buildFinal();
+});
+document.getElementById("copyBtn").addEventListener("click", () => {
+  buildFinal();
+  const text = document.getElementById("compiled").textContent;
+  const msg = document.getElementById("copyMsg");
+  const done = () => { msg.className = "copied"; msg.textContent = "Copied! Paste it into your document."; };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(fallback);
+  } else fallback();
+  function fallback() {
+    const ta = document.createElement("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); done(); } catch (e) { msg.textContent = "Select the text below and copy it manually."; }
+    document.body.removeChild(ta);
   }
-  app.innerHTML = `
-    <div class="card">
-      <span class="tag accent">${esc(r.name)}</span>
-      <span class="muted" style="float:right">${S.idx + 1} / ${S.items.length}</span>
-      ${progressBar()}
-      ${body}
-      <div class="feedback" id="fb"></div>
-      <div class="row" id="nextRow" hidden><button class="big-btn" id="next">Next</button></div>
-    </div>`;
-  if (r.type === "num") {
-    const inp = $("numIn");
-    inp.focus();
-    inp.addEventListener("keydown", (e) => { if (e.key === "Enter") $("numGo").click(); });
-    $("numGo").onclick = () => {
-      if (S.answered) return;
-      const v = parseFloat(String(inp.value).replace(/[$,\s]/g, ""));
-      if (isNaN(v)) { inp.focus(); return; }
-      const tol = it.tol !== undefined ? it.tol : 0.5;
-      answer(Math.abs(v - it.a) <= tol, `Answer: ${it.unit || ""}${Number(it.a).toLocaleString("en-AU", Number.isInteger(it.a) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, String(v));
-      inp.disabled = true;
-    };
-  } else {
-    app.querySelectorAll(".opt").forEach((b) => (b.onclick = () => {
-      if (S.answered) return;
-      const pick = +b.dataset.i;
-      let correctIdx;
-      if (r.type === "tf") correctIdx = it.a ? 0 : 1; else correctIdx = it.a;
-      const ok = pick === correctIdx;
-      app.querySelectorAll(".opt").forEach((x) => { x.disabled = true; if (+x.dataset.i === correctIdx) x.classList.add("right"); });
-      if (!ok) b.classList.add("wrong");
-      const labels = r.type === "tf" ? (r.buckets || ["Fact", "Myth"]) : r.type === "sort" ? r.buckets : it.options;
-      answer(ok, `Correct answer: ${labels[correctIdx]}`, labels[pick]);
-    }));
-  }
-}
+});
 
-function answer(ok, correctText, picked) {
-  const r = CONFIG.rounds[S.round];
-  const it = S.items[S.idx];
-  S.answered = true;
-  it._ok = ok;
-  S.total++;
-  const fb = $("fb");
-  if (ok) {
-    S.correct++;
-    S.roundStats[S.round].correct++;
-    const pts = S.streak >= 3 ? 20 : 10;
-    S.streak++;
-    S.best = Math.max(S.best, S.streak);
-    S.score += pts;
-    if (CONFIG.meter) S.meter = Math.min(CONFIG.meter.max, S.meter + CONFIG.meter.up);
-    floatText(`+${pts}`);
-    if (S.streak === 3) { const c = $("hStreakChip"); c.classList.remove("streak-flash"); void c.offsetWidth; c.classList.add("streak-flash"); }
-    fb.className = "feedback ok";
-    fb.innerHTML = `<strong>${esc(pick(CONFIG.praise || ["Nice.", "Correct.", "Spot on.", "That's it."]))}${S.streak >= 3 ? ` Streak x${S.streak}: double points.` : ""}</strong>${esc(it.why || "")}`;
-  } else {
-    S.streak = 0;
-    if (CONFIG.meter) S.meter = Math.max(CONFIG.meter.min, S.meter - CONFIG.meter.down);
-    if (CONFIG.meter) floatText(`-${CONFIG.meter.prefix || ""}${CONFIG.meter.down.toLocaleString("en-AU")}${CONFIG.meter.suffix || ""}`, true);
-    S.mistakes.push({ round: r.name, q: it.t || it.q, picked, correct: correctText, why: it.why || "" });
-    fb.className = "feedback no";
-    fb.innerHTML = `<strong>Not quite. ${esc(correctText)}</strong>${esc(it.why || "")}`;
-  }
-  setHud();
-  $("nextRow").hidden = false;
-  $("next").focus();
-  $("next").onclick = () => {
-    S.idx++;
-    if (S.idx < S.items.length) showItem();
-    else { S.round++; if (S.round < CONFIG.rounds.length) roundIntro(); else finish(); }
-  };
-}
-function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
-
-function badges() {
-  const pct = S.total ? S.correct / S.total : 0;
-  const clean = S.roundStats.some((r) => r.correct === r.total);
-  const list = [
-    { i: "🏁", t: "Finisher", d: "Completed every round", ok: true },
-    { i: "🔥", t: "Hot streak", d: "5 correct in a row", ok: S.best >= 5 },
-    { i: "⚡", t: "Unstoppable", d: "10 correct in a row", ok: S.best >= 10 },
-    { i: "🧹", t: "Clean round", d: "A perfect round", ok: clean },
-    { i: "🎯", t: "Sharp shooter", d: "90% or better overall", ok: pct >= 0.9 },
-  ];
-  if (CONFIG.meter && CONFIG.meter.badge) list.push({ i: CONFIG.meter.badge.icon, t: CONFIG.meter.badge.title, d: CONFIG.meter.badge.desc, ok: S.meter >= CONFIG.meter.badge.atLeast });
-  return list;
-}
-
-function finish() {
-  setHud();
-  const pct = Math.round((S.correct / S.total) * 100);
-  const b = badges();
-  const verdict = (CONFIG.verdicts || []).find((v) => pct >= v.min) || { text: "Keep practising." };
-  app.innerHTML = `
-    <div class="card">
-      <span class="tag accent">Results</span>
-      <h2>${esc(S.name)}, you finished ${esc(CONFIG.title)}</h2>
-      <div class="score-big">${S.score} pts</div>
-      <p><b>${S.correct} / ${S.total} correct (${pct}%)</b>. Best streak: ${S.best}.${CONFIG.meter ? ` Final ${esc(CONFIG.meter.name.toLowerCase())}: ${CONFIG.meter.prefix || ""}${S.meter.toLocaleString("en-AU")}${CONFIG.meter.suffix || ""}.` : ""}</p>
-      <p>${esc(verdict.text)}</p>
-      <table class="rounds"><tr><th>Round</th><th>Correct</th></tr>${S.roundStats.map((r) => `<tr><td>${esc(r.name)}</td><td>${r.correct} / ${r.total}</td></tr>`).join("")}</table>
-      <h3>Badges</h3>
-      <div class="badges">${b.map((x) => `<div class="badge ${x.ok ? "earned" : ""}"><div class="i">${x.i}</div><div class="t">${esc(x.t)}</div><div class="d">${esc(x.d)}</div></div>`).join("")}</div>
-      <div class="row"><button class="big-btn" id="cert-btn">Print certificate</button><button class="big-btn ghost" id="again">Play again</button></div>
-    </div>
-    <div class="card">
-      <span class="tag">Mistake review</span>
-      ${S.mistakes.length ? `<p>Copy the ones you got wrong into your book with the correct answer.</p>` + S.mistakes.map((m) => `<div class="review-item"><div class="q">${esc(m.q)}</div><div>You said: ${esc(m.picked)}. ${esc(m.correct)}</div><div class="muted">${esc(m.why)}</div></div>`).join("") : `<p>No mistakes. Nothing to review.</p>`}
-    </div>`;
-  $("again").onclick = () => location.reload();
-  $("cert-btn").onclick = () => {
-    $("cert").innerHTML = `<div style="font-size:18px;letter-spacing:3px">YEAR 10 BUSINESS  |  LESSON ${CONFIG.lesson}</div>
-      <h1>${esc(CONFIG.title)}</h1><div>This certifies that</div><div class="name">${esc(S.name)}</div>
-      <div>completed every round with ${S.correct} / ${S.total} correct (${pct}%) and ${S.score} points.</div>
-      <table>${S.roundStats.map((r) => `<tr><td>${esc(r.name)}</td><td>${r.correct} / ${r.total}</td></tr>`).join("")}</table>
-      <div>Badges: ${b.filter((x) => x.ok).map((x) => esc(x.t)).join(", ")}</div>
-      <div style="margin-top:30px">${new Date().toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" })}</div>`;
-    window.print();
-  };
-}
-
-start();
+/* ---------------- Start ---------------- */
+document.querySelectorAll("[data-widget]").forEach(el => {
+  const id = el.dataset.widget;
+  const w = WIDGETS[id];
+  if (w.type === "sort") renderSort(el, id, w);
+  if (w.type === "quiz") renderQuiz(el, id, w);
+  if (w.type === "order") renderOrder(el, id, w);
+});
+renderSlots();
+let startTab = 0;
+try { startTab = parseInt(localStorage.getItem(STORE_KEY + "-tab")) || 0; } catch (e) {}
+show(Math.min(startTab, panels.length - 1));
+updateTabTicks();
 </script>
 </body>
 </html>
